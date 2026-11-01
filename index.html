@@ -273,11 +273,11 @@
             Golden<span class="italic font-normal text-stoneText">Route</span>
           </span>
           <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono badge-stone">
-            TTDC Engine v2.4
+            TTDC Engine &middot; arg min(S)
           </span>
         </div>
         <p class="text-[11px] text-stoneText hidden sm:block">
-          North-West &amp; West Delhi Critical Transfer Telemetry
+          North-West &amp; West Delhi Critical Transfer Telemetry &middot; Dynamic Bed-Hold Matrix
         </p>
       </div>
     </div>
@@ -317,15 +317,15 @@
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta">
-                Direct Clinic Telemetry · Rohini Sec 3
+                Direct Clinic Telemetry &middot; Rohini Sec 3
               </span>
-              <span class="text-xs text-stoneText font-mono">Case ID: #DL108-ARDS</span>
+              <span class="text-xs text-stoneText font-mono">Protocol: ARDS / Sepsis &middot; Code Red</span>
             </div>
             <h1 class="font-serif text-2xl sm:text-3xl font-medium text-charcoal tracking-tight">
-              Emergency Patient Triage &amp; Bed Allocation
+              Emergency Patient Triage &amp; TTDC Bed Allocation
             </h1>
             <p class="text-xs sm:text-sm text-stoneText mt-0.5">
-              Definitive care matching engine factoring real-time road transit, dock queuing, and bay readiness.
+              Two-stage destination evaluation: Hard Capability Gate followed by Additive Time Score (S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge).
             </p>
           </div>
 
@@ -335,15 +335,15 @@
             <div class="inline-flex rounded-xl p-1 bg-[#FAF9F5] border border-subtleBorder gap-1" role="radiogroup">
               <button type="button" onclick="setThreatLevel(1)" id="tl-btn-1" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#1F1E1D] text-white flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#C85A32]"></span>
-                Level 1 · Code Red (STAT)
+                Level 1 &middot; Code Red (STAT)
               </button>
               <button type="button" onclick="setThreatLevel(2)" id="tl-btn-2" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#E59866]"></span>
-                Level 2 · Urgent
+                Level 2 &middot; Urgent
               </button>
               <button type="button" onclick="setThreatLevel(3)" id="tl-btn-3" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-                Level 3 · Monitored
+                Level 3 &middot; Monitored
               </button>
             </div>
           </div>
@@ -355,7 +355,7 @@
             <div class="text-[11px] font-medium text-stoneText">Oxygen Saturation</div>
             <div class="font-mono text-xl sm:text-2xl font-bold text-[#C85A32] mt-0.5 flex items-baseline gap-1">
               <span>82%</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">SpO2 (Severe)</span>
+              <span class="text-[10px] text-stoneText font-sans font-normal">SpO2 (Critical)</span>
             </div>
           </div>
 
@@ -363,7 +363,7 @@
             <div class="text-[11px] font-medium text-stoneText">Blood Pressure</div>
             <div class="font-mono text-xl sm:text-2xl font-bold text-charcoal mt-0.5 flex items-baseline gap-1">
               <span>85/55</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">mmHg</span>
+              <span class="text-[10px] text-stoneText font-sans font-normal">mmHg (Shock)</span>
             </div>
           </div>
 
@@ -396,11 +396,11 @@
         <div class="mt-5 pt-4 border-t border-subtleBorder">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-semibold text-charcoal">Mandatory Life-Support Capabilities</span>
-              <span class="text-[11px] text-stoneText">(Stage 1 Hard Gate — Hospitals lacking checked items are ineligible)</span>
+              <span class="text-xs font-semibold text-charcoal">Stage 1 Hard Capability Gate: Required Equipment R</span>
+              <span class="text-[11px] text-stoneText font-mono">(&prod;_{k &isin; R} E_k &isin; {0, 1})</span>
             </div>
             <button type="button" onclick="resetEquipmentDefaults()" class="text-xs text-stoneText hover:text-charcoal underline">
-              Reset Clinical Defaults
+              Reset Clinical Baseline
             </button>
           </div>
 
@@ -421,14 +421,14 @@
             <div>
               <div class="flex items-center gap-2">
                 <h2 class="font-serif text-lg font-medium text-charcoal">
-                  Hospital Allocation &amp; TTDC Ranking
+                  Hospital Allocation &amp; TTDC Formula Ranking
                 </h2>
                 <span id="eligible-count-badge" class="px-2 py-0.5 rounded text-[11px] font-mono badge-sage">
                   4 Verified Eligible
                 </span>
               </div>
               <p class="text-xs text-stoneText mt-0.5">
-                Sorted strictly ascending by Total Time to Definitive Care (min S = Rank #1).
+                Arranged strictly ascending by <span class="font-mono text-charcoal">S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge</span>. Optimal Destination = <span class="font-mono text-charcoal">arg min(S)</span>.
               </p>
             </div>
 
@@ -456,7 +456,7 @@
                 <span class="w-2 h-2 rounded-full bg-[#4E6B56]"></span>
                 <span class="text-xs font-semibold text-charcoal">North-West &amp; West Delhi Trauma Grid</span>
               </div>
-              <span class="text-[11px] font-mono text-stoneText">28.7041° N, 77.1350° E</span>
+              <span class="text-[11px] font-mono text-stoneText">28.7041&deg; N, 77.1350&deg; E</span>
             </div>
 
             <!-- Leaflet Container -->
@@ -466,7 +466,7 @@
             <div class="p-4 bg-white border-t border-subtleBorder">
               <div class="flex items-center justify-between">
                 <div>
-                  <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider">Active Transit Status</div>
+                  <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider">Active Transit Telemetry</div>
                   <div id="active-transit-status" class="font-serif text-base font-medium text-charcoal mt-0.5">
                     Ambulance DL-108 Ready for Dispatch
                   </div>
@@ -474,7 +474,7 @@
                 <div class="text-right">
                   <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider">Outer Ring Road Corridor</div>
                   <div id="active-transit-eta" class="font-mono text-sm font-bold text-charcoal mt-0.5">
-                    Standard Route · 14 mins
+                    Live Transit &middot; 14 mins
                   </div>
                 </div>
               </div>
@@ -482,23 +482,28 @@
               <!-- Dispatch Action inside Map Overlay -->
               <div id="transit-action-bar" class="mt-3 pt-3 border-t border-subtleBorder flex items-center justify-between gap-3">
                 <div class="text-xs text-stoneText">
-                  Locking will alert Max Bay 05 &amp; initiate real-time telemetry transit.
+                  Locking computes dynamic bed hold: <span class="font-mono font-semibold text-charcoal">T_transit + 10m buffer</span>.
                 </div>
-                <button id="dispatch-map-cta" type="button" onclick="lockAndDispatch('Max Super Speciality Hospital (Shalimar Bagh)')" class="btn-anthropic-primary shrink-0 py-2.5">
+                <button id="dispatch-map-cta" type="button" onclick="lockAndDispatch('max')" class="btn-anthropic-primary shrink-0 py-2.5">
                   <span>Lock Bed &amp; Dispatch</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Patient Handshake & Zero-PII Security Assurance -->
-          <div class="anthropic-card p-4 bg-[#FAF9F5] border border-subtleBorder text-xs space-y-1.5">
-            <div class="flex items-center gap-2 font-semibold text-charcoal">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-              <span>ABDM Cryptographic Handshake Active</span>
+          <!-- Dynamic Bed-Hold Matrix Card -->
+          <div class="anthropic-card p-4 bg-[#FAF9F5] border border-subtleBorder text-xs space-y-2">
+            <div class="flex items-center justify-between font-semibold text-charcoal">
+              <span class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
+                <span>Dynamic Bed-Hold Duration Matrix</span>
+              </span>
+              <span class="font-mono text-[11px] text-stoneText">T_buffer = 10m</span>
             </div>
             <p class="text-stoneText leading-relaxed">
-              Zero PII is broadcast over public telemetry. Vitals and equipment signatures are encrypted to Max Bay 05 receiving terminal using ephemeral token keys.
+              When transfer is initiated, the destination hospital assigns a dynamic countdown lock timer:
+              <br /><span class="font-mono text-charcoal font-semibold">Bed Hold Duration = T_transit + T_buffer</span>
+              <br />For Max (T_transit = 14m), Bed Hold is initialized at <span class="font-mono text-charcoal font-bold">24:00 (14 + 10 mins)</span>.
             </p>
           </div>
 
@@ -520,28 +525,28 @@
           <div>
             <div class="flex items-center gap-2 mb-1.5 flex-wrap">
               <span id="icu-status-tag" class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta">
-                Inbound Code Red · Bay 05 Locked
+                Inbound Code Red &middot; Bay 05 Locked
               </span>
-              <span class="text-xs text-stoneText font-mono">Telemetry Feed: DL-108</span>
+              <span class="text-xs text-stoneText font-mono">Dynamic Timer Formula: T_transit + 10m</span>
             </div>
-            <h2 class="font-serif text-2xl sm:text-3xl font-medium text-charcoal tracking-tight">
-              ICU Resuscitation Command · Max Shalimar Bagh
+            <h2 id="icu-header-title" class="font-serif text-2xl sm:text-3xl font-medium text-charcoal tracking-tight">
+              ICU Resuscitation Command &middot; Max Shalimar Bagh
             </h2>
             <p id="icu-sub-desc" class="text-xs sm:text-sm text-stoneText mt-1">
-              Ambulance DL-108 en route from Rohini Sec 3 · Severe ARDS &amp; Septic Shock Protocol.
+              Ambulance DL-108 en route &middot; Bed hold duration: <strong>24 mins</strong> (14m road transit + 10m clinical intake buffer).
             </p>
           </div>
 
-          <!-- Countdown Hold Timer -->
+          <!-- Countdown Hold Timer (Dynamically Assigned from T_transit + T_buffer) -->
           <div class="flex items-center gap-4 bg-[#FAF9F5] p-3.5 rounded-xl border border-subtleBorder shrink-0">
             <div>
-              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Bed Hold Expiration</div>
+              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Dynamic Bed Hold</div>
               <div id="icu-hold-timer" class="font-mono text-2xl sm:text-3xl font-bold text-charcoal tracking-tight">
-                24:18
+                24:00
               </div>
             </div>
             <div class="border-l border-subtleBorder pl-4 text-right">
-              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Target ETA</div>
+              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Transit ETA (T_transit)</div>
               <div id="icu-target-eta" class="font-mono text-xl sm:text-2xl font-bold text-[#4E6B56]">
                 14 mins
               </div>
@@ -552,7 +557,7 @@
         <!-- Emergency Override Trigger Row -->
         <div id="override-trigger-strip" class="mt-5 pt-4 border-t border-subtleBorder flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="text-xs text-stoneText">
-            <strong class="font-semibold text-charcoal">Bedside Protocol:</strong> If a local walk-in patient requires immediate intubation, release Bay 05. The system will automatically reroute DL-108 to Saroj Hospital (+3 mins).
+            <strong class="font-semibold text-charcoal">Bedside Protocol:</strong> If a local walk-in patient requires immediate intubation, release Bay 05. The system will automatically reroute DL-108 to Saroj Hospital (+3 mins) and recalculate the dynamic hold duration.
           </div>
           <div id="override-action-btn-container">
             <button type="button" onclick="openOverrideModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-[#C85A32] bg-[#FDF4F0] border border-[#F4DDD4] hover:bg-[#FBE9E2] transition-colors whitespace-nowrap">
@@ -571,7 +576,7 @@
             <div class="flex items-center justify-between mb-4">
               <div>
                 <h3 class="font-serif text-lg font-medium text-charcoal">Trauma ICU Bay Grid</h3>
-                <p class="text-xs text-stoneText">Unit 4B · 8 Isolation Mechanical Ventilator Bays</p>
+                <p class="text-xs text-stoneText">Unit 4B &middot; 8 Isolation Mechanical Ventilator Bays</p>
               </div>
               <div class="flex items-center gap-3 text-xs font-mono">
                 <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#1F1E1D]"></span> Occupied (5)</span>
@@ -677,7 +682,7 @@
             <div class="flex items-center justify-between mb-3 pb-3 border-b border-subtleBorder">
               <div>
                 <h3 class="font-serif text-lg font-medium text-charcoal">Pre-Arrival Trauma Checklist</h3>
-                <p class="text-xs text-stoneText">Protocols required before DL-108 dock touchdown</p>
+                <p class="text-xs text-stoneText">Clinical protocols required before DL-108 dock touchdown</p>
               </div>
               <span id="nurse-checklist-progress" class="font-mono text-xs font-semibold px-2 py-0.5 rounded badge-sage">
                 2/5 Ready
@@ -746,7 +751,7 @@
     <div class="anthropic-card bg-white max-w-xl w-full p-6 sm:p-7 space-y-5 shadow-xl border border-subtleBorder max-h-[90vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-4 border-b border-subtleBorder pb-4">
         <div>
-          <span class="px-2 py-0.5 rounded text-[11px] font-mono badge-stone">Algorithmic Transparency</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono badge-stone">The Core Ranking Formula</span>
           <h3 class="font-serif text-2xl font-medium text-charcoal mt-1">
             Total Time to Definitive Care (TTDC)
           </h3>
@@ -756,59 +761,83 @@
         </button>
       </div>
 
-      <!-- Formula Card -->
-      <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder text-center">
-        <div class="text-xs font-mono text-stoneText uppercase tracking-wider mb-1">Composite Score Formula</div>
-        <div class="font-serif text-xl sm:text-2xl font-normal text-charcoal italic tracking-wide">
-          S = T<span class="text-xs not-italic">transit</span> + &Delta;T<span class="text-xs not-italic">dock</span> + &Delta;T<span class="text-xs not-italic">prep</span> + P<span class="text-xs not-italic">surge</span>
+      <!-- Formula Cards -->
+      <div class="space-y-3">
+        <!-- Stage 1 Formula -->
+        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
+          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Stage 1: The Hard Capability Gate (Binary Filter)</div>
+          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
+            Eligible = &prod;_{k &isin; R} E_k
+          </div>
+          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
+            Where <strong>R</strong> is the set of required life-support equipment IDs selected by the clinic, and <strong>E_k &isin; {0, 1}</strong> indicates whether equipment <em>k</em> is operational and available. If <strong>Eligible = 0</strong>, the facility is disqualified from active destination ranking.
+          </div>
         </div>
-        <div class="text-xs text-stoneText mt-1">
-          Objective: Minimize S across all capable tertiary facilities in Delhi NCR.
+
+        <!-- Stage 2 Formula -->
+        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
+          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Stage 2: The Additive Time Score (S)</div>
+          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
+            S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge
+          </div>
+          <div class="font-serif text-base font-normal text-charcoal italic mt-0.5">
+            Optimal Destination = arg min(S)
+          </div>
+          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
+            Sort order: Ascending by TTDC Score (min S = Rank #1 Recommended Match).
+          </div>
+        </div>
+
+        <!-- Dynamic Bed Hold Formula -->
+        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
+          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Dynamic Bed-Hold Duration Calculation</div>
+          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
+            Bed Hold Duration (Minutes) = T_transit + T_buffer
+          </div>
+          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
+            Where <strong>T_transit</strong> is live road travel time and <strong>T_buffer</strong> is clinical intake staging buffer (set to <strong>10 minutes</strong>). For Max Hospital: <strong>14m + 10m = 24 minutes</strong>.
+          </div>
         </div>
       </div>
 
-      <!-- Parameter Breakdown -->
-      <div class="space-y-3 text-xs leading-relaxed">
+      <!-- Parameter Definitions -->
+      <div class="space-y-2.5 text-xs leading-relaxed">
         <div class="p-3 rounded-lg border border-subtleBorder bg-white">
           <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>T_transit — Live Travel Time</span>
-            <span class="font-mono text-stoneText">Road Minutes</span>
+            <span>T_transit &mdash; Road Travel Time</span>
+            <span class="font-mono text-stoneText">Traffic Telemetry</span>
+          </div>
+          <p class="text-stoneText mt-1">Driving duration in minutes considering live traffic along the transit corridor.</p>
+        </div>
+
+        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
+          <div class="font-semibold text-charcoal flex items-center justify-between">
+            <span>&Delta;T_dock &mdash; Emergency Dock Handover Delay</span>
+            <span class="font-mono text-stoneText">N_queue &times; 7 mins</span>
           </div>
           <p class="text-stoneText mt-1">
-            Estimated live driving time via traffic telemetry along designated arterial corridors (e.g., Outer Ring Road, Rohtak Road).
+            Calculated as <strong>N_queue &times; t_triage</strong>, where <strong>t_triage = 7 mins</strong> standard handover lag per queued ambulance. (e.g. BSA has 4 queued = +28m delay).
           </p>
         </div>
 
         <div class="p-3 rounded-lg border border-subtleBorder bg-white">
           <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>&Delta;T_dock — ER Dock Queue Handover Delay</span>
-            <span class="font-mono text-stoneText">Queued &times; 7 mins</span>
-          </div>
-          <p class="text-stoneText mt-1">
-            Calculated as <strong>Ambulances Queued &times; 7 mins</strong>. Even geographically close hospitals (e.g., BSA Hospital at 7 mins) may face massive delays (+28 mins) due to emergency intake congestion.
-          </p>
-        </div>
-
-        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
-          <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>&Delta;T_prep — Equipment Readiness Lag</span>
+            <span>&Delta;T_prep &mdash; Bed &amp; Equipment Staging Lag</span>
             <span class="font-mono text-stoneText">0m to 10m</span>
           </div>
-          <p class="text-stoneText mt-1">
-            0 mins if receiving bay is pre-sanitized and calibrated; +5 to +10 mins if terminal decontamination or calibration is needed before bed touchdown.
-          </p>
+          <p class="text-stoneText mt-1">0 mins if designated bay is pre-sanitized and calibrated; +5 to +10 mins if terminal disinfection or machine calibration is required.</p>
         </div>
 
         <div class="p-3 rounded-lg border border-subtleBorder bg-white">
           <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>P_surge — Saturation Risk Penalty Buffer</span>
-            <span class="font-mono text-stoneText">Capacity Safety</span>
+            <span>P_surge &mdash; Capacity Saturation Risk Penalty</span>
+            <span class="font-mono text-stoneText">V_free Step Function</span>
           </div>
           <p class="text-stoneText mt-1">
-            Virtual delay applied to prevent sending critically ill patients to near-capacity centers:
-            <br />&bull; &ge;3 ventilators free: <strong>0 mins penalty</strong>
-            <br />&bull; 2 ventilators free: <strong>+3 mins penalty</strong>
-            <br />&bull; 1 ventilator left: <strong>+8 mins penalty</strong>
+            Virtual penalty to prevent routing inbound cases to near-exhaustion facilities:
+            <br />&bull; <strong>V_free &ge; 3</strong>: 0 mins penalty
+            <br />&bull; <strong>V_free = 2</strong>: +3 mins penalty
+            <br />&bull; <strong>V_free = 1</strong>: +8 mins penalty
           </p>
         </div>
       </div>
@@ -836,7 +865,7 @@
             Confirm Bedside Allocation Conflict
           </h3>
           <p class="text-xs text-stoneText mt-0.5">
-            Max Super Speciality Hospital · Emergency Department
+            Max Super Speciality Hospital &middot; Emergency Department
           </p>
         </div>
       </div>
@@ -846,7 +875,7 @@
           A local walk-in patient in critical arrest requires immediate mechanical ventilation in <strong>Bay 05</strong>.
         </p>
         <p class="text-stoneText">
-          Reclaiming this bed will dynamically trigger an automatic corridor reroute for inbound Ambulance DL-108 to <strong>Saroj Super Speciality Hospital (Rohini Sec 14)</strong> (+3 min ETA delay). Saroj's ICU team will receive full telemetry instantaneously.
+          Reclaiming this bed will dynamically trigger an automatic corridor reroute for inbound Ambulance DL-108 to <strong>Saroj Super Speciality Hospital (Rohini Sec 14)</strong> (+3 min ETA delay). Saroj's ICU team will receive full telemetry instantaneously, and the bed hold timer will adjust dynamically to Saroj's transit duration.
         </p>
       </div>
 
@@ -944,6 +973,10 @@ const ROUTE_SAROJ = [
   const SAROJ_COORD  = [28.7165, 77.1095]; // Saroj Super Speciality, Rohini Sec 14
   const BALAJI_COORD = [28.6720, 77.0950]; // Action Balaji Hospital, Paschim Vihar
 
+  // Clinical Constants
+  const T_BUFFER_MINS = 10; // Clinical intake staging buffer (set to 10 minutes)
+  const T_TRIAGE_MINS = 7;  // Standard clinical handover lag per vehicle (7 minutes)
+
   // 2. The 5 Real-World Hospital Data Objects
   const HOSPITALS = [
     {
@@ -968,29 +1001,32 @@ const ROUTE_SAROJ = [
         'Airborne Isolation'
       ],
       coords: MAX_COORD,
-      tag: 'Rank #1 Recommended Match',
+      tag: 'Optimal Destination &middot; arg min(S)',
       isDesignatedBackup: false
     },
     {
-      id: 'bsa',
-      name: 'Dr. Baba Saheb Ambedkar (BSA) Hospital',
-      location: 'Rohini Sector 6',
-      distanceKm: 2.4,
-      corridor: 'Geographically closest!',
-      transitMins: 7,
-      dockQueueCount: 4, // 4 * 7m = 28m delay
+      id: 'balaji',
+      name: 'Action Balaji Hospital',
+      location: 'Paschim Vihar',
+      distanceKm: 8.5,
+      corridor: 'via Rohtak Rd',
+      transitMins: 21,
+      dockQueueCount: 0,
       prepLagMins: 0,
-      prepNote: 'Direct dock',
-      freeVentilators: 1,
-      totalVentilators: 12,
+      prepNote: 'High ICU capacity',
+      freeVentilators: 3,
+      totalVentilators: 20,
       capabilities: [
         'Invasive Ventilator',
+        'CRRT Dialysis',
         'Blood Reserve (O-Neg)',
+        'PICU/NICU',
+        'Cath-Lab',
         'HFNC',
         'Airborne Isolation'
       ],
-      coords: BSA_COORD,
-      tag: 'High Dock Congestion Warning',
+      coords: BALAJI_COORD,
+      tag: 'Regional Spillover Facility',
       isDesignatedBackup: false
     },
     {
@@ -1017,28 +1053,25 @@ const ROUTE_SAROJ = [
       isDesignatedBackup: true
     },
     {
-      id: 'balaji',
-      name: 'Action Balaji Hospital',
-      location: 'Paschim Vihar',
-      distanceKm: 8.5,
-      corridor: 'via Rohtak Rd',
-      transitMins: 21,
-      dockQueueCount: 0,
+      id: 'bsa',
+      name: 'Dr. Baba Saheb Ambedkar (BSA) Hospital',
+      location: 'Rohini Sector 6',
+      distanceKm: 2.4,
+      corridor: 'Geographically closest (2.4 km)',
+      transitMins: 7,
+      dockQueueCount: 4, // 4 * 7m = 28m delay
       prepLagMins: 0,
-      prepNote: 'High ICU capacity',
-      freeVentilators: 3,
-      totalVentilators: 20,
+      prepNote: 'Direct dock',
+      freeVentilators: 1,
+      totalVentilators: 12,
       capabilities: [
         'Invasive Ventilator',
-        'CRRT Dialysis',
         'Blood Reserve (O-Neg)',
-        'PICU/NICU',
-        'Cath-Lab',
         'HFNC',
         'Airborne Isolation'
       ],
-      coords: BALAJI_COORD,
-      tag: 'Regional Spillover Option',
+      coords: BSA_COORD,
+      tag: 'High Dock Congestion Warning',
       isDesignatedBackup: false
     },
     {
@@ -1066,7 +1099,7 @@ const ROUTE_SAROJ = [
     }
   ];
 
-  // 3. Equipment Checklist Definitions
+  // 3. Equipment Checklist Definitions (R)
   const ALL_EQUIPMENT = [
     { id: 'Invasive Ventilator', label: 'Invasive Ventilator', defaultChecked: true },
     { id: 'CRRT Dialysis', label: 'CRRT Dialysis', defaultChecked: false },
@@ -1080,11 +1113,15 @@ const ROUTE_SAROJ = [
   let activeCheckedEquipment = new Set(['Invasive Ventilator', 'Blood Reserve (O-Neg)']);
   let activeThreatLevel = 1;
   let activeStation = 'clinic';
-  let activeDispatchedHospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
+  let activeDispatchedHospitalId = 'max';
   let isDispatched = false;
   let overrideActive = false;
 
   // 4. TTDC Calculation Formula
+  // P_surge step function:
+  // 0 mins if V_free >= 3
+  // 3 mins if V_free == 2
+  // 8 mins if V_free == 1
   function calculateSurgePenalty(freeVents) {
     if (freeVents >= 3) return 0;
     if (freeVents === 2) return 3;
@@ -1093,28 +1130,36 @@ const ROUTE_SAROJ = [
   }
 
   function evaluateHospital(hosp) {
-    // Stage 1: Hard Capability Gate
+    // Stage 1: The Hard Capability Gate (Binary Filter)
+    // Eligible = Product_{k in R} E_k
     const missing = [];
     activeCheckedEquipment.forEach(req => {
-      if (!hosp.capabilities.includes(req)) {
+      const hasEquip = hosp.capabilities.includes(req);
+      if (!hasEquip) {
         missing.push(req);
       }
     });
 
-    // Check specific condition for ventilator capacity
+    // Specific check: if Invasive Ventilator is required, freeVentilators must be > 0
     if (activeCheckedEquipment.has('Invasive Ventilator') && hosp.freeVentilators === 0) {
-      if (!missing.includes('Invasive Ventilator')) missing.push('Invasive Ventilator (0 Free)');
+      if (!missing.includes('Invasive Ventilator')) {
+        missing.push('Invasive Ventilator (0 Free / 100% Occupied)');
+      }
     }
 
     const isEligible = missing.length === 0;
 
-    // Stage 2: TTDC Score Calculation
-    // S = T_transit + delta_T_dock + delta_T_prep + P_surge
+    // Stage 2: The Additive Time Score (S)
+    // S = T_transit + Delta_T_dock + Delta_T_prep + P_surge
     const t_transit = hosp.transitMins;
-    const delta_dock = hosp.dockQueueCount * 7;
+    const delta_dock = hosp.dockQueueCount * T_TRIAGE_MINS; // N_queue * t_triage
     const delta_prep = hosp.prepLagMins;
     const p_surge = calculateSurgePenalty(hosp.freeVentilators);
     const score = t_transit + delta_dock + delta_prep + p_surge;
+
+    // Dynamic Bed Hold Duration:
+    // Bed Hold Duration (Minutes) = T_transit + T_buffer (where T_buffer = 10 mins)
+    const bedHoldDurationMins = t_transit + T_BUFFER_MINS;
 
     return {
       ...hosp,
@@ -1125,7 +1170,8 @@ const ROUTE_SAROJ = [
         dock: delta_dock,
         prep: delta_prep,
         surge: p_surge,
-        total: score
+        total: score,
+        bedHoldDuration: bedHoldDurationMins
       }
     };
   }
@@ -1190,13 +1236,13 @@ const ROUTE_SAROJ = [
     const eligible = evaluated.filter(h => h.isEligible);
     const ineligible = evaluated.filter(h => !h.isEligible);
 
-    // Sort eligible by TTDC score ascending
+    // Sort eligible by TTDC score ascending (Optimal Destination = arg min S)
     eligible.sort((a, b) => a.ttdc.total - b.ttdc.total);
 
     // Update count badge
     const countBadge = document.getElementById('eligible-count-badge');
     if (countBadge) {
-      countBadge.textContent = `${eligible.length} Verified Eligible`;
+      countBadge.textContent = `${eligible.length} Verified Eligible (Stage 1 Passed)`;
     }
 
     const container = document.getElementById('hospital-cards-container');
@@ -1204,7 +1250,7 @@ const ROUTE_SAROJ = [
 
     let html = '';
 
-    // Render Eligible Cards
+    // Render Eligible Cards in order of S
     eligible.forEach((h, index) => {
       const rankNum = index + 1;
       const isRank1 = rankNum === 1;
@@ -1223,9 +1269,9 @@ const ROUTE_SAROJ = [
       let calloutHtml = '';
       if (h.id === 'bsa' && h.dockQueueCount > 0) {
         calloutHtml = `
-          <div class="mt-3 p-3 rounded-xl bg-[#FDF4F0] border border-[#F4DDD4] text-xs leading-relaxed text-[#C85A32]">
-            <strong class="font-semibold">Severe Intake Congestion Callout:</strong> 
-            Although geographically closest (${h.transitMins} mins / ${h.distanceKm} km), actual time to care is <strong>${h.ttdc.total} mins</strong> due to ${h.dockQueueCount} ambulances queued at ER intake dock (+${h.ttdc.dock}m delay).
+          <div class="mt-3 p-3.5 rounded-xl bg-[#FDF4F0] border border-[#F4DDD4] text-xs leading-relaxed text-[#C85A32]">
+            <strong class="font-semibold">Severe ER Dock Handover Lag:</strong> 
+            Although geographically closest (${h.transitMins} mins / ${h.distanceKm} km), total time to care is <strong>${h.ttdc.total} mins</strong> due to ${h.dockQueueCount} ambulances queued at intake (+${h.ttdc.dock}m delay: 4 &times; 7m).
           </div>
         `;
       }
@@ -1234,8 +1280,8 @@ const ROUTE_SAROJ = [
       let actionBtn = '';
       if (isRank1) {
         actionBtn = `
-          <button type="button" onclick="lockAndDispatch('${h.name} (${h.location})')" class="btn-anthropic-primary w-full py-3 text-sm">
-            <span>Lock Bed &amp; Dispatch Ambulance Transfer</span>
+          <button type="button" onclick="lockAndDispatch('${h.id}')" class="btn-anthropic-primary w-full py-3 text-sm">
+            <span>Lock Bed &amp; Dispatch Ambulance Transfer (${h.ttdc.bedHoldDuration}m Bed Hold)</span>
           </button>
         `;
       } else if (h.isDesignatedBackup) {
@@ -1247,7 +1293,7 @@ const ROUTE_SAROJ = [
       } else {
         actionBtn = `
           <button type="button" onclick="designateBackup('${h.name}')" class="btn-anthropic-secondary w-full py-2.5 text-xs">
-            <span>Designate as Secondary Backup</span>
+            <span>Designate as Secondary Standby</span>
           </button>
         `;
       }
@@ -1260,11 +1306,11 @@ const ROUTE_SAROJ = [
                 ${isRank1 ? `
                   <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold badge-sage flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-                    RANK #1: RECOMMENDED MATCH
+                    RANK #1: OPTIMAL DESTINATION &middot; arg min(S)
                   </span>
                 ` : `
                   <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium badge-stone">
-                    RANK #${rankNum}
+                    RANK #${rankNum} &middot; ${h.tag}
                   </span>
                 `}
                 <span class="text-xs text-stoneText font-mono">${h.corridor}</span>
@@ -1273,28 +1319,37 @@ const ROUTE_SAROJ = [
               <h3 class="font-serif text-xl sm:text-[22px] font-medium text-charcoal">
                 ${h.name}
               </h3>
-              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km from Clinic</p>
+              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km from Clinic Ground Zero</p>
             </div>
 
             <!-- Score Pill -->
             <div class="text-right shrink-0">
               <div class="inline-flex flex-col items-end px-3 py-1.5 rounded-xl border ${scoreBadgeClass}">
-                <span class="text-[10px] font-mono uppercase tracking-wider">Total Time to Care</span>
+                <span class="text-[10px] font-mono uppercase tracking-wider">Total Time to Care (S)</span>
                 <span class="font-mono text-2xl font-bold leading-none mt-0.5">${h.ttdc.total} <span class="text-xs font-sans font-normal">mins</span></span>
               </div>
             </div>
           </div>
 
           <!-- Monospace TTDC Breakdown Parameter Strip -->
-          <div class="mt-3.5 pt-3 border-t border-subtleBorder flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-mono text-stoneText bg-[#FAF9F5] p-2.5 rounded-lg border">
-            <span class="text-charcoal font-semibold">TTDC Formula:</span>
-            <span>Transit: <strong>${h.ttdc.transit}m</strong></span>
-            <span>&middot;</span>
-            <span>Dock Queue: <strong>${h.ttdc.dock}m</strong> (${h.dockQueueCount} queued)</span>
-            <span>&middot;</span>
-            <span>Prep: <strong>${h.ttdc.prep}m</strong></span>
-            <span>&middot;</span>
-            <span>Surge Buffer: <strong>+${h.ttdc.surge}m</strong> (${h.freeVentilators} free)</span>
+          <div class="mt-3.5 pt-3 border-t border-subtleBorder space-y-1.5 text-xs font-mono text-stoneText bg-[#FAF9F5] p-3 rounded-xl border">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-charcoal font-semibold">Additive Time Score (S):</span>
+              <span class="font-bold text-charcoal">S = ${h.ttdc.total} mins</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px]">
+              <span>T_transit: <strong>${h.ttdc.transit}m</strong></span>
+              <span>+</span>
+              <span>&Delta;T_dock: <strong>${h.ttdc.dock}m</strong> (${h.dockQueueCount} &times; ${T_TRIAGE_MINS}m)</span>
+              <span>+</span>
+              <span>&Delta;T_prep: <strong>${h.ttdc.prep}m</strong></span>
+              <span>+</span>
+              <span>P_surge: <strong>+${h.ttdc.surge}m</strong> (${h.freeVentilators} free)</span>
+            </div>
+            <div class="pt-1.5 border-t border-subtleBorder/70 text-[11px] text-stoneText flex items-center justify-between flex-wrap gap-2">
+              <span>Dynamic Bed-Hold: <strong>${h.ttdc.bedHoldDuration} mins</strong> (${h.transitMins}m transit + ${T_BUFFER_MINS}m buffer)</span>
+              <span class="text-[#4E6B56]">Stage 1 Gate: Passed (&prod; E_k = 1)</span>
+            </div>
           </div>
 
           ${calloutHtml}
@@ -1316,13 +1371,13 @@ const ROUTE_SAROJ = [
             <div>
               <div class="flex items-center gap-2 mb-1.5">
                 <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold badge-terracotta">
-                  Ineligible &middot; ${h.id === 'fortis' ? 'Unavailable: Zero Invasive Ventilators Free' : `Missing: ${missingList}`}
+                  Stage 1 Gate: &prod; E_k = 0 &middot; ${h.id === 'fortis' ? 'Unavailable: Zero Invasive Ventilators Free' : `Missing: ${missingList}`}
                 </span>
               </div>
               <h3 class="font-serif text-lg font-medium text-stoneText">
                 ${h.name}
               </h3>
-              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km</p>
+              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km &middot; Transit: ${h.transitMins}m</p>
             </div>
 
             <div class="text-right shrink-0">
@@ -1331,12 +1386,12 @@ const ROUTE_SAROJ = [
           </div>
 
           <div class="mt-3 p-2.5 rounded-lg bg-white border border-subtleBorder text-xs text-stoneText">
-            Notice: Center cannot accept transfer due to capacity saturation or missing life-support apparatus: <strong>${missingList}</strong>.
+            Disqualification: Hospital lacks required clinical life-support equipment: <strong>${missingList}</strong>. Excluded from active destination ranking.
           </div>
 
           <div class="mt-3">
             <button disabled class="w-full py-2.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-stoneText text-xs font-semibold cursor-not-allowed">
-              Capacity Reached &mdash; Ineligible for Allocation
+              Capacity Exhausted &mdash; Ineligible for Destination Allocation
             </button>
           </div>
         </article>
@@ -1407,19 +1462,19 @@ const ROUTE_SAROJ = [
 
     // Add Hospital Markers
     L.marker(CLINIC_COORD, { icon: createPin('Clinic Sec 3', true) }).addTo(lmap)
-      .bindPopup('<b>Rohini Sec 3 Clinic</b><br>Code Red Patient Ground Zero');
+      .bindPopup('<b>Rohini Sec 3 Clinic</b><br>Ground Zero Referring Clinic');
 
     markerDest = L.marker(MAX_COORD, { icon: createPin('Max Shalimar', true) }).addTo(lmap)
-      .bindPopup('<b>Max Super Speciality Hospital</b><br>Rank #1 Match &middot; Bay 05 Designated');
+      .bindPopup('<b>Max Super Speciality Hospital</b><br>Optimal Destination &middot; Bay 05 Locked');
 
     L.marker(BSA_COORD, { icon: createPin('BSA Rohini', false) }).addTo(lmap)
-      .bindPopup('<b>Dr. B.S. Ambedkar Hospital</b><br>7m Transit &middot; 4 Ambulances Queued');
+      .bindPopup('<b>Dr. B.S. Ambedkar Hospital</b><br>7m Transit &middot; 4 Ambulances Queued (+28m delay)');
 
     markerSaroj = L.marker(SAROJ_COORD, { icon: createPin('Saroj Sec 14', false) }).addTo(lmap)
-      .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Verified Standby Backup');
+      .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Verified Standby Backup &middot; Bay 02 Ready');
 
     L.marker(BALAJI_COORD, { icon: createPin('Action Balaji', false) }).addTo(lmap)
-      .bindPopup('<b>Action Balaji Hospital</b><br>Regional Spillover &middot; 3 Open Beds');
+      .bindPopup('<b>Action Balaji Hospital</b><br>Regional Spillover &middot; 3 Ventilators Free');
 
     L.marker(FORTIS_COORD, { icon: createPin('Fortis', false) }).addTo(lmap)
       .bindPopup('<b>Fortis Hospital</b><br>Ventilator Bays 100% Saturated');
@@ -1463,7 +1518,7 @@ const ROUTE_SAROJ = [
   }
 
   // 9. Realistic Ambulance Movement (50-60 Seconds Total)
-  function startAmbulanceAnimation(route) {
+  function startAmbulanceAnimation(route, transitMins) {
     if (animTimer) clearInterval(animTimer);
     animIndex = 0;
     const totalPoints = route.length;
@@ -1477,7 +1532,7 @@ const ROUTE_SAROJ = [
 
         // Update ETA dynamically based on percentage
         const pctLeft = (totalPoints - animIndex) / totalPoints;
-        const etaMins = Math.max(1, Math.round(14 * pctLeft));
+        const etaMins = Math.max(1, Math.round(transitMins * pctLeft));
         const etaEl = document.getElementById('active-transit-eta');
         if (etaEl) {
           etaEl.textContent = `En Route &middot; ${etaMins} mins left`;
@@ -1487,35 +1542,75 @@ const ROUTE_SAROJ = [
       } else {
         clearInterval(animTimer);
         const etaEl = document.getElementById('active-transit-eta');
-        if (etaEl) etaEl.textContent = 'Touchdown at Bay 05';
-        showToast('Ambulance DL-108 has arrived at Max Bay 05 dock.', 'sage');
+        if (etaEl) etaEl.textContent = 'Touchdown at Bay 05 Dock';
+        showToast('Ambulance DL-108 has arrived at the hospital intake dock.', 'sage');
       }
     }, intervalMs);
   }
 
-  // 10. Bed Hold Countdown Timer (Starts at 25:00)
-  let holdSeconds = 25 * 60;
-  setInterval(() => {
-    if (holdSeconds > 0) {
-      holdSeconds--;
+  // 10. Dynamic Bed-Hold Duration Calculation & Timer
+  // Bed Hold Duration (Minutes) = T_transit + T_buffer
+  let holdSeconds = 24 * 60; // Initial default for Max: 14 + 10 = 24m
+  let holdInterval = null;
+
+  function initDynamicBedHoldTimer(totalMinutes) {
+    if (holdInterval) clearInterval(holdInterval);
+    holdSeconds = totalMinutes * 60;
+
+    function renderTime() {
       const m = Math.floor(holdSeconds / 60).toString().padStart(2, '0');
       const s = (holdSeconds % 60).toString().padStart(2, '0');
       const timerEl = document.getElementById('icu-hold-timer');
       if (timerEl) timerEl.textContent = `${m}:${s}`;
     }
-  }, 1000);
 
-  // 11. Lock and Dispatch Action
-  function lockAndDispatch(hospitalName) {
+    renderTime();
+    holdInterval = setInterval(() => {
+      if (holdSeconds > 0) {
+        holdSeconds--;
+        renderTime();
+      }
+    }, 1000);
+  }
+
+  // 11. Lock and Dispatch Action with Dynamic Bed Hold Calculation
+  function lockAndDispatch(hospitalId) {
+    const hosp = HOSPITALS.find(h => h.id === hospitalId) || HOSPITALS[0];
     isDispatched = true;
-    activeDispatchedHospital = hospitalName;
+    activeDispatchedHospitalId = hosp.id;
 
-    // Toast Alert
-    showToast(`Bay 05 Locked at ${hospitalName}. Ambulance DL-108 en route.`, 'sage');
+    // Calculate Dynamic Bed Hold Duration:
+    // Bed Hold Duration (Minutes) = T_transit + T_buffer
+    const t_transit = hosp.transitMins;
+    const dynamicHoldMins = t_transit + T_BUFFER_MINS; // e.g. 14 + 10 = 24 mins
+    initDynamicBedHoldTimer(dynamicHoldMins);
 
-    // Update status labels
+    // Update ICU Header & Subtitle
+    const icuHeader = document.getElementById('icu-header-title');
+    if (icuHeader) {
+      icuHeader.textContent = `ICU Resuscitation Command &middot; ${hosp.name}`;
+    }
+
+    const targetEtaEl = document.getElementById('icu-target-eta');
+    if (targetEtaEl) targetEtaEl.textContent = `${t_transit} mins`;
+
+    const subDescEl = document.getElementById('icu-sub-desc');
+    if (subDescEl) {
+      subDescEl.innerHTML = `Ambulance DL-108 en route to ${hosp.name} &middot; Bed hold duration: <strong>${dynamicHoldMins} mins</strong> (${t_transit}m road transit + ${T_BUFFER_MINS}m clinical staging buffer).`;
+    }
+
+    const bayPatient = document.getElementById('bay-05-patient');
+    if (bayPatient) bayPatient.textContent = `Inbound ARDS (${hosp.name})`;
+
+    // Toast Alert with formula values
+    showToast(`Bay 05 Locked at ${hosp.name}. Dynamic Bed Hold: ${dynamicHoldMins} mins (${t_transit}m transit + ${T_BUFFER_MINS}m buffer).`, 'sage');
+
+    // Update Map status labels
     const statusEl = document.getElementById('active-transit-status');
-    if (statusEl) statusEl.textContent = `En Route to ${hospitalName}`;
+    if (statusEl) statusEl.textContent = `En Route to ${hosp.name}`;
+
+    const etaEl = document.getElementById('active-transit-eta');
+    if (etaEl) etaEl.textContent = `Corridor Transit &middot; ${t_transit} mins`;
 
     const ctaBtn = document.getElementById('dispatch-map-cta');
     if (ctaBtn) {
@@ -1524,8 +1619,9 @@ const ROUTE_SAROJ = [
       ctaBtn.textContent = 'Transfer Dispatched';
     }
 
-    // Trigger realistic animation along Outer Ring Road
-    startAmbulanceAnimation(ROUTE_MAX);
+    // Trigger realistic animation along route
+    const targetRoute = (hosp.id === 'saroj') ? ROUTE_SAROJ : ROUTE_MAX;
+    startAmbulanceAnimation(targetRoute, t_transit);
   }
 
   function designateBackup(hospitalName) {
@@ -1547,7 +1643,12 @@ const ROUTE_SAROJ = [
     closeOverrideModal();
     overrideActive = true;
 
-    // Update Bay 05 status
+    // When diverted to Saroj, Saroj's road transit is 12m + 3m diversion = 15 mins
+    const divertedTransitMins = 15;
+    const divertedHoldMins = divertedTransitMins + T_BUFFER_MINS; // 15 + 10 = 25m
+    initDynamicBedHoldTimer(divertedHoldMins);
+
+    // Update Bay 05 status at Max
     const b5Card = document.getElementById('bay-05-card');
     const b5Status = document.getElementById('bay-05-status');
     const b5Patient = document.getElementById('bay-05-patient');
@@ -1572,8 +1673,11 @@ const ROUTE_SAROJ = [
 
     const icuDesc = document.getElementById('icu-sub-desc');
     if (icuDesc) {
-      icuDesc.textContent = 'Bay 05 reassigned to local walk-in cardiac arrest. DL-108 dynamically rerouted to Saroj Super Speciality Hospital.';
+      icuDesc.innerHTML = `Bay 05 reassigned to local walk-in cardiac arrest. DL-108 dynamically rerouted to Saroj Super Speciality Hospital. Dynamic Bed Hold: <strong>${divertedHoldMins} mins</strong> (${divertedTransitMins}m transit + 10m buffer).`;
     }
+
+    const targetEtaEl = document.getElementById('icu-target-eta');
+    if (targetEtaEl) targetEtaEl.textContent = `${divertedTransitMins} mins`;
 
     // Replace action button with restore option
     const btnContainer = document.getElementById('override-action-btn-container');
@@ -1590,19 +1694,23 @@ const ROUTE_SAROJ = [
       routeLine.setLatLngs(ROUTE_SAROJ);
       routeLine.setStyle({ color: '#C85A32', dashArray: '6, 6' });
     }
-    startAmbulanceAnimation(ROUTE_SAROJ);
+    startAmbulanceAnimation(ROUTE_SAROJ, divertedTransitMins);
 
     const etaEl = document.getElementById('active-transit-eta');
-    if (etaEl) etaEl.textContent = 'Diverted to Saroj &middot; 12 mins ETA';
+    if (etaEl) etaEl.textContent = 'Diverted to Saroj &middot; 15 mins ETA';
 
     const statusEl = document.getElementById('active-transit-status');
     if (statusEl) statusEl.textContent = 'Diverted to Saroj Super Speciality (Rohini Sec 14)';
 
-    showToast('Ambulance DL-108 diverted to Saroj Hospital (+3 mins). Telemetry switched.', 'terracotta');
+    showToast('Ambulance DL-108 diverted to Saroj Hospital (+3 mins). Dynamic hold reset to 25m.', 'terracotta');
   }
 
   function restoreMaxTransfer() {
     overrideActive = false;
+
+    // Reset hold duration to Max: 14 + 10 = 24m
+    const maxHoldMins = 14 + T_BUFFER_MINS;
+    initDynamicBedHoldTimer(maxHoldMins);
 
     // Restore Bay 05
     const b5Card = document.getElementById('bay-05-card');
@@ -1629,8 +1737,11 @@ const ROUTE_SAROJ = [
 
     const icuDesc = document.getElementById('icu-sub-desc');
     if (icuDesc) {
-      icuDesc.textContent = 'Ambulance DL-108 en route from Rohini Sec 3 · Severe ARDS & Septic Shock Protocol.';
+      icuDesc.innerHTML = `Ambulance DL-108 en route to Max Shalimar Bagh &middot; Bed hold duration: <strong>${maxHoldMins} mins</strong> (14m road transit + 10m buffer).`;
     }
+
+    const targetEtaEl = document.getElementById('icu-target-eta');
+    if (targetEtaEl) targetEtaEl.textContent = '14 mins';
 
     // Restore button
     const btnContainer = document.getElementById('override-action-btn-container');
@@ -1647,9 +1758,9 @@ const ROUTE_SAROJ = [
       routeLine.setLatLngs(ROUTE_MAX);
       routeLine.setStyle({ color: '#1F1E1D', dashArray: '8, 6' });
     }
-    startAmbulanceAnimation(ROUTE_MAX);
+    startAmbulanceAnimation(ROUTE_MAX, 14);
 
-    showToast('Transfer restored to Max Hospital Bay 05.', 'sage');
+    showToast('Transfer restored to Max Hospital Bay 05. Hold duration reset to 24m.', 'sage');
   }
 
   // 13. Nurse Pre-Arrival Checklist Toggle
@@ -1722,6 +1833,7 @@ const ROUTE_SAROJ = [
     renderEquipmentChips();
     updateHospitalList();
     initMap();
+    initDynamicBedHoldTimer(24); // Initial default for Rank 1 (Max: 14 + 10 = 24m)
   });
   </script>
 
