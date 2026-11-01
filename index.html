@@ -1,1841 +1,472 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full overflow-hidden">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoldenRoute — Acute Inter-Facility Transfer &amp; TTDC Allocation Engine</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GoldenRoute — Emergency Patient Transfer &amp; ICU Network · Delhi NCR</title>
+<link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
+<link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            serif: ['Newsreader', 'Georgia', 'serif'],
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'monospace']
-          },
-          colors: {
-            oatmeal: '#FAF9F5',
-            charcoal: '#1F1E1D',
-            stoneText: '#6E6B65',
-            subtleBorder: '#EAE7DF',
-            terracotta: {
-              DEFAULT: '#C85A32',
-              bg: '#FDF4F0',
-              border: '#F4DDD4'
-            },
-            sage: {
-              DEFAULT: '#4E6B56',
-              bg: '#F2F5F3',
-              border: '#DDE5DF'
-            }
-          }
+<!-- Google Fonts: Inter (Unified System Typography) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600;700;800;900&display=swap" rel="stylesheet" />
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          mono: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        },
+        colors: {
+          paper: '#F8FAFC',
+          inkDark: '#0F172A',
+          mutedSlate: '#334155',
+          clinicalTeal: '#0C6277',
+          clinicalTealHover: '#094B5C',
+          clinicalTealActive: '#083B49',
+          softBorder: '#CBD5E1',
+          
+          // Harmonized Palette Tokens
+          statRed: '#BE123C',
+          statRedBg: '#FFF1F2',
+          statRedBorder: '#FECDD3',
+          statRedText: '#9F1239',
+          
+          urgentAmber: '#EA580C',
+          urgentAmberBg: '#FFF7ED',
+          urgentAmberBorder: '#FED7AA',
+          urgentAmberText: '#9A3412',
+
+          cautionYellow: '#EAB308',
+          cautionYellowBg: '#FEFCE8',
+          cautionYellowBorder: '#FDE047',
+          cautionYellowText: '#854D0E',
+          
+          stableGreen: '#15803D',
+          stableGreenBg: '#F0FDF4',
+          stableGreenBorder: '#BBF7D0',
+          stableGreenText: '#166534',
         }
       }
-    };
-  </script>
+    }
+  }
+</script>
 
-  <!-- Google Fonts: Newsreader (Editorial Serif), Inter (Clean UI), JetBrains Mono (Telemetry/Math) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+<style>
+/* ── Unified Inter Typography Baseline ── */
+body, button, input, select, textarea, p, h1, h2, h3, h4, span, div, time {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.tabular-nums, .font-mono {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-feature-settings: 'tnum' on, 'cv05' on, 'cv11' on;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+}
 
-  <!-- Leaflet CSS & JS CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+/* ── Strict 100vh Layout & Zero Scrollbar Baseline ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  background-color: #F8FAFC;
+  color: #0F172A;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  <style>
-    /* Calm Editorial Foundation */
-    body {
-      background-color: #FAF9F5;
-      color: #1F1E1D;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+/* ── Typographic Mix-Blend Multiply Layering ── */
+.blend-multiply {
+  mix-blend-mode: multiply;
+}
 
-    /* Clean Card Elevation & Hairline Borders */
-    .anthropic-card {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE7DF;
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(31, 30, 29, 0.03);
-    }
+/* ── Live Network Status Dot ── */
+.dot-sync {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #0C6277;
+  box-shadow: 0 0 8px rgba(12, 98, 119, 0.4);
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.9); }
+}
 
-    .anthropic-card-interactive {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE7DF;
-      border-radius: 14px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .anthropic-card-interactive:hover {
-      border-color: #D2CDC3;
-      box-shadow: 0 4px 14px rgba(31, 30, 29, 0.05);
-    }
+/* ── Pronounced Cardiac Heartbeat (Living Brand Emblem & Typography) ── */
+.emblem-heartbeat {
+  display: inline-block;
+  transform-origin: center center;
+  transform: translateZ(0);
+  will-change: transform;
+  animation: cardiac-heartbeat 2.2s ease-in-out infinite;
+}
 
-    /* Buttons */
-    .btn-anthropic-primary {
-      background-color: #1F1E1D;
-      color: #FAF9F5;
-      border-radius: 10px;
-      padding: 0 16px;
-      font-weight: 600;
-      font-size: 13.5px;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      border: 1px solid #1F1E1D;
-    }
-    .btn-anthropic-primary:hover {
-      background-color: #383633;
-      border-color: #383633;
-    }
-    .btn-anthropic-primary:active {
-      transform: scale(0.985);
-    }
+@keyframes cardiac-heartbeat {
+  0% { transform: scale(1) translateZ(0); }
+  14% { transform: scale(1.055) translateZ(0); }
+  28% { transform: scale(1.012) translateZ(0); }
+  42% { transform: scale(1.035) translateZ(0); }
+  70% { transform: scale(1) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
+}
 
-    .btn-anthropic-secondary {
-      background-color: #FFFFFF;
-      color: #1F1E1D;
-      border: 1px solid #EAE7DF;
-      border-radius: 10px;
-      padding: 0 14px;
-      font-weight: 550;
-      font-size: 13px;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .btn-anthropic-secondary:hover {
-      background-color: #F5F3ED;
-      border-color: #D2CDC3;
-    }
-    .btn-anthropic-secondary:active {
-      transform: scale(0.985);
-    }
+@media (prefers-reduced-motion: reduce) {
+  .emblem-heartbeat {
+    animation: none;
+  }
+}
 
-    /* Badges */
-    .badge-sage {
-      background-color: #F2F5F3;
-      color: #4E6B56;
-      border: 1px solid #DDE5DF;
-    }
-    .badge-terracotta {
-      background-color: #FDF4F0;
-      color: #C85A32;
-      border: 1px solid #F4DDD4;
-    }
-    .badge-stone {
-      background-color: #F5F3ED;
-      color: #6E6B65;
-      border: 1px solid #EAE7DF;
-    }
+/* ── Buttons ── */
+.btn-clinical {
+  background-color: #0C6277;
+  color: #FFFFFF;
+  mix-blend-mode: normal !important;
+  isolation: isolate;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-clinical:hover {
+  background-color: #094B5C;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(12, 98, 119, 0.25);
+}
+.btn-clinical:active {
+  transform: scale(0.985);
+}
 
-    /* Clean Checklist Dots (Zero ticks/crosses) */
-    .dot-check-box {
-      width: 18px;
-      height: 18px;
-      border-radius: 6px;
-      border: 1px solid #D2CDC3;
-      background-color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-      flex-shrink: 0;
-    }
-    .dot-check-box.checked {
-      background-color: #1F1E1D;
-      border-color: #1F1E1D;
-    }
-    .dot-check-box.checked::after {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #FAF9F5;
-    }
-
-    /* Radio Indicator */
-    .dot-radio-circle {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 1.5px solid #D2CDC3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.15s ease;
-    }
-    .dot-radio-circle.selected {
-      border-color: #1F1E1D;
-    }
-    .dot-radio-circle.selected::after {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #1F1E1D;
-    }
-
-    /* Pulse animation */
-    @keyframes pulse-soft {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.08); }
-    }
-    .animate-pulse-soft {
-      animation: pulse-soft 2s infinite ease-in-out;
-    }
-
-    /* Leaflet Overrides */
-    .leaflet-popup-content-wrapper {
-      background: #FFFFFF !important;
-      border: 1px solid #EAE7DF !important;
-      border-radius: 12px !important;
-      box-shadow: 0 8px 24px rgba(31, 30, 29, 0.08) !important;
-      color: #1F1E1D !important;
-      font-family: 'Inter', sans-serif !important;
-      padding: 0 !important;
-    }
-    .leaflet-popup-content {
-      margin: 12px 16px !important;
-      font-size: 12.5px !important;
-      line-height: 1.4 !important;
-    }
-    .leaflet-popup-tip {
-      background: #FFFFFF !important;
-      border: 1px solid #EAE7DF !important;
-    }
-    .leaflet-container {
-      background: #FAF9F5 !important;
-      font-family: 'Inter', sans-serif !important;
-    }
-
-    /* Custom Zoom Control */
-    .clinical-zoom-control button {
-      background: #FFFFFF;
-      color: #1F1E1D;
-      border: 1px solid #EAE7DF;
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-      font-size: 15px;
-      transition: background 0.15s;
-    }
-    .clinical-zoom-control button:hover:not(:disabled) {
-      background: #F5F3ED;
-    }
-    .clinical-zoom-control button:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-    .clinical-zoom-control button:first-child {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      border-bottom: none;
-    }
-    .clinical-zoom-control button:last-child {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-  </style>
+.btn-ghost {
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  background-color: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover {
+  background-color: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  transform: translateY(-1px);
+}
+.btn-ghost:active {
+  transform: scale(0.985);
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-[#EAE7DF] selection:text-[#1F1E1D]">
+<body class="relative flex flex-col justify-between selection:bg-clinicalTeal selection:text-white">
 
-  <!-- ═════════════════════════════════════════════════════════════════
-       TOP EDITORIAL HEADER & STATION SWITCHER
-  ═════════════════════════════════════════════════════════════════ -->
-  <header class="sticky top-0 z-40 bg-[#FAF9F5]/90 backdrop-blur-md border-b border-subtleBorder px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
-    <!-- Brand / System Title -->
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-[#1F1E1D] flex items-center justify-center text-[#FAF9F5] shrink-0 font-serif font-bold text-lg">
-        G
+<!-- ═════════════════════════════════════════════════════════════════
+     BACKGROUND ARTERIAL DITHER CANVAS (Full-bleed 100vh layer)
+═════════════════════════════════════════════════════════════════ -->
+<canvas id="dither-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+<!-- ═════════════════════════════════════════════════════════════════
+     TOP NAVIGATION BAR (Clean & Uncluttered: Logo + Clock Only)
+═════════════════════════════════════════════════════════════════ -->
+<header class="relative z-20 h-20 border-b border-softBorder/80 px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
+  
+  <!-- Left: GoldenRoute Wordmark + Emblem -->
+  <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+    <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="GoldenRoute Home">
+      <img src="assets/goldenroute-icon.png" alt="GoldenRoute Emblem" class="h-8 w-8 sm:h-9 sm:w-9 object-contain shrink-0 emblem-heartbeat" />
+      <span class="text-xl sm:text-[23px] font-extrabold tracking-tight leading-none text-inkDark">
+        Golden<span class="text-clinicalTeal">Route</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- Right: Refined IST Live Clock -->
+  <div class="flex items-center gap-3 shrink-0">
+    <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-softBorder bg-white/90 shadow-xs">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-stableGreen animate-pulse"></span>
+      <time id="live-clk" class="text-sm sm:text-base font-bold text-inkDark tracking-tight tabular-nums">
+        --:--:-- IST
+      </time>
+    </div>
+  </div>
+</header>
+
+
+<!-- ═════════════════════════════════════════════════════════════════
+     HERO CONTENT AREA (Left Aligned)
+═════════════════════════════════════════════════════════════════ -->
+<main class="relative z-10 flex-1 px-4 sm:px-8 lg:px-12 flex flex-col justify-center max-w-4xl pointer-events-none pb-12 sm:pb-16">
+  
+  <div class="pointer-events-auto">
+    <!-- Main Headline with Clamp Scaling -->
+    <h1 class="text-inkDark font-extrabold tracking-[-0.035em] mb-4 sm:mb-5" style="font-size: clamp(42px, 5.8vw, 86px); line-height: 0.98;">
+      Fast, coordinated<br />
+      <span style="color: #0C6277;">ICU patient transfers.</span>
+    </h1>
+
+    <!-- Sub-paragraph -->
+    <p class="max-w-2xl text-slate-800 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5 font-medium" style="color: #1E293B;">
+      Direct telemetry connection from clinics to tertiary hospitals — reserving verified ICU beds, matching specialized life-support equipment, and preparing trauma teams in advance.
+    </p>
+
+    <!-- Bullet Points -->
+    <div class="flex flex-wrap items-center gap-5 sm:gap-7 text-xs sm:text-sm font-semibold mb-6 sm:mb-8" style="color: #094B5C;">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2 h-2 rounded-full" style="background-color: #094B5C;"></span>
+        <span>Zero-PII Handshake</span>
       </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="font-serif text-xl sm:text-[22px] tracking-tight font-medium text-charcoal">
-            Golden<span class="italic font-normal text-stoneText">Route</span>
-          </span>
-          <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono badge-stone">
-            TTDC Engine &middot; arg min(S)
-          </span>
-        </div>
-        <p class="text-[11px] text-stoneText hidden sm:block">
-          North-West &amp; West Delhi Critical Transfer Telemetry &middot; Dynamic Bed-Hold Matrix
-        </p>
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2 h-2 rounded-full" style="background-color: #094B5C;"></span>
+        <span>ABDM Compliant</span>
       </div>
     </div>
 
-    <!-- Center: Operational Station Switcher -->
-    <nav class="flex items-center bg-[#F5F3ED] p-1 rounded-xl border border-subtleBorder" role="tablist">
-      <button id="nav-btn-clinic" type="button" onclick="switchStation('clinic')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-charcoal shadow-xs">
-        Clinic Dispatch Station
-      </button>
-      <button id="nav-btn-icu" type="button" onclick="switchStation('icu')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal">
-        Hospital ICU Command
-      </button>
-    </nav>
+    <!-- Action Row (Solid Dual Action Pair) -->
+    <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+      <a href="dispatch.html" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
+        <span>Start Emergency Transfer →</span>
+      </a>
 
-    <!-- Right: Live IST Monospace Clock & Network Health -->
-    <div class="flex items-center gap-3 shrink-0">
-      <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-subtleBorder text-xs font-mono text-charcoal">
-        <span class="w-2 h-2 rounded-full bg-[#4E6B56] animate-pulse-soft"></span>
-        <span id="live-ist-clock">--:--:-- IST</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- ═════════════════════════════════════════════════════════════════
-       MAIN OPERATIONAL CONTAINER
-  ═════════════════════════════════════════════════════════════════ -->
-  <main class="flex-1 max-w-[1520px] w-full mx-auto p-4 sm:p-6 lg:p-8">
-
-    <!-- ─────────────────────────────────────────────────────────────
-         STATION 1: CLINIC DISPATCH & TTDC ALLOCATION ENGINE
-    ───────────────────────────────────────────────────────────── -->
-    <div id="station-clinic" class="space-y-6">
-
-      <!-- Critical Zero-PII Telemetry Banner -->
-      <section class="anthropic-card p-5 sm:p-6 bg-white border border-subtleBorder">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-subtleBorder">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta">
-                Direct Clinic Telemetry &middot; Rohini Sec 3
-              </span>
-              <span class="text-xs text-stoneText font-mono">Protocol: ARDS / Sepsis &middot; Code Red</span>
-            </div>
-            <h1 class="font-serif text-2xl sm:text-3xl font-medium text-charcoal tracking-tight">
-              Emergency Patient Triage &amp; TTDC Bed Allocation
-            </h1>
-            <p class="text-xs sm:text-sm text-stoneText mt-0.5">
-              Two-stage destination evaluation: Hard Capability Gate followed by Additive Time Score (S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge).
-            </p>
-          </div>
-
-          <!-- Threat Level Selector -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-2 shrink-0">
-            <span class="text-xs font-semibold text-stoneText">Triage Threat Level:</span>
-            <div class="inline-flex rounded-xl p-1 bg-[#FAF9F5] border border-subtleBorder gap-1" role="radiogroup">
-              <button type="button" onclick="setThreatLevel(1)" id="tl-btn-1" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#1F1E1D] text-white flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#C85A32]"></span>
-                Level 1 &middot; Code Red (STAT)
-              </button>
-              <button type="button" onclick="setThreatLevel(2)" id="tl-btn-2" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#E59866]"></span>
-                Level 2 &middot; Urgent
-              </button>
-              <button type="button" onclick="setThreatLevel(3)" id="tl-btn-3" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-                Level 3 &middot; Monitored
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Telemetry Strip (Zero-PII) -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-4">
-          <div class="p-3 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-            <div class="text-[11px] font-medium text-stoneText">Oxygen Saturation</div>
-            <div class="font-mono text-xl sm:text-2xl font-bold text-[#C85A32] mt-0.5 flex items-baseline gap-1">
-              <span>82%</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">SpO2 (Critical)</span>
-            </div>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-            <div class="text-[11px] font-medium text-stoneText">Blood Pressure</div>
-            <div class="font-mono text-xl sm:text-2xl font-bold text-charcoal mt-0.5 flex items-baseline gap-1">
-              <span>85/55</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">mmHg (Shock)</span>
-            </div>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-            <div class="text-[11px] font-medium text-stoneText">Heart Rate</div>
-            <div class="font-mono text-xl sm:text-2xl font-bold text-charcoal mt-0.5 flex items-baseline gap-1">
-              <span>126</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">bpm (Tachy)</span>
-            </div>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-            <div class="text-[11px] font-medium text-stoneText">Glasgow Coma Scale</div>
-            <div class="font-mono text-xl sm:text-2xl font-bold text-charcoal mt-0.5 flex items-baseline gap-1">
-              <span>7/15</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">Severe Deficit</span>
-            </div>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#FAF9F5] border border-subtleBorder col-span-2 sm:col-span-1">
-            <div class="text-[11px] font-medium text-stoneText">Vasopressor Infusion</div>
-            <div class="font-mono text-xl sm:text-2xl font-bold text-charcoal mt-0.5 flex items-baseline gap-1">
-              <span>ACTIVE</span>
-              <span class="text-[10px] text-stoneText font-sans font-normal">Noradrenaline</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Life-Support Equipment Checklist Filter (Stage 1 Binary Gate) -->
-        <div class="mt-5 pt-4 border-t border-subtleBorder">
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-semibold text-charcoal">Stage 1 Hard Capability Gate: Required Equipment R</span>
-              <span class="text-[11px] text-stoneText font-mono">(&prod;_{k &isin; R} E_k &isin; {0, 1})</span>
-            </div>
-            <button type="button" onclick="resetEquipmentDefaults()" class="text-xs text-stoneText hover:text-charcoal underline">
-              Reset Clinical Baseline
-            </button>
-          </div>
-
-          <div class="flex flex-wrap gap-2.5" id="equipment-checklist-container">
-            <!-- Dynamically populated equipment chips with custom indicator dots -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Main Operational Split: Left (TTDC Ranked Hospital Cards) & Right (Delhi Corridor Map) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-        <!-- Left Column: TTDC Algorithm Ranking Engine (7 cols) -->
-        <div class="lg:col-span-7 space-y-4">
-
-          <!-- TTDC Explainer Header Bar -->
-          <div class="anthropic-card p-4 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="font-serif text-lg font-medium text-charcoal">
-                  Hospital Allocation &amp; TTDC Formula Ranking
-                </h2>
-                <span id="eligible-count-badge" class="px-2 py-0.5 rounded text-[11px] font-mono badge-sage">
-                  4 Verified Eligible
-                </span>
-              </div>
-              <p class="text-xs text-stoneText mt-0.5">
-                Arranged strictly ascending by <span class="font-mono text-charcoal">S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge</span>. Optimal Destination = <span class="font-mono text-charcoal">arg min(S)</span>.
-              </p>
-            </div>
-
-            <!-- Informational Link for TTDC Formula -->
-            <button type="button" onclick="toggleTTDCModal(true)" class="btn-anthropic-secondary text-xs shrink-0">
-              <span class="font-mono text-xs">f(S)</span>
-              <span>How is TTDC calculated?</span>
-            </button>
-          </div>
-
-          <!-- Hospital List Container (Dynamically rendered by TTDC Engine) -->
-          <div id="hospital-cards-container" class="space-y-4">
-            <!-- Dynamically injected via updateHospitalList() -->
-          </div>
-
-        </div>
-
-        <!-- Right Column: Leaflet Map & Active Transit Telemetry (5 cols) -->
-        <div class="lg:col-span-5 space-y-4 sticky top-20">
-
-          <!-- Interactive Map Container -->
-          <div class="anthropic-card overflow-hidden bg-white border border-subtleBorder">
-            <div class="p-3.5 border-b border-subtleBorder flex items-center justify-between bg-[#FAF9F5]/70">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-[#4E6B56]"></span>
-                <span class="text-xs font-semibold text-charcoal">North-West &amp; West Delhi Trauma Grid</span>
-              </div>
-              <span class="text-[11px] font-mono text-stoneText">28.7041&deg; N, 77.1350&deg; E</span>
-            </div>
-
-            <!-- Leaflet Container -->
-            <div id="map" class="h-[420px] w-full z-10"></div>
-
-            <!-- Map Footer Telemetry Overlay -->
-            <div class="p-4 bg-white border-t border-subtleBorder">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider">Active Transit Telemetry</div>
-                  <div id="active-transit-status" class="font-serif text-base font-medium text-charcoal mt-0.5">
-                    Ambulance DL-108 Ready for Dispatch
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider">Outer Ring Road Corridor</div>
-                  <div id="active-transit-eta" class="font-mono text-sm font-bold text-charcoal mt-0.5">
-                    Live Transit &middot; 14 mins
-                  </div>
-                </div>
-              </div>
-
-              <!-- Dispatch Action inside Map Overlay -->
-              <div id="transit-action-bar" class="mt-3 pt-3 border-t border-subtleBorder flex items-center justify-between gap-3">
-                <div class="text-xs text-stoneText">
-                  Locking computes dynamic bed hold: <span class="font-mono font-semibold text-charcoal">T_transit + 10m buffer</span>.
-                </div>
-                <button id="dispatch-map-cta" type="button" onclick="lockAndDispatch('max')" class="btn-anthropic-primary shrink-0 py-2.5">
-                  <span>Lock Bed &amp; Dispatch</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dynamic Bed-Hold Matrix Card -->
-          <div class="anthropic-card p-4 bg-[#FAF9F5] border border-subtleBorder text-xs space-y-2">
-            <div class="flex items-center justify-between font-semibold text-charcoal">
-              <span class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-                <span>Dynamic Bed-Hold Duration Matrix</span>
-              </span>
-              <span class="font-mono text-[11px] text-stoneText">T_buffer = 10m</span>
-            </div>
-            <p class="text-stoneText leading-relaxed">
-              When transfer is initiated, the destination hospital assigns a dynamic countdown lock timer:
-              <br /><span class="font-mono text-charcoal font-semibold">Bed Hold Duration = T_transit + T_buffer</span>
-              <br />For Max (T_transit = 14m), Bed Hold is initialized at <span class="font-mono text-charcoal font-bold">24:00 (14 + 10 mins)</span>.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ─────────────────────────────────────────────────────────────
-         STATION 2: HOSPITAL ICU COMMAND CENTER (TAB 2)
-    ───────────────────────────────────────────────────────────── -->
-    <div id="station-icu" class="space-y-6 hidden">
-
-      <!-- Active Inbound Bed Hold Banner -->
-      <section class="anthropic-card p-5 sm:p-6 bg-white border border-subtleBorder">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-              <span id="icu-status-tag" class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta">
-                Inbound Code Red &middot; Bay 05 Locked
-              </span>
-              <span class="text-xs text-stoneText font-mono">Dynamic Timer Formula: T_transit + 10m</span>
-            </div>
-            <h2 id="icu-header-title" class="font-serif text-2xl sm:text-3xl font-medium text-charcoal tracking-tight">
-              ICU Resuscitation Command &middot; Max Shalimar Bagh
-            </h2>
-            <p id="icu-sub-desc" class="text-xs sm:text-sm text-stoneText mt-1">
-              Ambulance DL-108 en route &middot; Bed hold duration: <strong>24 mins</strong> (14m road transit + 10m clinical intake buffer).
-            </p>
-          </div>
-
-          <!-- Countdown Hold Timer (Dynamically Assigned from T_transit + T_buffer) -->
-          <div class="flex items-center gap-4 bg-[#FAF9F5] p-3.5 rounded-xl border border-subtleBorder shrink-0">
-            <div>
-              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Dynamic Bed Hold</div>
-              <div id="icu-hold-timer" class="font-mono text-2xl sm:text-3xl font-bold text-charcoal tracking-tight">
-                24:00
-              </div>
-            </div>
-            <div class="border-l border-subtleBorder pl-4 text-right">
-              <div class="text-[10px] font-mono text-stoneText uppercase tracking-wider">Transit ETA (T_transit)</div>
-              <div id="icu-target-eta" class="font-mono text-xl sm:text-2xl font-bold text-[#4E6B56]">
-                14 mins
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Emergency Override Trigger Row -->
-        <div id="override-trigger-strip" class="mt-5 pt-4 border-t border-subtleBorder flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div class="text-xs text-stoneText">
-            <strong class="font-semibold text-charcoal">Bedside Protocol:</strong> If a local walk-in patient requires immediate intubation, release Bay 05. The system will automatically reroute DL-108 to Saroj Hospital (+3 mins) and recalculate the dynamic hold duration.
-          </div>
-          <div id="override-action-btn-container">
-            <button type="button" onclick="openOverrideModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-[#C85A32] bg-[#FDF4F0] border border-[#F4DDD4] hover:bg-[#FBE9E2] transition-colors whitespace-nowrap">
-              Reclaim Bed for Walk-in Emergency
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ICU 8-Bay Bed Grid & Nurse Arrival Checklist -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-        <!-- Left: 8-Bay Unit Status Grid (7 cols) -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="anthropic-card p-5 bg-white">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="font-serif text-lg font-medium text-charcoal">Trauma ICU Bay Grid</h3>
-                <p class="text-xs text-stoneText">Unit 4B &middot; 8 Isolation Mechanical Ventilator Bays</p>
-              </div>
-              <div class="flex items-center gap-3 text-xs font-mono">
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#1F1E1D]"></span> Occupied (5)</span>
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#4E6B56]"></span> Reserved (1)</span>
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#D2CDC3]"></span> Cleaning (2)</span>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="icu-bay-grid">
-              <!-- Bay 01 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 01</span>
-                  <span>OCCUPIED</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Post-Op CABG</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Dr. V. Sharma</div>
-              </div>
-
-              <!-- Bay 02 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 02</span>
-                  <span>OCCUPIED</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Neuro Trauma</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Dr. P. Nair</div>
-              </div>
-
-              <!-- Bay 03 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 03</span>
-                  <span>OCCUPIED</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Septic Shock</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Dr. A. Verma</div>
-              </div>
-
-              <!-- Bay 04 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 04</span>
-                  <span>OCCUPIED</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Polytrauma</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Dr. R. Gupta</div>
-              </div>
-
-              <!-- Bay 05: RESERVED (Target Bay) -->
-              <div id="bay-05-card" class="p-3.5 rounded-xl border-2 border-[#4E6B56] bg-[#F2F5F3] text-xs relative overflow-hidden">
-                <div class="flex items-center justify-between text-[#4E6B56] text-[11px] font-mono font-bold">
-                  <span>BAY 05</span>
-                  <span id="bay-05-status" class="flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56] animate-pulse"></span>
-                    RESERVED
-                  </span>
-                </div>
-                <div id="bay-05-patient" class="font-bold text-charcoal mt-1">
-                  Inbound ARDS (DL-108)
-                </div>
-                <div id="bay-05-equip" class="text-[11px] text-[#4E6B56] mt-0.5 font-mono">
-                  Hamilton G5 Calibrated
-                </div>
-              </div>
-
-              <!-- Bay 06 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 06</span>
-                  <span>STANDBY</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Terminal Decon</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Ready in 10m</div>
-              </div>
-
-              <!-- Bay 07 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 07</span>
-                  <span>OCCUPIED</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Acute Pancreatitis</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Dr. S. Mehta</div>
-              </div>
-
-              <!-- Bay 08 -->
-              <div class="p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs">
-                <div class="flex items-center justify-between text-stoneText text-[11px] font-mono">
-                  <span>BAY 08</span>
-                  <span>STEP-DOWN</span>
-                </div>
-                <div class="font-semibold text-charcoal mt-1">Discharge Pending</div>
-                <div class="text-[11px] text-stoneText mt-0.5 font-mono">Ward Transfer</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Nurse Pre-Arrival Preparation Checklist (5 cols) -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="anthropic-card p-5 bg-white">
-            <div class="flex items-center justify-between mb-3 pb-3 border-b border-subtleBorder">
-              <div>
-                <h3 class="font-serif text-lg font-medium text-charcoal">Pre-Arrival Trauma Checklist</h3>
-                <p class="text-xs text-stoneText">Clinical protocols required before DL-108 dock touchdown</p>
-              </div>
-              <span id="nurse-checklist-progress" class="font-mono text-xs font-semibold px-2 py-0.5 rounded badge-sage">
-                2/5 Ready
-              </span>
-            </div>
-
-            <div class="space-y-2.5">
-              <!-- Item 1 -->
-              <div onclick="toggleChecklist(this)" class="flex items-start gap-3 p-3 rounded-xl border border-subtleBorder hover:bg-[#FAF9F5] cursor-pointer transition-colors group">
-                <div class="dot-check-box checked mt-0.5"></div>
-                <div class="text-xs">
-                  <div class="font-semibold text-charcoal">Calibrate Invasive Ventilator in Bay 05</div>
-                  <div class="text-stoneText mt-0.5 font-mono">Set PEEP 12 cmH2O, FiO2 100%, Vt 420ml</div>
-                </div>
-              </div>
-
-              <!-- Item 2 -->
-              <div onclick="toggleChecklist(this)" class="flex items-start gap-3 p-3 rounded-xl border border-subtleBorder hover:bg-[#FAF9F5] cursor-pointer transition-colors group">
-                <div class="dot-check-box checked mt-0.5"></div>
-                <div class="text-xs">
-                  <div class="font-semibold text-charcoal">Thaw 2 Units Emergency O-Negative Blood</div>
-                  <div class="text-stoneText mt-0.5 font-mono">Reserved from Quaternary Blood Bank</div>
-                </div>
-              </div>
-
-              <!-- Item 3 -->
-              <div onclick="toggleChecklist(this)" class="flex items-start gap-3 p-3 rounded-xl border border-subtleBorder hover:bg-[#FAF9F5] cursor-pointer transition-colors group">
-                <div class="dot-check-box mt-0.5"></div>
-                <div class="text-xs">
-                  <div class="font-semibold text-charcoal">Prime Noradrenaline Central Infusion Line</div>
-                  <div class="text-stoneText mt-0.5 font-mono">Continuous syringe pump 0.2 mcg/kg/min</div>
-                </div>
-              </div>
-
-              <!-- Item 4 -->
-              <div onclick="toggleChecklist(this)" class="flex items-start gap-3 p-3 rounded-xl border border-subtleBorder hover:bg-[#FAF9F5] cursor-pointer transition-colors group">
-                <div class="dot-check-box mt-0.5"></div>
-                <div class="text-xs">
-                  <div class="font-semibold text-charcoal">Alert Quaternary Pulmonologist &amp; RT on Duty</div>
-                  <div class="text-stoneText mt-0.5 font-mono">Stat pager issued to Dr. K. Anand</div>
-                </div>
-              </div>
-
-              <!-- Item 5 -->
-              <div onclick="toggleChecklist(this)" class="flex items-start gap-3 p-3 rounded-xl border border-subtleBorder hover:bg-[#FAF9F5] cursor-pointer transition-colors group">
-                <div class="dot-check-box mt-0.5"></div>
-                <div class="text-xs">
-                  <div class="font-semibold text-charcoal">Clear Decontamination Airlock &amp; Dock Bay</div>
-                  <div class="text-stoneText mt-0.5 font-mono">Dedicated unencumbered gurney path</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- ═════════════════════════════════════════════════════════════════
-       MODAL 1: TTDC ALGORITHM EXPLAINER MODAL
-  ═════════════════════════════════════════════════════════════════ -->
-  <div id="modal-ttdc" class="fixed inset-0 z-50 bg-[#1F1E1D]/50 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="anthropic-card bg-white max-w-xl w-full p-6 sm:p-7 space-y-5 shadow-xl border border-subtleBorder max-h-[90vh] overflow-y-auto">
-      <div class="flex items-start justify-between gap-4 border-b border-subtleBorder pb-4">
-        <div>
-          <span class="px-2 py-0.5 rounded text-[11px] font-mono badge-stone">The Core Ranking Formula</span>
-          <h3 class="font-serif text-2xl font-medium text-charcoal mt-1">
-            Total Time to Definitive Care (TTDC)
-          </h3>
-        </div>
-        <button type="button" onclick="toggleTTDCModal(false)" class="text-stoneText hover:text-charcoal text-xs font-semibold px-2.5 py-1 rounded-md border border-subtleBorder hover:bg-[#F5F3ED]">
-          Dismiss
-        </button>
-      </div>
-
-      <!-- Formula Cards -->
-      <div class="space-y-3">
-        <!-- Stage 1 Formula -->
-        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Stage 1: The Hard Capability Gate (Binary Filter)</div>
-          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
-            Eligible = &prod;_{k &isin; R} E_k
-          </div>
-          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
-            Where <strong>R</strong> is the set of required life-support equipment IDs selected by the clinic, and <strong>E_k &isin; {0, 1}</strong> indicates whether equipment <em>k</em> is operational and available. If <strong>Eligible = 0</strong>, the facility is disqualified from active destination ranking.
-          </div>
-        </div>
-
-        <!-- Stage 2 Formula -->
-        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Stage 2: The Additive Time Score (S)</div>
-          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
-            S = T_transit + &Delta;T_dock + &Delta;T_prep + P_surge
-          </div>
-          <div class="font-serif text-base font-normal text-charcoal italic mt-0.5">
-            Optimal Destination = arg min(S)
-          </div>
-          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
-            Sort order: Ascending by TTDC Score (min S = Rank #1 Recommended Match).
-          </div>
-        </div>
-
-        <!-- Dynamic Bed Hold Formula -->
-        <div class="p-4 rounded-xl bg-[#FAF9F5] border border-subtleBorder">
-          <div class="text-[11px] font-mono text-stoneText uppercase tracking-wider mb-1">Dynamic Bed-Hold Duration Calculation</div>
-          <div class="font-serif text-lg sm:text-xl font-normal text-charcoal italic tracking-wide">
-            Bed Hold Duration (Minutes) = T_transit + T_buffer
-          </div>
-          <div class="text-xs text-stoneText mt-1.5 leading-relaxed">
-            Where <strong>T_transit</strong> is live road travel time and <strong>T_buffer</strong> is clinical intake staging buffer (set to <strong>10 minutes</strong>). For Max Hospital: <strong>14m + 10m = 24 minutes</strong>.
-          </div>
-        </div>
-      </div>
-
-      <!-- Parameter Definitions -->
-      <div class="space-y-2.5 text-xs leading-relaxed">
-        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
-          <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>T_transit &mdash; Road Travel Time</span>
-            <span class="font-mono text-stoneText">Traffic Telemetry</span>
-          </div>
-          <p class="text-stoneText mt-1">Driving duration in minutes considering live traffic along the transit corridor.</p>
-        </div>
-
-        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
-          <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>&Delta;T_dock &mdash; Emergency Dock Handover Delay</span>
-            <span class="font-mono text-stoneText">N_queue &times; 7 mins</span>
-          </div>
-          <p class="text-stoneText mt-1">
-            Calculated as <strong>N_queue &times; t_triage</strong>, where <strong>t_triage = 7 mins</strong> standard handover lag per queued ambulance. (e.g. BSA has 4 queued = +28m delay).
-          </p>
-        </div>
-
-        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
-          <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>&Delta;T_prep &mdash; Bed &amp; Equipment Staging Lag</span>
-            <span class="font-mono text-stoneText">0m to 10m</span>
-          </div>
-          <p class="text-stoneText mt-1">0 mins if designated bay is pre-sanitized and calibrated; +5 to +10 mins if terminal disinfection or machine calibration is required.</p>
-        </div>
-
-        <div class="p-3 rounded-lg border border-subtleBorder bg-white">
-          <div class="font-semibold text-charcoal flex items-center justify-between">
-            <span>P_surge &mdash; Capacity Saturation Risk Penalty</span>
-            <span class="font-mono text-stoneText">V_free Step Function</span>
-          </div>
-          <p class="text-stoneText mt-1">
-            Virtual penalty to prevent routing inbound cases to near-exhaustion facilities:
-            <br />&bull; <strong>V_free &ge; 3</strong>: 0 mins penalty
-            <br />&bull; <strong>V_free = 2</strong>: +3 mins penalty
-            <br />&bull; <strong>V_free = 1</strong>: +8 mins penalty
-          </p>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-subtleBorder flex justify-end">
-        <button type="button" onclick="toggleTTDCModal(false)" class="btn-anthropic-primary py-2 text-xs">
-          Close Explainer
-        </button>
-      </div>
+      <a href="dispatch.html?role=icu" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
+        <span>Hospital ICU Interface →</span>
+      </a>
     </div>
   </div>
 
-
-  <!-- ═════════════════════════════════════════════════════════════════
-       MODAL 2: BEDSIDE OVERRIDE (RECLAIM BED FOR WALK-IN EMERGENCY)
-  ═════════════════════════════════════════════════════════════════ -->
-  <div id="modal-override" class="fixed inset-0 z-50 bg-[#1F1E1D]/50 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="anthropic-card bg-white max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-xl border border-subtleBorder">
-      <div class="flex items-start gap-3">
-        <div class="w-9 h-9 rounded-xl bg-[#FDF4F0] border border-[#F4DDD4] flex items-center justify-center text-[#C85A32] shrink-0 font-bold text-sm">
-          !
-        </div>
-        <div>
-          <h3 class="font-serif text-xl font-medium text-charcoal">
-            Confirm Bedside Allocation Conflict
-          </h3>
-          <p class="text-xs text-stoneText mt-0.5">
-            Max Super Speciality Hospital &middot; Emergency Department
-          </p>
-        </div>
-      </div>
-
-      <div class="p-3.5 rounded-xl bg-[#FAF9F5] border border-subtleBorder text-xs leading-relaxed space-y-2">
-        <p class="text-charcoal font-medium">
-          A local walk-in patient in critical arrest requires immediate mechanical ventilation in <strong>Bay 05</strong>.
-        </p>
-        <p class="text-stoneText">
-          Reclaiming this bed will dynamically trigger an automatic corridor reroute for inbound Ambulance DL-108 to <strong>Saroj Super Speciality Hospital (Rohini Sec 14)</strong> (+3 min ETA delay). Saroj's ICU team will receive full telemetry instantaneously, and the bed hold timer will adjust dynamically to Saroj's transit duration.
-        </p>
-      </div>
-
-      <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" onclick="closeOverrideModal()" class="btn-anthropic-secondary py-2 text-xs">
-          Keep Inbound Transfer
-        </button>
-        <button type="button" onclick="confirmReclaimOverride()" class="px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#C85A32] hover:bg-[#B34B26] transition-colors">
-          Reclaim Bay 05 &amp; Reroute DL-108
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-[#1F1E1D] text-[#FAF9F5] px-4 py-3 rounded-xl shadow-lg border border-subtleBorder text-xs flex items-center gap-3 transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none">
-    <span class="w-2 h-2 rounded-full bg-[#4E6B56]" id="toast-indicator"></span>
-    <span id="toast-message">Notification message</span>
-  </div>
-
-  <!-- ═════════════════════════════════════════════════════════════════
-       EMBEDDED LOGIC & TTDC SORTING ENGINE
-  ═════════════════════════════════════════════════════════════════ -->
-  <script>
-  const ROUTE_MAX = [
-  [28.72850, 77.10580], [28.72768, 77.10506], [28.72766, 77.10508], [28.72769, 77.10511],
-  [28.72770, 77.10513], [28.72770, 77.10515], [28.72768, 77.10519], [28.72660, 77.10671],
-  [28.72496, 77.10913], [28.72492, 77.10916], [28.72487, 77.10916], [28.72483, 77.10914],
-  [28.72373, 77.10814], [28.72234, 77.10693], [28.72212, 77.10675], [28.72179, 77.10645],
-  [28.72174, 77.10641], [28.72174, 77.10645], [28.72172, 77.10650], [28.72169, 77.10654],
-  [28.72096, 77.10764], [28.72072, 77.10744], [28.72069, 77.10742], [28.72045, 77.10767],
-  [28.72019, 77.10798], [28.72011, 77.10806], [28.71993, 77.10827], [28.71974, 77.10856],
-  [28.71926, 77.10925], [28.71922, 77.10931], [28.71916, 77.10940], [28.71912, 77.10945],
-  [28.71895, 77.10970], [28.71887, 77.10983], [28.71838, 77.11053], [28.71713, 77.11235],
-  [28.71709, 77.11241], [28.71701, 77.11250], [28.71686, 77.11274], [28.71683, 77.11278],
-  [28.71651, 77.11324], [28.71614, 77.11378], [28.71564, 77.11450], [28.71546, 77.11476],
-  [28.71504, 77.11536], [28.71499, 77.11545], [28.71427, 77.11648], [28.71422, 77.11655],
-  [28.71363, 77.11742], [28.71361, 77.11744], [28.71322, 77.11801], [28.71302, 77.11829],
-  [28.71298, 77.11836], [28.71277, 77.11866], [28.71240, 77.11919], [28.71236, 77.11925],
-  [28.71184, 77.12001], [28.71139, 77.12066], [28.71135, 77.12071], [28.71111, 77.12105],
-  [28.71092, 77.12134], [28.71046, 77.12201], [28.71005, 77.12260], [28.70987, 77.12285],
-  [28.70982, 77.12293], [28.70955, 77.12332], [28.70944, 77.12348], [28.70892, 77.12422],
-  [28.70873, 77.12450], [28.70869, 77.12456], [28.70862, 77.12466], [28.70857, 77.12473],
-  [28.70852, 77.12481], [28.70841, 77.12497], [28.70825, 77.12520], [28.70804, 77.12550],
-  [28.70766, 77.12604], [28.70740, 77.12643], [28.70709, 77.12686], [28.70708, 77.12688],
-  [28.70662, 77.12754], [28.70630, 77.12800], [28.70612, 77.12826], [28.70599, 77.12844],
-  [28.70580, 77.12872], [28.70544, 77.12923], [28.70527, 77.12948], [28.70495, 77.12993],
-  [28.70481, 77.13013], [28.70469, 77.13031], [28.70442, 77.13070], [28.70437, 77.13077],
-  [28.70418, 77.13106], [28.70399, 77.13132], [28.70389, 77.13148], [28.70375, 77.13168],
-  [28.70331, 77.13232], [28.70324, 77.13243], [28.70263, 77.13332], [28.70260, 77.13335],
-  [28.70193, 77.13430], [28.70099, 77.13562], [28.70082, 77.13586], [28.70079, 77.13591],
-  [28.70075, 77.13596], [28.70063, 77.13612], [28.70016, 77.13681], [28.69951, 77.13776],
-  [28.69897, 77.13867], [28.69894, 77.13873], [28.69897, 77.13877], [28.69906, 77.13883],
-  [28.70000, 77.13999], [28.70012, 77.14013], [28.70026, 77.14028], [28.70035, 77.14040],
-  [28.70038, 77.14041], [28.70040, 77.14042], [28.70041, 77.14045], [28.70042, 77.14047],
-  [28.70042, 77.14050], [28.70041, 77.14053], [28.70040, 77.14054], [28.70038, 77.14055],
-  [28.70033, 77.14083], [28.70030, 77.14104], [28.70025, 77.14143], [28.70014, 77.14239],
-  [28.70007, 77.14303], [28.70004, 77.14329], [28.69991, 77.14435], [28.69977, 77.14555],
-  [28.69961, 77.14695], [28.69960, 77.14701], [28.69958, 77.14715], [28.69956, 77.14738],
-  [28.69953, 77.14760], [28.69951, 77.14777], [28.69951, 77.14781], [28.69948, 77.14809],
-  [28.69948, 77.14835], [28.69949, 77.14853], [28.69949, 77.14859], [28.69953, 77.14886],
-  [28.69955, 77.14896], [28.69963, 77.14934], [28.69988, 77.15064], [28.69987, 77.15073],
-  [28.69994, 77.15096], [28.69995, 77.15099], [28.69997, 77.15122], [28.70009, 77.15229],
-  [28.70009, 77.15247], [28.70012, 77.15269], [28.70018, 77.15468], [28.70019, 77.15509],
-  [28.70020, 77.15527], [28.70024, 77.15538], [28.70027, 77.15550], [28.70122, 77.15497],
-  [28.70230, 77.15433], [28.70220, 77.15400]
-];
-const ROUTE_SAROJ = [
-  [28.72850, 77.10580], [28.72768, 77.10506], [28.72766, 77.10508], [28.72769, 77.10511],
-  [28.72770, 77.10513], [28.72770, 77.10515], [28.72768, 77.10519], [28.72660, 77.10671],
-  [28.72496, 77.10913], [28.72492, 77.10916], [28.72487, 77.10916], [28.72483, 77.10914],
-  [28.72373, 77.10814], [28.72234, 77.10693], [28.72212, 77.10675], [28.72179, 77.10645],
-  [28.72174, 77.10641], [28.72174, 77.10645], [28.72172, 77.10650], [28.72169, 77.10654],
-  [28.72096, 77.10764], [28.72072, 77.10744], [28.72069, 77.10742], [28.72045, 77.10767],
-  [28.72019, 77.10798], [28.72011, 77.10806], [28.71993, 77.10827], [28.71974, 77.10856],
-  [28.71926, 77.10925], [28.71922, 77.10931], [28.71916, 77.10940], [28.71912, 77.10945],
-  [28.71895, 77.10970], [28.71887, 77.10983], [28.71838, 77.11053], [28.71713, 77.11235],
-  [28.71709, 77.11241], [28.71701, 77.11250], [28.71686, 77.11274], [28.71683, 77.11278],
-  [28.71651, 77.11324], [28.71614, 77.11378], [28.71564, 77.11450], [28.71546, 77.11476],
-  [28.71504, 77.11536], [28.71499, 77.11545], [28.71427, 77.11648], [28.71427, 77.11648],
-  [28.71422, 77.11655], [28.71363, 77.11742], [28.71361, 77.11744], [28.71348, 77.11732],
-  [28.71373, 77.11696], [28.71409, 77.11644], [28.71414, 77.11637], [28.71523, 77.11480],
-  [28.71579, 77.11399], [28.71597, 77.11373], [28.71603, 77.11365], [28.71604, 77.11363],
-  [28.71646, 77.11302], [28.71658, 77.11285], [28.71672, 77.11267], [28.71675, 77.11262],
-  [28.71686, 77.11244], [28.71689, 77.11240], [28.71696, 77.11231], [28.71775, 77.11117],
-  [28.71627, 77.10982], [28.71650, 77.10950]
-];
-
-
-  // 1. Coordinates for Core Delhi Facilities
-  const CLINIC_COORD = [28.7285, 77.1058]; // Rohini Sector 3 Clinic
-  const MAX_COORD    = [28.7022, 77.1540]; // Max Super Speciality, Shalimar Bagh
-  const BSA_COORD    = [28.7250, 77.1060]; // Dr. B.S. Ambedkar Hospital, Rohini Sec 6
-  const FORTIS_COORD = [28.7050, 77.1580]; // Fortis Hospital, Pitampura
-  const SAROJ_COORD  = [28.7165, 77.1095]; // Saroj Super Speciality, Rohini Sec 14
-  const BALAJI_COORD = [28.6720, 77.0950]; // Action Balaji Hospital, Paschim Vihar
-
-  // Clinical Constants
-  const T_BUFFER_MINS = 10; // Clinical intake staging buffer (set to 10 minutes)
-  const T_TRIAGE_MINS = 7;  // Standard clinical handover lag per vehicle (7 minutes)
-
-  // 2. The 5 Real-World Hospital Data Objects
-  const HOSPITALS = [
-    {
-      id: 'max',
-      name: 'Max Super Speciality Hospital',
-      location: 'Shalimar Bagh',
-      distanceKm: 5.2,
-      corridor: 'via Outer Ring Rd',
-      transitMins: 14,
-      dockQueueCount: 0,
-      prepLagMins: 0,
-      prepNote: 'Bay 05 sanitized',
-      freeVentilators: 2,
-      totalVentilators: 18,
-      capabilities: [
-        'Invasive Ventilator',
-        'CRRT Dialysis',
-        'Blood Reserve (O-Neg)',
-        'PICU/NICU',
-        'Cath-Lab',
-        'HFNC',
-        'Airborne Isolation'
-      ],
-      coords: MAX_COORD,
-      tag: 'Optimal Destination &middot; arg min(S)',
-      isDesignatedBackup: false
-    },
-    {
-      id: 'balaji',
-      name: 'Action Balaji Hospital',
-      location: 'Paschim Vihar',
-      distanceKm: 8.5,
-      corridor: 'via Rohtak Rd',
-      transitMins: 21,
-      dockQueueCount: 0,
-      prepLagMins: 0,
-      prepNote: 'High ICU capacity',
-      freeVentilators: 3,
-      totalVentilators: 20,
-      capabilities: [
-        'Invasive Ventilator',
-        'CRRT Dialysis',
-        'Blood Reserve (O-Neg)',
-        'PICU/NICU',
-        'Cath-Lab',
-        'HFNC',
-        'Airborne Isolation'
-      ],
-      coords: BALAJI_COORD,
-      tag: 'Regional Spillover Facility',
-      isDesignatedBackup: false
-    },
-    {
-      id: 'saroj',
-      name: 'Saroj Super Speciality Hospital',
-      location: 'Rohini Sector 14',
-      distanceKm: 3.8,
-      corridor: 'via Bhagwan Mahavir Marg',
-      transitMins: 12,
-      dockQueueCount: 1, // 1 * 7m = 7m delay
-      prepLagMins: 0,
-      prepNote: 'Standby bay open',
-      freeVentilators: 1,
-      totalVentilators: 14,
-      capabilities: [
-        'Invasive Ventilator',
-        'Blood Reserve (O-Neg)',
-        'Cath-Lab',
-        'HFNC',
-        'Airborne Isolation'
-      ],
-      coords: SAROJ_COORD,
-      tag: 'Verified Standby Backup',
-      isDesignatedBackup: true
-    },
-    {
-      id: 'bsa',
-      name: 'Dr. Baba Saheb Ambedkar (BSA) Hospital',
-      location: 'Rohini Sector 6',
-      distanceKm: 2.4,
-      corridor: 'Geographically closest (2.4 km)',
-      transitMins: 7,
-      dockQueueCount: 4, // 4 * 7m = 28m delay
-      prepLagMins: 0,
-      prepNote: 'Direct dock',
-      freeVentilators: 1,
-      totalVentilators: 12,
-      capabilities: [
-        'Invasive Ventilator',
-        'Blood Reserve (O-Neg)',
-        'HFNC',
-        'Airborne Isolation'
-      ],
-      coords: BSA_COORD,
-      tag: 'High Dock Congestion Warning',
-      isDesignatedBackup: false
-    },
-    {
-      id: 'fortis',
-      name: 'Fortis Hospital',
-      location: 'Shalimar Bagh / Pitampura',
-      distanceKm: 4.1,
-      corridor: 'via Outer Ring Rd',
-      transitMins: 10,
-      dockQueueCount: 0,
-      prepLagMins: 0,
-      prepNote: 'Full Unit',
-      freeVentilators: 0, // 0 free = 100% occupied
-      totalVentilators: 12,
-      capabilities: [
-        'CRRT Dialysis',
-        'Blood Reserve (O-Neg)',
-        'Cath-Lab',
-        'HFNC'
-        // Missing 'Invasive Ventilator'!
-      ],
-      coords: FORTIS_COORD,
-      tag: 'Capacity Saturated',
-      isDesignatedBackup: false
-    }
-  ];
-
-  // 3. Equipment Checklist Definitions (R)
-  const ALL_EQUIPMENT = [
-    { id: 'Invasive Ventilator', label: 'Invasive Ventilator', defaultChecked: true },
-    { id: 'CRRT Dialysis', label: 'CRRT Dialysis', defaultChecked: false },
-    { id: 'Blood Reserve (O-Neg)', label: 'Blood Reserve (O-Neg)', defaultChecked: true },
-    { id: 'PICU/NICU', label: 'PICU/NICU', defaultChecked: false },
-    { id: 'Cath-Lab', label: 'Cath-Lab', defaultChecked: false },
-    { id: 'HFNC', label: 'HFNC', defaultChecked: false },
-    { id: 'Airborne Isolation', label: 'Airborne Isolation', defaultChecked: false }
-  ];
-
-  let activeCheckedEquipment = new Set(['Invasive Ventilator', 'Blood Reserve (O-Neg)']);
-  let activeThreatLevel = 1;
-  let activeStation = 'clinic';
-  let activeDispatchedHospitalId = 'max';
-  let isDispatched = false;
-  let overrideActive = false;
-
-  // 4. TTDC Calculation Formula
-  // P_surge step function:
-  // 0 mins if V_free >= 3
-  // 3 mins if V_free == 2
-  // 8 mins if V_free == 1
-  function calculateSurgePenalty(freeVents) {
-    if (freeVents >= 3) return 0;
-    if (freeVents === 2) return 3;
-    if (freeVents === 1) return 8;
-    return 15;
-  }
-
-  function evaluateHospital(hosp) {
-    // Stage 1: The Hard Capability Gate (Binary Filter)
-    // Eligible = Product_{k in R} E_k
-    const missing = [];
-    activeCheckedEquipment.forEach(req => {
-      const hasEquip = hosp.capabilities.includes(req);
-      if (!hasEquip) {
-        missing.push(req);
-      }
-    });
-
-    // Specific check: if Invasive Ventilator is required, freeVentilators must be > 0
-    if (activeCheckedEquipment.has('Invasive Ventilator') && hosp.freeVentilators === 0) {
-      if (!missing.includes('Invasive Ventilator')) {
-        missing.push('Invasive Ventilator (0 Free / 100% Occupied)');
-      }
-    }
-
-    const isEligible = missing.length === 0;
-
-    // Stage 2: The Additive Time Score (S)
-    // S = T_transit + Delta_T_dock + Delta_T_prep + P_surge
-    const t_transit = hosp.transitMins;
-    const delta_dock = hosp.dockQueueCount * T_TRIAGE_MINS; // N_queue * t_triage
-    const delta_prep = hosp.prepLagMins;
-    const p_surge = calculateSurgePenalty(hosp.freeVentilators);
-    const score = t_transit + delta_dock + delta_prep + p_surge;
-
-    // Dynamic Bed Hold Duration:
-    // Bed Hold Duration (Minutes) = T_transit + T_buffer (where T_buffer = 10 mins)
-    const bedHoldDurationMins = t_transit + T_BUFFER_MINS;
-
-    return {
-      ...hosp,
-      isEligible,
-      missingEquipment: missing,
-      ttdc: {
-        transit: t_transit,
-        dock: delta_dock,
-        prep: delta_prep,
-        surge: p_surge,
-        total: score,
-        bedHoldDuration: bedHoldDurationMins
-      }
-    };
-  }
-
-  // 5. Render Dynamic Equipment Chips
-  function renderEquipmentChips() {
-    const container = document.getElementById('equipment-checklist-container');
-    if (!container) return;
-
-    container.innerHTML = ALL_EQUIPMENT.map(eq => {
-      const isChecked = activeCheckedEquipment.has(eq.id);
-      return `
-        <button type="button" onclick="toggleEquipment('${eq.id}')" class="px-3 py-2 rounded-xl border text-xs font-medium flex items-center gap-2.5 transition-all ${
-          isChecked 
-            ? 'bg-[#1F1E1D] text-[#FAF9F5] border-[#1F1E1D] shadow-xs' 
-            : 'bg-white text-stoneText border-subtleBorder hover:text-charcoal hover:bg-[#FAF9F5]'
-        }">
-          <span class="w-2 h-2 rounded-full ${isChecked ? 'bg-[#4E6B56]' : 'bg-[#D2CDC3]'}"></span>
-          <span>${eq.label}</span>
-        </button>
-      `;
-    }).join('');
-  }
-
-  function toggleEquipment(id) {
-    if (activeCheckedEquipment.has(id)) {
-      activeCheckedEquipment.delete(id);
-    } else {
-      activeCheckedEquipment.add(id);
-    }
-    renderEquipmentChips();
-    updateHospitalList();
-  }
-
-  function resetEquipmentDefaults() {
-    activeCheckedEquipment = new Set(['Invasive Ventilator', 'Blood Reserve (O-Neg)']);
-    renderEquipmentChips();
-    updateHospitalList();
-    showToast('Equipment checklist restored to ARDS clinical baseline.', 'sage');
-  }
-
-  function setThreatLevel(lvl) {
-    activeThreatLevel = lvl;
-    [1, 2, 3].forEach(n => {
-      const btn = document.getElementById('tl-btn-' + n);
-      if (btn) {
-        if (n === lvl) {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#1F1E1D] text-white flex items-center gap-2';
-        } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal flex items-center gap-2';
-        }
-      }
-    });
-    updateHospitalList();
-  }
-
-  // 6. Update and Sort Hospital Cards using TTDC Pipeline
-  function updateHospitalList() {
-    const evaluated = HOSPITALS.map(h => evaluateHospital(h));
-
-    // Split eligible and ineligible
-    const eligible = evaluated.filter(h => h.isEligible);
-    const ineligible = evaluated.filter(h => !h.isEligible);
-
-    // Sort eligible by TTDC score ascending (Optimal Destination = arg min S)
-    eligible.sort((a, b) => a.ttdc.total - b.ttdc.total);
-
-    // Update count badge
-    const countBadge = document.getElementById('eligible-count-badge');
-    if (countBadge) {
-      countBadge.textContent = `${eligible.length} Verified Eligible (Stage 1 Passed)`;
-    }
-
-    const container = document.getElementById('hospital-cards-container');
-    if (!container) return;
-
-    let html = '';
-
-    // Render Eligible Cards in order of S
-    eligible.forEach((h, index) => {
-      const rankNum = index + 1;
-      const isRank1 = rankNum === 1;
-
-      // Card border and style
-      const cardBorder = isRank1 
-        ? 'border-2 border-[#4E6B56] bg-white shadow-sm ring-1 ring-[#4E6B56]/20' 
-        : 'border border-subtleBorder bg-white';
-
-      // Badge style
-      const scoreBadgeClass = isRank1 
-        ? 'badge-sage' 
-        : (h.ttdc.total >= 35 ? 'badge-terracotta' : 'badge-stone');
-
-      // Visual Callout for BSA or high dock queue
-      let calloutHtml = '';
-      if (h.id === 'bsa' && h.dockQueueCount > 0) {
-        calloutHtml = `
-          <div class="mt-3 p-3.5 rounded-xl bg-[#FDF4F0] border border-[#F4DDD4] text-xs leading-relaxed text-[#C85A32]">
-            <strong class="font-semibold">Severe ER Dock Handover Lag:</strong> 
-            Although geographically closest (${h.transitMins} mins / ${h.distanceKm} km), total time to care is <strong>${h.ttdc.total} mins</strong> due to ${h.dockQueueCount} ambulances queued at intake (+${h.ttdc.dock}m delay: 4 &times; 7m).
-          </div>
-        `;
-      }
-
-      // Button definition
-      let actionBtn = '';
-      if (isRank1) {
-        actionBtn = `
-          <button type="button" onclick="lockAndDispatch('${h.id}')" class="btn-anthropic-primary w-full py-3 text-sm">
-            <span>Lock Bed &amp; Dispatch Ambulance Transfer (${h.ttdc.bedHoldDuration}m Bed Hold)</span>
-          </button>
-        `;
-      } else if (h.isDesignatedBackup) {
-        actionBtn = `
-          <button type="button" onclick="designateBackup('${h.name}')" class="btn-anthropic-secondary w-full py-2.5 text-xs">
-            <span>Designate as Primary Backup</span>
-          </button>
-        `;
-      } else {
-        actionBtn = `
-          <button type="button" onclick="designateBackup('${h.name}')" class="btn-anthropic-secondary w-full py-2.5 text-xs">
-            <span>Designate as Secondary Standby</span>
-          </button>
-        `;
-      }
-
-      html += `
-        <article class="anthropic-card-interactive p-5 sm:p-6 ${cardBorder} rounded-2xl">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="flex items-center gap-2 flex-wrap mb-1.5">
-                ${isRank1 ? `
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold badge-sage flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56]"></span>
-                    RANK #1: OPTIMAL DESTINATION &middot; arg min(S)
-                  </span>
-                ` : `
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium badge-stone">
-                    RANK #${rankNum} &middot; ${h.tag}
-                  </span>
-                `}
-                <span class="text-xs text-stoneText font-mono">${h.corridor}</span>
-              </div>
-
-              <h3 class="font-serif text-xl sm:text-[22px] font-medium text-charcoal">
-                ${h.name}
-              </h3>
-              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km from Clinic Ground Zero</p>
-            </div>
-
-            <!-- Score Pill -->
-            <div class="text-right shrink-0">
-              <div class="inline-flex flex-col items-end px-3 py-1.5 rounded-xl border ${scoreBadgeClass}">
-                <span class="text-[10px] font-mono uppercase tracking-wider">Total Time to Care (S)</span>
-                <span class="font-mono text-2xl font-bold leading-none mt-0.5">${h.ttdc.total} <span class="text-xs font-sans font-normal">mins</span></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Monospace TTDC Breakdown Parameter Strip -->
-          <div class="mt-3.5 pt-3 border-t border-subtleBorder space-y-1.5 text-xs font-mono text-stoneText bg-[#FAF9F5] p-3 rounded-xl border">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <span class="text-charcoal font-semibold">Additive Time Score (S):</span>
-              <span class="font-bold text-charcoal">S = ${h.ttdc.total} mins</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px]">
-              <span>T_transit: <strong>${h.ttdc.transit}m</strong></span>
-              <span>+</span>
-              <span>&Delta;T_dock: <strong>${h.ttdc.dock}m</strong> (${h.dockQueueCount} &times; ${T_TRIAGE_MINS}m)</span>
-              <span>+</span>
-              <span>&Delta;T_prep: <strong>${h.ttdc.prep}m</strong></span>
-              <span>+</span>
-              <span>P_surge: <strong>+${h.ttdc.surge}m</strong> (${h.freeVentilators} free)</span>
-            </div>
-            <div class="pt-1.5 border-t border-subtleBorder/70 text-[11px] text-stoneText flex items-center justify-between flex-wrap gap-2">
-              <span>Dynamic Bed-Hold: <strong>${h.ttdc.bedHoldDuration} mins</strong> (${h.transitMins}m transit + ${T_BUFFER_MINS}m buffer)</span>
-              <span class="text-[#4E6B56]">Stage 1 Gate: Passed (&prod; E_k = 1)</span>
-            </div>
-          </div>
-
-          ${calloutHtml}
-
-          <!-- Action Button -->
-          <div class="mt-4">
-            ${actionBtn}
-          </div>
-        </article>
-      `;
-    });
-
-    // Render Ineligible Cards at the bottom in dimmed/disabled state
-    ineligible.forEach(h => {
-      const missingList = h.missingEquipment.join(', ');
-      html += `
-        <article class="anthropic-card p-5 sm:p-6 bg-[#FAF9F5]/70 border border-subtleBorder rounded-2xl opacity-60">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold badge-terracotta">
-                  Stage 1 Gate: &prod; E_k = 0 &middot; ${h.id === 'fortis' ? 'Unavailable: Zero Invasive Ventilators Free' : `Missing: ${missingList}`}
-                </span>
-              </div>
-              <h3 class="font-serif text-lg font-medium text-stoneText">
-                ${h.name}
-              </h3>
-              <p class="text-xs text-stoneText mt-0.5">${h.location} &middot; ${h.distanceKm} km &middot; Transit: ${h.transitMins}m</p>
-            </div>
-
-            <div class="text-right shrink-0">
-              <span class="text-xs font-mono text-stoneText">Capability Gate Blocked</span>
-            </div>
-          </div>
-
-          <div class="mt-3 p-2.5 rounded-lg bg-white border border-subtleBorder text-xs text-stoneText">
-            Disqualification: Hospital lacks required clinical life-support equipment: <strong>${missingList}</strong>. Excluded from active destination ranking.
-          </div>
-
-          <div class="mt-3">
-            <button disabled class="w-full py-2.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-stoneText text-xs font-semibold cursor-not-allowed">
-              Capacity Exhausted &mdash; Ineligible for Destination Allocation
-            </button>
-          </div>
-        </article>
-      `;
-    });
-
-    container.innerHTML = html;
-  }
-
-  // 7. Navigation & Station Switching
-  function switchStation(station) {
-    activeStation = station;
-    const clinicSection = document.getElementById('station-clinic');
-    const icuSection = document.getElementById('station-icu');
-    const btnClinic = document.getElementById('nav-btn-clinic');
-    const btnIcu = document.getElementById('nav-btn-icu');
-
-    if (station === 'clinic') {
-      clinicSection.classList.remove('hidden');
-      icuSection.classList.add('hidden');
-      btnClinic.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-charcoal shadow-xs';
-      btnIcu.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal';
-      setTimeout(() => { if (lmap) lmap.invalidateSize(); }, 100);
-    } else {
-      clinicSection.classList.add('hidden');
-      icuSection.classList.remove('hidden');
-      btnIcu.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-charcoal shadow-xs';
-      btnClinic.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all text-stoneText hover:text-charcoal';
-    }
-  }
-
-  // 8. Leaflet Map Initialization with Editorial Styling
-  let lmap, ambuMarker, routeLine, markerDest, markerSaroj;
-  let animIndex = 0;
-  let animTimer = null;
-
-  function initMap() {
-    const mapEl = document.getElementById('map');
-    if (!mapEl) return;
-
-    lmap = L.map('map', {
-      center: [28.7041, 77.1350],
-      zoom: 12.5,
-      minZoom: 12.0,
-      maxZoom: 15.0,
-      zoomControl: false,
-      attributionControl: false
-    });
-
-    // Crisp warm monochrome tile provider
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19
-    }).addTo(lmap);
-
-    // Custom Minimalist Pins
-    function createPin(label, isPrimary) {
-      return L.divIcon({
-        className: 'custom-clinical-pin',
-        html: `
-          <div style="background-color: ${isPrimary ? '#1F1E1D' : '#FFFFFF'}; color: ${isPrimary ? '#FAF9F5' : '#1F1E1D'}; border: 1.5px solid #1F1E1D; border-radius: 8px; padding: 2px 7px; font-size: 11px; font-weight: 600; font-family: 'JetBrains Mono', monospace; box-shadow: 0 2px 8px rgba(31,30,29,0.15); white-space: nowrap;">
-            ${label}
-          </div>
-        `,
-        iconSize: [80, 24],
-        iconAnchor: [40, 12]
-      });
-    }
-
-    // Add Hospital Markers
-    L.marker(CLINIC_COORD, { icon: createPin('Clinic Sec 3', true) }).addTo(lmap)
-      .bindPopup('<b>Rohini Sec 3 Clinic</b><br>Ground Zero Referring Clinic');
-
-    markerDest = L.marker(MAX_COORD, { icon: createPin('Max Shalimar', true) }).addTo(lmap)
-      .bindPopup('<b>Max Super Speciality Hospital</b><br>Optimal Destination &middot; Bay 05 Locked');
-
-    L.marker(BSA_COORD, { icon: createPin('BSA Rohini', false) }).addTo(lmap)
-      .bindPopup('<b>Dr. B.S. Ambedkar Hospital</b><br>7m Transit &middot; 4 Ambulances Queued (+28m delay)');
-
-    markerSaroj = L.marker(SAROJ_COORD, { icon: createPin('Saroj Sec 14', false) }).addTo(lmap)
-      .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Verified Standby Backup &middot; Bay 02 Ready');
-
-    L.marker(BALAJI_COORD, { icon: createPin('Action Balaji', false) }).addTo(lmap)
-      .bindPopup('<b>Action Balaji Hospital</b><br>Regional Spillover &middot; 3 Ventilators Free');
-
-    L.marker(FORTIS_COORD, { icon: createPin('Fortis', false) }).addTo(lmap)
-      .bindPopup('<b>Fortis Hospital</b><br>Ventilator Bays 100% Saturated');
-
-    // Initial Corridor Polyline (Outer Ring Road to Max)
-    routeLine = L.polyline(ROUTE_MAX, {
-      color: '#1F1E1D',
-      weight: 3.5,
-      opacity: 0.8,
-      dashArray: '8, 6'
-    }).addTo(lmap);
-
-    // Initial Ambulance Marker
-    const ambuIcon = L.divIcon({
-      className: 'ambu-marker',
-      html: `
-        <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #1F1E1D; border: 2px solid #FAF9F5; box-shadow: 0 0 0 3px rgba(31,30,29,0.3); display: flex; align-items: center; justify-content: center; color: #FAF9F5; font-size: 11px; font-weight: bold; font-family: 'JetBrains Mono', monospace;">
-          DL
-        </div>
-      `,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14]
-    });
-
-    ambuMarker = L.marker(CLINIC_COORD, { icon: ambuIcon }).addTo(lmap);
-
-    // Custom Minimal Zoom Controls
-    const ZoomControl = L.Control.extend({
-      options: { position: 'topright' },
-      onAdd: function() {
-        const div = L.DomUtil.create('div', 'clinical-zoom-control flex flex-col');
-        div.innerHTML = `
-          <button type="button" onclick="lmap.zoomIn()" title="Zoom In">+</button>
-          <button type="button" onclick="lmap.zoomOut()" title="Zoom Out">&minus;</button>
-        `;
-        L.DomEvent.disableClickPropagation(div);
-        return div;
-      }
-    });
-    lmap.addControl(new ZoomControl());
-  }
-
-  // 9. Realistic Ambulance Movement (50-60 Seconds Total)
-  function startAmbulanceAnimation(route, transitMins) {
-    if (animTimer) clearInterval(animTimer);
-    animIndex = 0;
-    const totalPoints = route.length;
-    // 55 seconds total duration: interval = 55000 / totalPoints
-    const intervalMs = Math.max(250, Math.floor(55000 / totalPoints));
-
-    animTimer = setInterval(() => {
-      if (animIndex < totalPoints) {
-        const pt = route[animIndex];
-        ambuMarker.setLatLng(pt);
-
-        // Update ETA dynamically based on percentage
-        const pctLeft = (totalPoints - animIndex) / totalPoints;
-        const etaMins = Math.max(1, Math.round(transitMins * pctLeft));
-        const etaEl = document.getElementById('active-transit-eta');
-        if (etaEl) {
-          etaEl.textContent = `En Route &middot; ${etaMins} mins left`;
-        }
-
-        animIndex++;
-      } else {
-        clearInterval(animTimer);
-        const etaEl = document.getElementById('active-transit-eta');
-        if (etaEl) etaEl.textContent = 'Touchdown at Bay 05 Dock';
-        showToast('Ambulance DL-108 has arrived at the hospital intake dock.', 'sage');
-      }
-    }, intervalMs);
-  }
-
-  // 10. Dynamic Bed-Hold Duration Calculation & Timer
-  // Bed Hold Duration (Minutes) = T_transit + T_buffer
-  let holdSeconds = 24 * 60; // Initial default for Max: 14 + 10 = 24m
-  let holdInterval = null;
-
-  function initDynamicBedHoldTimer(totalMinutes) {
-    if (holdInterval) clearInterval(holdInterval);
-    holdSeconds = totalMinutes * 60;
-
-    function renderTime() {
-      const m = Math.floor(holdSeconds / 60).toString().padStart(2, '0');
-      const s = (holdSeconds % 60).toString().padStart(2, '0');
-      const timerEl = document.getElementById('icu-hold-timer');
-      if (timerEl) timerEl.textContent = `${m}:${s}`;
-    }
-
-    renderTime();
-    holdInterval = setInterval(() => {
-      if (holdSeconds > 0) {
-        holdSeconds--;
-        renderTime();
-      }
-    }, 1000);
-  }
-
-  // 11. Lock and Dispatch Action with Dynamic Bed Hold Calculation
-  function lockAndDispatch(hospitalId) {
-    const hosp = HOSPITALS.find(h => h.id === hospitalId) || HOSPITALS[0];
-    isDispatched = true;
-    activeDispatchedHospitalId = hosp.id;
-
-    // Calculate Dynamic Bed Hold Duration:
-    // Bed Hold Duration (Minutes) = T_transit + T_buffer
-    const t_transit = hosp.transitMins;
-    const dynamicHoldMins = t_transit + T_BUFFER_MINS; // e.g. 14 + 10 = 24 mins
-    initDynamicBedHoldTimer(dynamicHoldMins);
-
-    // Update ICU Header & Subtitle
-    const icuHeader = document.getElementById('icu-header-title');
-    if (icuHeader) {
-      icuHeader.textContent = `ICU Resuscitation Command &middot; ${hosp.name}`;
-    }
-
-    const targetEtaEl = document.getElementById('icu-target-eta');
-    if (targetEtaEl) targetEtaEl.textContent = `${t_transit} mins`;
-
-    const subDescEl = document.getElementById('icu-sub-desc');
-    if (subDescEl) {
-      subDescEl.innerHTML = `Ambulance DL-108 en route to ${hosp.name} &middot; Bed hold duration: <strong>${dynamicHoldMins} mins</strong> (${t_transit}m road transit + ${T_BUFFER_MINS}m clinical staging buffer).`;
-    }
-
-    const bayPatient = document.getElementById('bay-05-patient');
-    if (bayPatient) bayPatient.textContent = `Inbound ARDS (${hosp.name})`;
-
-    // Toast Alert with formula values
-    showToast(`Bay 05 Locked at ${hosp.name}. Dynamic Bed Hold: ${dynamicHoldMins} mins (${t_transit}m transit + ${T_BUFFER_MINS}m buffer).`, 'sage');
-
-    // Update Map status labels
-    const statusEl = document.getElementById('active-transit-status');
-    if (statusEl) statusEl.textContent = `En Route to ${hosp.name}`;
-
-    const etaEl = document.getElementById('active-transit-eta');
-    if (etaEl) etaEl.textContent = `Corridor Transit &middot; ${t_transit} mins`;
-
-    const ctaBtn = document.getElementById('dispatch-map-cta');
-    if (ctaBtn) {
-      ctaBtn.disabled = true;
-      ctaBtn.className = 'btn-anthropic-secondary opacity-60 cursor-not-allowed';
-      ctaBtn.textContent = 'Transfer Dispatched';
-    }
-
-    // Trigger realistic animation along route
-    const targetRoute = (hosp.id === 'saroj') ? ROUTE_SAROJ : ROUTE_MAX;
-    startAmbulanceAnimation(targetRoute, t_transit);
-  }
-
-  function designateBackup(hospitalName) {
-    showToast(`${hospitalName} designated as priority standby corridor.`, 'sage');
-  }
-
-  // 12. Bedside Override & Reroute Logic
-  function openOverrideModal() {
-    const modal = document.getElementById('modal-override');
-    if (modal) modal.classList.remove('hidden');
-  }
-
-  function closeOverrideModal() {
-    const modal = document.getElementById('modal-override');
-    if (modal) modal.classList.add('hidden');
-  }
-
-  function confirmReclaimOverride() {
-    closeOverrideModal();
-    overrideActive = true;
-
-    // When diverted to Saroj, Saroj's road transit is 12m + 3m diversion = 15 mins
-    const divertedTransitMins = 15;
-    const divertedHoldMins = divertedTransitMins + T_BUFFER_MINS; // 15 + 10 = 25m
-    initDynamicBedHoldTimer(divertedHoldMins);
-
-    // Update Bay 05 status at Max
-    const b5Card = document.getElementById('bay-05-card');
-    const b5Status = document.getElementById('bay-05-status');
-    const b5Patient = document.getElementById('bay-05-patient');
-    const b5Equip = document.getElementById('bay-05-equip');
-
-    if (b5Card) {
-      b5Card.className = 'p-3.5 rounded-xl border border-subtleBorder bg-[#FAF9F5] text-xs';
-    }
-    if (b5Status) {
-      b5Status.textContent = 'OCCUPIED (WALK-IN)';
-      b5Status.className = 'text-stoneText font-mono text-[11px]';
-    }
-    if (b5Patient) b5Patient.textContent = 'Local Arrest Resuscitation';
-    if (b5Equip) b5Equip.textContent = 'Intubation in progress';
-
-    // Update Banner
-    const icuTag = document.getElementById('icu-status-tag');
-    if (icuTag) {
-      icuTag.className = 'px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta';
-      icuTag.textContent = 'Transfer Diverted to Saroj Hospital (+3m)';
-    }
-
-    const icuDesc = document.getElementById('icu-sub-desc');
-    if (icuDesc) {
-      icuDesc.innerHTML = `Bay 05 reassigned to local walk-in cardiac arrest. DL-108 dynamically rerouted to Saroj Super Speciality Hospital. Dynamic Bed Hold: <strong>${divertedHoldMins} mins</strong> (${divertedTransitMins}m transit + 10m buffer).`;
-    }
-
-    const targetEtaEl = document.getElementById('icu-target-eta');
-    if (targetEtaEl) targetEtaEl.textContent = `${divertedTransitMins} mins`;
-
-    // Replace action button with restore option
-    const btnContainer = document.getElementById('override-action-btn-container');
-    if (btnContainer) {
-      btnContainer.innerHTML = `
-        <button type="button" onclick="restoreMaxTransfer()" class="btn-anthropic-secondary py-2 text-xs">
-          <span>&larr; Restore Transfer to Max Hospital</span>
-        </button>
-      `;
-    }
-
-    // Reroute moving ambulance on Map
-    if (routeLine) {
-      routeLine.setLatLngs(ROUTE_SAROJ);
-      routeLine.setStyle({ color: '#C85A32', dashArray: '6, 6' });
-    }
-    startAmbulanceAnimation(ROUTE_SAROJ, divertedTransitMins);
-
-    const etaEl = document.getElementById('active-transit-eta');
-    if (etaEl) etaEl.textContent = 'Diverted to Saroj &middot; 15 mins ETA';
-
-    const statusEl = document.getElementById('active-transit-status');
-    if (statusEl) statusEl.textContent = 'Diverted to Saroj Super Speciality (Rohini Sec 14)';
-
-    showToast('Ambulance DL-108 diverted to Saroj Hospital (+3 mins). Dynamic hold reset to 25m.', 'terracotta');
-  }
-
-  function restoreMaxTransfer() {
-    overrideActive = false;
-
-    // Reset hold duration to Max: 14 + 10 = 24m
-    const maxHoldMins = 14 + T_BUFFER_MINS;
-    initDynamicBedHoldTimer(maxHoldMins);
-
-    // Restore Bay 05
-    const b5Card = document.getElementById('bay-05-card');
-    const b5Status = document.getElementById('bay-05-status');
-    const b5Patient = document.getElementById('bay-05-patient');
-    const b5Equip = document.getElementById('bay-05-equip');
-
-    if (b5Card) {
-      b5Card.className = 'p-3.5 rounded-xl border-2 border-[#4E6B56] bg-[#F2F5F3] text-xs relative overflow-hidden';
-    }
-    if (b5Status) {
-      b5Status.className = 'flex items-center gap-1 text-[#4E6B56] font-mono text-[11px] font-bold';
-      b5Status.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#4E6B56] animate-pulse"></span> RESERVED';
-    }
-    if (b5Patient) b5Patient.textContent = 'Inbound ARDS (DL-108)';
-    if (b5Equip) b5Equip.textContent = 'Hamilton G5 Calibrated';
-
-    // Restore Banner
-    const icuTag = document.getElementById('icu-status-tag');
-    if (icuTag) {
-      icuTag.className = 'px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold uppercase tracking-wide badge-terracotta';
-      icuTag.textContent = 'Inbound Code Red · Bay 05 Locked';
-    }
-
-    const icuDesc = document.getElementById('icu-sub-desc');
-    if (icuDesc) {
-      icuDesc.innerHTML = `Ambulance DL-108 en route to Max Shalimar Bagh &middot; Bed hold duration: <strong>${maxHoldMins} mins</strong> (14m road transit + 10m buffer).`;
-    }
-
-    const targetEtaEl = document.getElementById('icu-target-eta');
-    if (targetEtaEl) targetEtaEl.textContent = '14 mins';
-
-    // Restore button
-    const btnContainer = document.getElementById('override-action-btn-container');
-    if (btnContainer) {
-      btnContainer.innerHTML = `
-        <button type="button" onclick="openOverrideModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-[#C85A32] bg-[#FDF4F0] border border-[#F4DDD4] hover:bg-[#FBE9E2] transition-colors whitespace-nowrap">
-          Reclaim Bed for Walk-in Emergency
-        </button>
-      `;
-    }
-
-    // Restore map route
-    if (routeLine) {
-      routeLine.setLatLngs(ROUTE_MAX);
-      routeLine.setStyle({ color: '#1F1E1D', dashArray: '8, 6' });
-    }
-    startAmbulanceAnimation(ROUTE_MAX, 14);
-
-    showToast('Transfer restored to Max Hospital Bay 05. Hold duration reset to 24m.', 'sage');
-  }
-
-  // 13. Nurse Pre-Arrival Checklist Toggle
-  function toggleChecklist(el) {
-    const box = el.querySelector('.dot-check-box');
-    if (box) {
-      box.classList.toggle('checked');
-    }
-    // Recount
-    const all = document.querySelectorAll('#station-icu .dot-check-box');
-    const checked = document.querySelectorAll('#station-icu .dot-check-box.checked');
-    const progressEl = document.getElementById('nurse-checklist-progress');
-    if (progressEl) {
-      progressEl.textContent = `${checked.length}/${all.length} Ready`;
-    }
-  }
-
-  // 14. TTDC Modal Explainer
-  function toggleTTDCModal(open) {
-    const modal = document.getElementById('modal-ttdc');
-    if (modal) {
-      if (open) modal.classList.remove('hidden');
-      else modal.classList.add('hidden');
-    }
-  }
-
-  // 15. Toast Alerts
-  let toastTimer = null;
-  function showToast(msg, type = 'sage') {
-    const toast = document.getElementById('toast');
-    const msgEl = document.getElementById('toast-message');
-    const indEl = document.getElementById('toast-indicator');
-    if (!toast || !msgEl) return;
-
-    msgEl.textContent = msg;
-    if (indEl) {
-      indEl.className = type === 'terracotta' 
-        ? 'w-2 h-2 rounded-full bg-[#C85A32]' 
-        : 'w-2 h-2 rounded-full bg-[#4E6B56]';
-    }
-
-    toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
-    toast.classList.add('translate-y-0', 'opacity-100');
-
-    if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.classList.remove('translate-y-0', 'opacity-100');
-      toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
-    }, 4200);
-  }
-
-  // 16. Live Monospace IST Clock
-  function updateClock() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-IN', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-      timeZone: 'Asia/Kolkata'
-    });
-    const el = document.getElementById('live-ist-clock');
-    if (el) el.textContent = timeStr + ' IST';
-  }
-  setInterval(updateClock, 1000);
-
-  // Initialize
-  window.addEventListener('DOMContentLoaded', () => {
-    updateClock();
-    renderEquipmentChips();
-    updateHospitalList();
-    initMap();
-    initDynamicBedHoldTimer(24); // Initial default for Rank 1 (Max: 14 + 10 = 24m)
+</main>
+
+
+<!-- ═════════════════════════════════════════════════════════════════
+     EMBEDDED ARTERIAL DITHER ENGINE (Monochromatic Pleasing Palette)
+═════════════════════════════════════════════════════════════════ -->
+<script>
+// ─────── 1. Live Monospace IST Clock ───────
+function updateClock() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Kolkata'
   });
-  </script>
+  const el = document.getElementById('live-clk');
+  if (el) el.textContent = timeStr + ' IST';
+}
+setInterval(updateClock, 1000);
+updateClock();
 
+
+// ─────── 2. Embedded Precomputed Arterial Maps ───────
+const INK_B64 = "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";
+const AMBER_B64 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAABAAAAAAAAAAAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQABAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQABAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQEBAQEAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAQEAAAABAQAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAAAAAQEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+
+const rawInkStr = atob(INK_B64);
+const rawAmberStr = atob(AMBER_B64);
+const SAMPLE_W = 175;
+const SAMPLE_H = 98;
+const INK_MAP = new Uint8Array(SAMPLE_W * SAMPLE_H);
+const AMBER_MAP = new Uint8Array(SAMPLE_W * SAMPLE_H);
+
+for (let i = 0; i < rawInkStr.length; i++) {
+  INK_MAP[i] = rawInkStr.charCodeAt(i);
+}
+for (let i = 0; i < rawAmberStr.length; i++) {
+  AMBER_MAP[i] = rawAmberStr.charCodeAt(i);
+}
+
+// ─────── 3. Canvas 2D Dither Engine ───────
+const canvas = document.getElementById('dither-canvas');
+const ctx = canvas.getContext('2d', { alpha: false });
+
+const CELL_SIZE = 8;
+const DOT_RADIUS_MAX = (CELL_SIZE * 0.78) / 2; // Soft 3.12px max dot radius
+
+const BAYER_8X8 = [
+   0, 32,  8, 40,  2, 34, 10, 42,
+  48, 16, 56, 24, 50, 18, 58, 26,
+  12, 44,  4, 36, 14, 46,  6, 38,
+  60, 28, 52, 20, 62, 30, 54, 22,
+   3, 35, 11, 43,  1, 33,  9, 41,
+  51, 19, 59, 27, 49, 17, 57, 25,
+  15, 47,  7, 39, 13, 45,  5, 37,
+  63, 31, 55, 23, 61, 29, 53, 21
+];
+
+// Pointer State & Velocity Tracking
+let mouseX = -9999;
+let mouseY = -9999;
+let prevMouseX = -9999;
+let prevMouseY = -9999;
+let mouseVx = 0;
+let mouseVy = 0;
+let lastMoveTime = performance.now();
+
+window.addEventListener('mousemove', (e) => {
+  const now = performance.now();
+  const dt = Math.max(1, now - lastMoveTime);
+  
+  if (prevMouseX !== -9999) {
+    mouseVx = (e.clientX - prevMouseX) / (dt * 0.06);
+    mouseVy = (e.clientY - prevMouseY) / (dt * 0.06);
+  }
+  prevMouseX = mouseX;
+  prevMouseY = mouseY;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  lastMoveTime = now;
+});
+
+window.addEventListener('mouseleave', () => {
+  mouseX = -9999;
+  mouseY = -9999;
+  mouseVx = 0;
+  mouseVy = 0;
+});
+
+let canvasW = 0;
+let canvasH = 0;
+let scaleCover = 1;
+let offsetX = 0;
+let offsetY = 0;
+
+function resizeCanvas() {
+  canvasW = window.innerWidth;
+  canvasH = window.innerHeight;
+  canvas.width = canvasW;
+  canvas.height = canvasH;
+  
+  scaleCover = Math.max(canvasW / SAMPLE_W, canvasH / SAMPLE_H);
+  offsetX = (canvasW - SAMPLE_W * scaleCover) / 2;
+  offsetY = (canvasH - SAMPLE_H * scaleCover) / 2;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const FPS = 11;
+const FRAME_DURATION = 1000 / FPS;
+let lastFrameTime = performance.now();
+let frameTick = 0;
+
+function renderDither() {
+  requestAnimationFrame(renderDither);
+
+  const now = performance.now();
+  const elapsed = now - lastFrameTime;
+  if (elapsed >= FRAME_DURATION) {
+    frameTick++;
+    lastFrameTime = now - (elapsed % FRAME_DURATION);
+  }
+
+  mouseVx *= 0.92;
+  mouseVy *= 0.92;
+
+  ctx.fillStyle = '#F8FAFC';
+  ctx.fillRect(0, 0, canvasW, canvasH);
+
+  const wavePhase1 = frameTick * 0.18;
+  const wavePhase2 = frameTick * 0.11;
+  const cx = SAMPLE_W * 0.5;
+  const cy = SAMPLE_H * 0.5;
+
+  const cols = Math.ceil(canvasW / CELL_SIZE);
+  const rows = Math.ceil(canvasH / CELL_SIZE);
+
+  const cursorRadius = 0.60 * Math.min(canvasW, canvasH);
+  const cursorRadiusSq = cursorRadius * cursorRadius;
+
+  for (let gy = 0; gy < rows; gy++) {
+    const py = gy * CELL_SIZE + CELL_SIZE / 2;
+    const dy = py - mouseY;
+    const bayerRow = (gy % 8) * 8;
+
+    for (let gx = 0; gx < cols; gx++) {
+      const px = gx * CELL_SIZE + CELL_SIZE / 2;
+      const dx = px - mouseX;
+      const distSq = dx * dx + dy * dy;
+
+      let samplePx = px;
+      let samplePy = py;
+
+      if (distSq < cursorRadiusSq) {
+        const dist = Math.sqrt(distSq);
+        const u = dist / cursorRadius;
+        const falloff = (1.0 - u) * (1.0 - u) * (1.0 - u);
+
+        const pushX = (mouseVx * 0.4 + (dx / (dist + 1)) * 14.0) * falloff;
+        const pushY = (mouseVy * 0.4 + (dy / (dist + 1)) * 14.0) * falloff;
+
+        samplePx += pushX;
+        samplePy += pushY;
+      }
+
+      const sampleX = (samplePx - offsetX) / scaleCover;
+      const sampleY = (samplePy - offsetY) / scaleCover;
+
+      if (sampleX < 0 || sampleX >= SAMPLE_W || sampleY < 0 || sampleY >= SAMPLE_H) {
+        continue;
+      }
+
+      const sx = Math.floor(sampleX);
+      const sy = Math.floor(sampleY);
+      const idx = sy * SAMPLE_W + sx;
+
+      const rawInk = INK_MAP[idx];
+      if (rawInk < 8) continue;
+
+      const normInk = rawInk / 255.0;
+
+      const rx = (sx - cx);
+      const ry = (sy - cy) * 1.5;
+      const rDist = Math.sqrt(rx * rx + ry * ry);
+      const rAngle = Math.atan2(ry, rx);
+
+      const w1 = Math.sin(rDist * 0.22 - wavePhase1 + Math.sin(rAngle * 3.0) * 1.4);
+      const w2 = Math.cos(rDist * 0.38 - wavePhase2 + Math.cos(rAngle * 4.0) * 1.1);
+      const pulseMod = (w1 * 0.55 + w2 * 0.45);
+
+      let v = normInk * (0.80 + 0.30 * Math.max(0, pulseMod));
+      if (v < 0.02) continue;
+
+      const bayerVal = (BAYER_8X8[bayerRow + (gx % 8)] + 0.5) / 64.0;
+      const dithered = v * 3.0 + (bayerVal - 0.5) * 0.85;
+      const level = Math.max(0, Math.min(3, Math.floor(dithered + 0.5)));
+
+      if (level === 0) continue;
+
+      let radius = DOT_RADIUS_MAX;
+      if (level === 1) radius = DOT_RADIUS_MAX * 0.40;
+      else if (level === 2) radius = DOT_RADIUS_MAX * 0.70;
+      else radius = DOT_RADIUS_MAX;
+
+      const isPulsePeak = pulseMod > 0.58 && normInk > 0.35;
+      
+      let alpha;
+      if (level === 1) alpha = 0.18;
+      else if (level === 2) alpha = 0.35;
+      else alpha = 0.52;
+
+      if (isPulsePeak) {
+        alpha = Math.min(0.74, alpha + 0.20);
+      }
+
+      ctx.fillStyle = 'rgba(12, 98, 119, ' + alpha.toFixed(2) + ')';
+
+      ctx.beginPath();
+      ctx.arc(px, py, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+renderDither();
+</script>
 </body>
 </html>
