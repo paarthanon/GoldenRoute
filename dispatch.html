@@ -612,21 +612,7 @@ button:focus-visible {
 }
 .modal-bg.show .modal-card {
   transform: translateY(0) scale(1);
-}
-.role-choice-card {
-  background-color: #FFFFFF;
-  border: 1px solid #CBD5E1;
-  border-radius: 18px;
-  padding: 18px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
-}
-.role-choice-card:hover {
-  border-color: #0C6277;
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px rgba(12, 98, 119, 0.08);
-}
+
 
 
 /* ── Toast Alert ── */
@@ -1638,79 +1624,7 @@ button:focus-visible {
 
 
 
-<!-- ═════════════════════════════════════════════════════════════════
-     STATION SELECTION MODAL
-═════════════════════════════════════════════════════════════════ -->
-<div id="role-modal" class="modal-bg" onclick="handleRoleModalBg(event)" role="dialog" aria-modal="true" aria-labelledby="role-modal-title">
-  <div class="modal-card">
-    <div class="text-center mb-6">
-      <div class="flex items-center justify-center mb-3.5">
-        <img src="assets/goldenroute-icon.png" alt="GoldenRoute" class="h-10 w-10 object-contain emblem-heartbeat" />
-      </div>
-      <h2 id="role-modal-title" class="text-2xl font-bold text-inkDark tracking-tight">
-        Choose Your Station
-      </h2>
-      <p class="text-xs sm:text-sm text-mutedSlate mt-1 max-w-sm mx-auto leading-relaxed">
-        Select your operational station. You can switch between views at any time.
-      </p>
-    </div>
 
-    <div class="flex flex-col gap-3.5 mb-6">
-      <div class="role-choice-card" onclick="selectRoleAndDismiss('clinic')">
-        <div class="flex items-start gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-paper border border-softBorder flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#BE123C">
-              <path d="M9 3h6v6h6v6h-6v6h-6v-6h-6v-6h6z"/>
-            </svg>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-sm font-bold text-inkDark">Clinic Station (Transferring Patient)</h3>
-              <span class="clinical-badge badge-blue text-[10px]">Dispatch</span>
-            </div>
-            <p class="text-xs text-mutedSlate leading-relaxed">
-              Log patient vitals, choose needed life support equipment, and lock an available ICU bed.
-            </p>
-            <div class="mt-2.5 flex items-center gap-1.5 text-xs font-bold text-clinicalTeal">
-              <span>Open Clinic Station</span>
-              <span>→</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="role-choice-card" onclick="selectRoleAndDismiss('icu')">
-        <div class="flex items-start gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-paper border border-softBorder flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#16A34A">
-              <path d="M9 3h6v6h6v6h-6v6h-6v-6h-6v-6h6z"/>
-            </svg>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-sm font-bold text-inkDark">Hospital ICU Station (Receiving Patient)</h3>
-              <span class="clinical-badge badge-green text-[10px]">Hospital</span>
-            </div>
-            <p class="text-xs text-mutedSlate leading-relaxed">
-              Track inbound ambulance on live GPS, monitor bed reservation countdown, and prepare the ICU room.
-            </p>
-            <div class="mt-2.5 flex items-center gap-1.5 text-xs font-bold text-stableGreen">
-              <span>Open ICU Station</span>
-              <span>→</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-between text-xs text-mutedSlate pt-2 border-t border-softBorder">
-      <label class="flex items-center gap-2 cursor-pointer select-none">
-        <input id="remember-role" type="checkbox" checked class="w-3.5 h-3.5 rounded border-gray-300 accent-clinicalTeal">
-        <span>Remember my station for this session</span>
-      </label>
-    </div>
-  </div>
-</div>
 
 
 <!-- ═════════════════════════════════════════════════════════════════
@@ -2227,35 +2141,11 @@ function initRoleSelection() {
   } else if (storedRole === 'clinic' || storedRole === 'icu') {
     applyRole(storedRole);
   } else {
-    openRoleModal();
     applyRole('clinic');
   }
 
   updateVitalsDisplay();
   updateHospitalEquipmentDisplays(getSelectedEquipments());
-}
-
-function openRoleModal() {
-  document.getElementById('role-modal').classList.add('show');
-}
-
-function closeRoleModal() {
-  document.getElementById('role-modal').classList.remove('show');
-}
-
-function handleRoleModalBg(event) {
-  if (event.target === document.getElementById('role-modal')) {
-    closeRoleModal();
-  }
-}
-
-function selectRoleAndDismiss(role) {
-  const remember = document.getElementById('remember-role').checked;
-  if (remember) {
-    sessionStorage.setItem('goldenRoute_role', role);
-  }
-  applyRole(role);
-  closeRoleModal();
 }
 
 function applyRole(role) {
