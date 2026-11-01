@@ -1252,8 +1252,8 @@ button:focus-visible {
           <div id="hosp-equip-bsa" class="flex flex-wrap gap-2 mb-4">
           </div>
 
-          <button type="button" class="btn-clinical-secondary w-full" onclick="showToast('BSA Hospital noted as secondary backup. Max Hospital remains primary.', 'info')">
-            Keep as Secondary Backup
+          <button type="button" class="btn-clinical-secondary w-full" onclick="showToast('BSA Hospital designated as secondary backup. Max Hospital remains primary.', 'info')">
+            Designate as Secondary Backup
           </button>
         </article>
 
@@ -1289,7 +1289,7 @@ button:focus-visible {
           </button>
         </article>
 
-        <!-- Facility 4: Saroj Super Speciality Hospital (AUTOMATIC BACKUP) -->
+        <!-- Facility 4: Saroj Super Speciality Hospital (PRIMARY BACKUP) -->
         <article id="hosp-card-saroj" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder">
           <div class="flex items-start justify-between gap-4 mb-3">
             <div>
@@ -1313,8 +1313,8 @@ button:focus-visible {
           <div id="hosp-equip-saroj" class="flex flex-wrap gap-2 mb-4">
           </div>
 
-          <button type="button" class="btn-clinical-secondary" onclick="showToast('Saroj Hospital confirmed as automatic backup hospital.', 'sage')">
-            Confirm as Automatic Backup
+          <button type="button" class="btn-clinical-secondary" onclick="showToast('Saroj Hospital designated as primary backup facility.', 'sage')">
+            Designate as Primary Backup
           </button>
         </article>
 
@@ -1342,8 +1342,8 @@ button:focus-visible {
           <div id="hosp-equip-balaji" class="flex flex-wrap gap-2 mb-4">
           </div>
 
-          <button type="button" class="btn-clinical-secondary" onclick="showToast('Action Balaji noted as secondary backup.', 'info')">
-            Keep on File
+          <button type="button" class="btn-clinical-secondary" onclick="showToast('Action Balaji Hospital designated as contingency backup.', 'info')">
+            Designate as Contingency Backup
           </button>
         </article>
 
@@ -2355,7 +2355,7 @@ function doReserve(hospitalName) {
     }
     if (markerSaroj) {
       markerSaroj.setIcon(getBackupBlackPin());
-      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Automatic Backup Ready');
+      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
     }
     liveRoute = ROUTE_MAX;
     routeLine.setLatLngs(ROUTE_MAX);
@@ -2804,7 +2804,7 @@ function initMap() {
    .bindPopup('<b>Fortis Hospital</b><br>Shalimar Bagh / Pitampura · Ventilators Full');
 
   markerSaroj = L.marker(SAROJ,   { icon: getBackupBlackPin() }).addTo(lmap)
-   .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Rohini Sector 14 · Automatic Backup Ready');
+   .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Rohini Sector 14 · Primary Backup Ready');
 
   markerBalaji = L.marker(BALAJI, { icon: getBackupBlackPin() }).addTo(lmap)
    .bindPopup('<b>Action Balaji Hospital</b><br>Paschim Vihar, West Delhi · 3 Open ICU Beds');
@@ -3122,7 +3122,7 @@ function resetOverride() {
   }
   if (markerSaroj) {
     markerSaroj.setIcon(getBackupBlackPin());
-    markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Automatic Backup Ready');
+    markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
   }
 
   if (mapReady) {
