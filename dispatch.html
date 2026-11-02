@@ -829,8 +829,21 @@ button:focus-visible {
 }
 
 /* ── Mobile-Only Optimization (@media max-width: 640px) ──
+   Optimized specifically for Chrome on Mobile (Android & iOS).
    Strictly zero alteration to PC/desktop display (>=641px) */
 @media (max-width: 640px) {
+  /* Chrome on Mobile resets & pull-to-refresh prevention */
+  html, body {
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+    -webkit-tap-highlight-color: transparent !important;
+    overscroll-behavior-y: contain;
+    overflow-x: hidden !important;
+  }
+  button, a, select, input, .equip-chip, .threat-card, .station-pill, .chk-row, .bed-tile {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
   /* Header: clean flex-wrap and comfortable mobile touch targets */
   header {
     height: auto !important;
@@ -871,6 +884,67 @@ button:focus-visible {
     border-radius: 1rem !important;
   }
 
+  /* Threat level cards on mobile */
+  .threat-card {
+    padding: 13px 15px !important;
+  }
+
+  /* Required ICU Equipment: symmetrical 2-column mobile grid */
+  #equip-chips-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+  .equip-chip {
+    padding: 8px 10px !important;
+    min-height: 56px !important;
+    border-radius: 12px !important;
+    gap: 8px !important;
+  }
+  .equip-chip p.font-semibold {
+    font-size: 11.5px !important;
+    line-height: 1.25 !important;
+  }
+  .equip-chip p.text-mutedSlate {
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+  }
+  .ec-box {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* In-Transit Life Support: symmetrical 2-column mobile grid */
+  #life-support-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+  #life-support-grid > div {
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
+  }
+
+  /* Departure Vitals: symmetrical 2x2 mobile grid */
+  #vitals-inputs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.625rem !important;
+  }
+  .vital-input-card {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  /* Form controls: prevent mobile auto-zoom on focus */
+  select, input {
+    font-size: 14px !important;
+  }
+  .vital-input-num {
+    font-size: 1.5rem !important;
+  }
+
+  /* Hospital cards in Step 2 */
+  #hospital-cards-wrapper .glass-panel-interactive {
+    padding: 1.125rem !important;
+  }
+
   /* Emergency reassign modal mobile fit */
   .modal-card {
     padding: 1.25rem 1.125rem !important;
@@ -885,15 +959,13 @@ button:focus-visible {
     height: 310px !important;
   }
 
-  /* Bed grid on narrow devices: 2-column or wrapping for readability */
+  /* Bed grid on narrow devices */
   .bed-tile {
     min-height: 60px !important;
     padding: 6px 4px !important;
   }
-
-  /* Vitals metric cards in ICU View */
-  .vital-input-card {
-    padding: 0.75rem !important;
+  .grid.grid-cols-4 {
+    gap: 0.5rem !important;
   }
 
   /* Toast alerts on mobile: constrained width and clean wrapping */
@@ -916,14 +988,11 @@ button:focus-visible {
     width: 100% !important;
   }
 
-  /* Telemetry metric cards in ICU View: prevent horizontal expansion on small phones */
+  /* Telemetry metric cards in ICU View: symmetrical 2x2 mobile grid */
   .grid.grid-cols-2.sm\:grid-cols-4 > div {
     min-width: 0 !important;
-  }
-
-  /* Bed grid on narrow devices */
-  .grid.grid-cols-4 {
-    gap: 0.5rem !important;
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
   }
 
   /* Prevent text clipping on clinical diagnosis */
@@ -943,11 +1012,6 @@ button:focus-visible {
   /* Divert bar mobile wrapping */
   #divert-bar {
     flex-wrap: wrap !important;
-  }
-
-  /* Ensure zero horizontal scroll on mobile viewports */
-  html, body {
-    overflow-x: hidden !important;
   }
 }
 </style>
@@ -1120,7 +1184,7 @@ button:focus-visible {
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div id="equip-chips-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <!-- Invasive Ventilator -->
           <div class="equip-chip sel" onclick="toggleEq(this)">
             <div class="ec-box"></div>
@@ -1232,7 +1296,7 @@ button:focus-visible {
             <p class="text-xs font-bold text-mutedSlate uppercase tracking-wider mb-2">
               In-Transit Life Support
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div id="life-support-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
@@ -1261,7 +1325,7 @@ button:focus-visible {
             </p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div id="vitals-inputs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
 
             <!-- 1. Oxygen (SpO2) Input -->
             <div class="vital-input-card">
