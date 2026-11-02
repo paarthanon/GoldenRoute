@@ -925,6 +925,30 @@ button:focus-visible {
   .grid.grid-cols-4 {
     gap: 0.5rem !important;
   }
+
+  /* Prevent text clipping on clinical diagnosis */
+  #icu-syndrome-tag {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  /* Full-width touch buttons on mobile banners and steps */
+  #handoff-banner button,
+  #clinic-step-2 header .btn-clinical-secondary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Divert bar mobile wrapping */
+  #divert-bar {
+    flex-wrap: wrap !important;
+  }
+
+  /* Ensure zero horizontal scroll on mobile viewports */
+  html, body {
+    overflow-x: hidden !important;
+  }
 }
 </style>
 </head>
