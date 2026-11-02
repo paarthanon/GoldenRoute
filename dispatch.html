@@ -269,6 +269,8 @@ html, body {
   background-color: #FFFFFF;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  min-height: 64px;
+  height: 100%;
 }
 .equip-chip:hover {
   border-color: #CBD5E1;
@@ -474,13 +476,15 @@ html, body {
   background-color: #FFFFFF;
   border: 1px solid #CBD5E1;
   border-radius: 18px;
-  padding: 16px 14px;
+  padding: 14px 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+  min-height: 124px;
+  height: 100%;
 }
 .vital-input-card:hover {
   border-color: #CBD5E1;
@@ -860,8 +864,8 @@ button:focus-visible {
         <h1 class="text-2xl sm:text-3xl font-bold text-inkDark tracking-tight leading-snug mb-1">
           Patient Triage &amp; Required Equipment
         </h1>
-        <p class="text-sm sm:text-[15px] text-mutedSlate leading-relaxed max-w-3xl">
-          Specify clinical urgency, required life-support equipment, and departure vitals before reviewing matched tertiary beds.
+        <p class="text-sm text-mutedSlate leading-relaxed max-w-3xl">
+          Specify clinical urgency, required equipment, and departure vitals before reviewing matched beds.
         </p>
       </header>
 
@@ -878,13 +882,15 @@ button:focus-visible {
           <!-- Level 1 (Code Red) -->
           <button type="button" class="threat-card tc-red sel" id="tl1" onclick="setThreat(1)">
             <div>
-              <div class="flex items-center gap-2.5 mb-1.5">
-                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#BE123C]" style="box-shadow:0 0 0 3px rgba(190,18,60,0.15)"></span>
-                <span class="text-sm font-bold tracking-tight text-statRedText">Code Red &middot; Critical</span>
-                <span class="clinical-badge badge-red ml-auto text-[10px]">STAT</span>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#BE123C]" style="box-shadow:0 0 0 3px rgba(190,18,60,0.15)"></span>
+                  <span class="text-sm font-bold tracking-tight text-statRedText">Code Red &middot; Critical</span>
+                </div>
+                <span class="clinical-badge badge-red text-[10px]">STAT</span>
               </div>
-              <p class="text-xs pl-5 leading-relaxed font-normal text-statRedText/80">
-                Airway, respiratory, or hemodynamic compromise. Dedicated resuscitation bay and immediate ICU team on arrival.
+              <p class="text-xs leading-relaxed font-normal text-statRedText/80">
+                Airway, respiratory, or hemodynamic compromise. Dedicated resuscitation bay and ICU team on arrival.
               </p>
             </div>
           </button>
@@ -892,13 +898,15 @@ button:focus-visible {
           <!-- Level 2 (Code Amber) -->
           <button type="button" class="threat-card tc-amber" id="tl2" onclick="setThreat(2)">
             <div>
-              <div class="flex items-center gap-2.5 mb-1.5">
-                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EA580C]" style="box-shadow:0 0 0 3px rgba(234,88,12,0.18)"></span>
-                <span class="text-sm font-bold tracking-tight text-urgentAmberText">Code Amber &middot; Serious</span>
-                <span class="clinical-badge badge-amber ml-auto text-[10px]">Urgent</span>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EA580C]" style="box-shadow:0 0 0 3px rgba(234,88,12,0.18)"></span>
+                  <span class="text-sm font-bold tracking-tight text-urgentAmberText">Code Amber &middot; Serious</span>
+                </div>
+                <span class="clinical-badge badge-amber text-[10px]">Urgent</span>
               </div>
-              <p class="text-xs pl-5 leading-relaxed font-normal text-urgentAmberText/80">
-                Patient hemodynamically borderline; continuous inotropic support and active cardiac telemetry in transit.
+              <p class="text-xs leading-relaxed font-normal text-urgentAmberText/80">
+                Hemodynamically borderline. Continuous inotropic support or cardiac telemetry in transit.
               </p>
             </div>
           </button>
@@ -906,13 +914,15 @@ button:focus-visible {
           <!-- Level 3 (Code Yellow) -->
           <button type="button" class="threat-card tc-yellow" id="tl3" onclick="setThreat(3)">
             <div>
-              <div class="flex items-center gap-2.5 mb-1.5">
-                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EAB308] border border-[#CA8A04]/40" style="box-shadow:0 0 0 3px rgba(234,179,8,0.22)"></span>
-                <span class="text-sm font-bold tracking-tight text-cautionYellowText">Code Yellow &middot; Stable</span>
-                <span class="clinical-badge badge-yellow ml-auto text-[10px]">Stable</span>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EAB308] border border-[#CA8A04]/40" style="box-shadow:0 0 0 3px rgba(234,179,8,0.22)"></span>
+                  <span class="text-sm font-bold tracking-tight text-cautionYellowText">Code Yellow &middot; Stable</span>
+                </div>
+                <span class="clinical-badge badge-yellow text-[10px]">Stable</span>
               </div>
-              <p class="text-xs pl-5 leading-relaxed font-normal text-cautionYellowText/80">
-                Hemodynamically stable. Requires tertiary diagnostic suites, cath lab, or inpatient beds unavailable at primary clinic.
+              <p class="text-xs leading-relaxed font-normal text-cautionYellowText/80">
+                Hemodynamically stable. Requires specialized inpatient care or diagnostic suites.
               </p>
             </div>
           </button>
@@ -934,7 +944,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Invasive Ventilator</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Endotracheal mechanical ventilation</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Mechanical ventilation</p>
             </div>
           </div>
 
@@ -943,7 +953,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Emergency Kidney Dialysis</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">CRRT continuous blood filtration</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Continuous CRRT filtration</p>
             </div>
           </div>
 
@@ -952,7 +962,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Emergency O-Negative Blood</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">2 units packed red blood cells primed</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Packed RBC units primed</p>
             </div>
           </div>
 
@@ -961,7 +971,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Pediatric / Neonatal ICU</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Specialist PICU / NICU incubator</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Specialist incubator bay</p>
             </div>
           </div>
 
@@ -970,7 +980,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Cardiac Cath Lab</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Emergency angioplasty team ready</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Emergency angioplasty ready</p>
             </div>
           </div>
 
@@ -979,7 +989,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">High-Flow Nasal Cannula</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">HFNC heated humidified oxygen</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Heated humidified O₂</p>
             </div>
           </div>
 
@@ -1003,13 +1013,13 @@ button:focus-visible {
           </h2>
         </div>
 
-        <!-- Top Row: Primary Emergency (Left) + Active Life Support (Right) -->
+        <!-- Top Row: Primary Condition (Left) + Active Life Support (Right) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 border-b border-softBorder items-start">
           
           <!-- Primary Condition Dropdown (6 cols) -->
           <div class="lg:col-span-6">
             <label for="syndrome-select" class="block text-xs font-bold text-mutedSlate uppercase tracking-wider mb-2">
-              Primary Medical Emergency
+              Primary Condition
             </label>
             <div class="relative">
               <select id="syndrome-select" class="w-full h-11 px-4 pr-10 rounded-xl border border-softBorder bg-white text-sm font-semibold text-inkDark transition-all appearance-none cursor-pointer">
@@ -1029,23 +1039,23 @@ button:focus-visible {
           <!-- Active Life Support in Ambulance (6 cols) -->
           <div class="lg:col-span-6">
             <p class="text-xs font-bold text-mutedSlate uppercase tracking-wider mb-2">
-              Active Life Support in Ambulance
+              In-Transit Life Support
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Norepinephrine</p>
-                  <p class="text-[10.5px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
+                  <p class="text-[10px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
                 </div>
                 <span class="tt-badge clinical-badge badge-blue text-[9px] shrink-0 font-semibold px-1.5 py-0.5">TRANSIT</span>
               </div>
 
-              <div class="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Ambu-Bag O₂</p>
-                  <p class="text-[10.5px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
+                  <p class="text-[10px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
                 </div>
                 <span class="tt-badge clinical-badge badge-blue text-[9px] shrink-0 font-semibold px-1.5 py-0.5">TRANSIT</span>
               </div>
@@ -1058,9 +1068,9 @@ button:focus-visible {
         <div class="pt-5">
           <div class="mb-3 flex items-center justify-between gap-4">
             <p class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
-              Patient Departure Vitals (Directly Editable)
+              Departure Vitals
             </p>
-            <span class="text-[11px] text-mutedSlate font-medium">Updates receiving ICU in real time</span>
+            <span class="text-[11px] text-mutedSlate font-medium">Live sync to ICU</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
@@ -1071,17 +1081,19 @@ button:focus-visible {
                 <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Oxygen (SpO₂)</span>
                 <span class="text-[11px] font-medium text-mutedSlate">%</span>
               </div>
-              <div class="flex items-center justify-center my-1">
+              <div class="h-10 flex items-center justify-center my-1">
                 <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" oninput="updateVitalsDisplay()" />
                 <span class="font-mono text-xl font-bold text-statRed ml-0.5">%</span>
               </div>
-              <select id="input-o2-device" class="text-[11px] font-medium text-mutedSlate bg-paper border border-softBorder rounded-md px-1 py-1 mt-1 text-center w-full focus:outline-none" onchange="updateVitalsDisplay()">
-                <option value="On 15L Mask" selected>On 15L Mask</option>
-                <option value="On HFNC">On HFNC</option>
-                <option value="On Ambu-Bag">On Ambu-Bag</option>
-                <option value="On Ventilator">On Ventilator</option>
-                <option value="On Room Air">On Room Air</option>
-              </select>
+              <div class="h-7 w-full flex items-center justify-center">
+                <select id="input-o2-device" class="h-7 w-full text-[11px] font-semibold text-mutedSlate bg-paper border border-softBorder rounded-lg px-2 text-center cursor-pointer transition-colors focus:outline-none" onchange="updateVitalsDisplay()">
+                  <option value="On 15L Mask" selected>15L Mask</option>
+                  <option value="On HFNC">HFNC</option>
+                  <option value="On Ambu-Bag">Ambu-Bag</option>
+                  <option value="On Ventilator">Ventilator</option>
+                  <option value="On Room Air">Room Air</option>
+                </select>
+              </div>
             </div>
 
             <!-- 2. Blood Pressure (BP) Input -->
@@ -1090,12 +1102,16 @@ button:focus-visible {
                 <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Blood Pressure</span>
                 <span class="text-[11px] font-medium text-mutedSlate">mmHg</span>
               </div>
-              <div class="flex items-center justify-center gap-1 my-1">
+              <div class="h-10 flex items-center justify-center gap-1 my-1">
                 <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed w-14 text-right" oninput="updateVitalsDisplay()" placeholder="85" />
                 <span class="font-mono text-xl font-bold text-mutedSlate/60">/</span>
                 <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed w-14 text-left" oninput="updateVitalsDisplay()" placeholder="55" />
               </div>
-              <span id="bp-status-note" class="text-[11px] font-semibold text-statRed mt-1">Hypotensive Shock</span>
+              <div class="h-7 w-full flex items-center justify-center">
+                <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
+                  <span id="bp-status-note" class="text-[11px] font-semibold text-statRed">Hypotensive Shock</span>
+                </div>
+              </div>
             </div>
 
             <!-- 3. Heart Rate (HR) Input -->
@@ -1104,24 +1120,32 @@ button:focus-visible {
                 <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Heart Rate</span>
                 <span class="text-[11px] font-medium text-mutedSlate">BPM</span>
               </div>
-              <div class="flex items-center justify-center my-1">
+              <div class="h-10 flex items-center justify-center my-1">
                 <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" oninput="updateVitalsDisplay()" />
                 <span class="text-xs font-bold text-mutedSlate ml-1">BPM</span>
               </div>
-              <span id="hr-status-note" class="text-[11px] font-semibold text-urgentAmberText mt-1">Sinus Tachycardia</span>
+              <div class="h-7 w-full flex items-center justify-center">
+                <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
+                  <span id="hr-status-note" class="text-[11px] font-semibold text-urgentAmberText">Sinus Tachycardia</span>
+                </div>
+              </div>
             </div>
 
             <!-- 4. Consciousness (GCS) Input -->
             <div class="vital-input-card">
               <div class="flex items-center justify-between mb-1">
                 <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Consciousness</span>
-                <span class="text-[11px] font-medium text-mutedSlate">GCS (3-15)</span>
+                <span class="text-[11px] font-medium text-mutedSlate">GCS</span>
               </div>
-              <div class="flex items-center justify-center my-1">
+              <div class="h-10 flex items-center justify-center my-1">
                 <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed w-14 text-right" oninput="updateVitalsDisplay()" />
                 <span class="font-mono text-lg font-bold text-mutedSlate/60 ml-0.5">/15</span>
               </div>
-              <span id="gcs-status-note" class="text-[11px] font-semibold text-statRed mt-1">Severe Coma</span>
+              <div class="h-7 w-full flex items-center justify-center">
+                <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
+                  <span id="gcs-status-note" class="text-[11px] font-semibold text-statRed">Severe Coma</span>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -1130,10 +1154,10 @@ button:focus-visible {
       </article>
 
       <!-- Primary Action: Proceed to Recommended Hospitals -->
-      <div class="pt-2 pb-6 flex flex-col items-center gap-2">
-        <button type="button" onclick="goToStep2()" class="btn-clinical !h-14 !text-base !font-bold w-full max-w-lg shadow-md flex items-center justify-center gap-2">
+      <div class="pt-2 pb-6 flex flex-col items-center">
+        <button type="button" onclick="goToStep2()" class="btn-clinical !h-12 !text-sm !font-bold w-full max-w-md shadow-sm flex items-center justify-center gap-2">
           <span>Find Matching Hospitals &amp; Available Beds</span>
-          <span class="text-lg">&rarr;</span>
+          <span class="text-base">&rarr;</span>
         </button>
       </div>
 
@@ -1154,13 +1178,13 @@ button:focus-visible {
               Available ICU Beds
             </h1>
             <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">
-              Ranked by transit time and confirmed equipment compatibility &middot; North-West Delhi corridor
+              Ranked by transit time and confirmed equipment compatibility
             </p>
           </div>
 
           <!-- Edit button to return to Step 1 -->
           <button type="button" onclick="goToStep1()" class="btn-clinical-secondary !w-auto !h-10 !px-4 text-xs font-bold flex items-center gap-1.5 shrink-0">
-            <span>&larr; Edit Patient Details</span>
+            <span>&larr; Edit Details</span>
           </button>
         </div>
 
@@ -1193,7 +1217,7 @@ button:focus-visible {
                 <h3 class="text-xl sm:text-2xl font-bold text-inkDark tracking-tight">
                   Max Super Speciality Hospital
                 </h3>
-                <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">Shalimar Bagh &middot; Quaternary Trauma Center</p>
+                <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">Shalimar Bagh &middot; Trauma Center</p>
               </div>
               <div class="text-right shrink-0">
                 <div class="inline-flex items-baseline gap-1">
@@ -1226,7 +1250,7 @@ button:focus-visible {
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
-            <span>Lock Bed &amp; Dispatch Ambulance Transfer</span>
+            <span>Lock Bed &amp; Dispatch Transfer</span>
           </button>
         </article>
 
@@ -1242,7 +1266,7 @@ button:focus-visible {
                 <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
                   Saroj Super Speciality Hospital
                 </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Rohini Sector 14 &middot; Tertiary Trauma Unit</p>
+                <p class="text-xs text-mutedSlate mt-0.5">Tertiary Trauma Unit</p>
               </div>
               <div class="text-right shrink-0">
                 <div class="inline-flex items-baseline gap-1">
@@ -1270,24 +1294,24 @@ button:focus-visible {
               <div>
                 <div id="hosp-badge-bsa" class="flex items-center gap-2 flex-wrap mb-1.5">
                   <span class="clinical-badge badge-neutral font-semibold">Secondary Backup &middot; Civil Hospital</span>
-                  <span class="clinical-badge badge-amber">Intake Delay: ~28m</span>
+                  <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
                   Dr. B.S. Ambedkar (BSA) Hospital
                 </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Rohini Sector 6 &middot; District Civil Hospital</p>
+                <p class="text-xs text-mutedSlate mt-0.5">District Hospital &middot; Rohini Sector 6</p>
               </div>
               <div class="text-right shrink-0">
                 <div class="inline-flex items-baseline gap-1">
                   <span class="font-mono text-2xl sm:text-3xl font-bold leading-none text-inkDark">7</span>
                   <span class="text-xs font-semibold text-mutedSlate">mins</span>
                 </div>
-                <p class="text-[11px] text-mutedSlate mt-1">Transit only</p>
+                <p class="text-[11px] text-mutedSlate mt-1">via Sector 3 Rd</p>
               </div>
             </div>
 
             <div class="rounded-xl p-3 my-3 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
-              <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 4 ambulances queued at ER intake dock. Physician triage review expected (~28m delay).
+              <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 4 ambulances queued at ER intake dock (~28m triage lag).
             </div>
 
             <!-- Feature / Equipment Badges -->
@@ -1312,7 +1336,7 @@ button:focus-visible {
                 <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
                   Action Balaji Hospital
                 </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Paschim Vihar &middot; Specialized Inpatient Facility</p>
+                <p class="text-xs text-mutedSlate mt-0.5">Specialized Inpatient Facility &middot; Paschim Vihar</p>
               </div>
               <div class="text-right shrink-0">
                 <div class="inline-flex items-baseline gap-1">
@@ -1345,18 +1369,19 @@ button:focus-visible {
                 <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
                   Fortis Hospital
                 </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Shalimar Bagh / Pitampura</p>
+                <p class="text-xs text-mutedSlate mt-0.5">Shalimar Bagh &middot; Tertiary Care</p>
               </div>
               <div class="text-right shrink-0">
                 <div class="inline-flex items-baseline gap-1">
                   <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">10</span>
                   <span class="text-xs font-semibold text-mutedSlate">mins</span>
                 </div>
+                <p class="text-[11px] text-mutedSlate mt-1">via Ring Road</p>
               </div>
             </div>
 
             <div id="hosp-alert-fortis" class="rounded-xl p-3 my-3 bg-slate-100 border border-slate-300 text-xs text-slate-800 leading-relaxed font-medium">
-              <strong class="font-semibold text-slate-900">Notice:</strong> All 12 mechanical ventilator bays in use. Transfer diverted to Max or Balaji.
+              <strong class="font-semibold text-slate-900">Notice:</strong> All ventilator bays in use. Transfer diverted to Max or Balaji.
             </div>
 
             <!-- Feature / Equipment Badges -->
@@ -1413,7 +1438,7 @@ button:focus-visible {
             <svg class="w-3.5 h-3.5 text-clinicalTeal shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            <span>Presenting Clinical Diagnosis</span>
+            <span>Clinical Diagnosis</span>
           </div>
           <p id="icu-syndrome-tag" class="text-sm sm:text-base font-bold text-inkDark tracking-tight truncate">
             Severe Lung Failure &amp; Infection (ARDS / Sepsis)
@@ -1424,7 +1449,7 @@ button:focus-visible {
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 shrink-0">
           <!-- SpO2 -->
           <div class="px-3.5 py-2.5 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[110px]">
-            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">SpO₂ Level</span>
+            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">SpO₂</span>
             <div class="flex items-baseline gap-1.5 mt-0.5">
               <span id="icu-vital-spo2" class="font-mono text-base font-bold text-statRed">82%</span>
               <span id="icu-vital-o2dev" class="text-[10px] text-mutedSlate font-medium truncate">15L Mask</span>
@@ -1535,7 +1560,7 @@ button:focus-visible {
           <!-- Bottom Action: Reassign Bed Button -->
           <div class="mt-4 pt-3.5 border-t border-softBorder flex items-center justify-between gap-3 flex-wrap">
             <p id="reassign-desc-txt" class="text-xs text-mutedSlate">
-              Hold Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.
+              Hold Bay 05 for incoming transfer, or reassign if emergency walk-in arrives.
             </p>
             <div id="reassign-btn-wrap">
               <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
@@ -1557,9 +1582,9 @@ button:focus-visible {
           <div class="flex items-center justify-between mb-4">
             <div>
               <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
-                ICU Beds (8 Total)
+                ICU Bed Status
               </h2>
-              <p class="text-xs text-mutedSlate mt-0.5">Max Hospital · Intensive Care Unit</p>
+              <p class="text-xs text-mutedSlate mt-0.5">Ward Overview</p>
             </div>
             <span id="ward-capacity-badge" class="clinical-badge badge-blue text-[10px] font-semibold">7/8 Occupied · 1 Reserved</span>
           </div>
@@ -1715,16 +1740,16 @@ button:focus-visible {
       </p>
       <ul class="space-y-2 text-xs text-inkDark/80">
         <li class="flex items-center gap-2">
-          <span class="text-statRed font-bold shrink-0">•</span>
-          <span>Assigns Bay 05 to the walk-in emergency patient.</span>
+          <span class="text-statRed font-bold shrink-0">&bull;</span>
+          <span>Assigns Bay 05 to walk-in emergency patient.</span>
         </li>
         <li class="flex items-center gap-2">
-          <span class="text-statRed font-bold shrink-0">•</span>
-          <span>Reroutes Ambulance DL-108 to <strong>Saroj Hospital (Rohini Sec 14)</strong> (+3 min).</span>
+          <span class="text-statRed font-bold shrink-0">&bull;</span>
+          <span>Reroutes Ambulance DL-108 to <strong>Saroj Hospital</strong> (+3 min).</span>
         </li>
         <li class="flex items-center gap-2">
-          <span class="text-statRed font-bold shrink-0">•</span>
-          <span>Streams patient telemetry and vitals to Saroj ICU intake.</span>
+          <span class="text-statRed font-bold shrink-0">&bull;</span>
+          <span>Streams patient telemetry to Saroj ICU.</span>
         </li>
       </ul>
     </div>
@@ -1829,7 +1854,7 @@ function updateVitalsDisplay() {
   const bpNote = document.getElementById('bp-status-note');
   if (bpNote) {
     bpNote.textContent = bpNoteText;
-    bpNote.className = `text-[11px] font-semibold ${bpNoteColor} mt-1`;
+    bpNote.className = `text-[11px] font-semibold ${bpNoteColor}`;
   }
   if (elBpSys) elBpSys.className = `vital-input-num ${bpColor} w-14 text-right`;
   if (elBpDia) elBpDia.className = `vital-input-num ${bpColor} w-14 text-left`;
@@ -1851,7 +1876,7 @@ function updateVitalsDisplay() {
   const hrNote = document.getElementById('hr-status-note');
   if (hrNote) {
     hrNote.textContent = hrNoteText;
-    hrNote.className = `text-[11px] font-semibold ${hrNoteColor} mt-1`;
+    hrNote.className = `text-[11px] font-semibold ${hrNoteColor}`;
   }
   if (elHr) elHr.className = `vital-input-num ${hrColor}`;
 
@@ -1875,7 +1900,7 @@ function updateVitalsDisplay() {
   const gcsNote = document.getElementById('gcs-status-note');
   if (gcsNote) {
     gcsNote.textContent = gcsNoteText;
-    gcsNote.className = `text-[11px] font-semibold ${gcsNoteColor} mt-1`;
+    gcsNote.className = `text-[11px] font-semibold ${gcsNoteColor}`;
   }
   if (elGcs) elGcs.className = `vital-input-num ${gcsColor} w-14 text-right`;
 
