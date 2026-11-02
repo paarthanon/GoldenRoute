@@ -832,13 +832,22 @@ button:focus-visible {
    Optimized specifically for Chrome on Mobile (Android & iOS).
    Strictly zero alteration to PC/desktop display (>=641px) */
 @media (max-width: 640px) {
-  /* Chrome on Mobile resets & pull-to-refresh prevention */
-  html, body {
+  /* Chrome on Mobile resets & fluid native document scrolling */
+  html {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+  }
+  body {
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    min-height: 100% !important;
+    height: auto !important;
     -webkit-text-size-adjust: 100% !important;
     text-size-adjust: 100% !important;
     -webkit-tap-highlight-color: transparent !important;
-    overscroll-behavior-y: contain;
-    overflow-x: hidden !important;
   }
   button, a, select, input, .equip-chip, .threat-card, .station-pill, .chk-row, .bed-tile {
     -webkit-tap-highlight-color: transparent !important;
