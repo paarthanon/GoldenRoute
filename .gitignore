@@ -1,0 +1,27 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large Archives & Bundles
+*.zip
+*.tar.gz
+goldenroute-standard-v1.zip
+goldenroute-standard-v1/
+
+# Temporary & Scratch Files
+file.html
+full_agent_prompt.md
+test/
+scratch/
+*.tmp
+*.log
+
+# Python Cache (if running local test scripts)
+__pycache__/
+*.py[cod]
+*$py.class
