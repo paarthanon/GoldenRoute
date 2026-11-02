@@ -1080,8 +1080,8 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">%</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" oninput="updateVitalsDisplay()" />
-                <span class="font-mono text-xl font-bold text-statRed ml-0.5">%</span>
+                <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed w-12 text-right pr-0.5" oninput="updateVitalsDisplay()" />
+                <span id="spo2-unit-sym" class="font-mono text-xl font-bold text-statRed leading-none ml-0.5">%</span>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
                 <select id="input-o2-device" class="h-7 w-full text-[11px] font-semibold text-mutedSlate bg-paper border border-softBorder rounded-lg px-2 text-center cursor-pointer transition-colors focus:outline-none" onchange="updateVitalsDisplay()">
@@ -1119,8 +1119,7 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">BPM</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" oninput="updateVitalsDisplay()" />
-                <span class="text-xs font-bold text-mutedSlate ml-1">BPM</span>
+                <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber w-full text-center" oninput="updateVitalsDisplay()" />
               </div>
               <div class="h-7 w-full flex items-center justify-center">
                 <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
@@ -1830,7 +1829,9 @@ function updateVitalsDisplay() {
 
   // 1. SpO2 Status & Color
   const spo2Color = spo2 < 88 ? 'text-statRed' : spo2 < 93 ? 'text-urgentAmber' : 'text-stableGreen';
-  if (elSpo2) elSpo2.className = `vital-input-num ${spo2Color}`;
+  if (elSpo2) elSpo2.className = `vital-input-num ${spo2Color} w-12 text-right pr-0.5`;
+  const elSpo2Unit = document.getElementById('spo2-unit-sym');
+  if (elSpo2Unit) elSpo2Unit.className = `font-mono text-xl font-bold ${spo2Color} leading-none ml-0.5`;
 
   // 2. Blood Pressure Status Note & Color
   let bpNoteText = 'Normotensive';
@@ -1876,7 +1877,7 @@ function updateVitalsDisplay() {
     hrNote.textContent = hrNoteText;
     hrNote.className = `text-[11px] font-semibold ${hrNoteColor}`;
   }
-  if (elHr) elHr.className = `vital-input-num ${hrColor}`;
+  if (elHr) elHr.className = `vital-input-num ${hrColor} w-full text-center`;
 
   // 4. GCS Status Note & Color
   let gcsNoteText = 'Mild / Alert (13-15)';
