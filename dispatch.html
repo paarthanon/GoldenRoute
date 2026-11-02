@@ -585,14 +585,14 @@ button:focus-visible {
   text-decoration: line-through;
 }
 
-/* ── Modals & Backdrop Blur ── */
+/* ── Modals & Liquid Glass Backdrop ── */
 .modal-bg {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background-color: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(15, 23, 42, 0.24);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -606,17 +606,24 @@ button:focus-visible {
   pointer-events: all;
 }
 .modal-card {
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.56) 100%);
+  backdrop-filter: blur(12px) saturate(190%);
+  -webkit-backdrop-filter: blur(12px) saturate(190%);
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   padding: 32px 36px;
   max-width: 520px;
   width: 100%;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12), inset 0 1px 1.5px rgba(255, 255, 255, 1);
+  box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.14), inset 0 1px 2px rgba(255, 255, 255, 1), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
   transform: translateY(16px) scale(0.98);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-inner-glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(15, 23, 42, 0.02);
 }
 .modal-bg.show .modal-card {
   transform: translateY(0) scale(1);
@@ -1729,7 +1736,7 @@ button:focus-visible {
 <div id="modal" class="modal-bg" onclick="handleBg(event)" role="dialog" aria-modal="true" aria-labelledby="reclaim-title">
   <div class="modal-card">
     <div class="flex items-center gap-3 mb-2">
-      <div class="w-10 h-10 rounded-xl bg-statRedBg border border-statRedBorder text-statRed flex items-center justify-center shrink-0">
+      <div class="w-10 h-10 rounded-xl bg-statRedBg/80 border border-statRedBorder/80 text-statRed flex items-center justify-center shrink-0 backdrop-blur-xs shadow-xs">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
@@ -1740,7 +1747,7 @@ button:focus-visible {
       </div>
     </div>
 
-    <div class="bg-paper border border-softBorder rounded-xl p-4 my-4">
+    <div class="modal-inner-glass rounded-xl p-4 my-4">
       <p class="text-xs font-bold text-inkDark uppercase tracking-wider mb-2">
         Immediate Actions:
       </p>
@@ -1761,7 +1768,7 @@ button:focus-visible {
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
-      <button type="button" class="btn-clinical-secondary !h-11 w-full text-center whitespace-nowrap text-xs sm:text-[13px] font-semibold" onclick="closeModal()">
+      <button type="button" class="btn-clinical-secondary !bg-white/80 !backdrop-blur-xs !h-11 w-full text-center whitespace-nowrap text-xs sm:text-[13px] font-semibold" onclick="closeModal()">
         Keep Inbound Transfer
       </button>
       <button type="button" class="btn-clinical-destructive !h-11 w-full text-center whitespace-nowrap text-xs sm:text-[13px] font-semibold" onclick="confirmOverride()">
