@@ -915,6 +915,16 @@ button:focus-visible {
   #reassign-btn-wrap, #reassign-btn-wrap button {
     width: 100% !important;
   }
+
+  /* Telemetry metric cards in ICU View: prevent horizontal expansion on small phones */
+  .grid.grid-cols-2.sm\:grid-cols-4 > div {
+    min-width: 0 !important;
+  }
+
+  /* Bed grid on narrow devices */
+  .grid.grid-cols-4 {
+    gap: 0.5rem !important;
+  }
 }
 </style>
 </head>
