@@ -1197,7 +1197,7 @@ button:focus-visible {
 
           <!-- Edit button to return to Step 1 -->
           <button type="button" onclick="goToStep1()" class="btn-clinical-secondary !w-auto !h-10 !px-4 text-xs font-bold flex items-center gap-1.5 shrink-0">
-            <span>&larr; Edit Details</span>
+            <span>&larr; Edit Patient Details</span>
           </button>
         </div>
 
@@ -2429,8 +2429,8 @@ let markerSaroj = null;
 let markerBalaji = null;
 
 const CORRIDOR_BOUNDS = [
-  [28.6650, 77.0850], // Southwest: West Delhi / Paschim Vihar / Mangolpuri
-  [28.7420, 77.1700]  // Northeast: Shalimar Bagh / Badli / Outer Ring Road
+  [28.6880, 77.0980], // Southwest: Pitampura / Rohini Sec 3 / Outer Ring Rd
+  [28.7360, 77.1680]  // Northeast: Shalimar Bagh / Badli / GT Karnal Rd
 ];
 
 let baseCorridorZoom = 12;
@@ -2697,7 +2697,7 @@ function initMap() {
   mapReady = true;
 
   lmap = L.map('map-wrap', {
-    center: [28.7080, 77.1270],
+    center: [28.7120, 77.1330],
     zoom: 13,
     zoomControl: false,
     scrollWheelZoom: true,
@@ -2802,7 +2802,7 @@ let animStartTime = null;
 let currentAmbuPos = ROUTE_MAX[0];
 let currentAmbuIdx = 0;
 const DIVERGE_IDX = 49; // Intersection at Madhuban Chowk (Outer Ring Road / Bhagwan Mahavir Marg)
-const BASE_SPEED_MPS = 7021 / 28000; // Physical constant speed matching 7.02km over 28s (~0.25075 m/ms)
+const BASE_SPEED_MPS = 7021 / 36000; // Physical constant speed matching 7.02km over 36s (~0.195 m/ms)
 
 function computeRouteDists(route) {
   const dists = [0];
