@@ -827,6 +827,75 @@ button:focus-visible {
 .leaflet-container a.leaflet-popup-close-button:hover {
   color: #0F172A !important;
 }
+
+/* ── Mobile-Only Optimization (@media max-width: 640px) ──
+   Strictly zero alteration to PC/desktop display (>=641px) */
+@media (max-width: 640px) {
+  /* Header: clean flex-wrap and comfortable mobile touch targets */
+  header {
+    height: auto !important;
+    min-height: 4.25rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+  header nav {
+    order: 3 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 0.25rem !important;
+  }
+  header nav > div {
+    width: 100% !important;
+    display: flex !important;
+  }
+  .station-pill {
+    flex: 1 1 0% !important;
+    text-align: center !important;
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+
+  /* Main container mobile padding */
+  main .w-full {
+    padding-left: 0.875rem !important;
+    padding-right: 0.875rem !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* Cards inner padding for small screens */
+  .glass-panel, .glass-panel-interactive, .liquid-glass {
+    padding: 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  /* Emergency reassign modal mobile fit */
+  .modal-card {
+    padding: 1.25rem 1.125rem !important;
+    border-radius: 1.25rem !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* Map container on mobile: stable touchable height */
+  #map-wrap {
+    aspect-ratio: auto !important;
+    height: 310px !important;
+  }
+
+  /* Bed grid on narrow devices: 2-column or wrapping for readability */
+  .bed-tile {
+    min-height: 60px !important;
+    padding: 6px 4px !important;
+  }
+
+  /* Vitals metric cards in ICU View */
+  .vital-input-card {
+    padding: 0.75rem !important;
+  }
+}
 </style>
 </head>
 <body class="bg-paper text-inkDark flex flex-col min-h-screen">
