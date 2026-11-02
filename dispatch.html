@@ -1038,7 +1038,7 @@ button:focus-visible {
               Primary Condition
             </label>
             <div class="relative">
-              <select id="syndrome-select" class="w-full h-11 px-4 pr-10 rounded-xl border border-softBorder bg-white text-sm font-semibold text-inkDark transition-all appearance-none cursor-pointer">
+              <select id="syndrome-select" class="w-full h-11 px-4 pr-10 rounded-xl border border-softBorder bg-white text-sm font-semibold text-inkDark transition-all appearance-none cursor-pointer" onchange="handleSyndromeChange()">
                 <option value="Severe Lung Failure & Infection (ARDS / Sepsis)">Severe Lung Failure &amp; Infection (ARDS / Sepsis)</option>
                 <option value="Heart Attack & Cardiac Shock (STEMI)">Heart Attack &amp; Cardiac Shock (STEMI)</option>
                 <option value="Brain Bleed / Suspected Hemorrhagic Stroke">Brain Bleed / Suspected Hemorrhagic Stroke</option>
@@ -1825,6 +1825,68 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ─────── 3. Real-Time Input-able Vitals Evaluation & Sync ───────
+const SYNDROME_PRESET_VITALS = {
+  'Severe Lung Failure & Infection (ARDS / Sepsis)': {
+    spo2: 82,
+    o2Device: 'On 15L Mask',
+    bpSys: 85,
+    bpDia: 55,
+    hr: 128,
+    gcs: 7
+  },
+  'Heart Attack & Cardiac Shock (STEMI)': {
+    spo2: 91,
+    o2Device: 'On 15L Mask',
+    bpSys: 78,
+    bpDia: 48,
+    hr: 114,
+    gcs: 11
+  },
+  'Brain Bleed / Suspected Hemorrhagic Stroke': {
+    spo2: 96,
+    o2Device: 'On Room Air',
+    bpSys: 195,
+    bpDia: 110,
+    hr: 52,
+    gcs: 6
+  },
+  'Severe Trauma / Accident Injuries': {
+    spo2: 88,
+    o2Device: 'On 15L Mask',
+    bpSys: 80,
+    bpDia: 50,
+    hr: 138,
+    gcs: 8
+  }
+};
+
+function handleSyndromeChange() {
+  const select = document.getElementById('syndrome-select');
+  if (!select) return;
+
+  const syndrome = select.value;
+  transferPayload.syndrome = syndrome;
+
+  const preset = SYNDROME_PRESET_VITALS[syndrome];
+  if (preset) {
+    const elSpo2 = document.getElementById('input-spo2');
+    const elO2Dev = document.getElementById('input-o2-device');
+    const elBpSys = document.getElementById('input-bp-sys');
+    const elBpDia = document.getElementById('input-bp-dia');
+    const elHr = document.getElementById('input-hr');
+    const elGcs = document.getElementById('input-gcs');
+
+    if (elSpo2) elSpo2.value = preset.spo2;
+    if (elO2Dev) elO2Dev.value = preset.o2Device;
+    if (elBpSys) elBpSys.value = preset.bpSys;
+    if (elBpDia) elBpDia.value = preset.bpDia;
+    if (elHr) elHr.value = preset.hr;
+    if (elGcs) elGcs.value = preset.gcs;
+  }
+
+  updateVitalsDisplay();
+}
+
 function updateVitalsDisplay() {
   const elSpo2 = document.getElementById('input-spo2');
   const elO2Dev = document.getElementById('input-o2-device');
