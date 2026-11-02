@@ -89,6 +89,10 @@ body, button, input, select, textarea, p, h1, h2, h3, h4, span, div, time {
   margin: 0;
   padding: 0;
 }
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
 html, body {
   background-color: #F8FAFC;
   color: #0F172A;
@@ -97,6 +101,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   letter-spacing: -0.012em;
+}
+header {
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
 }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -167,18 +175,18 @@ html, body {
 .emblem-heartbeat {
   display: inline-block;
   transform-origin: center center;
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   will-change: transform;
-  animation: cardiac-heartbeat 2.2s ease-in-out infinite;
+  animation: cardiac-heartbeat 2.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
 
 @keyframes cardiac-heartbeat {
-  0% { transform: scale(1) translateZ(0); }
-  14% { transform: scale(1.055) translateZ(0); }
-  28% { transform: scale(1.012) translateZ(0); }
-  42% { transform: scale(1.035) translateZ(0); }
-  70% { transform: scale(1) translateZ(0); }
-  100% { transform: scale(1) translateZ(0); }
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  12% { transform: scale(1.065) translate3d(0, 0, 0); }
+  24% { transform: scale(1.012) translate3d(0, 0, 0); }
+  36% { transform: scale(1.04) translate3d(0, 0, 0); }
+  56% { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1) translate3d(0, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -463,12 +471,13 @@ html, body {
   background-color: #0C6277;
   border-color: #0C6277;
   color: #FFFFFF;
-  animation: pulse-bay 2.6s ease-in-out infinite;
+  animation: pulse-bay 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: box-shadow;
 }
 .bt-walk { background-color: #FFF1F2; border-color: #FECDD3; }
 @keyframes pulse-bay {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(12, 98, 119, 0.35); }
-  50% { box-shadow: 0 0 0 8px rgba(12, 98, 119, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(12, 98, 119, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(12, 98, 119, 0); }
 }
 
 /* ── Interactive Vitals Input Tile ── */
@@ -648,17 +657,18 @@ button:focus-visible {
   pointer-events: all;
 }
 .modal-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 255, 255, 0.30) 100%);
-  backdrop-filter: blur(16px) saturate(190%);
-  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.38) 100%);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.85);
   padding: 32px 36px;
   max-width: 520px;
   width: 100%;
   box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.22), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 1px rgba(255, 255, 255, 0.25);
-  transform: translateY(16px) scale(0.98);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 16px, 0) scale(0.97);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  will-change: transform, opacity;
 }
 .modal-inner-glass {
   background: rgba(255, 255, 255, 0.22);
@@ -666,7 +676,7 @@ button:focus-visible {
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(15, 23, 42, 0.02);
 }
 .modal-bg.show .modal-card {
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 .btn-modal-cancel {
   display: inline-flex;
@@ -727,7 +737,7 @@ button:focus-visible {
   position: fixed;
   bottom: 32px;
   left: 50%;
-  transform: translateX(-50%) translateY(20px);
+  transform: translate3d(-50%, 24px, 0) scale(0.96);
   z-index: 9998;
   border-radius: 9999px;
   padding: 13px 26px;
@@ -740,16 +750,17 @@ button:focus-visible {
   letter-spacing: -0.012em;
   opacity: 0;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
   border: 1px solid rgba(226, 232, 240, 0.85);
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08), 0 4px 14px rgba(15, 23, 42, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
+  will-change: transform, opacity;
 }
 .toast.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translate3d(-50%, 0, 0) scale(1);
   pointer-events: all;
 }
 
@@ -778,22 +789,43 @@ button:focus-visible {
   height: 38px;
   border-radius: 50%;
   background: rgba(190, 18, 60, 0.35);
-  animation: beacon-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation: beacon-ping 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
 }
 @keyframes beacon-ping {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.65;
+  }
   75%, 100% {
-    transform: scale(2.2);
+    transform: scale(2.2) translate3d(0, 0, 0);
     opacity: 0;
   }
 }
 @keyframes beacon-lamp-pulse {
-  0%, 100% { opacity: 0.95; }
-  50% { opacity: 0.35; }
+  0%, 100% { opacity: 0.95; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.94); }
 }
 @keyframes apple-hosp-pulse {
-  0% { transform: scale(1); opacity: 0.35; }
-  50% { transform: scale(1.3); opacity: 0.08; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0% { transform: scale(1) translate3d(0, 0, 0); opacity: 0.35; }
+  50% { transform: scale(1.3) translate3d(0, 0, 0); opacity: 0.08; }
+  100% { transform: scale(1.6) translate3d(0, 0, 0); opacity: 0; }
+}
+
+/* ── Live Route Directional Pulse ── */
+.clinical-route-line {
+  stroke-dasharray: 8 6;
+  animation: route-dash-flow 1.4s linear infinite;
+}
+@keyframes route-dash-flow {
+  from {
+    stroke-dashoffset: 28;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* ── Clinical Map Zoom Controls ── */
@@ -983,9 +1015,9 @@ button:focus-visible {
     padding: 0.75rem 0.5rem !important;
   }
 
-  /* Form controls: prevent mobile auto-zoom on focus */
-  select, input {
-    font-size: 14px !important;
+  /* Form controls: prevent mobile auto-zoom on focus (requires >=16px) */
+  select, input:not(.vital-input-num) {
+    font-size: 16px !important;
   }
   .vital-input-num {
     font-size: 1.5rem !important;
@@ -1386,7 +1418,7 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center">
-                  <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 40px; text-align: right;" oninput="updateVitalsDisplay()" />
+                  <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 40px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('spo2')" />
                   <span id="spo2-unit-sym" class="font-mono text-xl font-bold text-statRed leading-none ml-1">%</span>
                   <div class="vital-stepper">
                     <button type="button" class="vital-step-btn" onclick="stepVital('spo2', 1)" title="Increase SpO₂" aria-label="Increase SpO₂">
@@ -1426,7 +1458,7 @@ button:focus-visible {
                 <div class="inline-flex items-center justify-center gap-1">
                   <!-- Systolic -->
                   <div class="inline-flex items-center">
-                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" placeholder="85" />
+                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-sys')" placeholder="85" />
                     <div class="vital-stepper">
                       <button type="button" class="vital-step-btn" onclick="stepVital('bp-sys', 5)" title="Increase Systolic" aria-label="Increase Systolic">
                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -1439,7 +1471,7 @@ button:focus-visible {
                   <span class="font-mono text-xl font-bold text-mutedSlate/60 px-0.5">/</span>
                   <!-- Diastolic -->
                   <div class="inline-flex items-center">
-                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" placeholder="55" />
+                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
                     <div class="vital-stepper">
                       <button type="button" class="vital-step-btn" onclick="stepVital('bp-dia', 5)" title="Increase Diastolic" aria-label="Increase Diastolic">
                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -1466,7 +1498,7 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center">
-                  <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" style="width: 52px; text-align: center;" oninput="updateVitalsDisplay()" />
+                  <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" style="width: 52px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('hr')" />
                   <div class="vital-stepper">
                     <button type="button" class="vital-step-btn" onclick="stepVital('hr', 2)" title="Increase Heart Rate" aria-label="Increase Heart Rate">
                       <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -1492,7 +1524,7 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center">
-                  <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 30px; text-align: right;" oninput="updateVitalsDisplay()" />
+                  <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 30px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('gcs')" />
                   <span class="font-mono text-xl font-bold text-mutedSlate/60 leading-none ml-0.5">/15</span>
                   <div class="vital-stepper">
                     <button type="button" class="vital-step-btn" onclick="stepVital('gcs', 1)" title="Increase GCS" aria-label="Increase GCS">
@@ -2277,6 +2309,26 @@ function stepVital(param, delta) {
   }
 }
 
+function sanitizeVital(param) {
+  if (param === 'spo2') {
+    const el = document.getElementById('input-spo2');
+    if (el) el.value = Math.max(50, Math.min(100, parseInt(el.value, 10) || 82));
+  } else if (param === 'bp-sys') {
+    const el = document.getElementById('input-bp-sys');
+    if (el) el.value = Math.max(40, Math.min(250, parseInt(el.value, 10) || 85));
+  } else if (param === 'bp-dia') {
+    const el = document.getElementById('input-bp-dia');
+    if (el) el.value = Math.max(20, Math.min(160, parseInt(el.value, 10) || 55));
+  } else if (param === 'hr') {
+    const el = document.getElementById('input-hr');
+    if (el) el.value = Math.max(30, Math.min(240, parseInt(el.value, 10) || 128));
+  } else if (param === 'gcs') {
+    const el = document.getElementById('input-gcs');
+    if (el) el.value = Math.max(3, Math.min(15, parseInt(el.value, 10) || 7));
+  }
+  updateVitalsDisplay();
+}
+
 function updateVitalsDisplay() {
   const elSpo2 = document.getElementById('input-spo2');
   const elO2Dev = document.getElementById('input-o2-device');
@@ -2285,12 +2337,17 @@ function updateVitalsDisplay() {
   const elHr = document.getElementById('input-hr');
   const elGcs = document.getElementById('input-gcs');
 
-  const spo2 = elSpo2 ? parseInt(elSpo2.value, 10) || 82 : 82;
+  const rawSpo2 = elSpo2 ? parseInt(elSpo2.value, 10) : 82;
+  const spo2 = isNaN(rawSpo2) ? 82 : Math.max(50, Math.min(100, rawSpo2));
   const o2Device = elO2Dev ? elO2Dev.value : 'On 15L Mask';
-  const bpSys = elBpSys ? parseInt(elBpSys.value, 10) || 85 : 85;
-  const bpDia = elBpDia ? parseInt(elBpDia.value, 10) || 55 : 55;
-  const hr = elHr ? parseInt(elHr.value, 10) || 128 : 128;
-  const gcs = elGcs ? parseInt(elGcs.value, 10) || 7 : 7;
+  const rawBpSys = elBpSys ? parseInt(elBpSys.value, 10) : 85;
+  const bpSys = isNaN(rawBpSys) ? 85 : Math.max(40, Math.min(250, rawBpSys));
+  const rawBpDia = elBpDia ? parseInt(elBpDia.value, 10) : 55;
+  const bpDia = isNaN(rawBpDia) ? 55 : Math.max(20, Math.min(160, rawBpDia));
+  const rawHr = elHr ? parseInt(elHr.value, 10) : 128;
+  const hr = isNaN(rawHr) ? 128 : Math.max(30, Math.min(240, rawHr));
+  const rawGcs = elGcs ? parseInt(elGcs.value, 10) : 7;
+  const gcs = isNaN(rawGcs) ? 7 : Math.max(3, Math.min(15, rawGcs));
 
   transferPayload.vitals = { spo2, o2Device, bpSys, bpDia, hr, gcs };
 
@@ -2725,19 +2782,25 @@ function applyRole(role) {
   if (!isClinic) {
     updateVitalsDisplay();
     updateICUChecklist();
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       initMap();
       if (lmap) {
         lmap.invalidateSize();
         lockMapToCorridor();
       }
-    }, 100);
-    setTimeout(() => {
-      if (lmap) {
-        lmap.invalidateSize();
-        lockMapToCorridor();
-      }
-    }, 300);
+      setTimeout(() => {
+        if (lmap) {
+          lmap.invalidateSize();
+          lockMapToCorridor();
+        }
+      }, 100);
+      setTimeout(() => {
+        if (lmap) {
+          lmap.invalidateSize();
+          lockMapToCorridor();
+        }
+      }, 300);
+    });
   }
 }
 
@@ -2774,7 +2837,7 @@ function doReserve(hospitalName) {
     }
     liveRoute = ROUTE_MAX;
     routeLine.setLatLngs(ROUTE_MAX);
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.7, dashArray: '10 7' });
+    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
     startSmoothAmbulance();
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
@@ -2937,8 +3000,9 @@ let cdSec = 25 * 60;
 let cdTimer = null;
 
 function formatCountdown(sec) {
-  const m = String(Math.floor(sec / 60)).padStart(2, '0');
-  const s = String(sec % 60).padStart(2, '0');
+  const safeSec = Math.max(0, Math.floor(sec || 0));
+  const m = String(Math.floor(safeSec / 60)).padStart(2, '0');
+  const s = String(safeSec % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
 
@@ -2946,20 +3010,27 @@ function startCountdown(fromSec) {
   if (cdTimer) clearInterval(cdTimer);
   cdSec = fromSec ?? 25 * 60;
   const el = document.getElementById('countdown');
-  el.textContent = formatCountdown(cdSec);
-  el.className = 'countdown cd-normal';
+  if (el) {
+    el.textContent = formatCountdown(cdSec);
+    el.className = 'countdown cd-normal';
+  }
 
   cdTimer = setInterval(() => {
+    const elLive = document.getElementById('countdown');
     if (cdSec <= 0) {
       clearInterval(cdTimer);
-      el.textContent = 'EXPIRED';
-      el.className = 'countdown cd-critical';
+      if (elLive) {
+        elLive.textContent = 'EXPIRED';
+        elLive.className = 'countdown cd-critical';
+      }
       showToast('Bed hold for Bay 05 expired. Please re-confirm with hospital.', 'terra');
       return;
     }
     cdSec--;
-    el.textContent = formatCountdown(cdSec);
-    el.className = `countdown ${cdSec < 60 ? 'cd-critical' : cdSec < 300 ? 'cd-warning' : 'cd-normal'}`;
+    if (elLive) {
+      elLive.textContent = formatCountdown(cdSec);
+      elLive.className = `countdown ${cdSec < 60 ? 'cd-critical' : cdSec < 300 ? 'cd-warning' : 'cd-normal'}`;
+    }
   }, 1000);
 }
 startCountdown(25 * 60);
@@ -3318,9 +3389,10 @@ function initMap() {
   routeLine = L.polyline(ROUTE_MAX, {
     color: '#0C6277',
     weight: 3.5,
-    opacity: 0.75,
+    opacity: 0.8,
     dashArray: '8 6',
     lineCap: 'round',
+    className: 'clinical-route-line',
   }).addTo(lmap);
 
   ambuMkr = L.marker(ROUTE_MAX[0], {
@@ -3510,6 +3582,10 @@ function handleBg(event) {
   if (event.target === document.getElementById('modal')) closeModal();
 }
 
+function closeRoleModal() {
+  // Station role switcher is handled via header segmented pills
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
@@ -3577,7 +3653,7 @@ function confirmOverride() {
     liveRoute = divertRoute;
 
     routeLine.setLatLngs(divertRoute);
-    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6' });
+    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
     startSmoothAmbulance();
     document.getElementById('eta-txt').textContent = 'Rerouted → Saroj · +3 min ETA';
   }
@@ -3640,7 +3716,7 @@ function resetOverride() {
     liveRoute = returnRoute;
 
     routeLine.setLatLngs(returnRoute);
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.7, dashArray: '10 7' });
+    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
     startSmoothAmbulance();
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
@@ -3701,14 +3777,6 @@ window.addEventListener('resize', () => {
     lockMapToCorridor();
   }
 });
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeModal();
-    closeRoleModal();
-  }
-});
-
 </script>
 </body>
 </html>
