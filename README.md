@@ -9,10 +9,10 @@ GoldenRoute is a clinical decision-support and emergency dispatch platform engin
 ## Key Features
 
 ### 1. Dual Operational Stations
-- **Clinic Dispatch Station (`dispatch.html`)**:
+- **Referring Facility Console (`dispatch.html`)**:
   - **Step 1: Patient Triage & Intake**: Acuity rating (Code Red / Amber / Yellow), condition selection (ARDS, STEMI, Hemorrhagic Stroke, Polytrauma), live editable departure vitals ($SpO_2$, BP, HR, GCS) with dynamic clinical status notes, and required ICU equipment matching.
   - **Step 2: Intelligent Hospital Matching**: Ranked hospital beds (Max Hospital Shalimar Bagh, Saroj Super Speciality, Dr. B.S. Ambedkar, Action Balaji, Fortis) with real-time transit distance and confirmed equipment compatibility.
-- **Hospital ICU Receiving Station (`dispatch.html`)**:
+- **Receiving ICU Station (`dispatch.html`)**:
   - **Live GPS Road Tracking**: Calibrated Leaflet ambulance tracking along the Outer Ring Road corridor with realistic physical transit speed and continuous smooth road navigation.
   - **Bed Reservation & Bed-Hold Timer**: 25-minute hold timer for incoming transfers with real-time state tracking.
   - **Dynamic ICU Arrival Checklist**: Automatically updates with clinically realistic protocols tailored to the transfer's selected equipments (mechanical ventilation circuit checks, inotrope syringe pump handover, blood rapid infusers, emergency airway trays).
@@ -28,7 +28,7 @@ GoldenRoute is a clinical decision-support and emergency dispatch platform engin
 ```text
 .
 ├── index.html              # GoldenRoute public landing page & station portal
-├── dispatch.html           # Core dispatch console (Clinic & Hospital ICU dual views)
+├── dispatch.html           # Core dispatch console (Referring Facility & Receiving ICU dual views)
 ├── assets/                 # Brand emblems, logos, and arterial visual assets
 │   ├── goldenroute-icon.png
 │   ├── goldenroute-logo.png

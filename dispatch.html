@@ -1121,10 +1121,10 @@ button:focus-visible {
   <nav aria-label="Operational Stations" class="flex items-center justify-center flex-1 max-w-md">
     <div class="inline-flex gap-1 bg-white/70 backdrop-blur-md rounded-full p-1 border border-softBorder shadow-xs" role="tablist">
       <button id="btn1" type="button" role="tab" aria-selected="true" class="station-pill on" onclick="switchRole('clinic')">
-        Clinic Station
+        Referring Facility
       </button>
       <button id="btn2" type="button" role="tab" aria-selected="false" class="station-pill off" onclick="switchRole('icu')">
-        Hospital ICU Station
+        Receiving ICU
       </button>
     </div>
   </nav>
@@ -1142,7 +1142,7 @@ button:focus-visible {
 
 
 <!-- ═════════════════════════════════════════════════════════════════
-     VIEW 1: CLINIC DISPATCH CONSOLE (Sequential 2-Step Workflow)
+     VIEW 1: REFERRING FACILITY DISPATCH CONSOLE (Sequential 2-Step Workflow)
 ═════════════════════════════════════════════════════════════════ -->
 <main id="v1" class="view active flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
@@ -1166,7 +1166,7 @@ button:focus-visible {
       </div>
       <div class="flex items-center gap-2 w-full sm:w-auto">
         <button type="button" onclick="handoffToICU()" class="btn-clinical !h-10 !px-5 text-xs font-bold whitespace-nowrap">
-          Open Receiving ICU Station &rarr;
+          Open Receiving ICU &rarr;
         </button>
       </div>
     </section>
@@ -1794,6 +1794,9 @@ button:focus-visible {
     </section>
   </div>
 </main>
+<!-- ═════════════════════════════════════════════════════════════════
+     VIEW 2: RECEIVING ICU CONSOLE (Bed Bay Allocation & Live Inbound Telemetry)
+═════════════════════════════════════════════════════════════════ -->
 <main id="v2" class="view flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
@@ -1811,7 +1814,7 @@ button:focus-visible {
           </span>
           <div class="flex items-center gap-1.5 text-xs text-mutedSlate">
             <span>From:</span>
-            <strong class="text-inkDark font-semibold">Rohini Sector 3 Clinic</strong>
+            <strong class="text-inkDark font-semibold">Rohini Sector 3 Referring Facility</strong>
           </div>
         </div>
 
@@ -2747,10 +2750,14 @@ function initRoleSelection() {
   const paramRole = urlParams.get('role');
   const storedRole = sessionStorage.getItem('goldenRoute_role');
 
-  if (paramRole === 'clinic' || paramRole === 'icu') {
-    applyRole(paramRole);
-  } else if (storedRole === 'clinic' || storedRole === 'icu') {
-    applyRole(storedRole);
+  if (paramRole === 'clinic' || paramRole === 'referring-facility') {
+    applyRole('clinic');
+  } else if (paramRole === 'icu' || paramRole === 'receiving-icu') {
+    applyRole('icu');
+  } else if (storedRole === 'clinic' || storedRole === 'referring-facility') {
+    applyRole('clinic');
+  } else if (storedRole === 'icu' || storedRole === 'receiving-icu') {
+    applyRole('icu');
   } else {
     applyRole('clinic');
   }
@@ -2842,13 +2849,13 @@ function doReserve(hospitalName) {
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  showToast('ICU Bay 05 locked. Hospital notified of incoming transfer.', 'sage');
+  showToast('ICU Bay 05 locked. Receiving ICU notified of incoming transfer.', 'sage');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function handoffToICU() {
   switchRole('icu');
-  showToast('Connected to Receiving Hospital ICU. Bay 05 reserved.', 'sage');
+  showToast('Connected to Receiving ICU. Bay 05 reserved.', 'sage');
 }
 
 // ─────── 7. Urgency Level Selection ───────
@@ -3369,7 +3376,7 @@ function initMap() {
   lockMapToCorridor(true);
 
   markerClinic = L.marker(CLINIC,  { icon: getClinicPin() }).addTo(lmap)
-   .bindPopup('<b>Referring Clinic</b><br>Rohini Sector 3 · Origin Point');
+   .bindPopup('<b>Referring Facility</b><br>Rohini Sector 3 · Origin Point');
 
   markerDestination = L.marker(MAX_HSP, { icon: getDestinationPin() }).addTo(lmap)
    .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Reserved)');
