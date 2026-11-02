@@ -68,7 +68,12 @@
         }
       }
     }
-  }
+  };
+  (function() {
+    var cycleMs = 2200;
+    var offsetSec = ((Date.now() % cycleMs) / 1000).toFixed(3);
+    document.documentElement.style.setProperty('--heartbeat-delay', '-' + offsetSec + 's');
+  })();
 </script>
 
 <style>
@@ -173,20 +178,24 @@ header {
 
 /* ── Pronounced Cardiac Heartbeat (Living Brand Emblem & Typography) ── */
 .emblem-heartbeat {
-  display: inline-block;
+  display: block;
   transform-origin: center center;
-  transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   will-change: transform;
-  animation: cardiac-heartbeat 2.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  animation: cardiac-heartbeat 2.2s ease-in-out infinite;
+  animation-delay: var(--heartbeat-delay, 0s);
 }
 
 @keyframes cardiac-heartbeat {
-  0% { transform: scale(1) translate3d(0, 0, 0); }
-  12% { transform: scale(1.065) translate3d(0, 0, 0); }
-  24% { transform: scale(1.012) translate3d(0, 0, 0); }
-  36% { transform: scale(1.04) translate3d(0, 0, 0); }
-  56% { transform: scale(1) translate3d(0, 0, 0); }
-  100% { transform: scale(1) translate3d(0, 0, 0); }
+  0%   { transform: scale(1) translateZ(0); }
+  14%  { transform: scale(1.055) translateZ(0); }
+  28%  { transform: scale(1.008) translateZ(0); }
+  42%  { transform: scale(1.032) translateZ(0); }
+  68%  { transform: scale(1) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1109,7 +1118,9 @@ button:focus-visible {
   <!-- Left: GoldenRoute Emblem + Station Label -->
   <div class="flex items-center gap-3 sm:gap-4 shrink-0">
     <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="Back to GoldenRoute Home">
-      <img src="assets/goldenroute-icon.png" alt="GoldenRoute Logo" class="h-8 w-8 sm:h-9 sm:w-9 object-contain shrink-0 emblem-heartbeat" />
+      <div class="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
+        <img src="assets/goldenroute-icon.png" alt="GoldenRoute Logo" width="36" height="36" class="w-full h-full object-contain emblem-heartbeat" />
+      </div>
       <span class="text-xl sm:text-[23px] font-extrabold tracking-tight leading-none text-inkDark">
         Golden<span class="text-clinicalTeal">Route</span>
       </span>
@@ -3783,6 +3794,12 @@ window.addEventListener('resize', () => {
     lmap.invalidateSize();
     lockMapToCorridor();
   }
+});
+
+window.addEventListener('pageshow', () => {
+  const cycleMs = 2200;
+  const offsetSec = ((Date.now() % cycleMs) / 1000).toFixed(3);
+  document.documentElement.style.setProperty('--heartbeat-delay', `-${offsetSec}s`);
 });
 </script>
 </body>
