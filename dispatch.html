@@ -1667,48 +1667,48 @@ button:focus-visible {
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Power On Invasive Ventilator (Servo-Air)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">AC/VC Mode · 100% FiO2 · PEEP 10 cmH2O primed</p>
+                <p class="chk-text done">Prime &amp; Test Mechanical Ventilator (Servo-Air)</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Dual-limb circuit checked &middot; AC/VC Mode (FiO₂ 100%, PEEP 10 cmH₂O) ready for post-intubation connection</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Prepare IV Infusion Pump (Norepinephrine)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Spare syringe ready · 0.1 mcg/kg/min dose primed</p>
+                <p class="chk-text done">Prepare Dedicated Syringe Infusion Pump (Norepinephrine)</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Concentration 4 mg/50 mL primed &middot; Pressure line ready for zero-interruption handover</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Confirm 2 Units of O-Negative Blood at Bay</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Emergency blood delivered to Bay 05 rapid infuser cart</p>
+                <p class="chk-text done">Verify 2 Units O-Negative Blood &amp; Rapid Infuser at Bay</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Emergency PRBCs received from blood bank &middot; Belmont rapid warmer primed</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Station Pulmonology / Intensivist at Ambulance Bay</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">On-duty intensivist paged to ambulance arrival entrance</p>
+                <p class="chk-text">Set Up Video Laryngoscope &amp; Emergency Airway Tray</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">GlideScope blade tested &middot; ETT 7.5 styletted &middot; Rapid Sequence Intubation drugs verified</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Prepare Arterial Line Kit &amp; Ultrasound</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Radial line kit opened · Vascular ultrasound probe sanitized</p>
+                <p class="chk-text">Prepare Arterial Line Kit &amp; Vascular Ultrasound</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Radial line sterile tray opened &middot; Transducer cable zeroed and leveled to phlebostatic axis</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Verify Rapid Sequence Intubation (RSI) Medications</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Etomidate and rocuronium drawn and verified</p>
+                <p class="chk-text">Station Resuscitation Team at Bay 05 (Attending Intensivist &amp; Lead ICU RN)</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Bedside team assembled &middot; Telemetry monitor patched for immediate SBAR paramedic handover</p>
               </div>
             </div>
           </div>
@@ -2273,6 +2273,7 @@ function applyRole(role) {
 
   if (!isClinic) {
     updateVitalsDisplay();
+    updateICUChecklist();
     setTimeout(() => {
       initMap();
       if (lmap) {
@@ -2305,6 +2306,7 @@ function doReserve(hospitalName) {
   transferPayload.dispatched = true;
 
   updateVitalsDisplay();
+  updateICUChecklist();
 
   document.getElementById('icu-syndrome-tag').textContent = transferPayload.syndrome;
   document.getElementById('handoff-hosp-name').textContent = transferPayload.hospital;
@@ -2348,6 +2350,8 @@ function setThreat(level) {
 // ─────── 8. Equipment Toggle ───────
 function toggleEq(el) {
   el.classList.toggle('sel');
+  updateHospitalEquipmentDisplays(getSelectedEquipments());
+  updateICUChecklist();
 }
 
 // ─────── 9. In-Transit Support Toggle ───────
@@ -2364,7 +2368,99 @@ function toggleTransit(el) {
   }
 }
 
-// ─────── 10. ICU Checklist Toggle ───────
+// ─────── 10. ICU Arrival Checklist & Dynamic Generation ───────
+const CHECKLIST_TEMPLATES = {
+  'Invasive Ventilator': {
+    title: 'Prime & Test Mechanical Ventilator (Servo-Air)',
+    subtitle: 'Dual-limb circuit checked · AC/VC Mode (FiO₂ 100%, PEEP 10 cmH₂O) ready for immediate post-intubation connection'
+  },
+  'Emergency O-Negative Blood': {
+    title: 'Verify 2 Units O-Negative Blood & Rapid Infuser at Bay',
+    subtitle: 'Emergency PRBCs received from blood bank · Belmont rapid warmer primed'
+  },
+  'Emergency Kidney Dialysis': {
+    title: 'Prime Continuous Renal Replacement Therapy (CRRT) Machine',
+    subtitle: 'Prismaflex cartridge loaded · Heparin-free prime completed with dialysate on standby'
+  },
+  'ECMO Life Support': {
+    title: 'Prepare Extracorporeal Membrane Oxygenation (ECMO) Circuit',
+    subtitle: 'Cardiohelp circuit de-aired & primed · Cannulation tray open · Perfusionist present'
+  },
+  'Cardiac Cath Lab': {
+    title: 'Alert Interventional Cardiology & Cath Lab Team',
+    subtitle: 'Emergency PCI team activated · Suite on 15-minute primary angioplasty standby'
+  },
+  'High-Flow Nasal Cannula': {
+    title: 'Assemble High-Flow Nasal Cannula (HFNC Optiflow) System',
+    subtitle: 'Heated humidifier set to 37°C · Flow set to 50 L/min at 80% FiO₂ ready'
+  },
+  'Negative-Pressure Isolation Room': {
+    title: 'Verify Negative-Pressure Isolation & Airborne PPE',
+    subtitle: 'Differential pressure gauge verified (≥12 ACH) · N95/PAPR station stocked at antechamber'
+  },
+  'Pediatric / Neonatal ICU': {
+    title: 'Calibrate Pediatric Resuscitation Bay & Weight-Based Protocol',
+    subtitle: 'Overhead infant warmer calibrated · Broselow emergency tape and pediatric doses verified'
+  }
+};
+
+function updateICUChecklist() {
+  const container = document.getElementById('chklist');
+  if (!container) return;
+
+  const selectedEquips = getSelectedEquipments();
+  const items = [];
+
+  // 1. Add equipment-specific items for all selected required equipments
+  selectedEquips.forEach(eq => {
+    if (CHECKLIST_TEMPLATES[eq]) {
+      items.push({
+        title: CHECKLIST_TEMPLATES[eq].title,
+        subtitle: CHECKLIST_TEMPLATES[eq].subtitle,
+        done: true
+      });
+    }
+  });
+
+  // 2. Vasopressor handoff (active in transit)
+  items.push({
+    title: 'Prepare Dedicated Syringe Infusion Pump (Norepinephrine)',
+    subtitle: 'Concentration 4 mg/50 mL primed · Pressure line ready for zero-interruption handover',
+    done: true
+  });
+
+  // 3. Airway / Intubation
+  items.push({
+    title: 'Set Up Video Laryngoscope & Emergency Airway Tray',
+    subtitle: 'GlideScope blade tested · ETT 7.5 styletted · Rapid Sequence Intubation drugs verified',
+    done: false
+  });
+
+  // 4. Invasive hemodynamic monitoring
+  items.push({
+    title: 'Prepare Arterial Line Kit & Vascular Ultrasound',
+    subtitle: 'Radial line sterile tray opened · Transducer cable zeroed and leveled to phlebostatic axis',
+    done: false
+  });
+
+  // 5. Staffing reception
+  items.push({
+    title: 'Station Resuscitation Team at Bay 05 (Attending Intensivist & Lead ICU RN)',
+    subtitle: 'Bedside team assembled · Telemetry monitor patched for immediate SBAR paramedic handover',
+    done: false
+  });
+
+  container.innerHTML = items.map(item => `
+    <div class="chk-row" onclick="chkToggle(this)">
+      <div class="chk-circle ${item.done ? 'done' : ''}"></div>
+      <div class="flex-1 min-w-0">
+        <p class="chk-text ${item.done ? 'done' : ''}">${item.title}</p>
+        <p class="text-[11px] text-mutedSlate mt-0.5">${item.subtitle}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
 function chkToggle(row) {
   const circle = row.querySelector('.chk-circle');
   const text = row.querySelector('.chk-text');
@@ -3138,6 +3234,7 @@ function showToast(msg, type = 'normal') {
 window.addEventListener('DOMContentLoaded', () => {
   initRoleSelection();
   initMap();
+  updateICUChecklist();
 });
 
 window.addEventListener('resize', () => {
