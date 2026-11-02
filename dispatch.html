@@ -994,11 +994,20 @@ button:focus-visible {
           </div>
 
           <!-- Negative-Pressure Isolation Room -->
-          <div class="equip-chip sm:col-span-2 lg:col-span-2" onclick="toggleEq(this)">
+          <div class="equip-chip" onclick="toggleEq(this)">
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Negative-Pressure Isolation Room</p>
               <p class="text-[11px] text-mutedSlate mt-0.5">Airborne infection control protocol</p>
+            </div>
+          </div>
+
+          <!-- ECMO Life Support -->
+          <div class="equip-chip" onclick="toggleEq(this)">
+            <div class="ec-box"></div>
+            <div>
+              <p class="text-[13px] font-semibold text-inkDark leading-tight">ECMO Life Support</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Extracorporeal membrane oxygenation</p>
             </div>
           </div>
         </div>
@@ -1975,7 +1984,8 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Pediatric / Neonatal ICU': { available: false, note: 'Adult ICU Only · PICU Full' },
       'Cardiac Cath Lab': { available: true, note: '24/7 Primary PCI Team Ready' },
       'High-Flow Nasal Cannula': { available: true, note: 'HFNC AIRVO-2 Ready' },
-      'Negative-Pressure Isolation Room': { available: true, note: 'Bay 102 Empty' }
+      'Negative-Pressure Isolation Room': { available: true, note: 'Bay 102 Empty' },
+      'ECMO Life Support': { available: true, note: 'Cardiohelp Console Primed' }
     }
   },
   bsa: {
@@ -1987,7 +1997,8 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Pediatric / Neonatal ICU': { available: true, note: 'SNCU Level II Open' },
       'Cardiac Cath Lab': { available: false, note: 'Cath Lab Offline' },
       'High-Flow Nasal Cannula': { available: true, note: 'HFNC Cart Ready' },
-      'Negative-Pressure Isolation Room': { available: false, note: 'Isolation Ward Full' }
+      'Negative-Pressure Isolation Room': { available: false, note: 'Isolation Ward Full' },
+      'ECMO Life Support': { available: false, note: 'No ECMO Capability' }
     }
   },
   fortis: {
@@ -1999,7 +2010,8 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Pediatric / Neonatal ICU': { available: true, note: 'Level III PICU 1 Bed Free' },
       'Cardiac Cath Lab': { available: true, note: '24/7 PCI Team on Standby' },
       'High-Flow Nasal Cannula': { available: true, note: 'Spare Unit Available' },
-      'Negative-Pressure Isolation Room': { available: true, note: 'Isolation Bay 3 Ready' }
+      'Negative-Pressure Isolation Room': { available: true, note: 'Isolation Bay 3 Ready' },
+      'ECMO Life Support': { available: true, note: 'ECMO Team On Call' }
     }
   },
   saroj: {
@@ -2011,7 +2023,8 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Pediatric / Neonatal ICU': { available: false, note: 'No Dedicated PICU' },
       'Cardiac Cath Lab': { available: true, note: 'Cath Lab 1 Active' },
       'High-Flow Nasal Cannula': { available: true, note: 'Optiflow HFNC Ready' },
-      'Negative-Pressure Isolation Room': { available: false, note: 'Isolation In Use' }
+      'Negative-Pressure Isolation Room': { available: false, note: 'Isolation In Use' },
+      'ECMO Life Support': { available: false, note: 'No ECMO Console Free' }
     }
   },
   balaji: {
@@ -2023,7 +2036,8 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Pediatric / Neonatal ICU': { available: true, note: 'Dedicated PICU (2 Beds Free)' },
       'Cardiac Cath Lab': { available: true, note: 'Emergency PCI Team Ready' },
       'High-Flow Nasal Cannula': { available: true, note: 'Heated HFNC Ready' },
-      'Negative-Pressure Isolation Room': { available: true, note: 'Isolation Suite 4 Ready' }
+      'Negative-Pressure Isolation Room': { available: true, note: 'Isolation Suite 4 Ready' },
+      'ECMO Life Support': { available: true, note: 'Rotaflow Unit Standby' }
     }
   }
 };
