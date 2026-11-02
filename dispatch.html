@@ -1042,22 +1042,20 @@ button:focus-visible {
               In-Transit Life Support
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="h-11 flex items-center gap-2.5 px-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Norepinephrine</p>
                   <p class="text-[10px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
                 </div>
-                <span class="tt-badge clinical-badge badge-blue text-[9px] shrink-0 font-semibold px-1.5 py-0.5">TRANSIT</span>
               </div>
 
-              <div class="h-11 flex items-center gap-2.5 px-3 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Ambu-Bag O₂</p>
                   <p class="text-[10px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
                 </div>
-                <span class="tt-badge clinical-badge badge-blue text-[9px] shrink-0 font-semibold px-1.5 py-0.5">TRANSIT</span>
               </div>
             </div>
           </div>
@@ -2333,21 +2331,14 @@ function toggleEq(el) {
 // ─────── 9. In-Transit Support Toggle ───────
 function toggleTransit(el) {
   const dot = el.querySelector('.tt-dot');
-  const badge = el.querySelector('.tt-badge') || el.querySelector('span:last-child');
   const isActive = dot && dot.classList.contains('active');
 
   if (isActive) {
-    if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-[#94A3B8] shrink-0 inactive';
-    if (badge) {
-      badge.textContent = 'STANDBY';
-      badge.className = 'tt-badge clinical-badge badge-neutral text-[10px] shrink-0';
-    }
+    if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive';
+    el.classList.add('opacity-50');
   } else {
     if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active';
-    if (badge) {
-      badge.textContent = 'ACTIVE IN TRANSIT';
-      badge.className = 'tt-badge clinical-badge badge-blue text-[10px] shrink-0';
-    }
+    el.classList.remove('opacity-50');
   }
 }
 
