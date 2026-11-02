@@ -238,18 +238,18 @@ html, body {
 }
 .threat-card.tc-red.sel {
   background: #FFF1F2;
-  border-color: #FECDD3;
-  box-shadow: 0 2px 12px rgba(190, 18, 60, 0.08);
+  border-color: #FDA4AF;
+  box-shadow: 0 0 0 1px #FDA4AF, 0 3px 14px rgba(190, 18, 60, 0.08);
 }
 .threat-card.tc-amber.sel {
   background: #FFF7ED;
   border-color: #FDBA74;
-  box-shadow: 0 2px 14px rgba(234, 88, 12, 0.08);
+  box-shadow: 0 0 0 1px #FDBA74, 0 3px 14px rgba(234, 88, 12, 0.08);
 }
 .threat-card.tc-yellow.sel {
   background: #FEFCE8;
-  border-color: #FACC15;
-  box-shadow: 0 2px 14px rgba(234, 179, 8, 0.1);
+  border-color: #FDE047;
+  box-shadow: 0 0 0 1px #FDE047, 0 3px 14px rgba(234, 179, 8, 0.1);
 }
 .threat-card.tc-green.sel {
   background: #F0FDF4;
@@ -1348,7 +1348,7 @@ button:focus-visible {
               In-Transit Life Support
             </p>
             <div id="life-support-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-clinicalTeal/70 bg-clinicalTeal/[0.04] hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Norepinephrine</p>
@@ -1356,7 +1356,7 @@ button:focus-visible {
                 </div>
               </div>
 
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-clinicalTeal/70 bg-clinicalTeal/[0.04] hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
                 <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Ambu-Bag O₂</p>
@@ -1399,13 +1399,20 @@ button:focus-visible {
                 </div>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
-                <select id="input-o2-device" class="h-7 w-full text-[11px] font-semibold text-mutedSlate bg-paper border border-softBorder rounded-lg px-2 text-center cursor-pointer transition-colors focus:outline-none" onchange="updateVitalsDisplay()">
-                  <option value="On 15L Mask" selected>15L Mask</option>
-                  <option value="On HFNC">HFNC</option>
-                  <option value="On Ambu-Bag">Ambu-Bag</option>
-                  <option value="On Ventilator">Ventilator</option>
-                  <option value="On Room Air">Room Air</option>
-                </select>
+                <div class="relative w-full h-7">
+                  <select id="input-o2-device" class="h-7 w-full text-[11px] font-semibold text-mutedSlate bg-paper border border-softBorder rounded-lg pl-3 pr-6 text-center cursor-pointer transition-colors focus:outline-none appearance-none" onchange="updateVitalsDisplay()">
+                    <option value="On 15L Mask" selected>15L Mask</option>
+                    <option value="On HFNC">HFNC</option>
+                    <option value="On Ambu-Bag">Ambu-Bag</option>
+                    <option value="On Ventilator">Ventilator</option>
+                    <option value="On Room Air">Room Air</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-mutedSlate/60">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -2806,9 +2813,13 @@ function toggleTransit(el) {
   if (isActive) {
     if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive';
     el.classList.add('opacity-50');
+    el.classList.remove('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
+    el.classList.add('border-softBorder', 'bg-white');
   } else {
     if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active';
     el.classList.remove('opacity-50');
+    el.classList.remove('border-softBorder', 'bg-white');
+    el.classList.add('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
   }
 }
 
