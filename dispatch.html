@@ -1167,10 +1167,10 @@ button:focus-visible {
                 <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Blood Pressure</span>
                 <span class="text-[11px] font-medium text-mutedSlate">mmHg</span>
               </div>
-              <div class="h-10 flex items-center justify-center gap-1 my-1">
-                <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed w-14 text-right" oninput="updateVitalsDisplay()" placeholder="85" />
-                <span class="font-mono text-xl font-bold text-mutedSlate/60">/</span>
-                <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed w-14 text-left" oninput="updateVitalsDisplay()" placeholder="55" />
+              <div class="h-10 flex items-center justify-center gap-0.5 my-1">
+                <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed w-12 text-right pr-0.5" oninput="updateVitalsDisplay()" placeholder="85" />
+                <span class="font-mono text-xl font-bold text-mutedSlate/60 px-0.5">/</span>
+                <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed w-12 text-left pl-0.5" oninput="updateVitalsDisplay()" placeholder="55" />
               </div>
               <div class="h-7 w-full flex items-center justify-center">
                 <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
@@ -1202,8 +1202,8 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">GCS</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed w-14 text-right" oninput="updateVitalsDisplay()" />
-                <span class="font-mono text-lg font-bold text-mutedSlate/60 ml-0.5">/15</span>
+                <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed w-8 text-right pr-0.5" oninput="updateVitalsDisplay()" />
+                <span class="font-mono text-xl font-bold text-mutedSlate/60 leading-none ml-0.5">/15</span>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
                 <div class="h-7 w-full flex items-center justify-center rounded-lg bg-paper border border-softBorder px-2">
@@ -1984,8 +1984,8 @@ function updateVitalsDisplay() {
     bpNote.textContent = bpNoteText;
     bpNote.className = `text-[11px] font-semibold ${bpNoteColor}`;
   }
-  if (elBpSys) elBpSys.className = `vital-input-num ${bpColor} w-14 text-right`;
-  if (elBpDia) elBpDia.className = `vital-input-num ${bpColor} w-14 text-left`;
+  if (elBpSys) elBpSys.className = `vital-input-num ${bpColor} w-12 text-right pr-0.5`;
+  if (elBpDia) elBpDia.className = `vital-input-num ${bpColor} w-12 text-left pl-0.5`;
 
   // 3. Heart Rate Status Note & Color
   let hrNoteText = 'Normal Sinus Rhythm';
@@ -2009,17 +2009,17 @@ function updateVitalsDisplay() {
   if (elHr) elHr.className = `vital-input-num ${hrColor} w-full text-center`;
 
   // 4. GCS Status Note & Color
-  let gcsNoteText = 'Mild / Alert (13-15)';
+  let gcsNoteText = 'Alert / Normal';
   let gcsColor = 'text-stableGreen';
   let gcsNoteColor = 'text-stableGreenText';
   let gcsShortNote = 'Alert';
   if (gcs <= 8) {
-    gcsNoteText = 'Severe Coma (≤8)';
+    gcsNoteText = 'Severe Coma';
     gcsColor = 'text-statRed';
     gcsNoteColor = 'text-statRed';
     gcsShortNote = 'Coma';
   } else if (gcs <= 12) {
-    gcsNoteText = 'Moderate Deficit (9-12)';
+    gcsNoteText = 'Moderate Deficit';
     gcsColor = 'text-urgentAmber';
     gcsNoteColor = 'text-urgentAmberText';
     gcsShortNote = 'Deficit';
@@ -2030,7 +2030,7 @@ function updateVitalsDisplay() {
     gcsNote.textContent = gcsNoteText;
     gcsNote.className = `text-[11px] font-semibold ${gcsNoteColor}`;
   }
-  if (elGcs) elGcs.className = `vital-input-num ${gcsColor} w-14 text-right`;
+  if (elGcs) elGcs.className = `vital-input-num ${gcsColor} w-8 text-right pr-0.5`;
 
   // ── Sync to ICU Station View Telemetry Dossier ──
   const icuSpo2 = document.getElementById('icu-vital-spo2');
@@ -2089,7 +2089,7 @@ function updateVitalsDisplay() {
   // Sync to Step 2 summary badge
   const summaryVitalsBadge = document.getElementById('summary-vitals-badge');
   if (summaryVitalsBadge) {
-    summaryVitalsBadge.textContent = `SpO2 ${spo2}% (${o2Device}) · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
+    summaryVitalsBadge.textContent = `SpO2 ${spo2}% · ${o2Device} · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
   }
 }
 
@@ -2265,11 +2265,11 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
         }
       } else if (key === 'saroj') {
         badgeWrap.innerHTML = `
-          <span class="clinical-badge badge-blue">Designated Backup Hospital</span>
+          <span class="clinical-badge badge-blue font-semibold">Primary Backup Hospital</span>
           <span class="clinical-badge badge-neutral">Rohini Sector 14</span>`;
       } else if (key === 'balaji') {
         badgeWrap.innerHTML = `
-          <span class="clinical-badge badge-blue">Extended Backup Center</span>
+          <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
           <span class="clinical-badge badge-neutral">West Delhi</span>`;
       }
     }
@@ -3347,6 +3347,8 @@ function showToast(msg, type = 'normal') {
 window.addEventListener('DOMContentLoaded', () => {
   initRoleSelection();
   initMap();
+  updateVitalsDisplay();
+  updateHospitalEquipmentDisplays(getSelectedEquipments());
   updateICUChecklist();
 });
 
