@@ -1221,7 +1221,7 @@ button:focus-visible {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           <!-- Level 1 (Code Red) -->
-          <button type="button" class="threat-card tc-red sel" id="tl1" onclick="setThreat(1)">
+          <button type="button" class="threat-card tc-red" id="tl1" onclick="setThreat(1)">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
@@ -1281,7 +1281,7 @@ button:focus-visible {
 
         <div id="equip-chips-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <!-- Invasive Ventilator -->
-          <div class="equip-chip sel" onclick="toggleEq(this)">
+          <div class="equip-chip" onclick="toggleEq(this)">
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Invasive Ventilator</p>
@@ -1299,7 +1299,7 @@ button:focus-visible {
           </div>
 
           <!-- Blood Reserve -->
-          <div class="equip-chip sel" onclick="toggleEq(this)">
+          <div class="equip-chip" onclick="toggleEq(this)">
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Emergency O-Negative Blood</p>
@@ -1392,16 +1392,16 @@ button:focus-visible {
               In-Transit Life Support
             </p>
             <div id="life-support-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-clinicalTeal/70 bg-clinicalTeal/[0.04] hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
-                <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white opacity-60 hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+                <span class="tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Norepinephrine</p>
                   <p class="text-[10px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
                 </div>
               </div>
 
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-clinicalTeal/70 bg-clinicalTeal/[0.04] hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
-                <span class="tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active"></span>
+              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white opacity-60 hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
+                <span class="tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Ambu-Bag O₂</p>
                   <p class="text-[10px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
@@ -1597,12 +1597,11 @@ button:focus-visible {
 
         <!-- Dynamic Selected Requirements Summary Pill Strip -->
         <div class="flex items-center gap-2 flex-wrap pt-3.5 border-t border-softBorder text-xs">
-          <span id="summary-urgency-badge" class="clinical-badge badge-red text-[11px]">Code Red &middot; STAT</span>
+          <span id="summary-urgency-badge" class="clinical-badge badge-neutral text-[11px]">Standard Triage</span>
           <span id="summary-condition-badge" class="clinical-badge badge-blue text-[11px]">Severe Lung Failure (ARDS / Sepsis)</span>
           <span id="summary-vitals-badge" class="clinical-badge badge-neutral text-[11px] font-mono">SpO2 82% &middot; BP 85/55 &middot; HR 128 &middot; GCS 7/15</span>
           <div id="summary-equipment-badges" class="flex items-center gap-1.5 flex-wrap">
-            <span class="clinical-badge badge-neutral text-[11px]">Invasive Ventilator</span>
-            <span class="clinical-badge badge-neutral text-[11px]">Emergency O-Neg Blood</span>
+            <span class="clinical-badge badge-neutral text-[11px]">Standard ICU Monitoring</span>
           </div>
         </div>
       </header>
@@ -1639,15 +1638,9 @@ button:focus-visible {
             <div id="hosp-equip-max" class="flex flex-wrap gap-2 mb-5">
               <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
                 <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
-                <span class="font-semibold text-slate-900">Invasive Ventilator</span>
+                <span class="font-semibold text-slate-900">Standard ICU Bed Available</span>
                 <span class="text-slate-400">&middot;</span>
-                <span class="text-clinicalTeal font-bold">1 Bed Free (Bay 05)</span>
-              </div>
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
-                <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
-                <span class="font-semibold text-slate-900">Emergency O-Negative Blood</span>
-                <span class="text-slate-400">&middot;</span>
-                <span class="text-clinicalTeal font-bold">4 Units Stocked</span>
+                <span class="text-clinicalTeal font-bold">Bay 05 Ready</span>
               </div>
             </div>
           </div>
@@ -2200,7 +2193,7 @@ let clinicStep = 1; // 1: Intake & Equipment | 2: Recommended Hospitals
 let transferPayload = {
   token: '#GR-DEL-9421',
   syndrome: 'Severe Lung Failure & Infection (ARDS / Sepsis)',
-  threatLevel: 1,
+  threatLevel: null,
   hospital: 'Max Super Speciality Hospital (Shalimar Bagh)',
   unit: 'DL-108',
   etaMinutes: 14,
@@ -2492,9 +2485,12 @@ function updateVitalsDisplay() {
     } else if (transferPayload.threatLevel === 2) {
       icuThreatBadge.className = 'clinical-badge badge-amber font-semibold text-xs';
       icuThreatBadge.textContent = 'Code Amber · Urgent';
-    } else {
+    } else if (transferPayload.threatLevel === 3) {
       icuThreatBadge.className = 'clinical-badge badge-yellow font-semibold text-xs';
       icuThreatBadge.textContent = 'Code Yellow · Stable';
+    } else {
+      icuThreatBadge.className = 'clinical-badge badge-neutral font-semibold text-xs';
+      icuThreatBadge.textContent = 'Standard Priority';
     }
   }
 
@@ -2583,11 +2579,71 @@ function getSelectedEquipments() {
 }
 
 function updateHospitalEquipmentDisplays(selectedEquips) {
-  if (!selectedEquips || selectedEquips.length === 0) {
-    selectedEquips = ['Invasive Ventilator', 'Emergency O-Negative Blood'];
-  }
-
   const hospKeys = ['max', 'bsa', 'fortis', 'saroj', 'balaji'];
+
+  if (!selectedEquips || selectedEquips.length === 0) {
+    const defaultLabels = {
+      max: { name: 'Standard ICU Bed Available', note: 'Bay 05 Ready' },
+      saroj: { name: 'Standard ICU Bed Available', note: 'Bay 02 Free' },
+      bsa: { name: 'General ICU Ward', note: '1 Bed Free' },
+      balaji: { name: 'Standard ICU Bed Available', note: '3 Beds Free' },
+      fortis: { name: 'Standard ICU Bed Available', note: 'Floor 3 ICU Ready' }
+    };
+
+    hospKeys.forEach(key => {
+      const equipWrap = document.getElementById(`hosp-equip-${key}`);
+      const badgeWrap = document.getElementById(`hosp-badge-${key}`);
+
+      if (equipWrap) {
+        const item = defaultLabels[key];
+        equipWrap.innerHTML = `
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
+            <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
+            <span class="font-semibold text-slate-900">${item.name}</span>
+            <span class="text-slate-400">·</span>
+            <span class="text-clinicalTeal font-bold">${item.note}</span>
+          </div>
+        `;
+      }
+
+      if (badgeWrap) {
+        if (key === 'max') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-blue">
+              <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
+              Optimal Match · Bay 05 Reserved
+            </span>`;
+        } else if (key === 'bsa') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-neutral">Civil Hospital · Rohini Sec 6</span>
+            <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>`;
+        } else if (key === 'fortis') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-blue">Multispecialty Center · Available</span>`;
+          const alertEl = document.getElementById('hosp-alert-fortis');
+          if (alertEl) {
+            alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium">Standard ICU bed ready for intake.</p>`;
+            alertEl.className = 'rounded-xl p-3 mb-3.5 bg-teal-50/70 border border-teal-200 text-xs leading-relaxed';
+          }
+          const btnEl = document.getElementById('hosp-btn-fortis');
+          if (btnEl) {
+            btnEl.disabled = false;
+            btnEl.className = 'btn-clinical-secondary w-full';
+            btnEl.textContent = 'Keep on Standby';
+          }
+        } else if (key === 'saroj') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-blue font-semibold">Primary Backup Hospital</span>
+            <span class="clinical-badge badge-neutral">Rohini Sector 14</span>`;
+        } else if (key === 'balaji') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
+            <span class="clinical-badge badge-neutral">West Delhi</span>`;
+        }
+      }
+    });
+    return;
+  }
 
   hospKeys.forEach(key => {
     const data = HOSPITAL_EQUIPMENT_DATA[key];
@@ -2708,9 +2764,12 @@ function goToStep2() {
     } else if (transferPayload.threatLevel === 2) {
       urgencyBadge.className = 'clinical-badge badge-amber text-[11px]';
       urgencyBadge.textContent = 'Code Amber · Urgent';
-    } else {
+    } else if (transferPayload.threatLevel === 3) {
       urgencyBadge.className = 'clinical-badge badge-yellow text-[11px]';
       urgencyBadge.textContent = 'Code Yellow · Stable';
+    } else {
+      urgencyBadge.className = 'clinical-badge badge-neutral text-[11px]';
+      urgencyBadge.textContent = 'Standard Triage';
     }
   }
 
@@ -2877,12 +2936,22 @@ function handoffToICU() {
 
 // ─────── 7. Urgency Level Selection ───────
 function setThreat(level) {
-  transferPayload.threatLevel = level;
-  [1, 2, 3].forEach(i => {
-    const el = document.getElementById('tl' + i);
-    const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
-    el.className = `threat-card ${baseClass} ${i === level ? 'sel' : ''}`;
-  });
+  if (transferPayload.threatLevel === level) {
+    transferPayload.threatLevel = null;
+    [1, 2, 3].forEach(i => {
+      const el = document.getElementById('tl' + i);
+      const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
+      el.className = `threat-card ${baseClass}`;
+    });
+  } else {
+    transferPayload.threatLevel = level;
+    [1, 2, 3].forEach(i => {
+      const el = document.getElementById('tl' + i);
+      const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
+      el.className = `threat-card ${baseClass} ${i === level ? 'sel' : ''}`;
+    });
+  }
+  updateVitalsDisplay();
 }
 
 // ─────── 8. Equipment Toggle ───────
@@ -2899,15 +2968,16 @@ function toggleTransit(el) {
 
   if (isActive) {
     if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive';
-    el.classList.add('opacity-50');
+    el.classList.add('opacity-60');
     el.classList.remove('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
     el.classList.add('border-softBorder', 'bg-white');
   } else {
     if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active';
-    el.classList.remove('opacity-50');
+    el.classList.remove('opacity-60');
     el.classList.remove('border-softBorder', 'bg-white');
     el.classList.add('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
   }
+  updateICUChecklist();
 }
 
 // ─────── 10. ICU Arrival Checklist & Dynamic Generation ───────
@@ -2964,12 +3034,34 @@ function updateICUChecklist() {
     }
   });
 
-  // 2. Vasopressor handoff (active in transit)
-  items.push({
-    title: 'Prepare Dedicated Syringe Infusion Pump (Norepinephrine)',
-    subtitle: 'Concentration 4 mg/50 mL primed · Pressure line ready for zero-interruption handover',
-    done: true
+  // 2. Active in-transit life supports
+  const activeTransitDots = document.querySelectorAll('#life-support-grid .tt-dot.active');
+  const activeSupports = Array.from(activeTransitDots).map(d => {
+    const p = d.closest('div[onclick]') ? d.closest('div[onclick]').querySelector('p.font-semibold') : null;
+    return p ? p.textContent.trim() : '';
   });
+
+  if (activeSupports.includes('Norepinephrine')) {
+    items.push({
+      title: 'Prepare Dedicated Syringe Infusion Pump (Norepinephrine)',
+      subtitle: 'Concentration 4 mg/50 mL primed · Pressure line ready for zero-interruption handover',
+      done: true
+    });
+  }
+  if (activeSupports.includes('Ambu-Bag O₂')) {
+    items.push({
+      title: 'Prepare Emergency Airway Transfer & Rapid Oxygen Switchover',
+      subtitle: 'High-capacity oxygen regulator primed · Flow calibrated for immediate ambulance handoff',
+      done: true
+    });
+  }
+  if (items.length === 0) {
+    items.push({
+      title: 'Prepare Dedicated Resuscitation Bay (Bay 05)',
+      subtitle: 'Standard bedside infusion lines and monitoring leads primed for incoming patient',
+      done: true
+    });
+  }
 
   // 3. Airway / Intubation
   items.push({
