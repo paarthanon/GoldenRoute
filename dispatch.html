@@ -117,47 +117,47 @@ header {
 
 /* ── Liquid Glass System (Translucent Frosted Vibrancy) ── */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.78) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
   backdrop-filter: blur(24px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
-  border: 1px solid rgba(226, 232, 240, 0.85) !important;
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
 }
 
 .liquid-glass-alert-amber {
-  background: rgba(255, 247, 237, 0.82) !important;
+  background: rgba(255, 247, 237, 0.85) !important;
   backdrop-filter: blur(20px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1px solid rgba(254, 215, 170, 0.85) !important;
+  border: 1px solid rgba(254, 215, 170, 0.9) !important;
   box-shadow: 0 8px 24px rgba(234, 88, 12, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
 }
 
 .liquid-glass-alert-red {
-  background: rgba(255, 241, 242, 0.82) !important;
+  background: rgba(255, 241, 242, 0.85) !important;
   backdrop-filter: blur(20px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1px solid rgba(254, 205, 211, 0.85) !important;
+  border: 1px solid rgba(254, 205, 211, 0.9) !important;
   box-shadow: 0 8px 24px rgba(190, 18, 60, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
 }
 
 /* ── Pure White Surface / Card with Soft Gray Border ── */
 .glass-panel {
   background-color: #FFFFFF;
-  border: 1px solid #CBD5E1;
+  border: 1px solid #E2E8F0;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02);
 }
 
 .glass-panel-interactive {
   background-color: #FFFFFF;
-  border: 1px solid #CBD5E1;
+  border: 1.5px solid #E2E8F0;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
 }
 .glass-panel-interactive:hover {
   background-color: #FFFFFF;
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.02);
-  transform: translateY(-1.5px);
-  border-color: #94A3B8;
+  transform: translateY(-2px);
+  border-color: #CBD5E1;
 }
 
 /* ── Live Network Status Dot ── */
@@ -233,9 +233,9 @@ header {
 /* ── Urgency Level Selector Cards ── */
 .threat-card {
   border-radius: 18px;
-  padding: 16px 18px;
+  padding: 18px 20px;
   cursor: pointer;
-  border: 1px solid #CBD5E1;
+  border: 1.5px solid #E2E8F0;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
   text-align: left;
   width: 100%;
@@ -244,34 +244,35 @@ header {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
 }
 .threat-card:hover {
-  transform: translateY(-1px);
-  border-color: #94A3B8;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  transform: translateY(-2px);
+  border-color: #CBD5E1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
 }
 .threat-card:active {
-  transform: scale(0.99);
+  transform: scale(0.985);
 }
 .threat-card.tc-red.sel {
   background: #FFF1F2;
-  border-color: #FDA4AF;
-  box-shadow: 0 0 0 1px #FDA4AF, 0 3px 14px rgba(190, 18, 60, 0.08);
+  border-color: #BE123C;
+  box-shadow: 0 0 0 1.5px #BE123C, 0 6px 20px rgba(190, 18, 60, 0.12);
 }
 .threat-card.tc-amber.sel {
   background: #FFF7ED;
-  border-color: #FDBA74;
-  box-shadow: 0 0 0 1px #FDBA74, 0 3px 14px rgba(234, 88, 12, 0.08);
+  border-color: #EA580C;
+  box-shadow: 0 0 0 1.5px #EA580C, 0 6px 20px rgba(234, 88, 12, 0.12);
 }
 .threat-card.tc-yellow.sel {
   background: #FEFCE8;
-  border-color: #FDE047;
-  box-shadow: 0 0 0 1px #FDE047, 0 3px 14px rgba(234, 179, 8, 0.1);
+  border-color: #CA8A04;
+  box-shadow: 0 0 0 1.5px #CA8A04, 0 6px 20px rgba(202, 138, 4, 0.12);
 }
 .threat-card.tc-green.sel {
   background: #F0FDF4;
-  border-color: #BBF7D0;
-  box-shadow: 0 2px 12px rgba(21, 128, 61, 0.08);
+  border-color: #16A34A;
+  box-shadow: 0 0 0 1.5px #16A34A, 0 6px 20px rgba(22, 163, 74, 0.12);
 }
 
 /* ── Equipment Selection Chips ── */
@@ -279,28 +280,29 @@ header {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 13px 15px;
+  padding: 14px 16px;
   border-radius: 16px;
   cursor: pointer;
-  border: 1px solid #CBD5E1;
+  border: 1.5px solid #E2E8F0;
   background-color: #FFFFFF;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
-  min-height: 64px;
+  min-height: 66px;
   height: 100%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
 }
 .equip-chip:hover {
   border-color: #CBD5E1;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
 }
 .equip-chip:active {
-  transform: scale(0.99);
+  transform: scale(0.985);
 }
 .equip-chip.sel {
   border-color: #0C6277;
   background-color: rgba(12, 98, 119, 0.04);
-  box-shadow: 0 2px 8px rgba(12, 98, 119, 0.08);
+  box-shadow: 0 0 0 1px #0C6277, 0 4px 14px rgba(12, 98, 119, 0.1);
 }
 .ec-box {
   width: 18px;
@@ -492,27 +494,27 @@ header {
 /* ── Interactive Vitals Input Tile ── */
 .vital-input-card {
   background-color: #FFFFFF;
-  border: 1px solid #CBD5E1;
+  border: 1.5px solid #E2E8F0;
   border-radius: 18px;
-  padding: 14px 14px;
+  padding: 15px 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
-  min-height: 124px;
+  min-height: 126px;
   height: 100%;
 }
 .vital-input-card:hover {
   border-color: #CBD5E1;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  transform: translateY(-1.5px);
 }
 .vital-input-card:focus-within {
   border-color: #0C6277;
-  box-shadow: 0 0 0 3px rgba(12, 98, 119, 0.12), 0 4px 16px rgba(15, 23, 42, 0.05);
-  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(12, 98, 119, 0.12), 0 4px 16px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1.5px);
 }
 
 .vital-input-num {
@@ -1621,7 +1623,8 @@ button:focus-visible {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6" id="hospital-cards-wrapper">
 
         <!-- Facility 1: Max Super Speciality Hospital (BEST DIRECT MATCH) -->
-        <article id="hosp-card-max" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal/50 shadow-sm lg:col-span-2 flex flex-col justify-between">
+        <article id="hosp-card-max" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal/60 shadow-md lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-clinicalTeal via-teal-400 to-clinicalTeal"></div>
           <div>
             <div class="flex items-start justify-between gap-4 mb-4">
               <div>
@@ -1930,6 +1933,21 @@ button:focus-visible {
           <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
             Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Reserved</span>
           </h2>
+        </div>
+
+        <!-- Right: Real-Time Transfer Telemetry & Status Badges -->
+        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0 flex-wrap">
+          <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-paper/90 border border-softBorder shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
+            <span class="text-xs font-semibold text-mutedSlate">Corridor Transit:</span>
+            <span class="text-xs font-bold text-inkDark">En Route (14 min)</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-50/80 border border-teal-200/90 text-clinicalTeal text-xs font-bold shadow-2xs">
+            <svg class="w-3.5 h-3.5 text-clinicalTeal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            <span>Handshake Verified</span>
+          </div>
         </div>
 
       </div>
@@ -2623,8 +2641,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
             <span class="clinical-badge badge-blue">Multispecialty Center · Available</span>`;
           const alertEl = document.getElementById('hosp-alert-fortis');
           if (alertEl) {
-            alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium">Standard ICU bed ready for intake.</p>`;
-            alertEl.className = 'rounded-xl p-3 mb-3.5 bg-teal-50/70 border border-teal-200 text-xs leading-relaxed';
+            alertEl.style.display = 'none';
           }
           const btnEl = document.getElementById('hosp-btn-fortis');
           if (btnEl) {
@@ -2711,6 +2728,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
             <span class="clinical-badge badge-neutral text-slate-800 font-semibold">${missingEquips[0]} Bays Full</span>`;
           const alertEl = document.getElementById('hosp-alert-fortis');
           if (alertEl) {
+            alertEl.style.display = 'block';
             alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium"><strong class="font-semibold text-slate-900">${missingEquips.join(', ')}</strong> currently at full capacity. Transfer diverted to Max or Balaji.</p>`;
             alertEl.className = 'rounded-xl p-3 mb-3.5 bg-slate-100 border border-slate-300 text-xs leading-relaxed';
           }
@@ -2725,8 +2743,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
             <span class="clinical-badge badge-blue">Multispecialty Center · Available</span>`;
           const alertEl = document.getElementById('hosp-alert-fortis');
           if (alertEl) {
-            alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium">Selected equipment available on floor.</p>`;
-            alertEl.className = 'rounded-xl p-3 mb-3.5 bg-teal-50/70 border border-teal-200 text-xs leading-relaxed';
+            alertEl.style.display = 'none';
           }
           const btnEl = document.getElementById('hosp-btn-fortis');
           if (btnEl) {
