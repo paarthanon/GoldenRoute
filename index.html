@@ -114,11 +114,16 @@ header {
   border-radius: 50%;
   background-color: #0C6277;
   box-shadow: 0 0 8px rgba(12, 98, 119, 0.4);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   animation: pulse-glow 2.4s ease-in-out infinite;
 }
 @keyframes pulse-glow {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.9); }
+  0%, 100% { opacity: 1; transform: scale(1) translateZ(0); }
+  50% { opacity: 0.35; transform: scale(0.9) translateZ(0); }
 }
 
 /* ── Pronounced Cardiac Heartbeat (Living Brand Emblem & Typography) ── */
@@ -149,37 +154,56 @@ header {
   }
 }
 
-/* ── Buttons ── */
+/* ── Buttons (120Hz GPU Hardware Composited) ── */
 .btn-clinical {
   background-color: #0C6277;
   color: #FFFFFF;
   mix-blend-mode: normal !important;
   isolation: isolate;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-clinical:hover {
   background-color: #094B5C;
-  transform: translateY(-1.5px);
+  transform: translateY(-1.5px) translateZ(0);
   box-shadow: 0 6px 20px rgba(12, 98, 119, 0.25);
 }
 .btn-clinical:active {
-  transform: scale(0.985);
+  transform: scale(0.985) translateZ(0);
 }
 
 .btn-ghost {
   border: 1px solid #CBD5E1;
   color: #0F172A;
   background-color: rgba(255, 255, 255, 0.75);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-ghost:hover {
   background-color: #FFFFFF;
   border-color: #CBD5E1;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-  transform: translateY(-1px);
+  transform: translateY(-1px) translateZ(0);
 }
 .btn-ghost:active {
-  transform: scale(0.985);
+  transform: scale(0.985) translateZ(0);
+}
+
+/* ── 120Hz GPU Compositor Acceleration ── */
+#dither-canvas {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: contents;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* ── Mobile-Only Optimization (@media max-width: 640px) ──
@@ -384,7 +408,7 @@ for (let i = 0; i < rawAmberStr.length; i++) {
 
 // ─────── 3. Canvas 2D Dither Engine ───────
 const canvas = document.getElementById('dither-canvas');
-const ctx = canvas.getContext('2d', { alpha: false });
+const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
 const CELL_SIZE = 8;
 const DOT_RADIUS_MAX = (CELL_SIZE * 0.78) / 2; // Soft 3.12px max dot radius
@@ -493,10 +517,10 @@ function renderDither(timestamp) {
   requestAnimationFrame(renderDither);
 
   const now = timestamp || performance.now();
-  const dt = Math.min(4, Math.max(0.1, (now - lastFrameTime) / 16.666));
+  const dt = Math.min(3, Math.max(0.05, (now - lastFrameTime) / 8.333));
   lastFrameTime = now;
 
-  const decay = Math.pow(0.92, dt);
+  const decay = Math.pow(0.96, dt);
   mouseVx *= decay;
   mouseVy *= decay;
 
