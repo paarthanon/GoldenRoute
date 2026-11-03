@@ -1649,22 +1649,13 @@ button:focus-visible {
             </div>
 
             <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-max" class="flex flex-wrap gap-2 mb-4">
+            <div id="hosp-equip-max" class="flex flex-wrap gap-2 mb-5">
               <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
                 <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
                 <span class="font-semibold text-slate-900">Standard ICU Bed Available</span>
                 <span class="text-slate-400">&middot;</span>
                 <span class="text-clinicalTeal font-bold">Bay 05 Ready</span>
               </div>
-            </div>
-
-            <!-- Clinical Selection Rationale -->
-            <div class="rounded-xl p-3 mb-5 bg-teal-50/90 border border-teal-200/90 text-xs text-slate-800 leading-relaxed font-medium">
-              <div class="flex items-center gap-1.5 font-bold text-clinicalTeal mb-1">
-                <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
-                <span>Why Optimal Match</span>
-              </div>
-              <p id="hosp-reason-max">100% equipment match confirmed. Dedicated Bay 05 locked with zero intake lag and direct green-corridor transit.</p>
             </div>
           </div>
 
@@ -1701,16 +1692,7 @@ button:focus-visible {
             </div>
 
             <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-saroj" class="flex flex-wrap gap-2 mb-3">
-            </div>
-
-            <!-- Clinical Selection Rationale -->
-            <div class="rounded-xl p-3 mb-4 bg-slate-50 border border-slate-200/90 text-xs text-slate-800 leading-relaxed font-medium">
-              <div class="flex items-center gap-1.5 font-bold text-slate-900 mb-1">
-                <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
-                <span>Why Primary Backup</span>
-              </div>
-              <p id="hosp-reason-saroj">Fastest tertiary trauma ETA (12 min) with 0 min ER dock queue. Selected over BSA due to zero triage delay, despite missing required equipment.</p>
+            <div id="hosp-equip-saroj" class="flex flex-wrap gap-2 mb-4">
             </div>
           </div>
 
@@ -1747,16 +1729,7 @@ button:focus-visible {
             </div>
 
             <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-bsa" class="flex flex-wrap gap-2 mb-3">
-            </div>
-
-            <!-- Clinical Selection Rationale -->
-            <div class="rounded-xl p-3 mb-4 bg-amber-50/80 border border-amber-200 text-xs text-amber-950 leading-relaxed font-medium">
-              <div class="flex items-center gap-1.5 font-bold text-amber-900 mb-1">
-                <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
-                <span>Why Secondary Backup</span>
-              </div>
-              <p id="hosp-reason-bsa">Closest distance (7 min), but secondary rank due to ~28 min ER queue lag (4 ambulances queued) and missing equipment.</p>
+            <div id="hosp-equip-bsa" class="flex flex-wrap gap-2 mb-4">
             </div>
           </div>
 
@@ -1789,16 +1762,7 @@ button:focus-visible {
             </div>
 
             <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-balaji" class="flex flex-wrap gap-2 mb-3">
-            </div>
-
-            <!-- Clinical Selection Rationale -->
-            <div class="rounded-xl p-3 mb-4 bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed font-medium">
-              <div class="flex items-center gap-1.5 font-bold text-slate-800 mb-1">
-                <span class="w-2 h-2 rounded-full bg-slate-400 shrink-0"></span>
-                <span>Why Contingency Only</span>
-              </div>
-              <p id="hosp-reason-balaji">High facility capability, but relegated to contingency backup due to prolonged transit duration (21 min via Rohtak Rd).</p>
+            <div id="hosp-equip-balaji" class="flex flex-wrap gap-2 mb-4">
             </div>
           </div>
 
@@ -2661,7 +2625,6 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
     hospKeys.forEach(key => {
       const equipWrap = document.getElementById(`hosp-equip-${key}`);
       const badgeWrap = document.getElementById(`hosp-badge-${key}`);
-      const reasonEl = document.getElementById(`hosp-reason-${key}`);
 
       if (equipWrap) {
         const item = defaultLabels[key];
@@ -2705,18 +2668,6 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
           badgeWrap.innerHTML = `
             <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
             <span class="clinical-badge badge-neutral">West Delhi</span>`;
-        }
-      }
-
-      if (reasonEl) {
-        if (key === 'max') {
-          reasonEl.textContent = '100% baseline compatibility confirmed. Dedicated Bay 05 locked with zero intake delay and direct green-corridor transit.';
-        } else if (key === 'saroj') {
-          reasonEl.textContent = 'Fastest tertiary trauma ETA (12 min) with 0 min ER dock queue. Designated as primary backup with zero triage lag.';
-        } else if (key === 'bsa') {
-          reasonEl.textContent = 'Closest facility (7 min), but ranked as secondary fallback due to severe ~28 min ER dock queue lag (4 ambulances queued).';
-        } else if (key === 'balaji') {
-          reasonEl.textContent = 'High facility capability, but designated as contingency due to 21 min transit distance via Rohtak Rd.';
         }
       }
     });
@@ -2772,7 +2723,6 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
   hospKeys.forEach(key => {
     const equipWrap = document.getElementById(`hosp-equip-${key}`);
     const badgeWrap = document.getElementById(`hosp-badge-${key}`);
-    const reasonEl = document.getElementById(`hosp-reason-${key}`);
 
     let matchedCount = 0;
     const missingEquips = [];
@@ -2895,18 +2845,6 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
             btnEl.textContent = 'Keep on Standby';
           }
         }
-      }
-    }
-
-    if (reasonEl) {
-      if (key === 'max') {
-        reasonEl.innerHTML = `100% equipment match (${matchedCount}/${selectedEquips.length}). Dedicated Bay 05 locked with zero intake delay and direct green-corridor transit.`;
-      } else if (key === 'saroj') {
-        reasonEl.innerHTML = `Fastest tertiary trauma ETA (12 min) with 0 min ER dock queue. Ranked ahead of BSA due to zero triage delay, despite missing <strong class="text-slate-900">${missingEquips.join(', ')}</strong>.`;
-      } else if (key === 'bsa') {
-        reasonEl.innerHTML = `Closest facility (7 min), but secondary rank due to <strong>~28 min ER queue lag</strong> (4 ambulances queued) and missing <strong class="text-amber-950">${missingEquips.join(', ')}</strong>.`;
-      } else if (key === 'balaji') {
-        reasonEl.innerHTML = `High facility capability (${matchedCount}/${selectedEquips.length} ready), but relegated to contingency backup due to prolonged 21 min transit distance via Rohtak Rd.`;
       }
     }
   });
