@@ -1430,7 +1430,7 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center">
-                  <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 40px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('spo2')" />
+                  <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 44px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('spo2')" />
                   <span id="spo2-unit-sym" class="font-mono text-xl font-bold text-statRed leading-none ml-1">%</span>
                   <div class="vital-stepper">
                     <button type="button" class="vital-step-btn" onclick="stepVital('spo2', 1)" title="Increase SpO₂" aria-label="Increase SpO₂">
@@ -1470,7 +1470,7 @@ button:focus-visible {
                 <div class="inline-flex items-center justify-center gap-1">
                   <!-- Systolic -->
                   <div class="inline-flex items-center">
-                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-sys')" placeholder="85" />
+                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 48px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-sys')" placeholder="85" />
                     <div class="vital-stepper">
                       <button type="button" class="vital-step-btn" onclick="stepVital('bp-sys', 5)" title="Increase Systolic" aria-label="Increase Systolic">
                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -1483,7 +1483,7 @@ button:focus-visible {
                   <span class="font-mono text-xl font-bold text-mutedSlate/60 px-0.5">/</span>
                   <!-- Diastolic -->
                   <div class="inline-flex items-center">
-                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 38px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
+                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 48px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
                     <div class="vital-stepper">
                       <button type="button" class="vital-step-btn" onclick="stepVital('bp-dia', 5)" title="Increase Diastolic" aria-label="Increase Diastolic">
                         <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -1536,8 +1536,8 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center">
-                  <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 30px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('gcs')" />
-                  <span class="font-mono text-xl font-bold text-mutedSlate/60 leading-none ml-0.5">/15</span>
+                  <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 34px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('gcs')" />
+                  <span class="font-mono text-xl font-bold text-mutedSlate/60 leading-none ml-1">/15</span>
                   <div class="vital-stepper">
                     <button type="button" class="vital-step-btn" onclick="stepVital('gcs', 1)" title="Increase GCS" aria-label="Increase GCS">
                       <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
