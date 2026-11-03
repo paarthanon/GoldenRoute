@@ -480,7 +480,8 @@ function resizeCanvas() {
   canvas.height = canvasH;
   
   scaleCover = Math.max(canvasW / SAMPLE_W, canvasH / SAMPLE_H);
-  offsetX = (canvasW - SAMPLE_W * scaleCover) / 2;
+  const shiftRight = canvasW > 768 ? canvasW * 0.22 : canvasW * 0.12;
+  offsetX = (canvasW - SAMPLE_W * scaleCover) / 2 + shiftRight;
   offsetY = (canvasH - SAMPLE_H * scaleCover) / 2;
 }
 window.addEventListener('resize', resizeCanvas);
