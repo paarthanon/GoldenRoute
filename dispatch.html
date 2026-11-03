@@ -1185,7 +1185,7 @@ button:focus-visible {
             Transfer In Progress to <span id="handoff-hosp-name" class="text-clinicalTeal">Max Super Speciality Hospital</span>
           </p>
           <p class="text-xs text-mutedSlate mt-0.5">
-            ICU Bay 05 Locked · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
+            ICU Bay 05 Staged · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
           </p>
         </div>
       </div>
@@ -1631,7 +1631,7 @@ button:focus-visible {
                 <div id="hosp-badge-max" class="flex items-center gap-2 flex-wrap mb-1.5">
                   <span class="clinical-badge badge-blue">
                     <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-                    Optimal Match &middot; Bay 05 Reserved
+                    Optimal Match &middot; Bay 05 Staged
                   </span>
                 </div>
                 <h3 class="text-xl sm:text-2xl font-bold text-inkDark tracking-tight">
@@ -1664,7 +1664,7 @@ button:focus-visible {
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
-            <span>Lock Bed &amp; Dispatch Transfer</span>
+            <span>Stage Bay &amp; Dispatch Transfer</span>
           </button>
         </article>
 
@@ -1843,7 +1843,7 @@ button:focus-visible {
           </span>
           <span class="clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
-            <span>Reserved: Bay 05</span>
+            <span>Staged: Bay 05</span>
           </span>
         </div>
       </div>
@@ -1931,7 +1931,7 @@ button:focus-visible {
             </span>
           </div>
           <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Reserved</span>
+            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>
           </h2>
         </div>
 
@@ -1972,7 +1972,7 @@ button:focus-visible {
           <!-- Bottom Action: Reassign Bed Button -->
           <div class="mt-4 pt-3.5 border-t border-softBorder flex items-center justify-between gap-3 flex-wrap">
             <p id="reassign-desc-txt" class="text-xs text-mutedSlate">
-              Hold Bay 05 for incoming transfer, or reassign if emergency walk-in arrives.
+              Stage Bay 05 for incoming transfer, or override if emergency walk-in arrives.
             </p>
             <div id="reassign-btn-wrap">
               <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
@@ -1998,7 +1998,7 @@ button:focus-visible {
               </h2>
               <p class="text-xs text-mutedSlate mt-0.5">Ward Overview</p>
             </div>
-            <span id="ward-capacity-badge" class="clinical-badge badge-blue text-[10px] font-semibold">7/8 Occupied · 1 Reserved</span>
+            <span id="ward-capacity-badge" class="clinical-badge badge-blue text-[10px] font-semibold">7/8 Occupied · 1 Staged</span>
           </div>
 
           <div class="grid grid-cols-4 gap-2.5">
@@ -2027,7 +2027,7 @@ button:focus-visible {
             <!-- Bay 05: RESERVED IN-TRANSIT (Spans 2 columns) -->
             <div id="bed05" class="bed-tile bt-res col-span-2">
               <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Reserved · In-Transit</span>
+              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Staged · In-Transit</span>
               <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>
             </div>
 
@@ -2643,7 +2643,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
           badgeWrap.innerHTML = `
             <span class="clinical-badge badge-blue">
               <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-              Optimal Match &middot; Bay 05 Reserved
+              Optimal Match &middot; Bay 05 Staged
             </span>`;
         } else if (key === 'bsa') {
           badgeWrap.innerHTML = `
@@ -2796,7 +2796,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
         badgeWrap.innerHTML = `
           <span class="clinical-badge badge-blue">
             <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-            Optimal Match &middot; Bay 05 Reserved
+            Optimal Match &middot; Bay 05 Staged
           </span>
           <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
       } else if (key === 'saroj') {
@@ -3014,7 +3014,7 @@ function doReserve(hospitalName) {
   if (mapReady) {
     if (markerDestination) {
       markerDestination.setIcon(getDestinationPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Reserved)');
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
     }
     if (markerSaroj) {
       markerSaroj.setIcon(getBackupBlackPin());
@@ -3027,13 +3027,13 @@ function doReserve(hospitalName) {
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  showToast('ICU Bay 05 locked. Receiving ICU notified of incoming transfer.', 'sage');
+  showToast('ICU Bay 05 staged. Receiving ICU notified of incoming transfer.', 'sage');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function handoffToICU() {
   switchRole('icu');
-  showToast('Connected to Receiving ICU. Bay 05 reserved.', 'sage');
+  showToast('Connected to Receiving ICU. Bay 05 staged.', 'sage');
 }
 
 // ─────── 7. Urgency Level Selection ───────
@@ -3728,7 +3728,7 @@ function initMap() {
    .bindPopup('<b>Referring Facility</b><br>Rohini Sector 3 · Origin Point');
 
   markerDestination = L.marker(MAX_HSP, { icon: getDestinationPin() }).addTo(lmap)
-   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Reserved)');
+   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
 
   markerBSA = L.marker(BSA,     { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Dr. B.S. Ambedkar Hospital</b><br>Rohini Sector 6 · ER Congested (+28m)');
@@ -4021,24 +4021,24 @@ function resetOverride() {
   overrideActive = false;
   document.getElementById('inbound-tag').textContent = 'Inbound Transfer · Ambulance DL-108 · Code Red';
   document.getElementById('inbound-tag').className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
-  document.getElementById('banner-sub').innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Reserved</span>';
+  document.getElementById('banner-sub').innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>';
 
   const b = document.getElementById('bed05');
   b.className = 'bed-tile bt-res col-span-2';
   b.innerHTML = `
     <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-    <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Reserved · In-Transit</span>
+    <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Staged · In-Transit</span>
     <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>`;
 
   const capReset = document.getElementById('ward-capacity-badge');
   if (capReset) {
-    capReset.textContent = '7/8 Occupied · 1 Reserved';
+    capReset.textContent = '7/8 Occupied · 1 Staged';
     capReset.className = 'clinical-badge badge-blue text-[10px] font-semibold';
   }
 
   const reassignDesc = document.getElementById('reassign-desc-txt');
   if (reassignDesc) {
-    reassignDesc.textContent = 'Hold Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.';
+    reassignDesc.textContent = 'Stage Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.';
   }
 
   const reassignWrap = document.getElementById('reassign-btn-wrap');
@@ -4056,7 +4056,7 @@ function resetOverride() {
 
   if (markerDestination) {
     markerDestination.setIcon(getDestinationPin());
-    markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Reserved)');
+    markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
   }
   if (markerSaroj) {
     markerSaroj.setIcon(getBackupBlackPin());
@@ -4077,7 +4077,7 @@ function resetOverride() {
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  showToast('Transfer to Max Hospital restored. Bay 05 reserved.', 'sage');
+  showToast('Transfer to Max Hospital restored. Bay 05 staged.', 'sage');
 }
 
 // ─────── 14. Real-Time Feedback Toast System ───────
