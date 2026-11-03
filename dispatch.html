@@ -1841,7 +1841,6 @@ button:focus-visible {
           <span class="clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
             <span>Reserved: Bay 05</span>
-            <span id="dossier-timer" class="font-mono font-bold text-clinicalTeal tabular-nums ml-0.5">· 25:00 Hold</span>
           </span>
         </div>
       </div>
@@ -1919,7 +1918,7 @@ button:focus-visible {
 
     <!-- Top ICU Station Header Card -->
     <section id="transit-reservation-card" class="liquid-glass rounded-2xl p-5 sm:p-6 mb-6">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
         <!-- Left: Inbound Status & Receiving Location -->
         <div class="flex-1 min-w-[260px]">
@@ -1931,18 +1930,6 @@ button:focus-visible {
           <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
             Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Reserved</span>
           </h2>
-        </div>
-
-        <!-- Right: Countdown Timer -->
-        <div class="flex items-center shrink-0">
-          <div class="text-right">
-            <p class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider mb-1">
-              Bed Hold Timer
-            </p>
-            <div id="countdown" class="countdown cd-normal">
-              25:00
-            </div>
-          </div>
         </div>
 
       </div>
@@ -2036,11 +2023,8 @@ button:focus-visible {
 
             <!-- Bay 05: RESERVED IN-TRANSIT (Spans 2 columns) -->
             <div id="bed05" class="bed-tile bt-res col-span-2">
-              <div class="flex items-center justify-between w-full px-1">
-                <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider">Bay 05</span>
-                <span id="b05-timer" class="font-mono text-[10px] font-bold text-white bg-white/20 px-1.5 py-0.5 rounded-full tabular-nums">25:00</span>
-              </div>
-              <span id="b05-label" class="text-xs font-bold text-white tracking-tight mt-0.5">Reserved · In-Transit</span>
+              <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
+              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Reserved · In-Transit</span>
               <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>
             </div>
 
@@ -2912,7 +2896,6 @@ function switchRole(role) {
 // ─────── 6. Referral & Bed Lock ───────
 function doReserve(hospitalName) {
   if (overrideActive) resetOverride();
-  startCountdown(25 * 60);
 
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
@@ -3128,53 +3111,25 @@ function ackAll() {
   showToast('Bay 05 confirmed ready. Medical team and room prepared.', 'sage');
 }
 
-// ─────── 11. Bed-Hold Countdown Timer ───────
-let cdSec = 25 * 60;
+// ─────── 11. Bed-Hold Reservation ───────
+let cdSec = 0;
 let cdTimer = null;
 
 function formatCountdown(sec) {
-  const safeSec = Math.max(0, Math.floor(sec || 0));
-  const m = String(Math.floor(safeSec / 60)).padStart(2, '0');
-  const s = String(safeSec % 60).padStart(2, '0');
-  return `${m}:${s}`;
+  return '';
 }
 
 function updateHoldTimers(formattedTime, cdClass) {
-  const el = document.getElementById('countdown');
-  if (el) {
-    el.textContent = formattedTime;
-    if (cdClass) el.className = cdClass;
-  }
-  const b05Timer = document.getElementById('b05-timer');
-  if (b05Timer) {
-    b05Timer.textContent = formattedTime;
-  }
-  const dossierTimer = document.getElementById('dossier-timer');
-  if (dossierTimer) {
-    dossierTimer.textContent = `· ${formattedTime} Hold`;
-  }
+  // 25 min timer removed
 }
 
 function startCountdown(fromSec) {
-  if (cdTimer) clearInterval(cdTimer);
-  cdSec = fromSec ?? 25 * 60;
-  const initialFormatted = formatCountdown(cdSec);
-  updateHoldTimers(initialFormatted, 'countdown cd-normal');
-
-  cdTimer = setInterval(() => {
-    if (cdSec <= 0) {
-      clearInterval(cdTimer);
-      updateHoldTimers('EXPIRED', 'countdown cd-critical');
-      showToast('Bed hold for Bay 05 expired. Please re-confirm with hospital.', 'terra');
-      return;
-    }
-    cdSec--;
-    const fmt = formatCountdown(cdSec);
-    const cls = `countdown ${cdSec < 60 ? 'cd-critical' : cdSec < 300 ? 'cd-warning' : 'cd-normal'}`;
-    updateHoldTimers(fmt, cls);
-  }, 1000);
+  // 25 min timer removed
+  if (cdTimer) {
+    clearInterval(cdTimer);
+    cdTimer = null;
+  }
 }
-startCountdown(25 * 60);
 
 // ─────── 12. Map Markers & Smooth Ambulance Telemetry ───────
 let mapReady = false;
@@ -3896,10 +3851,10 @@ function confirmOverride() {
   closeModal();
   overrideActive = true;
 
-  if (cdTimer) clearInterval(cdTimer);
-  updateHoldTimers('––:––', 'countdown cd-critical');
-  const dossierTimer = document.getElementById('dossier-timer');
-  if (dossierTimer) dossierTimer.textContent = '· Reassigned';
+  if (cdTimer) {
+    clearInterval(cdTimer);
+    cdTimer = null;
+  }
 
   document.getElementById('inbound-tag').textContent = 'Ambulance DL-108 Rerouted — Walk-in Emergency at Hospital';
   document.getElementById('inbound-tag').className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
@@ -3969,11 +3924,8 @@ function resetOverride() {
   const b = document.getElementById('bed05');
   b.className = 'bed-tile bt-res col-span-2';
   b.innerHTML = `
-    <div class="flex items-center justify-between w-full px-1">
-      <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider">Bay 05</span>
-      <span id="b05-timer" class="font-mono text-[10px] font-bold text-white bg-white/20 px-1.5 py-0.5 rounded-full tabular-nums">25:00</span>
-    </div>
-    <span id="b05-label" class="text-xs font-bold text-white tracking-tight mt-0.5">Reserved · In-Transit</span>
+    <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
+    <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Reserved · In-Transit</span>
     <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>`;
 
   const capReset = document.getElementById('ward-capacity-badge');
@@ -4023,7 +3975,6 @@ function resetOverride() {
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  startCountdown(25 * 60);
   showToast('Transfer to Max Hospital restored. Bay 05 reserved.', 'sage');
 }
 
