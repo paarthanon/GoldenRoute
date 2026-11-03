@@ -166,28 +166,6 @@ header {
   transform: scale(0.985);
 }
 
-.btn-clinical-secondary {
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #0C6277;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-  mix-blend-mode: normal !important;
-  isolation: isolate;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-clinical-secondary:hover {
-  background-color: #FFFFFF;
-  border-color: #0C6277;
-  color: #094B5C;
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px rgba(12, 98, 119, 0.12);
-}
-.btn-clinical-secondary:active {
-  transform: scale(0.985);
-}
-
 .btn-ghost {
   border: 1px solid #CBD5E1;
   color: #0F172A;
@@ -338,25 +316,25 @@ header {
       Connects referring facilities directly to receiving ICUs. Finds available life-saving machines like ventilators, holds the bed while the ambulance is on the road, and sends vital signs ahead without sharing private personal details.
     </p>
 
-    <!-- Bullet Points: Clinical Certification Badges -->
-    <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-semibold mb-6 sm:mb-8 text-slate-700">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-        <span class="inline-block w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
-        <span class="tracking-tight text-inkDark">Zero-PII Handshake</span>
+    <!-- Bullet Points -->
+    <div class="flex flex-wrap items-center gap-5 sm:gap-7 text-xs sm:text-sm font-semibold mb-6 sm:mb-8" style="color: #094B5C;">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2 h-2 rounded-full" style="background-color: #094B5C;"></span>
+        <span>Zero-PII Handshake</span>
       </div>
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-        <span class="inline-block w-2 h-2 rounded-full bg-stableGreen"></span>
-        <span class="tracking-tight text-inkDark">ABDM Compliant</span>
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2 h-2 rounded-full" style="background-color: #094B5C;"></span>
+        <span>ABDM Compliant</span>
       </div>
     </div>
 
-    <!-- Action Row (Primary + Elevated Secondary Clinical Pair) -->
+    <!-- Action Row (Solid Dual Action Pair) -->
     <div class="flex flex-wrap items-center gap-3 sm:gap-4">
       <a href="dispatch.html" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
         <span>Referring Facility Console →</span>
       </a>
 
-      <a href="dispatch.html?role=icu" class="btn-clinical-secondary h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 select-none">
+      <a href="dispatch.html?role=icu" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
         <span>Receiving ICU Console →</span>
       </a>
     </div>
