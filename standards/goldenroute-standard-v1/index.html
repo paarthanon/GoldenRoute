@@ -7,7 +7,12 @@
 <link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
 <link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
-<!-- Local Typography: Libron (Headings) & NV Jost (Body/UI) -->
+<!-- Google Fonts: Geist & Geist Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+
+<!-- Local Headings Font: Libron -->
 <style>
 @font-face {
   font-family: 'Libron';
@@ -37,35 +42,6 @@
   font-style: italic;
   font-display: swap;
 }
-
-@font-face {
-  font-family: 'NV Jost';
-  src: url('assets/fonts/NV_Jost-Regular.ttf') format('truetype');
-  font-weight: 300 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'NV Jost';
-  src: url('assets/fonts/NV_Jost-Italic.ttf') format('truetype');
-  font-weight: 300 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'NV Jost';
-  src: url('assets/fonts/NV_Jost-Bold.ttf') format('truetype');
-  font-weight: 600 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'NV Jost';
-  src: url('assets/fonts/NV_Jost-BoldItalic.ttf') format('truetype');
-  font-weight: 600 900;
-  font-style: italic;
-  font-display: swap;
-}
 </style>
 
 <!-- Tailwind CSS CDN -->
@@ -75,9 +51,9 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"NV Jost"', 'sans-serif'],
-          mono: ['"NV Jost"', 'monospace'],
-          heading: ['"Libron"', 'serif'],
+          sans: ['"Geist"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          heading: ['"Libron"', 'Georgia', 'serif'],
         },
         colors: {
           paper: '#F8FAFC',
@@ -115,16 +91,17 @@
 </script>
 
 <style>
-/* ── Unified NV Jost Typography Baseline ── */
+/* ── Unified Geist Typography Baseline ── */
 body, button, input, select, textarea, p, span, div, time, a, label {
-  font-family: 'NV Jost', sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 /* ── Headings: Libron Serif ── */
-h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: 'Libron', serif;
+h1, h2, h3, h4, h5, h6, .font-heading,
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span, .font-heading span {
+  font-family: 'Libron', Georgia, serif;
 }
 .tabular-nums, .font-mono {
-  font-family: 'NV Jost', monospace !important;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
@@ -143,7 +120,7 @@ html, body {
   overflow: hidden;
   background-color: #F8FAFC;
   color: #0F172A;
-  font-family: 'NV Jost', sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -267,9 +244,9 @@ html, body {
   
   <div class="pointer-events-auto">
     <!-- Main Headline with Clamp Scaling -->
-    <h1 class="font-heading text-inkDark font-bold tracking-[-0.025em] mb-4 sm:mb-5" style="font-family: 'Libron', serif; font-size: clamp(42px, 5.8vw, 86px); line-height: 0.98;">
+    <h1 class="font-heading text-inkDark font-bold tracking-[-0.025em] mb-4 sm:mb-5" style="font-family: 'Libron', Georgia, serif; font-size: clamp(42px, 5.8vw, 86px); line-height: 0.98;">
       Fast, coordinated<br />
-      <span style="color: #0C6277;">ICU patient transfers.</span>
+      <span class="font-heading" style="color: #0C6277; font-family: 'Libron', Georgia, serif;">ICU patient transfers.</span>
     </h1>
 
     <!-- Sub-paragraph -->
