@@ -526,6 +526,23 @@ header {
   will-change: box-shadow;
 }
 .bt-walk { background-color: #FFF1F2; border-color: #FECDD3; }
+.bt-pending {
+  background-color: #FFFBEB;
+  border-color: #FCD34D;
+  color: #78350F;
+  animation: pulse-pending-bay 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse-pending-bay {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(234, 88, 12, 0); }
+}
+@keyframes blink-critical {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.blink-fast {
+  animation: blink-critical 1s ease-in-out infinite;
+}
 @keyframes pulse-bay {
   0%, 100% { box-shadow: 0 0 0 0 rgba(12, 98, 119, 0.4); transform: translateZ(0); }
   50% { box-shadow: 0 0 0 10px rgba(12, 98, 119, 0); transform: translateZ(0); }
@@ -1209,8 +1226,10 @@ button:focus-visible {
       <button id="btn1" type="button" role="tab" aria-selected="true" class="station-pill on" onclick="switchRole('clinic')">
         Referring Facility
       </button>
-      <button id="btn2" type="button" role="tab" aria-selected="false" class="station-pill off" onclick="switchRole('icu')">
-        Receiving ICU
+      <button id="btn2" type="button" role="tab" aria-selected="false" class="station-pill off relative" onclick="switchRole('icu')">
+        <span>Receiving ICU</span>
+        <span id="icu-handshake-nav-ping" class="hidden absolute -top-1 -right-1 w-3 h-3 rounded-full bg-statRed border-2 border-white animate-ping"></span>
+        <span id="icu-handshake-nav-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 rounded-full bg-statRed border-2 border-white"></span>
       </button>
     </div>
   </nav>
@@ -1229,22 +1248,25 @@ button:focus-visible {
     <!-- Active In-Transit Banner (Visible after reservation) -->
     <section id="handoff-banner" class="hidden mb-7 liquid-glass rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" aria-label="Active Transfer Status">
       <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0">
+        <div id="handoff-status-icon-wrap" class="w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
           </svg>
         </div>
         <div>
-          <p class="text-sm font-bold text-inkDark">
-            Transfer In Progress to <span id="handoff-hosp-name" class="text-clinicalTeal">Max Super Speciality Hospital</span>
-          </p>
-          <p class="text-xs text-mutedSlate mt-0.5">
+          <div class="flex items-center gap-2 mb-0.5">
+            <p class="text-sm font-bold text-inkDark">
+              <span id="handoff-title-prefix">Transfer In Progress to</span> <span id="handoff-hosp-name" class="text-clinicalTeal">Max Super Speciality Hospital</span>
+            </p>
+            <span id="handoff-protocol-badge" class="clinical-badge badge-blue text-[10px] font-bold">ABDM UHI Active</span>
+          </div>
+          <p id="handoff-status-subtext" class="text-xs text-mutedSlate">
             ICU Bay 05 Staged · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
           </p>
         </div>
       </div>
       <div class="flex items-center gap-2 w-full sm:w-auto">
-        <button type="button" onclick="handoffToICU()" class="btn-clinical !h-10 !px-5 text-xs font-bold whitespace-nowrap">
+        <button id="handoff-action-btn" type="button" onclick="handoffToICU()" class="btn-clinical !h-10 !px-5 text-xs font-bold whitespace-nowrap">
           Open Receiving ICU &rarr;
         </button>
       </div>
@@ -1714,11 +1736,11 @@ button:focus-visible {
           </div>
 
           <!-- Primary CTA Button -->
-          <button type="button" class="btn-clinical w-full h-12 text-sm font-bold flex items-center justify-center gap-2" onclick="doReserve('Max Super Speciality Hospital (Shalimar Bagh)')">
+          <button id="btn-dispatch-max" type="button" class="btn-clinical w-full h-12 text-sm font-bold flex items-center justify-center gap-2" onclick="doReserve('Max Super Speciality Hospital (Shalimar Bagh)')">
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
-            <span>Stage Bay &amp; Dispatch Transfer</span>
+            <span id="btn-dispatch-max-txt">Dispatch via ABDM UHI Handshake</span>
           </button>
         </article>
 
@@ -1750,8 +1772,8 @@ button:focus-visible {
             </div>
           </div>
 
-          <button type="button" class="btn-clinical-secondary w-full mt-auto" onclick="showToast('Saroj Hospital designated as primary backup facility.', 'sage')">
-            Designate as Primary Backup
+          <button id="btn-saroj-standby" type="button" class="btn-clinical-secondary w-full mt-auto" onclick="showToast('Saroj Hospital active on ABDM-UHI parallel standby.', 'sage')">
+            ABDM Standby Link Active (Cascade #2)
           </button>
         </article>
 
@@ -1873,6 +1895,69 @@ button:focus-visible {
 <main id="v2" class="view flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
+    <!-- ── ABDM UHI Handshake Alert Card (Flashes on Incoming Dispatch) ── -->
+    <section id="handshake-alert-card" class="hidden mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        
+        <!-- Left: Incoming broadcast alert details -->
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-orange-500/15 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0 shadow-xs">
+            <svg class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1 flex-wrap">
+              <span class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast">
+                Incoming ABDM-UHI Handshake · PENDING_ACK
+              </span>
+              <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-white/80 border border-amber-200 text-amber-900">
+                Target: Max Hospital (HFR-DL-10492)
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-white/80 border border-amber-200 text-amber-900">
+                Standby #2: Saroj Hospital
+              </span>
+            </div>
+            <h2 class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
+              Emergency Transfer Request: DL-108 · Code Red Patient En Route
+            </h2>
+            <p class="text-xs text-amber-900/90 mt-0.5 font-medium">
+              Intensivist active acknowledgment required. If unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">90s</span>, ABDM-UHI protocol automatically cascades transfer to Saroj Hospital.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: 90s Countdown & Accept / Decline CTA Buttons -->
+        <div class="flex items-center gap-3 shrink-0 self-end lg:self-center">
+          <!-- Countdown Ring Box -->
+          <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+            <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+            <div class="flex items-baseline gap-0.5">
+              <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
+              <span class="text-[11px] font-bold text-amber-900">s</span>
+            </div>
+          </div>
+
+          <!-- Accept CTA -->
+          <button type="button" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Accept Bed (Lock Bay 05)</span>
+          </button>
+
+          <!-- Decline CTA -->
+          <button type="button" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>Decline (NACK)</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Active Inbound Patient Telemetry Dossier (Executive Clinical Dashboard Header) -->
     <aside class="mb-6 rounded-2xl liquid-glass p-4 sm:p-5 shadow-sm">
       <!-- Top Meta Row: Origin, Live Status, Transfer Token & Urgency -->
@@ -1895,9 +1980,9 @@ button:focus-visible {
           <span id="icu-threat-badge" class="clinical-badge badge-red font-semibold text-xs">
             Code Red · STAT
           </span>
-          <span class="clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5">
+          <span id="icu-stage-badge" class="clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
-            <span>Staged: Bay 05</span>
+            <span id="icu-stage-badge-txt">Staged: Bay 05</span>
           </span>
         </div>
       </div>
@@ -1984,13 +2069,18 @@ button:focus-visible {
               Inbound Transfer · Ambulance DL-108 · Code Red
             </span>
           </div>
-          <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>
-          </h2>
-        </div>
+            <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
+              Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>
+            </h2>
+          </div>
 
-      </div>
-    </section>
+          <!-- ABDM Status Tag Right -->
+          <div id="abdm-status-tag" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/80 border border-softBorder text-xs text-mutedSlate self-start sm:self-center">
+            <span class="w-2 h-2 rounded-full bg-clinicalTeal"></span>
+            <span id="abdm-status-text" class="font-semibold text-inkDark">ABDM-UHI: Ready</span>
+          </div>
+        </div>
+      </section>
 
     <!-- Main Ward & Map Grid Split -->
     <div class="flex flex-col lg:flex-row gap-6 items-start">
@@ -2233,6 +2323,61 @@ button:focus-visible {
 
 
 <!-- ═════════════════════════════════════════════════════════════════
+     MANDATORY AUDITABLE REFUSAL MODAL (ABDM HFR Cryptographic Refusal Audit)
+═════════════════════════════════════════════════════════════════ -->
+<div id="decline-modal" class="modal-bg" onclick="handleDeclineBg(event)" role="dialog" aria-modal="true" aria-labelledby="decline-title">
+  <div class="modal-card">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0 shadow-xs">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 id="decline-title" class="text-xl font-bold text-inkDark tracking-tight">ABDM Auditable Refusal (NACK)</h3>
+        <p class="text-xs text-mutedSlate">Mandatory regulatory refusal logging · Free-text turnaways disabled</p>
+      </div>
+    </div>
+
+    <div class="modal-inner-glass rounded-xl p-4 my-4 space-y-3">
+      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder/60">
+        <span class="text-mutedSlate">Health Facility Registry (HFR):</span>
+        <span class="font-mono font-bold text-inkDark">IN-DL-HFR-10492 (Max Hospital)</span>
+      </div>
+      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder/60">
+        <span class="text-mutedSlate">Attending Intensivist HPR ID:</span>
+        <span class="font-mono font-bold text-inkDark">HPR-99214-DEL (Dr. V. Anand)</span>
+      </div>
+      <div>
+        <label for="decline-reason-select" class="block text-xs font-bold text-inkDark uppercase tracking-wider mb-1.5">
+          Select Cryptographic Audit Refusal Code:
+        </label>
+        <select id="decline-reason-select" class="w-full text-xs font-semibold rounded-xl border border-softBorder bg-white/95 px-3 py-2.5 text-inkDark shadow-xs focus:outline-none focus:ring-2 focus:ring-statRed/30">
+          <option value="REF_01_VENT_FAULT">ABDM-REF-01: Critical Ventilator Circuit Fault / Calibration Breakdown</option>
+          <option value="REF_02_CODE_BLUE">ABDM-REF-02: Intensivist in Active Code Blue / Surge Resuscitation</option>
+          <option value="REF_03_O2_PRESSURE_DROP">ABDM-REF-03: Central Liquid Oxygen (LOX) Manifold Pressure Drop</option>
+          <option value="REF_04_POWER_FAIL">ABDM-REF-04: Emergency Generator Switchover Fault in Substation</option>
+          <option value="REF_05_ISOLATION_BREACH">ABDM-REF-05: Critical Infection Control Airborne Isolation Seal Breach</option>
+        </select>
+      </div>
+      <p class="text-[11px] text-statRedText leading-relaxed bg-red-50/80 p-2.5 rounded-lg border border-red-200">
+        <strong>Statutory Compliance Warning:</strong> This refusal receipt is cryptographically timestamped and transmitted to the National Health Authority (NHA) ABDM audit ledger. Patient DL-108 will cascade immediately to Saroj Hospital.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+      <button type="button" class="btn-modal-cancel" onclick="closeDeclineModal()">
+        Cancel (Return to Intake)
+      </button>
+      <button type="button" class="btn-modal-confirm" onclick="confirmDecline()">
+        Sign &amp; Transmit NACK Cascade
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════════════════════════════
      ACCESSIBLE TOAST NOTIFICATION
 ═════════════════════════════════════════════════════════════════ -->
 <div id="toast" class="toast" role="status" aria-live="polite">
@@ -2248,14 +2393,28 @@ button:focus-visible {
 // ─────── 1. State Management ───────
 let currentRole = 'clinic'; // 'clinic' | 'icu'
 let clinicStep = 1; // 1: Intake & Equipment | 2: Recommended Hospitals
+
+// ABDM-UHI Protocol Handshake State Machine
+// States: 'IDLE' | 'PENDING_ACK' | 'LOCKED' | 'DECLINED'
+let handshakeState = 'IDLE'; 
+let handshakeRemainingSec = 90;
+let handshakeTimer = null;
+let handshakeAudits = [];
+
 let transferPayload = {
   token: '#GR-DEL-9421',
   syndrome: 'Severe Lung Failure & Infection (ARDS / Sepsis)',
   threatLevel: null,
   hospital: 'Max Super Speciality Hospital (Shalimar Bagh)',
+  hfrId: 'IN-DL-HFR-10492',
+  standbyHospital: 'Saroj Super Speciality Hospital',
+  standbyHfrId: 'IN-DL-HFR-10518',
   unit: 'DL-108',
   etaMinutes: 14,
   dispatched: false,
+  handshakeStatus: 'IDLE',
+  refusalReasonCode: null,
+  refusalTimestamp: null,
   vitals: {
     spo2: 82,
     o2Device: 'On 15L Mask',
@@ -3037,7 +3196,7 @@ function switchRole(role) {
   applyRole(role);
 }
 
-// ─────── 6. Referral & Bed Lock ───────
+// ─────── 6. Referral & Bed Lock (ABDM-UHI State Machine) ───────
 function doReserve(hospitalName) {
   if (overrideActive) resetOverride();
 
@@ -3045,37 +3204,316 @@ function doReserve(hospitalName) {
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
   transferPayload.hospital = hospitalName || 'Max Super Speciality Hospital (Shalimar Bagh)';
   transferPayload.dispatched = true;
+  transferPayload.handshakeStatus = 'PENDING_ACK';
+  handshakeState = 'PENDING_ACK';
 
   updateVitalsDisplay();
   updateICUChecklist();
 
   document.getElementById('icu-syndrome-tag').textContent = transferPayload.syndrome;
   document.getElementById('handoff-hosp-name').textContent = transferPayload.hospital;
-  document.getElementById('handoff-banner').classList.remove('hidden');
+  
+  // Update Clinic Handoff banner to reflect PENDING_ACK handshake status
+  const handoffBanner = document.getElementById('handoff-banner');
+  if (handoffBanner) handoffBanner.classList.remove('hidden');
+
+  updateHandshakeUI();
+  startHandshakeTimer(90);
 
   if (mapReady) {
     if (markerDestination) {
       markerDestination.setIcon(getDestinationPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · ABDM Broadcast Sent (Awaiting ICU ACK)');
     }
     if (markerSaroj) {
       markerSaroj.setIcon(getBackupBlackPin());
-      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
+      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · ABDM Parallel Standby Active (#2 Cascade)');
     }
     liveRoute = ROUTE_MAX;
     routeLine.setLatLngs(ROUTE_MAX);
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
     startSmoothAmbulance();
+    document.getElementById('eta-txt').textContent = 'Pending ICU ACK · 14 min ETA';
+  }
+
+  showToast('ABDM UHI Handshake Initiated. Max ICU pinged (90s ACK window).', 'terra');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateHandshakeUI() {
+  const alertCard = document.getElementById('handshake-alert-card');
+  const navPing = document.getElementById('icu-handshake-nav-ping');
+  const navDot = document.getElementById('icu-handshake-nav-dot');
+  const b05 = document.getElementById('bed05');
+  const b05Label = document.getElementById('b05-label');
+  const b05Sub = document.getElementById('b05-sub');
+  const stageBadgeTxt = document.getElementById('icu-stage-badge-txt');
+  const stageBadge = document.getElementById('icu-stage-badge');
+  const abdmStatusText = document.getElementById('abdm-status-text');
+  const handoffTitlePrefix = document.getElementById('handoff-title-prefix');
+  const handoffSubtext = document.getElementById('handoff-status-subtext');
+  const handoffBadge = document.getElementById('handoff-protocol-badge');
+  const handoffHospName = document.getElementById('handoff-hosp-name');
+  const handoffIconWrap = document.getElementById('handoff-status-icon-wrap');
+  const btnDispatchMax = document.getElementById('btn-dispatch-max');
+  const btnDispatchMaxTxt = document.getElementById('btn-dispatch-max-txt');
+
+  if (handshakeState === 'PENDING_ACK') {
+    // Show alert on ICU console
+    if (alertCard) alertCard.classList.remove('hidden');
+    if (navPing) navPing.classList.remove('hidden');
+    if (navDot) navDot.classList.remove('hidden');
+
+    if (b05) {
+      b05.className = 'bed-tile bt-pending col-span-2';
+    }
+    if (b05Label) b05Label.textContent = 'ABDM PENDING_ACK';
+    if (b05Sub) b05Sub.textContent = `Intensivist ACK Required (${handshakeRemainingSec}s)`;
+
+    if (stageBadgeTxt) stageBadgeTxt.textContent = `Pending ACK (${handshakeRemainingSec}s)`;
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-semibold flex items-center gap-1.5 blink-fast';
+
+    if (abdmStatusText) abdmStatusText.textContent = `ABDM-UHI: Handshake Broadcast (90s)`;
+
+    if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Awaiting Bed ACK from';
+    if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
+    if (handoffBadge) {
+      handoffBadge.textContent = 'ABDM UHI PENDING_ACK';
+      handoffBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast';
+    }
+    if (handoffSubtext) {
+      handoffSubtext.innerHTML = `Intensivist review active at Max ICU (<span class="font-bold text-statRed font-mono" id="handoff-sec-countdown">${handshakeRemainingSec}s</span> remaining) · Parallel Standby ready at Saroj`;
+    }
+    if (handoffIconWrap) {
+      handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0';
+    }
+    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = `Awaiting Max ICU ACK (${handshakeRemainingSec}s)...`;
+  } else if (handshakeState === 'LOCKED') {
+    // Bed accepted & locked
+    if (alertCard) alertCard.classList.add('hidden');
+    if (navPing) navPing.classList.add('hidden');
+    if (navDot) navDot.classList.add('hidden');
+
+    if (b05) {
+      b05.className = 'bed-tile bt-res col-span-2';
+    }
+    if (b05Label) b05Label.textContent = 'Locked · Staged In-Transit';
+    if (b05Sub) b05Sub.textContent = 'Ambulance DL-108 · Bed Confirmed';
+
+    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bed Locked: Bay 05';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+
+    if (abdmStatusText) abdmStatusText.textContent = 'ABDM-UHI: Bed Locked & Authenticated';
+
+    if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Transfer In Progress to';
+    if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
+    if (handoffBadge) {
+      handoffBadge.textContent = 'ABDM Bed Locked';
+      handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+    }
+    if (handoffSubtext) {
+      handoffSubtext.innerHTML = `ICU Bay 05 Staged · Confirmed by Dr. V. Anand (HPR-99214-DEL) · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+    }
+    if (handoffIconWrap) {
+      handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0';
+    }
+    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transfer Dispatched · Bed Locked';
+  } else if (handshakeState === 'DECLINED') {
+    // Cascaded to Saroj
+    if (alertCard) alertCard.classList.add('hidden');
+    if (navPing) navPing.classList.add('hidden');
+    if (navDot) navDot.classList.add('hidden');
+
+    if (b05) {
+      b05.className = 'bed-tile bt-occ col-span-2';
+    }
+    if (b05Label) b05Label.textContent = 'Bay 05 Available / Not Reserved';
+    if (b05Sub) b05Sub.textContent = 'Transfer Cascaded to Saroj Hospital';
+
+    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Cascaded to Saroj ICU';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-medium flex items-center gap-1.5';
+
+    if (abdmStatusText) abdmStatusText.textContent = 'ABDM-UHI: Cascade Transmitted to #2 Facility';
+
+    if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Transfer Cascaded to';
+    if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
+    if (handoffBadge) {
+      handoffBadge.textContent = 'ABDM Cascade Auto-Triggered';
+      handoffBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+    }
+    if (handoffSubtext) {
+      const reasonMsg = transferPayload.refusalReasonCode || '90-Second ACK Timeout';
+      handoffSubtext.innerHTML = `Cascaded from Max (${reasonMsg}) &middot; <strong class="text-inkDark">Saroj Hospital Bay Ready</strong> &middot; Ambulance DL-108 Rerouted (+3 min)`;
+    }
+    if (handoffIconWrap) {
+      handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0';
+    }
+    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Cascaded to Saroj Hospital (#2 Backup)';
+  }
+}
+
+function startHandshakeTimer(seconds = 90) {
+  if (handshakeTimer) clearInterval(handshakeTimer);
+  handshakeRemainingSec = seconds;
+
+  const countNum = document.getElementById('handshake-countdown-num');
+  const secText = document.getElementById('handshake-sec-text');
+  const handoffCountdown = document.getElementById('handoff-sec-countdown');
+
+  if (countNum) countNum.textContent = handshakeRemainingSec;
+  if (secText) secText.textContent = `${handshakeRemainingSec}s`;
+  if (handoffCountdown) handoffCountdown.textContent = `${handshakeRemainingSec}s`;
+
+  handshakeTimer = setInterval(() => {
+    handshakeRemainingSec--;
+    if (countNum) countNum.textContent = handshakeRemainingSec;
+    if (secText) secText.textContent = `${handshakeRemainingSec}s`;
+    
+    const hCountdown = document.getElementById('handoff-sec-countdown');
+    if (hCountdown) hCountdown.textContent = `${handshakeRemainingSec}s`;
+
+    const stageBadgeTxt = document.getElementById('icu-stage-badge-txt');
+    if (stageBadgeTxt && handshakeState === 'PENDING_ACK') {
+      stageBadgeTxt.textContent = `Pending ACK (${handshakeRemainingSec}s)`;
+    }
+
+    if (handshakeRemainingSec <= 0) {
+      clearInterval(handshakeTimer);
+      handshakeTimer = null;
+      // 90s timeout expired: Automatic Cascade to Saroj Hospital
+      triggerCascade('ABDM_TIMEOUT_90S', '90s Unacknowledged Broadcast Timeout');
+    }
+  }, 1000);
+}
+
+function acceptHandshake() {
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  handshakeState = 'LOCKED';
+  transferPayload.handshakeStatus = 'LOCKED';
+
+  updateHandshakeUI();
+
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getDestinationPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Handshake Accepted (Bay 05 Locked)');
+    }
+    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  showToast('ICU Bay 05 staged. Receiving ICU notified of incoming transfer.', 'sage');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('ABDM Handshake Accepted: ICU Bay 05 Locked for DL-108.', 'sage');
+}
+
+function triggerCascade(code, description) {
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  handshakeState = 'DECLINED';
+  transferPayload.handshakeStatus = 'DECLINED';
+  transferPayload.hospital = 'Saroj Super Speciality Hospital (Rohini Sector 14)';
+  transferPayload.refusalReasonCode = code;
+  transferPayload.refusalTimestamp = new Date().toISOString();
+
+  // Log cryptographic audit record
+  const auditEntry = {
+    patientId: '#GR-DEL-9421',
+    refusingHfrId: 'IN-DL-HFR-10492',
+    refusingHospital: 'Max Super Speciality Hospital',
+    cascadeTargetHfrId: 'IN-DL-HFR-10518',
+    cascadeTargetHospital: 'Saroj Super Speciality Hospital',
+    code: code,
+    description: description,
+    intensivistHpr: 'HPR-99214-DEL',
+    timestamp: transferPayload.refusalTimestamp,
+    cryptographicHash: '0x' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b => b.toString(16).padStart(2, '0')).join('')
+  };
+  handshakeAudits.push(auditEntry);
+  console.log('[ABDM UHI Handshake Audit]', auditEntry);
+
+  updateHandshakeUI();
+
+  // Update UI Elements in View 2
+  const bannerSub = document.getElementById('banner-sub');
+  if (bannerSub) {
+    bannerSub.innerHTML = 'Saroj Hospital, Rohini Sector 14 <span class="font-normal text-sm text-mutedSlate">— Automated Cascade Destination</span>';
+  }
+  const inboundTag = document.getElementById('inbound-tag');
+  if (inboundTag) {
+    inboundTag.textContent = 'ABDM Cascade Auto-Dispatched · Saroj Hospital Primary';
+    inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+  }
+
+  // Update markers and route to Saroj Hospital without clinician re-typing
+  if (markerDestination) {
+    markerDestination.setIcon(getBackupBlackPin());
+    markerDestination.setPopupContent(`<b>Max Super Speciality Hospital</b><br>Refused via ${code} · Cascaded to Saroj`);
+  }
+  if (markerSaroj) {
+    markerSaroj.setIcon(getDestinationPin());
+    markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Active Cascade Destination · Bay Prepared');
+  }
+
+  if (mapReady) {
+    const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
+    const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
+    const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
+    liveRoute = divertRoute;
+
+    routeLine.setLatLngs(divertRoute);
+    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    startSmoothAmbulance();
+    document.getElementById('eta-txt').textContent = 'Cascaded → Saroj · +3 min ETA';
+  }
+
+  // Show dynamic divert alert bar
+  const divertBar = document.getElementById('divert-bar');
+  if (divertBar) {
+    divertBar.querySelector('p').innerHTML = `<strong>ABDM Automated Cascade:</strong> Max Hospital declined (${code}). Ambulance DL-108 automatically cascaded to <strong>Saroj Hospital</strong> (+3 min ETA). Zero re-typing required.`;
+    divertBar.classList.add('show');
+  }
+
+  showToast(`ABDM Cascade Triggered (${code}): Payload routed to Saroj Hospital.`, 'terra');
 }
 
 function handoffToICU() {
   switchRole('icu');
-  showToast('Connected to Receiving ICU. Bay 05 staged.', 'sage');
+  if (handshakeState === 'PENDING_ACK') {
+    showToast('Switched to Receiving ICU. Awaiting Intensivist ACK (90s).', 'terra');
+  } else if (handshakeState === 'DECLINED') {
+    showToast('Switched to Receiving ICU. Viewing Saroj Hospital Cascade.', 'info');
+  } else {
+    showToast('Connected to Receiving ICU. Bay 05 staged.', 'sage');
+  }
+}
+
+// ─────── Auditable Refusal Modal Handlers ───────
+function openDeclineModal() {
+  const modal = document.getElementById('decline-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeDeclineModal() {
+  const modal = document.getElementById('decline-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+function handleDeclineBg(event) {
+  if (event.target === document.getElementById('decline-modal')) {
+    closeDeclineModal();
+  }
+}
+
+function confirmDecline() {
+  closeDeclineModal();
+  const select = document.getElementById('decline-reason-select');
+  const code = select ? select.value : 'REF_01_VENT_FAULT';
+  const desc = select ? select.options[select.selectedIndex].text : 'Critical Ventilator Circuit Fault';
+  triggerCascade(code, desc);
 }
 
 // ─────── 7. Urgency Level Selection ───────
@@ -3992,6 +4430,7 @@ function closeRoleModal() {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
+    closeDeclineModal();
     closeRoleModal();
   }
 });
