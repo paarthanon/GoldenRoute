@@ -17,28 +17,28 @@
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 300 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Italic.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 300 500;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Bold.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 600 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 600 900;
   font-style: italic;
   font-display: swap;
 }
@@ -47,28 +47,28 @@
 @font-face {
   font-family: 'Cartisse';
   src: url('assets/fonts/Cartisse-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 300 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cartisse';
   src: url('assets/fonts/Cartisse-Italic.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 300 500;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cartisse';
   src: url('assets/fonts/Cartisse-Bold.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 600 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cartisse';
   src: url('assets/fonts/Cartisse-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 600 900;
   font-style: italic;
   font-display: swap;
 }
@@ -87,7 +87,7 @@
       extend: {
         fontFamily: {
           sans: ['"Cartisse"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-          mono: ['"Cartisse"', '"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
           heading: ['"Libron"', 'Georgia', 'serif'],
         },
         colors: {
@@ -149,7 +149,7 @@ h1, h2, h3, h4, h5, h6, .font-heading, .modal-card h3 {
   font-family: 'Libron', Georgia, serif;
 }
 .tabular-nums, .font-mono {
-  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
@@ -550,7 +550,7 @@ header {
 
 /* ── ICU Monospace Countdown Timer ── */
 .countdown {
-  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -657,7 +657,7 @@ header {
 }
 
 .vital-input-num {
-  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   font-size: 24px;
@@ -1346,7 +1346,7 @@ button:focus-visible {
             <span id="handoff-protocol-badge" class="clinical-badge badge-blue text-[10px] font-bold">Live Network Handshake</span>
           </div>
           <p id="handoff-status-subtext" class="text-xs text-mutedSlate">
-            ICU Bay 05 Staged · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
+            ICU Bay 05 Assigned · Telemetry Active · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
           </p>
         </div>
       </div>
@@ -1826,7 +1826,7 @@ button:focus-visible {
                 <div id="hosp-badge-max" class="flex items-center gap-2 flex-wrap mb-1.5">
                   <span class="clinical-badge badge-blue">
                     <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-                    Optimal Match &middot; Bay 05 Staged
+                    Optimal Equipment Match &middot; Bay 05 Ready
                   </span>
                 </div>
                 <h3 class="text-xl sm:text-2xl font-bold text-inkDark tracking-tight">
@@ -1866,12 +1866,12 @@ button:focus-visible {
             </div>
           </div>
 
-          <!-- Primary CTA Button: Lock Bed & Dispatch -->
+          <!-- Primary CTA Button: Transmit Telemetry & Dispatch -->
           <button id="btn-dispatch-max" type="button" class="btn-clinical w-full h-12 text-sm font-bold flex items-center justify-center gap-2" onclick="doReserve('Max Super Speciality Hospital (Shalimar Bagh)')">
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
-            <span id="btn-dispatch-max-txt">Lock Bed &amp; Dispatch Transfer</span>
+            <span id="btn-dispatch-max-txt">Transmit Telemetry &amp; Dispatch</span>
           </button>
         </article>
 
@@ -2253,7 +2253,7 @@ button:focus-visible {
             </span>
           </div>
             <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-              Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>
+              Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>
             </h2>
           </div>
 
@@ -2351,10 +2351,10 @@ button:focus-visible {
               <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
             </div>
 
-            <!-- Bay 05: RESERVED IN-TRANSIT (Spans 2 columns) -->
+            <!-- Bay 05: ASSIGNED & TEAM PRIMING (Spans 2 columns) -->
             <div id="bed05" class="bed-tile bt-res col-span-2">
               <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Staged · In-Transit</span>
+              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Assigned · Team Priming</span>
               <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>
             </div>
 
@@ -3492,7 +3492,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
           badgeWrap.innerHTML = `
             <span class="clinical-badge badge-blue">
               <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-              Optimal Match &middot; Bay 05 Staged
+              Optimal Equipment Match &middot; Bay 05 Ready
             </span>`;
         } else if (key === 'bsa') {
           badgeWrap.innerHTML = `
@@ -3645,7 +3645,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
         badgeWrap.innerHTML = `
           <span class="clinical-badge badge-blue">
             <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-            Optimal Match &middot; Bay 05 Staged
+            Optimal Equipment Match &middot; Bay 05 Ready
           </span>
           <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
       } else if (key === 'saroj') {
@@ -3959,7 +3959,7 @@ function applyRole(role) {
   const btn2 = document.getElementById('btn2');
   btn1.className = `station-pill ${isClinic ? 'on' : 'off'}`;
   btn1.setAttribute('aria-selected', isClinic ? 'true' : 'false');
-  btn2.className = `station-pill ${!isClinic ? 'on' : 'off'}`;
+  btn2.className = `station-pill relative ${!isClinic ? 'on' : 'off'}`;
   btn2.setAttribute('aria-selected', !isClinic ? 'true' : 'false');
 
   document.getElementById('v1').className = `view ${isClinic ? 'active' : ''}`;
@@ -4071,9 +4071,42 @@ function updateHandshakeUI() {
 
   if (handshakeState === 'PENDING_ACK') {
     // Show alert on ICU console
-    if (alertCard) alertCard.classList.remove('hidden');
+    if (alertCard) {
+      alertCard.classList.remove('hidden');
+      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+    }
     if (navPing) navPing.classList.remove('hidden');
     if (navDot) navDot.classList.remove('hidden');
+
+    const alertTitle = document.getElementById('icu-banner-title');
+    if (alertTitle) alertTitle.innerHTML = 'Inbound Transfer Request: DL-108 &middot; ARDS / Code Red Patient En Route';
+    const alertSub = document.getElementById('icu-banner-subtext');
+    if (alertSub) alertSub.innerHTML = `Referring Facility transmitted live telemetry. Intensivist confirmation required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">${handshakeRemainingSec}s</span>, transfer automatically cascades to Saroj Hospital.`;
+    const badge = document.getElementById('icu-banner-status-badge');
+    if (badge) {
+      badge.textContent = 'Two-Way ICU Handshake · Awaiting Response';
+      badge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast';
+    }
+
+    const actionsWrap = document.getElementById('icu-banner-actions');
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+          <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+          <div class="flex items-baseline gap-0.5">
+            <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">${handshakeRemainingSec}</span>
+            <span class="text-[11px] font-bold text-amber-900">s</span>
+          </div>
+        </div>
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <span>Accept &amp; Assign Bay 05</span>
+        </button>
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <span>Capacity/Equipment Divert</span>
+        </button>`;
+    }
 
     if (b05) {
       b05.className = 'bed-tile bt-pending col-span-2';
@@ -4132,27 +4165,27 @@ function updateHandshakeUI() {
     if (b05) {
       b05.className = 'bed-tile bt-res col-span-2';
     }
-    if (b05Label) b05Label.textContent = 'Locked · Staged In-Transit';
+    if (b05Label) b05Label.textContent = 'Assigned · Team Priming';
     if (b05Sub) b05Sub.textContent = 'Ambulance DL-108 · Bed Confirmed';
 
-    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bed Locked: Bay 05';
+    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Assigned · Telemetry Active';
     if (stageBadge) stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
 
-    if (abdmStatusText) abdmStatusText.textContent = 'Bed Locked & Confirmed';
+    if (abdmStatusText) abdmStatusText.textContent = 'Bed Assigned & Confirmed';
 
     if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Transfer In Progress to';
     if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
     if (handoffBadge) {
-      handoffBadge.textContent = 'Bed Locked';
+      handoffBadge.textContent = 'ICU Bay 05 Assigned · Telemetry Active';
       handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
     }
     if (handoffSubtext) {
-      handoffSubtext.innerHTML = `ICU Bay 05 Staged · Confirmed by Dr. V. Anand · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+      handoffSubtext.innerHTML = `ICU Bay 05 Assigned · Telemetry Active · Confirmed by Dr. V. Anand · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
     }
     if (handoffIconWrap) {
       handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0';
     }
-    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transfer Dispatched · Bed Locked';
+    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transfer Dispatched · Bay 05 Assigned';
   } else if (handshakeState === 'DECLINED') {
     // Cascaded to Saroj
     if (alertCard) {
@@ -4204,9 +4237,32 @@ function updateHandshakeUI() {
     }
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Cascaded to Saroj Hospital (#2 Backup)';
   } else if (handshakeState === 'IDLE') {
-    if (alertCard) alertCard.classList.add('hidden');
+    if (alertCard) {
+      alertCard.classList.add('hidden');
+      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+    }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
+
+    const actionsWrap = document.getElementById('icu-banner-actions');
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+          <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+          <div class="flex items-baseline gap-0.5">
+            <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
+            <span class="text-[11px] font-bold text-amber-900">s</span>
+          </div>
+        </div>
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <span>Accept &amp; Assign Bay 05</span>
+        </button>
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <span>Capacity/Equipment Divert</span>
+        </button>`;
+    }
 
     if (b05) {
       b05.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
@@ -4635,11 +4691,26 @@ function formatCountdown(sec) {
 }
 
 function updateHoldTimers(formattedTime, cdClass) {
-  // 25 min timer removed
+  // Guarded against null references: legacy 25-min timer elements
+  const cdEl = document.getElementById('countdown');
+  const b05El = document.getElementById('b05-timer');
+  const dosEl = document.getElementById('dossier-timer');
+  if (cdEl && formattedTime) {
+    cdEl.textContent = formattedTime;
+    if (cdClass) cdEl.className = cdClass;
+  }
+  if (b05El && formattedTime) {
+    b05El.textContent = formattedTime;
+    if (cdClass) b05El.className = cdClass;
+  }
+  if (dosEl && formattedTime) {
+    dosEl.textContent = formattedTime;
+    if (cdClass) dosEl.className = cdClass;
+  }
 }
 
 function startCountdown(fromSec) {
-  // 25 min timer removed
+  // Legacy 25-min reservation timer decommissioned; ensure no timer runs and no expiration toast fires
   if (cdTimer) {
     clearInterval(cdTimer);
     cdTimer = null;
@@ -5149,7 +5220,7 @@ function initMap() {
    .bindPopup('<b>Referring Facility</b><br>Rohini Sector 3 · Origin Point');
 
   markerDestination = L.marker(MAX_HSP, { icon: getDestinationPin() }).addTo(lmap)
-   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
+   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Assigned · Telemetry Active)');
 
   markerBSA = L.marker(BSA,     { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Dr. B.S. Ambedkar Hospital</b><br>Rohini Sector 6 · ER Congested (+28m)');
