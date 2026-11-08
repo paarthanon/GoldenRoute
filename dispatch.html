@@ -42,36 +42,6 @@
   font-style: italic;
   font-display: swap;
 }
-
-/* Local Body & UI Font: Cartisse */
-@font-face {
-  font-family: 'Cartisse';
-  src: url('assets/fonts/Cartisse-Regular.ttf') format('truetype');
-  font-weight: 300 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cartisse';
-  src: url('assets/fonts/Cartisse-Italic.ttf') format('truetype');
-  font-weight: 300 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cartisse';
-  src: url('assets/fonts/Cartisse-Bold.ttf') format('truetype');
-  font-weight: 600 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cartisse';
-  src: url('assets/fonts/Cartisse-BoldItalic.ttf') format('truetype');
-  font-weight: 600 900;
-  font-style: italic;
-  font-display: swap;
-}
 </style>
 
 <!-- Tailwind CSS CDN -->
@@ -86,7 +56,7 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"Cartisse"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          sans: ['"Geist"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
           mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
           heading: ['"Libron"', 'Georgia', 'serif'],
         },
@@ -140,9 +110,9 @@
 </script>
 
 <style>
-/* ── Unified Cartisse Typography & Tabular Numbers Baseline ── */
+/* ── Unified Geist Typography & Tabular Numbers Baseline ── */
 body, button, input, select, textarea, p, span, div, time, a, label {
-  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 /* ── Headings: Libron Serif ── */
 h1, h2, h3, h4, h5, h6, .font-heading, .modal-card h3 {
@@ -168,7 +138,7 @@ html {
 html, body {
   background-color: #F8FAFC;
   color: #0F172A;
-  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -678,42 +648,37 @@ header {
   display: none !important;
 }
 
-/* ── Custom Clinical Stepper Controls (Perfect Alignment) ── */
-.vital-stepper {
+/* ── Bedside Squircle Stepper Controls (28px × 28px Flanking Buttons) ── */
+.squircle-step-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
-  gap: 2px;
-  user-select: none;
-  vertical-align: middle;
-}
-.vital-step-btn {
-  width: 17px;
-  height: 12px;
-  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 9px;
   border: 1px solid #CBD5E1;
   background-color: #F8FAFC;
-  color: #64748B;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
+  user-select: none;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
   line-height: 1;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
-.vital-step-btn:hover {
+.squircle-step-btn:hover {
   background-color: #FFFFFF;
   border-color: #0C6277;
   color: #0C6277;
-  box-shadow: 0 1px 3px rgba(12, 98, 119, 0.15);
+  box-shadow: 0 2px 6px rgba(12, 98, 119, 0.18);
   transform: translateY(-0.5px);
 }
-.vital-step-btn:active {
+.squircle-step-btn:active {
   background-color: #E2E8F0;
-  transform: scale(0.92);
+  transform: scale(0.93);
 }
 
 /* ── Form Inputs Focus Rings ── */
@@ -1042,7 +1007,7 @@ button:focus-visible {
   padding: 2px !important;
 }
 .leaflet-popup-content {
-  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 12px !important;
   line-height: 1.45 !important;
   color: #334155 !important;
@@ -1446,11 +1411,14 @@ button:focus-visible {
 
       <!-- 2. REQUIRED ICU EQUIPMENT (Full-Width Responsive Grid) -->
       <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder shadow-xs">
-        <div class="mb-4">
+        <div class="flex items-center justify-between gap-3 mb-4 flex-wrap">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">2</span>
             <span>Required ICU Equipment</span>
           </h2>
+          <span id="equip-count-pill" class="clinical-badge badge-neutral text-[11px] font-semibold">
+            Standard ICU Monitoring
+          </span>
         </div>
 
         <div id="equip-chips-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
@@ -1588,10 +1556,13 @@ button:focus-visible {
 
         <!-- Bottom Row: Input-able Vitals Grid -->
         <div class="pt-5">
-          <div class="mb-3">
+          <div class="flex items-center justify-between gap-3 mb-3 flex-wrap">
             <p class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
               Departure Vitals
             </p>
+            <span id="shock-index-pill" class="clinical-badge badge-red text-[11px] font-bold">
+              Shock Index: 1.51 · Severe Hemodynamic Instability
+            </span>
           </div>
 
           <div id="vitals-inputs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
@@ -1603,17 +1574,17 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">%</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <div class="inline-flex items-center justify-center">
-                  <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 44px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('spo2')" />
-                  <span id="spo2-unit-sym" class="font-mono text-xl font-bold text-statRed leading-none ml-1">%</span>
-                  <div class="vital-stepper">
-                    <button type="button" class="vital-step-btn" onclick="stepVital('spo2', 1)" title="Increase SpO₂" aria-label="Increase SpO₂">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-                    </button>
-                    <button type="button" class="vital-step-btn" onclick="stepVital('spo2', -1)" title="Decrease SpO₂" aria-label="Decrease SpO₂">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
+                <div class="inline-flex items-center justify-center gap-2">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('spo2', -1)" title="Decrease SpO₂" aria-label="Decrease SpO₂">
+                    −
+                  </button>
+                  <div class="inline-flex items-baseline justify-center min-w-[58px]">
+                    <input id="input-spo2" type="number" min="50" max="100" value="82" class="vital-input-num text-statRed" style="width: 36px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('spo2')" />
+                    <span id="spo2-unit-sym" class="font-mono text-xl font-bold text-statRed leading-none ml-0.5">%</span>
                   </div>
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('spo2', 1)" title="Increase SpO₂" aria-label="Increase SpO₂">
+                    +
+                  </button>
                 </div>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
@@ -1641,32 +1612,18 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">mmHg</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <div class="inline-flex items-center justify-center gap-1">
-                  <!-- Systolic -->
-                  <div class="inline-flex items-center">
-                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 48px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-sys')" placeholder="85" />
-                    <div class="vital-stepper">
-                      <button type="button" class="vital-step-btn" onclick="stepVital('bp-sys', 5)" title="Increase Systolic" aria-label="Increase Systolic">
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-                      </button>
-                      <button type="button" class="vital-step-btn" onclick="stepVital('bp-sys', -5)" title="Decrease Systolic" aria-label="Decrease Systolic">
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                      </button>
-                    </div>
+                <div class="inline-flex items-center justify-center gap-1.5">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp-sys', -5)" title="Decrease Systolic" aria-label="Decrease Systolic">
+                    −
+                  </button>
+                  <div class="inline-flex items-center justify-center">
+                    <input id="input-bp-sys" type="number" min="40" max="250" value="85" class="vital-input-num text-statRed" style="width: 44px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-sys')" placeholder="85" />
+                    <span class="font-mono text-lg font-bold text-mutedSlate/50 px-0.5">/</span>
+                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 44px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
                   </div>
-                  <span class="font-mono text-xl font-bold text-mutedSlate/60 px-0.5">/</span>
-                  <!-- Diastolic -->
-                  <div class="inline-flex items-center">
-                    <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 48px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
-                    <div class="vital-stepper">
-                      <button type="button" class="vital-step-btn" onclick="stepVital('bp-dia', 5)" title="Increase Diastolic" aria-label="Increase Diastolic">
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-                      </button>
-                      <button type="button" class="vital-step-btn" onclick="stepVital('bp-dia', -5)" title="Decrease Diastolic" aria-label="Decrease Diastolic">
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                      </button>
-                    </div>
-                  </div>
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp-sys', 5)" title="Increase Systolic" aria-label="Increase Systolic">
+                    +
+                  </button>
                 </div>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
@@ -1683,16 +1640,14 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">BPM</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <div class="inline-flex items-center justify-center">
-                  <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" style="width: 52px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('hr')" />
-                  <div class="vital-stepper">
-                    <button type="button" class="vital-step-btn" onclick="stepVital('hr', 2)" title="Increase Heart Rate" aria-label="Increase Heart Rate">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-                    </button>
-                    <button type="button" class="vital-step-btn" onclick="stepVital('hr', -2)" title="Decrease Heart Rate" aria-label="Decrease Heart Rate">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                  </div>
+                <div class="inline-flex items-center justify-center gap-2">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('hr', -2)" title="Decrease Heart Rate" aria-label="Decrease Heart Rate">
+                    −
+                  </button>
+                  <input id="input-hr" type="number" min="30" max="240" value="128" class="vital-input-num text-urgentAmber" style="width: 50px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('hr')" />
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('hr', 2)" title="Increase Heart Rate" aria-label="Increase Heart Rate">
+                    +
+                  </button>
                 </div>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
@@ -1709,17 +1664,17 @@ button:focus-visible {
                 <span class="text-[11px] font-medium text-mutedSlate">GCS</span>
               </div>
               <div class="h-10 flex items-center justify-center my-1">
-                <div class="inline-flex items-center justify-center">
-                  <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 34px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('gcs')" />
-                  <span class="font-mono text-xl font-bold text-mutedSlate/60 leading-none ml-1">/15</span>
-                  <div class="vital-stepper">
-                    <button type="button" class="vital-step-btn" onclick="stepVital('gcs', 1)" title="Increase GCS" aria-label="Increase GCS">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-                    </button>
-                    <button type="button" class="vital-step-btn" onclick="stepVital('gcs', -1)" title="Decrease GCS" aria-label="Decrease GCS">
-                      <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
+                <div class="inline-flex items-center justify-center gap-2">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('gcs', -1)" title="Decrease GCS" aria-label="Decrease GCS">
+                    −
+                  </button>
+                  <div class="inline-flex items-baseline justify-center min-w-[50px]">
+                    <input id="input-gcs" type="number" min="3" max="15" value="7" class="vital-input-num text-statRed" style="width: 28px; text-align: right;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('gcs')" />
+                    <span class="font-mono text-lg font-bold text-mutedSlate/60 leading-none ml-0.5">/15</span>
                   </div>
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('gcs', 1)" title="Increase GCS" aria-label="Increase GCS">
+                    +
+                  </button>
                 </div>
               </div>
               <div class="h-7 w-full flex items-center justify-center">
@@ -1840,6 +1795,9 @@ button:focus-visible {
                   <span class="text-xs font-semibold text-mutedSlate">mins</span>
                 </div>
                 <p class="text-[11px] font-medium text-mutedSlate mt-1">Outer Ring Rd</p>
+                <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
+                  <span>Direct: 14m (14m drive + 0m bay queue)</span>
+                </div>
               </div>
             </div>
 
@@ -1940,6 +1898,9 @@ button:focus-visible {
                   <span class="text-xs font-semibold text-mutedSlate">mins</span>
                 </div>
                 <p class="text-[11px] text-mutedSlate mt-1">via Sector 3 Rd</p>
+                <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
+                  <span>Effective Time-to-Bed: 35 mins total (7m drive + 28m ER queue)</span>
+                </div>
               </div>
             </div>
 
@@ -2023,7 +1984,7 @@ button:focus-visible {
         </article>
 
         <!-- Facility 3: Fortis Hospital (CAPACITY FULL / DIVERTED) -->
-        <article id="hosp-card-fortis" data-schemes="farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full">
+        <article id="hosp-card-fortis" data-schemes="farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full opacity-75 bg-slate-50/60 transition-opacity">
           <div>
             <div class="flex items-start justify-between gap-4 mb-2.5">
               <div>
@@ -2847,39 +2808,83 @@ function applyIncomingBedLock(data) {
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.remove('hidden');
 
-  updateHandshakeUI();
-  if (handshakeState === 'PENDING_ACK') {
-    startHandshakeTimer(data.remainingSec || 90);
-  }
+  if (transferPayload.familyOverride) {
+    const hPrefix = document.getElementById('handoff-title-prefix');
+    if (hPrefix) hPrefix.textContent = 'Family Preference Transfer to';
+    const hBadge = document.getElementById('handoff-protocol-badge');
+    if (hBadge) {
+      hBadge.textContent = 'Family Override (Form 13-B)';
+      hBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+    }
+    const hSub = document.getElementById('handoff-status-subtext');
+    if (hSub) {
+      hSub.innerHTML = `Dispatched to BSA Civil Hospital &middot; <strong class="text-statRed">28m ER Dock Lag Counselled</strong> &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+    }
+    const hIcon = document.getElementById('handoff-status-icon-wrap');
+    if (hIcon) {
+      hIcon.className = 'w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0';
+    }
 
-  // Light up Bed 05 with animation
-  const b = document.getElementById('bed05');
-  if (b) {
-    b.classList.add('bed-light-up');
-    setTimeout(() => b.classList.remove('bed-light-up'), 1500);
-  }
+    if (mapReady) {
+      if (markerDestination) {
+        markerDestination.setIcon(getBackupBlackPin());
+        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bypassed per Family Preference');
+      }
+      if (markerBSA) {
+        markerBSA.setIcon(getDestinationPin());
+        markerBSA.setPopupContent('<b>Dr. B.S. Ambedkar Hospital</b><br>Active Destination (Family Preference Override · 28m Dock Lag)');
+      }
+      liveRoute = ROUTE_BSA;
+      if (routeLine) {
+        routeLine.setLatLngs(ROUTE_BSA);
+        routeLine.setStyle({ color: '#D97706', opacity: 0.9, dashArray: '8 6', className: 'clinical-route-line' });
+      }
+      startSmoothAmbulance();
+      const eta = document.getElementById('eta-txt');
+      if (eta) eta.textContent = 'En Route to BSA · 7 min (+28m dock lag)';
+    }
 
-  if (mapReady) {
-    if (markerDestination) {
-      markerDestination.setIcon(getDestinationPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bed Request Transmitted (Bay 05 Locked)');
+    showToast('🚨 Family Preference Override: Dispatched to BSA Hospital!', 'terra');
+  } else {
+    updateHandshakeUI();
+    if (handshakeState === 'PENDING_ACK') {
+      startHandshakeTimer(data.remainingSec || 90);
     }
-    if (markerSaroj) {
-      markerSaroj.setIcon(getBackupBlackPin());
-      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
+
+    // Light up Bed 05 with animation
+    const b = document.getElementById('bed05');
+    if (b) {
+      b.classList.add('bed-light-up');
+      setTimeout(() => b.classList.remove('bed-light-up'), 1500);
     }
-    liveRoute = ROUTE_MAX;
-    if (routeLine) {
-      routeLine.setLatLngs(ROUTE_MAX);
-      routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+
+    if (mapReady) {
+      if (markerBSA) {
+        markerBSA.setIcon(getNeutralPin());
+        markerBSA.setPopupContent('<b>Dr. Baba Saheb Ambedkar Hospital</b><br>Rohini Sec 6 · Level 1 Trauma Center (Free Walk-in)');
+      }
+      if (markerDestination) {
+        markerDestination.setIcon(getDestinationPin());
+        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bed Request Transmitted (Bay 05 Locked)');
+      }
+      if (markerSaroj) {
+        markerSaroj.setIcon(getBackupBlackPin());
+        markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
+      }
+      liveRoute = ROUTE_MAX;
+      if (routeLine) {
+        routeLine.setLatLngs(ROUTE_MAX);
+        routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+      }
+      startSmoothAmbulance();
+      const eta = document.getElementById('eta-txt');
+      if (eta) eta.textContent = 'Awaiting Bed ACK · 14 min ETA';
     }
-    startSmoothAmbulance();
-    const eta = document.getElementById('eta-txt');
-    if (eta) eta.textContent = 'Awaiting Bed ACK · 14 min ETA';
+
+    showToast('🚨 Incoming Transfer Request: DL-108 Locked Bed 05!', 'terra');
   }
 
   playLockChime();
-  showToast('🚨 Incoming Transfer Request: DL-108 Locked Bed 05!', 'terra');
   flashSyncIndicator();
 }
 
@@ -2998,6 +3003,7 @@ function resetSimulationState(isSelf = true) {
   handshakeState = 'IDLE';
   overrideActive = false;
   transferPayload.dispatched = false;
+  transferPayload.familyOverride = false;
   transferPayload.handshakeStatus = 'IDLE';
   transferPayload.threatLevel = null;
   [1, 2, 3].forEach(i => {
@@ -3013,8 +3019,24 @@ function resetSimulationState(isSelf = true) {
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.add('hidden');
 
-  if (mapReady && routeLine) {
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.4, dashArray: '6 6' });
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getDestinationPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bed Request Transmitted');
+    }
+    if (markerSaroj) {
+      markerSaroj.setIcon(getBackupBlackPin());
+      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
+    }
+    if (markerBSA) {
+      markerBSA.setIcon(getNeutralPin());
+      markerBSA.setPopupContent('<b>Dr. Baba Saheb Ambedkar Hospital</b><br>Rohini Sec 6 · Level 1 Trauma Center (Free Walk-in)');
+    }
+    liveRoute = ROUTE_MAX;
+    if (routeLine) {
+      routeLine.setLatLngs(ROUTE_MAX);
+      routeLine.setStyle({ color: '#0C6277', opacity: 0.4, dashArray: '6 6' });
+    }
     if (ambuMkr) ambuMkr.setLatLng(ROUTE_MAX[0]);
     if (smoothAnimFrameId) cancelAnimationFrame(smoothAnimFrameId);
     const eta = document.getElementById('eta-txt');
@@ -3284,6 +3306,29 @@ function updateVitalsDisplay(shouldBroadcast = true) {
   }
   if (elGcs) elGcs.className = `vital-input-num ${gcsColor}`;
 
+  // 5. Live Shock Index Calculation (HR / Systolic BP)
+  const shockIndex = bpSys > 0 ? (hr / bpSys) : 0;
+  const shockIndexRounded = shockIndex.toFixed(2);
+  const shockPill = document.getElementById('shock-index-pill');
+  if (shockPill) {
+    if (shockIndex >= 1.3) {
+      shockPill.className = 'clinical-badge badge-red text-[11px] font-bold';
+      shockPill.textContent = `Shock Index: ${shockIndexRounded} · Severe Hemodynamic Instability`;
+    } else if (shockIndex >= 1.0) {
+      shockPill.className = 'clinical-badge badge-amber text-[11px] font-bold';
+      shockPill.textContent = `Shock Index: ${shockIndexRounded} · Moderate Shock / Impending Collapse`;
+    } else if (shockIndex >= 0.7) {
+      shockPill.className = 'clinical-badge badge-yellow text-[11px] font-semibold';
+      shockPill.textContent = `Shock Index: ${shockIndexRounded} · Borderline / Mild Elevation`;
+    } else {
+      shockPill.className = 'clinical-badge badge-green text-[11px] font-semibold';
+      shockPill.textContent = `Shock Index: ${shockIndexRounded} · Hemodynamically Stable`;
+    }
+  }
+
+  // 6. Synchronize Equipment Selection Header Live Count
+  updateEquipmentCountHeader();
+
   // ── Sync to ICU Station View Telemetry Dossier ──
   const icuSpo2 = document.getElementById('icu-vital-spo2');
   if (icuSpo2) {
@@ -3456,6 +3501,19 @@ const HOSPITAL_EQUIPMENT_DATA = {
 function getSelectedEquipments() {
   const chips = document.querySelectorAll('#clinic-step-1 .equip-chip.sel p.font-semibold');
   return Array.from(chips).map(el => el.textContent.trim());
+}
+
+function updateEquipmentCountHeader() {
+  const countPill = document.getElementById('equip-count-pill');
+  if (!countPill) return;
+  const selected = getSelectedEquipments();
+  if (selected.length === 0) {
+    countPill.className = 'clinical-badge badge-neutral text-[11px] font-semibold';
+    countPill.textContent = 'Standard ICU Monitoring';
+  } else {
+    countPill.className = 'clinical-badge badge-blue text-[11px] font-bold';
+    countPill.textContent = `${selected.length} Selected (${selected.join(' · ')})`;
+  }
 }
 
 function updateHospitalEquipmentDisplays(selectedEquips) {
@@ -3917,6 +3975,12 @@ function confirmFamilyOverride() {
     if (eta) eta.textContent = 'En Route to BSA · 7 min (+28m dock lag)';
   }
 
+  saveAppState();
+  GoldenBus.send('LOCK_BED', {
+    transferPayload,
+    handshakeState: 'LOCKED'
+  });
+
   showToast('Medico-legal waiver confirmed. Ambulance DL-108 dispatched to Dr. B.S. Ambedkar Hospital.', 'terra');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -4000,6 +4064,7 @@ function switchRole(role) {
 // ─────── 6. Referral & Bed Lock (Handshake State Machine) ───────
 function doReserve(hospitalName, isSelf = true) {
   if (overrideActive) resetOverride(false);
+  transferPayload.familyOverride = false;
 
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
@@ -4029,6 +4094,10 @@ function doReserve(hospitalName, isSelf = true) {
     if (markerSaroj) {
       markerSaroj.setIcon(getBackupBlackPin());
       markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
+    }
+    if (markerBSA) {
+      markerBSA.setIcon(getNeutralPin());
+      markerBSA.setPopupContent('<b>Dr. Baba Saheb Ambedkar Hospital</b><br>Rohini Sec 6 · Level 1 Trauma Center (Free Walk-in)');
     }
     liveRoute = ROUTE_MAX;
     if (routeLine) {
@@ -4526,6 +4595,7 @@ function setThreat(level) {
 function toggleEq(el) {
   el.classList.toggle('sel');
   const selected = getSelectedEquipments();
+  updateEquipmentCountHeader();
   updateHospitalEquipmentDisplays(selected);
   updateICUChecklist();
   saveAppState();
@@ -4752,12 +4822,12 @@ const OFFLINE_CORRIDOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
   <rect x="550" y="320" width="260" height="220" rx="12" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" opacity="0.6"/>
   <rect x="100" y="580" width="220" height="180" rx="12" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" opacity="0.6"/>
   <rect x="260" y="320" width="90" height="65" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
-  <text x="305" y="356" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#059669" text-anchor="middle">JAPANESE PARK</text>
+  <text x="305" y="356" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#059669" text-anchor="middle">JAPANESE PARK</text>
   <rect x="670" y="330" width="85" height="60" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
-  <text x="712" y="364" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#059669" text-anchor="middle">DISTRICT PARK</text>
+  <text x="712" y="364" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#059669" text-anchor="middle">DISTRICT PARK</text>
   <path d="M 80 40 Q 350 110 520 100 T 920 170" fill="none" stroke="url(#canal-grad)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
   <path d="M 80 40 Q 350 110 520 100 T 920 170" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.5"/>
-  <text x="340" y="75" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#0284C7" letter-spacing="1">NAJAFGARH CANAL / DRAIN</text>
+  <text x="340" y="75" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#0284C7" letter-spacing="1">NAJAFGARH CANAL / DRAIN</text>
   <g fill="none" stroke="#E2E8F0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M 120 200 L 480 200 M 120 270 L 480 270 M 120 340 L 480 340"/>
     <path d="M 200 120 L 200 400 M 280 120 L 280 400 M 360 120 L 360 400 M 440 120 L 440 400"/>
@@ -4774,29 +4844,29 @@ const OFFLINE_CORRIDOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
     <path d="M 240 140 L 258 165 L 295 285 L 480 450"/>
     <path d="M 258 165 L 140 240 L 120 420 L 150 730"/>
   </g>
-  <text x="545" y="432" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="700" fill="#475569" letter-spacing="0.5">OUTER RING ROAD (NH 44)</text>
-  <text x="320" y="225" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#64748B" transform="rotate(35 320 225)">BHAGWAN MAHAVIR MARG</text>
-  <text x="480" y="468" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#0F172A">MADHUBAN CHOWK</text>
-  <text x="210" y="150" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 3</text>
-  <text x="370" y="220" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 14</text>
-  <text x="640" y="480" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="800" fill="#94A3B8" letter-spacing="2">SHALIMAR BAGH</text>
-  <text x="520" y="515" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PITAMPURA</text>
-  <text x="160" y="695" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PASCHIM VIHAR</text>
+  <text x="545" y="432" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="700" fill="#475569" letter-spacing="0.5">OUTER RING ROAD (NH 44)</text>
+  <text x="320" y="225" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#64748B" transform="rotate(35 320 225)">BHAGWAN MAHAVIR MARG</text>
+  <text x="480" y="468" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#0F172A">MADHUBAN CHOWK</text>
+  <text x="210" y="150" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 3</text>
+  <text x="370" y="220" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 14</text>
+  <text x="640" y="480" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="800" fill="#94A3B8" letter-spacing="2">SHALIMAR BAGH</text>
+  <text x="520" y="515" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PITAMPURA</text>
+  <text x="160" y="695" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PASCHIM VIHAR</text>
   <g transform="translate(870, 720)">
     <circle cx="0" cy="0" r="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
     <polygon points="0,-15 4,-3 0,0" fill="#0C6277"/>
     <polygon points="0,15 4,3 0,0" fill="#94A3B8"/>
     <polygon points="0,-15 -4,-3 0,0" fill="#083B49"/>
     <polygon points="0,15 -4,3 0,0" fill="#CBD5E1"/>
-    <text x="0" y="-18" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="800" fill="#0C6277" text-anchor="middle">N</text>
+    <text x="0" y="-18" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="800" fill="#0C6277" text-anchor="middle">N</text>
   </g>
   <g transform="translate(50, 750)">
     <rect x="0" y="0" width="100" height="4" fill="#0F172A"/>
     <rect x="50" y="0" width="50" height="4" fill="#FFFFFF" stroke="#0F172A" stroke-width="0.5"/>
-    <text x="0" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">0</text>
-    <text x="50" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">1 km</text>
-    <text x="100" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">2 km</text>
-    <text x="0" y="15" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8">OFFLINE PRE-CACHED CORRIDOR</text>
+    <text x="0" y="-5" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">0</text>
+    <text x="50" y="-5" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">1 km</text>
+    <text x="100" y="-5" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">2 km</text>
+    <text x="0" y="15" font-family="'Geist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8">OFFLINE PRE-CACHED CORRIDOR</text>
   </g>
 </svg>`;
 
@@ -5530,14 +5600,14 @@ function applyOverrideUI(active) {
       inboundTag.className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
     }
     if (bannerSub) {
-      bannerSub.innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>';
+      bannerSub.innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>';
     }
     if (b) {
       if (handshakeState === 'LOCKED') {
         b.className = 'bed-tile bt-res col-span-2';
         b.innerHTML = `
           <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-          <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Locked · Staged In-Transit</span>
+          <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Assigned · Team Priming</span>
           <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108 · Bed Confirmed</span>`;
       } else if (handshakeState === 'PENDING_ACK') {
         b.className = 'bed-tile bt-pending col-span-2';
@@ -5574,7 +5644,7 @@ function applyOverrideUI(active) {
     if (mapReady) {
       if (markerDestination) {
         markerDestination.setIcon(getDestinationPin());
-        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
+        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Assigned · Telemetry Active)');
       }
       if (markerSaroj) {
         markerSaroj.setIcon(getBackupBlackPin());
@@ -5666,6 +5736,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (saved.transferPayload.syndrome) transferPayload.syndrome = saved.transferPayload.syndrome;
     if (saved.transferPayload.threatLevel !== undefined) transferPayload.threatLevel = saved.transferPayload.threatLevel;
     if (saved.transferPayload.dispatched !== undefined) transferPayload.dispatched = saved.transferPayload.dispatched;
+    if (saved.transferPayload.familyOverride !== undefined) transferPayload.familyOverride = saved.transferPayload.familyOverride;
     if (saved.handshakeState) handshakeState = saved.handshakeState;
     if (saved.overrideActive !== undefined) overrideActive = saved.overrideActive;
 
@@ -5714,6 +5785,42 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (overrideActive) {
     applyOverrideUI(true);
+  } else if (saved && saved.transferPayload && saved.transferPayload.familyOverride) {
+    const handoffBanner = document.getElementById('handoff-banner');
+    if (handoffBanner) handoffBanner.classList.remove('hidden');
+    const hHosp = document.getElementById('handoff-hosp-name');
+    if (hHosp) hHosp.textContent = 'Dr. B.S. Ambedkar (BSA) Hospital';
+    const hPrefix = document.getElementById('handoff-title-prefix');
+    if (hPrefix) hPrefix.textContent = 'Family Preference Transfer to';
+    const hBadge = document.getElementById('handoff-protocol-badge');
+    if (hBadge) {
+      hBadge.textContent = 'Family Override (Form 13-B)';
+      hBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+    }
+    const hSub = document.getElementById('handoff-status-subtext');
+    if (hSub) {
+      hSub.innerHTML = `Dispatched to BSA Civil Hospital &middot; <strong class="text-statRed">28m ER Dock Lag Counselled</strong> &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+    }
+    setTimeout(() => {
+      if (mapReady) {
+        if (markerDestination) {
+          markerDestination.setIcon(getBackupBlackPin());
+          markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bypassed per Family Preference');
+        }
+        if (markerBSA) {
+          markerBSA.setIcon(getDestinationPin());
+          markerBSA.setPopupContent('<b>Dr. B.S. Ambedkar Hospital</b><br>Active Destination (Family Preference Override · 28m Dock Lag)');
+        }
+        liveRoute = ROUTE_BSA;
+        if (routeLine) {
+          routeLine.setLatLngs(ROUTE_BSA);
+          routeLine.setStyle({ color: '#D97706', opacity: 0.9, dashArray: '8 6', className: 'clinical-route-line' });
+        }
+        startSmoothAmbulance();
+        const eta = document.getElementById('eta-txt');
+        if (eta) eta.textContent = 'En Route to BSA · 7 min (+28m dock lag)';
+      }
+    }, 150);
   } else if (handshakeState === 'PENDING_ACK') {
     startHandshakeTimer(saved && saved.handshakeRemainingSec ? saved.handshakeRemainingSec : 90);
   }
