@@ -7,10 +7,72 @@
 <link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
 <link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
-<!-- Google Fonts: Inter (Unified System Typography) -->
+<!-- Google Fonts: Geist & Geist Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+
+<!-- Local Headings Font: Libron -->
+<style>
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Local Body & UI Font: Cartisse */
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+</style>
 
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -24,8 +86,9 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-          mono: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          sans: ['"Cartisse"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          mono: ['"Cartisse"', '"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          heading: ['"Libron"', 'Georgia', 'serif'],
         },
         colors: {
           clinicalTeal: '#0C6277',
@@ -72,13 +135,17 @@
 </script>
 
 <style>
-/* ── Unified Inter Typography & Tabular Numbers Baseline ── */
-body, button, input, select, textarea, p, h1, h2, h3, h4, span, div, time {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+/* ── Unified Cartisse Typography & Tabular Numbers Baseline ── */
+body, button, input, select, textarea, p, span, div, time, a, label {
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+/* ── Headings: Libron Serif ── */
+h1, h2, h3, h4, h5, h6, .font-heading, .modal-card h3 {
+  font-family: 'Libron', Georgia, serif;
 }
 .tabular-nums, .font-mono {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-feature-settings: 'tnum' on, 'cv05' on, 'cv11' on;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
 }
@@ -92,7 +159,7 @@ body, button, input, select, textarea, p, h1, h2, h3, h4, span, div, time {
 html, body {
   background-color: #F8FAFC;
   color: #0F172A;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -423,7 +490,7 @@ html, body {
 
 /* ── ICU Monospace Countdown Timer ── */
 .countdown {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -490,7 +557,7 @@ html, body {
 }
 
 .vital-input-num {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
   font-size: 24px;
   font-weight: 700;
   text-align: center;
@@ -751,7 +818,7 @@ button:focus-visible {
   padding: 2px !important;
 }
 .leaflet-popup-content {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 12px !important;
   line-height: 1.45 !important;
   color: #334155 !important;

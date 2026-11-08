@@ -7,8 +7,72 @@
 <link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
 <link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
-<!-- System Typography: SF Pro -->
+<!-- Google Fonts: Geist & Geist Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
 
+<!-- Local Headings Font: Libron -->
+<style>
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libron';
+  src: url('assets/fonts/Libron-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Local Body & UI Font: Cartisse */
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cartisse';
+  src: url('assets/fonts/Cartisse-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+</style>
 
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -22,8 +86,9 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"SF Pro Display"', '"SF Pro Text"', '"SF Pro"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-          mono: ['"SF Pro Text"', '"SF Pro"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+          sans: ['"Cartisse"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          mono: ['"Cartisse"', '"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          heading: ['"Libron"', 'Georgia', 'serif'],
         },
         colors: {
           clinicalTeal: '#0C6277',
@@ -75,12 +140,16 @@
 </script>
 
 <style>
-/* ── Unified SF Pro Typography & Tabular Numbers Baseline ── */
-body, button, input, select, textarea, p, h1, h2, h3, h4, span, div, time {
-  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+/* ── Unified Cartisse Typography & Tabular Numbers Baseline ── */
+body, button, input, select, textarea, p, span, div, time, a, label {
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+/* ── Headings: Libron Serif ── */
+h1, h2, h3, h4, h5, h6, .font-heading, .modal-card h3 {
+  font-family: 'Libron', Georgia, serif;
 }
 .tabular-nums, .font-mono {
-  font-family: 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
   font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.015em;
@@ -99,7 +168,7 @@ html {
 html, body {
   background-color: #F8FAFC;
   color: #0F172A;
-  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -481,7 +550,7 @@ header {
 
 /* ── ICU Monospace Countdown Timer ── */
 .countdown {
-  font-family: 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-feature-settings: 'tnum' on; font-variant-numeric: tabular-nums;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -588,7 +657,7 @@ header {
 }
 
 .vital-input-num {
-  font-family: 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: 'Cartisse', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-feature-settings: 'tnum' on;
   font-variant-numeric: tabular-nums;
   font-size: 24px;
@@ -973,7 +1042,7 @@ button:focus-visible {
   padding: 2px !important;
 }
 .leaflet-popup-content {
-  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  font-family: 'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 12px !important;
   line-height: 1.45 !important;
   color: #334155 !important;
@@ -2437,10 +2506,10 @@ button:focus-visible {
 
 
 <!-- ═════════════════════════════════════════════════════════════════
-     MANDATORY AUDITABLE REFUSAL MODAL (Clinical Registry Audit)
+     1-CLICK CASCADE ON DECLINE MODAL (Capacity/Equipment Divert)
 ═════════════════════════════════════════════════════════════════ -->
 <div id="decline-modal" class="modal-bg" onclick="handleDeclineBg(event)" role="dialog" aria-modal="true" aria-labelledby="decline-title">
-  <div class="modal-card">
+  <div class="modal-card max-w-lg">
     <div class="flex items-center gap-3 mb-2">
       <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0 shadow-xs">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -2448,8 +2517,11 @@ button:focus-visible {
         </svg>
       </div>
       <div>
-        <h3 id="decline-title" class="text-xl font-bold text-inkDark tracking-tight">Record Refusal Reason</h3>
-        <p class="text-xs text-mutedSlate">Mandatory clinical registry audit · Reason is logged to transfer history</p>
+        <div class="flex items-center gap-2 mb-0.5">
+          <span class="clinical-badge badge-red text-[10px] font-bold uppercase tracking-wider">Mandatory Refusal Log</span>
+        </div>
+        <h3 id="decline-title" class="text-xl font-bold text-inkDark tracking-tight">Capacity / Equipment Divert</h3>
+        <p class="text-xs text-mutedSlate">1-Click Mandatory Reason &middot; Immediate Cascade to Saroj (+3 min ETA)</p>
       </div>
     </div>
 
@@ -2462,29 +2534,133 @@ button:focus-visible {
         <span class="text-mutedSlate">Attending Intensivist:</span>
         <span class="font-mono font-bold text-inkDark">Dr. V. Anand (HPR-99214-DEL)</span>
       </div>
-      <div>
-        <label for="decline-reason-select" class="block text-xs font-bold text-inkDark uppercase tracking-wider mb-1.5">
-          Select Verified Reason for Inability to Accept:
-        </label>
-        <select id="decline-reason-select" class="w-full text-xs font-semibold rounded-xl border border-softBorder bg-white/95 px-3 py-2.5 text-inkDark shadow-xs focus:outline-none focus:ring-2 focus:ring-statRed/30">
-          <option value="VENT_CIRCUIT_FAULT">Ventilator Circuit Fault / Calibration Failure</option>
-          <option value="ACTIVE_CODE_BLUE">Intensivist in Active Code Blue / Surge Resuscitation</option>
-          <option value="O2_MANIFOLD_DROP">Central Liquid Oxygen (LOX) Line Pressure Drop</option>
-          <option value="POWER_SUBSTATION_FAULT">Emergency Generator Switchover Fault in Substation</option>
-          <option value="AIRBORNE_ISOLATION_BREACH">Infection Control Isolation Barrier Breach</option>
-        </select>
+
+      <p class="text-xs font-bold text-inkDark uppercase tracking-wider pt-1">
+        Pick Mandatory Reason Pill (1-Click Instant Cascade):
+      </p>
+
+      <!-- 3 Mandatory Reason Pills (1-Click Action) -->
+      <div class="grid grid-cols-1 gap-2.5">
+        <!-- Pill 1: Ventilator Fault -->
+        <button type="button" onclick="cascadeWithReason('Ventilator Fault', 'Critical Ventilator Circuit Fault / Calibration Breakdown')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
+              🫁
+            </div>
+            <div>
+              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">Ventilator Fault</span>
+              <span class="text-xs text-mutedSlate">Ventilator circuit calibration failure &middot; No open ventilator bay</span>
+            </div>
+          </div>
+          <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
+        </button>
+
+        <!-- Pill 2: Walk-in Code Blue -->
+        <button type="button" onclick="cascadeWithReason('Walk-in Code Blue', 'Walk-in Cardiac Arrest at Hospital ER Doors')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
+              ⚡
+            </div>
+            <div>
+              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">Walk-in Code Blue</span>
+              <span class="text-xs text-mutedSlate">Walk-in cardiac arrest arrives at ER doors &middot; Bay 05 seized for CPR</span>
+            </div>
+          </div>
+          <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
+        </button>
+
+        <!-- Pill 3: O2 Line Drop -->
+        <button type="button" onclick="cascadeWithReason('O₂ Line Drop', 'Central Liquid Oxygen (LOX) Manifold Pressure Drop')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
+              💨
+            </div>
+            <div>
+              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">O₂ Line Drop</span>
+              <span class="text-xs text-mutedSlate">Central LOX manifold pressure drop below safety interlock</span>
+            </div>
+          </div>
+          <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
+        </button>
       </div>
-      <p class="text-[11px] text-statRedText leading-relaxed bg-red-50/80 p-2.5 rounded-lg border border-red-200">
-        <strong>Automatic Backup Dispatch:</strong> Upon confirmation, this refusal is timestamped in the audit ledger and patient DL-108 is immediately transferred to Saroj Hospital.
+
+      <p class="text-[11px] text-statRedText leading-relaxed bg-red-50/80 p-2.5 rounded-lg border border-red-200 mt-2">
+        <strong>Madhuban Chowk Backtracking Algorithm:</strong> Picking any reason pill immediately signs this refusal and executes <code class="font-mono font-bold text-inkDark">computeRerouteToSaroj</code>, rerouting DL-108 to Saroj Hospital (+3 min ETA).
       </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
-      <button type="button" class="btn-modal-cancel" onclick="closeDeclineModal()">
+    <div class="mt-4">
+      <button type="button" class="btn-modal-cancel w-full" onclick="closeDeclineModal()">
         Cancel (Return to Intake)
       </button>
-      <button type="button" class="btn-modal-confirm" onclick="confirmDecline()">
-        Confirm &amp; Cascade to Saroj
+    </div>
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════════════════════════════
+     1-CLICK MEDICO-LEGAL LOG MODAL (Family Preference Override)
+═════════════════════════════════════════════════════════════════ -->
+<div id="family-override-modal" class="modal-bg" onclick="handleFamilyOverrideBg(event)" role="dialog" aria-modal="true" aria-labelledby="override-modal-title">
+  <div class="modal-card max-w-lg">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0 shadow-xs">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-0.5">
+          <span class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider">Form 13-B Statutory Log</span>
+        </div>
+        <h3 id="override-modal-title" class="text-xl font-bold text-inkDark tracking-tight">Family Preference Override</h3>
+        <p class="text-xs text-mutedSlate">1-Click Medico-Legal Counseling &amp; Autonomous Dispatch Record</p>
+      </div>
+    </div>
+
+    <div class="modal-inner-glass rounded-xl p-4 my-3.5 space-y-3">
+      <div class="rounded-lg p-3 bg-red-50/80 border border-red-200 text-xs text-statRedText leading-relaxed">
+        <div class="flex items-center gap-1.5 font-bold mb-1 text-statRed">
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span>Severe ER Dock Delay Warning Counselled:</span>
+        </div>
+        Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct staged transfer to Max Shalimar Bagh offers zero queue (14m total).
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+          <span class="text-mutedSlate">Selected Facility:</span>
+          <span class="font-semibold text-inkDark">Dr. B.S. Ambedkar (BSA) Civil Hospital</span>
+        </div>
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+          <span class="text-mutedSlate">Patient / Token:</span>
+          <span class="font-mono font-semibold text-inkDark">Rajesh Sharma (45M) &middot; #GR-DEL-9421</span>
+        </div>
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+          <span class="text-mutedSlate">Attending Clinician:</span>
+          <span class="font-semibold text-inkDark">Dr. K. Mehta (DMC-48201)</span>
+        </div>
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+          <span class="text-mutedSlate">Kin Acknowledgment:</span>
+          <span class="font-semibold text-inkDark">Sanjay Sharma (Brother) &middot; Informed Choice</span>
+        </div>
+        <div class="flex items-start justify-between py-1.5">
+          <span class="text-mutedSlate">Counseling Confirmation:</span>
+          <span class="text-right text-[11px] text-inkDark font-medium max-w-[240px]">
+            Family was counselled on the 28-min dock queue and clinical risks. Family confirmed preference for Civil Hospital (100% Free Govt Care).
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+      <button type="button" class="btn-modal-cancel" onclick="closeFamilyOverrideModal()">
+        Cancel (Keep Max Staged)
+      </button>
+      <button type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700" onclick="confirmFamilyOverride()">
+        Confirm Waiver &amp; Dispatch to BSA
       </button>
     </div>
   </div>
@@ -2504,6 +2680,33 @@ button:focus-visible {
      CLIENT-SIDE LOGIC, INPUT-ABLE VITALS & LEAFLET MAP TRACKING
 ═════════════════════════════════════════════════════════════════ -->
 <script>
+// ─────── 25-line BroadcastChannel('goldenroute_bus') Wrapper Synced with localStorage Events ───────
+const GoldenBus = (() => {
+  const ch = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('goldenroute_bus') : null;
+  const subs = [];
+  let lastId = '';
+  function dispatch(msg) {
+    if (!msg || !msg.type || msg.id === lastId) return;
+    lastId = msg.id;
+    subs.forEach(cb => cb(msg.type, msg.data));
+  }
+  if (ch) ch.onmessage = e => dispatch(e.data);
+  window.addEventListener('storage', e => {
+    if (e.key === 'goldenroute_bus' && e.newValue) {
+      try { dispatch(JSON.parse(e.newValue)); } catch (_) {}
+    }
+  });
+  return {
+    send(type, data) {
+      const msg = { type, data, id: Date.now() + '-' + Math.random().toString(36).slice(2) };
+      lastId = msg.id;
+      if (ch) ch.postMessage(msg);
+      try { localStorage.setItem('goldenroute_bus', JSON.stringify(msg)); } catch (_) {}
+    },
+    on(cb) { subs.push(cb); }
+  };
+})();
+
 // ─────── 1. State Management ───────
 let currentRole = 'clinic'; // 'clinic' | 'icu'
 let clinicStep = 1; // 1: Intake & Equipment | 2: Recommended Hospitals
@@ -2514,6 +2717,326 @@ let handshakeState = 'IDLE';
 let handshakeRemainingSec = 90;
 let handshakeTimer = null;
 let handshakeAudits = [];
+
+GoldenBus.on((type, data) => {
+  if (type === 'VITALS_SYNC') {
+    applyIncomingVitals(data);
+  } else if (type === 'LOCK_BED') {
+    applyIncomingBedLock(data);
+  } else if (type === 'HANDSHAKE_ACCEPT') {
+    applyIncomingHandshakeAccept(data);
+  } else if (type === 'HANDSHAKE_DECLINE') {
+    applyIncomingHandshakeDecline(data);
+  } else if (type === 'OVERRIDE_SYNC') {
+    applyIncomingOverride(data.overrideActive);
+  } else if (type === 'EQUIP_SYNC') {
+    applyIncomingEquip(data);
+  } else if (type === 'STATE_RESET') {
+    applyIncomingReset();
+  }
+});
+
+function playLockChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+    const o1 = ctx.createOscillator();
+    const g1 = ctx.createGain();
+    o1.type = 'sine';
+    o1.frequency.setValueAtTime(880, now);
+    o1.frequency.exponentialRampToValueAtTime(1320, now + 0.12);
+    g1.gain.setValueAtTime(0.2, now);
+    g1.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    o1.connect(g1);
+    g1.connect(ctx.destination);
+    o1.start(now);
+    o1.stop(now + 0.5);
+
+    const o2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    o2.type = 'triangle';
+    o2.frequency.setValueAtTime(1760, now + 0.14);
+    g2.gain.setValueAtTime(0.15, now + 0.14);
+    g2.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+    o2.connect(g2);
+    g2.connect(ctx.destination);
+    o2.start(now + 0.14);
+    o2.stop(now + 0.6);
+  } catch (_) {}
+}
+
+function flashSyncIndicator() {
+  const pill = document.getElementById('sync-status-pill');
+  if (!pill) return;
+  pill.classList.add('ring-2', 'ring-emerald-400');
+  setTimeout(() => pill.classList.remove('ring-2', 'ring-emerald-400'), 600);
+}
+
+function saveAppState() {
+  try {
+    const state = {
+      transferPayload,
+      handshakeState,
+      overrideActive,
+      handshakeRemainingSec,
+      selectedEquips: getSelectedEquipments(),
+      timestamp: Date.now()
+    };
+    localStorage.setItem('goldenroute_state', JSON.stringify(state));
+  } catch (_) {}
+}
+
+function loadAppState() {
+  try {
+    const raw = localStorage.getItem('goldenroute_state');
+    return raw ? JSON.parse(raw) : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function applyIncomingVitals(data) {
+  if (data.vitals) {
+    transferPayload.vitals = { ...data.vitals };
+    const elSpo2 = document.getElementById('input-spo2');
+    const elO2Dev = document.getElementById('input-o2-device');
+    const elBpSys = document.getElementById('input-bp-sys');
+    const elBpDia = document.getElementById('input-bp-dia');
+    const elHr = document.getElementById('input-hr');
+    const elGcs = document.getElementById('input-gcs');
+    if (elSpo2) elSpo2.value = data.vitals.spo2;
+    if (elO2Dev) elO2Dev.value = data.vitals.o2Device;
+    if (elBpSys) elBpSys.value = data.vitals.bpSys;
+    if (elBpDia) elBpDia.value = data.vitals.bpDia;
+    if (elHr) elHr.value = data.vitals.hr;
+    if (elGcs) elGcs.value = data.vitals.gcs;
+  }
+  if (data.syndrome) {
+    transferPayload.syndrome = data.syndrome;
+    const syndromeSelect = document.getElementById('syndrome-select');
+    if (syndromeSelect) syndromeSelect.value = data.syndrome;
+  }
+  if (data.threatLevel !== undefined) {
+    transferPayload.threatLevel = data.threatLevel;
+    [1, 2, 3].forEach(i => {
+      const el = document.getElementById('tl' + i);
+      if (el) {
+        const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
+        el.className = `threat-card ${baseClass} ${i === data.threatLevel ? 'sel' : ''}`;
+      }
+    });
+  }
+  updateVitalsDisplay(false);
+  flashSyncIndicator();
+}
+
+function applyIncomingBedLock(data) {
+  if (data.transferPayload) {
+    transferPayload = { ...transferPayload, ...data.transferPayload };
+  }
+  handshakeState = data.handshakeState || 'PENDING_ACK';
+  overrideActive = false;
+
+  updateVitalsDisplay(false);
+  updateICUChecklist();
+
+  const icuSyndrome = document.getElementById('icu-syndrome-tag');
+  if (icuSyndrome) icuSyndrome.textContent = transferPayload.syndrome;
+  const handoffHosp = document.getElementById('handoff-hosp-name');
+  if (handoffHosp) handoffHosp.textContent = transferPayload.hospital;
+  const handoffBanner = document.getElementById('handoff-banner');
+  if (handoffBanner) handoffBanner.classList.remove('hidden');
+
+  updateHandshakeUI();
+  if (handshakeState === 'PENDING_ACK') {
+    startHandshakeTimer(data.remainingSec || 90);
+  }
+
+  // Light up Bed 05 with animation
+  const b = document.getElementById('bed05');
+  if (b) {
+    b.classList.add('bed-light-up');
+    setTimeout(() => b.classList.remove('bed-light-up'), 1500);
+  }
+
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getDestinationPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bed Request Transmitted (Bay 05 Locked)');
+    }
+    if (markerSaroj) {
+      markerSaroj.setIcon(getBackupBlackPin());
+      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
+    }
+    liveRoute = ROUTE_MAX;
+    if (routeLine) {
+      routeLine.setLatLngs(ROUTE_MAX);
+      routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    startSmoothAmbulance();
+    const eta = document.getElementById('eta-txt');
+    if (eta) eta.textContent = 'Awaiting Bed ACK · 14 min ETA';
+  }
+
+  playLockChime();
+  showToast('🚨 Incoming Transfer Request: DL-108 Locked Bed 05!', 'terra');
+  flashSyncIndicator();
+}
+
+function applyIncomingHandshakeAccept(data) {
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  handshakeState = 'LOCKED';
+  transferPayload.handshakeStatus = 'LOCKED';
+  if (data.transferPayload) {
+    transferPayload = { ...transferPayload, ...data.transferPayload };
+  }
+
+  updateHandshakeUI();
+
+  const b = document.getElementById('bed05');
+  if (b) {
+    b.classList.add('bed-light-up');
+    setTimeout(() => b.classList.remove('bed-light-up'), 1500);
+  }
+
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getDestinationPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Handshake Accepted (Bay 05 Confirmed)');
+    }
+    if (routeLine) {
+      routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    const eta = document.getElementById('eta-txt');
+    if (eta) eta.textContent = 'En Route to Max · 14 min ETA';
+  }
+
+  playLockChime();
+  showToast('ABDM Handshake Accepted: Bay 05 Locked for DL-108.', 'sage');
+  flashSyncIndicator();
+}
+
+function applyIncomingHandshakeDecline(data) {
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  handshakeState = 'DECLINED';
+  transferPayload.handshakeStatus = 'DECLINED';
+  transferPayload.hospital = 'Saroj Super Speciality Hospital (Rohini Sector 14)';
+  transferPayload.refusalReasonCode = data.code;
+  transferPayload.refusalTimestamp = data.timestamp || new Date().toISOString();
+
+  updateHandshakeUI();
+
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getBackupBlackPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Declined (' + (data.code || 'Capacity') + ') · Cascaded to Saroj');
+    }
+    if (markerSaroj) {
+      markerSaroj.setIcon(getDestinationPin());
+      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Cascaded Destination (Inbound)');
+    }
+    const divertRoute = ROUTE_SAROJ;
+    liveRoute = divertRoute;
+    if (routeLine) {
+      routeLine.setLatLngs(divertRoute);
+      routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    startSmoothAmbulance();
+    const eta = document.getElementById('eta-txt');
+    if (eta) eta.textContent = 'Cascaded → Saroj · +3 min ETA';
+  }
+
+  showToast('Max ICU Declined: Transfer cascaded to Saroj Hospital.', 'terra');
+  flashSyncIndicator();
+}
+
+function applyIncomingOverride(active) {
+  overrideActive = active;
+  applyOverrideUI(active);
+  if (active) {
+    showToast('Bay 05 reassigned (Emergency Walk-In). DL-108 rerouted to Saroj Hospital.', 'terra');
+  } else {
+    showToast('Transfer to Max Hospital restored. Bay 05 staged.', 'sage');
+  }
+  flashSyncIndicator();
+}
+
+function applyIncomingEquip(equips) {
+  if (Array.isArray(equips)) {
+    document.querySelectorAll('.equip-chip').forEach(chip => {
+      const title = chip.querySelector('p')?.textContent.trim();
+      if (title && equips.includes(title)) {
+        chip.classList.add('sel');
+      } else {
+        chip.classList.remove('sel');
+      }
+    });
+    updateHospitalEquipmentDisplays(equips);
+    updateICUChecklist();
+    flashSyncIndicator();
+  }
+}
+
+function applyIncomingReset() {
+  resetSimulationState(false);
+  flashSyncIndicator();
+}
+
+function resetSimulationState(isSelf = true) {
+  try { localStorage.removeItem('goldenroute_state'); } catch (_) {}
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  handshakeRemainingSec = 90;
+  handshakeState = 'IDLE';
+  overrideActive = false;
+  transferPayload.dispatched = false;
+  transferPayload.handshakeStatus = 'IDLE';
+  transferPayload.threatLevel = null;
+  [1, 2, 3].forEach(i => {
+    const el = document.getElementById('tl' + i);
+    if (el) {
+      const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
+      el.className = `threat-card ${baseClass}`;
+    }
+  });
+  updateVitalsDisplay(false);
+  updateHandshakeUI();
+  applyOverrideUI(false);
+  const handoffBanner = document.getElementById('handoff-banner');
+  if (handoffBanner) handoffBanner.classList.add('hidden');
+
+  if (mapReady && routeLine) {
+    routeLine.setStyle({ color: '#0C6277', opacity: 0.4, dashArray: '6 6' });
+    if (ambuMkr) ambuMkr.setLatLng(ROUTE_MAX[0]);
+    if (smoothAnimFrameId) cancelAnimationFrame(smoothAnimFrameId);
+    const eta = document.getElementById('eta-txt');
+    if (eta) eta.textContent = 'Ambulance DL-108 · Standby at Referring Facility';
+  }
+
+  if (isSelf) {
+    GoldenBus.send('STATE_RESET', {});
+    showToast('Simulation state reset to Standby.', 'info');
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>"']/g, s => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[s]));
+}
 
 let transferPayload = {
   token: '#GR-DEL-9421',
@@ -2529,6 +3052,8 @@ let transferPayload = {
   handshakeStatus: 'IDLE',
   refusalReasonCode: null,
   refusalTimestamp: null,
+  familyOverride: false,
+  overrideCounseling: null,
   vitals: {
     spo2: 82,
     o2Device: 'On 15L Mask',
@@ -2599,7 +3124,7 @@ function handleSyndromeChange() {
     if (elGcs) elGcs.value = preset.gcs;
   }
 
-  updateVitalsDisplay();
+  updateVitalsDisplay(true);
 }
 
 function stepVital(param, delta) {
@@ -2608,35 +3133,35 @@ function stepVital(param, delta) {
     if (el) {
       let val = (parseInt(el.value, 10) || 82) + delta;
       el.value = Math.max(50, Math.min(100, val));
-      updateVitalsDisplay();
+      updateVitalsDisplay(true);
     }
   } else if (param === 'bp-sys') {
     const el = document.getElementById('input-bp-sys');
     if (el) {
       let val = (parseInt(el.value, 10) || 85) + delta;
       el.value = Math.max(40, Math.min(250, val));
-      updateVitalsDisplay();
+      updateVitalsDisplay(true);
     }
   } else if (param === 'bp-dia') {
     const el = document.getElementById('input-bp-dia');
     if (el) {
       let val = (parseInt(el.value, 10) || 55) + delta;
       el.value = Math.max(20, Math.min(160, val));
-      updateVitalsDisplay();
+      updateVitalsDisplay(true);
     }
   } else if (param === 'hr') {
     const el = document.getElementById('input-hr');
     if (el) {
       let val = (parseInt(el.value, 10) || 128) + delta;
       el.value = Math.max(30, Math.min(240, val));
-      updateVitalsDisplay();
+      updateVitalsDisplay(true);
     }
   } else if (param === 'gcs') {
     const el = document.getElementById('input-gcs');
     if (el) {
       let val = (parseInt(el.value, 10) || 7) + delta;
       el.value = Math.max(3, Math.min(15, val));
-      updateVitalsDisplay();
+      updateVitalsDisplay(true);
     }
   }
 }
@@ -2658,10 +3183,10 @@ function sanitizeVital(param) {
     const el = document.getElementById('input-gcs');
     if (el) el.value = Math.max(3, Math.min(15, parseInt(el.value, 10) || 7));
   }
-  updateVitalsDisplay();
+  updateVitalsDisplay(true);
 }
 
-function updateVitalsDisplay() {
+function updateVitalsDisplay(shouldBroadcast = true) {
   const elSpo2 = document.getElementById('input-spo2');
   const elO2Dev = document.getElementById('input-o2-device');
   const elBpSys = document.getElementById('input-bp-sys');
@@ -2820,6 +3345,15 @@ function updateVitalsDisplay() {
   const summaryVitalsBadge = document.getElementById('summary-vitals-badge');
   if (summaryVitalsBadge) {
     summaryVitalsBadge.textContent = `SpO2 ${spo2}% · ${o2Device} · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
+  }
+
+  if (shouldBroadcast) {
+    saveAppState();
+    GoldenBus.send('VITALS_SYNC', {
+      vitals: transferPayload.vitals,
+      syndrome: transferPayload.syndrome,
+      threatLevel: transferPayload.threatLevel
+    });
   }
 }
 
@@ -3220,6 +3754,7 @@ function goToStep2() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  filterByScheme(currentSchemeFilter || 'all');
   showToast('Filtered hospital beds for patient requirements.', 'info');
 }
 
@@ -3232,6 +3767,158 @@ function goToStep1() {
     s1.classList.remove('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+}
+
+// ─────── Financial & Scheme Filter Bar (Solving Patient Refusal) ───────
+let currentSchemeFilter = 'all';
+
+function filterByScheme(scheme) {
+  currentSchemeFilter = scheme || 'all';
+  const cards = [
+    { id: 'hosp-card-max', schemes: ['pmjay', 'farishtey'], name: 'Max Super Speciality Hospital' },
+    { id: 'hosp-card-saroj', schemes: ['pmjay', 'farishtey'], name: 'Saroj Super Speciality Hospital' },
+    { id: 'hosp-card-bsa', schemes: ['govt', 'farishtey', 'pmjay'], name: 'Dr. B.S. Ambedkar (BSA) Hospital' },
+    { id: 'hosp-card-balaji', schemes: ['pmjay', 'farishtey'], name: 'Action Balaji Hospital' },
+    { id: 'hosp-card-fortis', schemes: ['farishtey'], name: 'Fortis Hospital' }
+  ];
+
+  // Update button active states
+  ['all', 'pmjay', 'farishtey', 'govt'].forEach(s => {
+    const btn = document.getElementById(`filter-scheme-${s}`);
+    if (btn) {
+      if (s === currentSchemeFilter) {
+        btn.className = 'scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs';
+        btn.setAttribute('aria-selected', 'true');
+      } else {
+        btn.className = 'scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100';
+        btn.setAttribute('aria-selected', 'false');
+      }
+    }
+  });
+
+  let visibleCount = 0;
+  let lastVisibleCardEl = null;
+
+  cards.forEach(c => {
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    const match = (currentSchemeFilter === 'all') || c.schemes.includes(currentSchemeFilter);
+    if (match) {
+      el.style.display = 'flex';
+      visibleCount++;
+      lastVisibleCardEl = el;
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  // Responsive grid span adjustment
+  cards.forEach(c => {
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    if (c.id === 'hosp-card-max') {
+      if (currentSchemeFilter === 'all' || currentSchemeFilter === 'pmjay' || currentSchemeFilter === 'farishtey') {
+        el.classList.add('lg:col-span-2');
+      } else {
+        el.classList.remove('lg:col-span-2');
+      }
+    } else {
+      if (visibleCount === 1 && el === lastVisibleCardEl) {
+        el.classList.add('lg:col-span-2');
+      } else {
+        el.classList.remove('lg:col-span-2');
+      }
+    }
+  });
+
+  const countEl = document.getElementById('scheme-filter-count');
+  if (countEl) {
+    if (currentSchemeFilter === 'all') {
+      countEl.textContent = '· Showing all 5 facilities';
+    } else if (currentSchemeFilter === 'pmjay') {
+      countEl.textContent = `· Showing ${visibleCount} facilities with Ayushman Bharat (PM-JAY)`;
+    } else if (currentSchemeFilter === 'farishtey') {
+      countEl.textContent = `· Showing ${visibleCount} facilities under Delhi Farishtey Free Trauma Scheme`;
+    } else if (currentSchemeFilter === 'govt') {
+      countEl.textContent = `· Showing ${visibleCount} civil hospital with 100% Free Govt ICU`;
+    }
+  }
+}
+
+// ─────── Family Preference Override Handlers ───────
+function openFamilyOverrideModal() {
+  const modal = document.getElementById('family-override-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeFamilyOverrideModal() {
+  const modal = document.getElementById('family-override-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+function handleFamilyOverrideBg(event) {
+  if (event.target === document.getElementById('family-override-modal')) {
+    closeFamilyOverrideModal();
+  }
+}
+
+function confirmFamilyOverride() {
+  closeFamilyOverrideModal();
+  if (overrideActive) resetOverride();
+
+  transferPayload.hospital = 'Dr. B.S. Ambedkar (BSA) Hospital';
+  transferPayload.familyOverride = true;
+  transferPayload.dispatched = true;
+  transferPayload.overrideTimestamp = new Date().toISOString();
+  transferPayload.overrideCounseling = 'Family counselled on 28m dock lag; explicitly chose Civil Govt Free ICU care.';
+
+  updateVitalsDisplay();
+  updateICUChecklist();
+
+  // Update Referring Facility Handoff Banner
+  const handoffBanner = document.getElementById('handoff-banner');
+  if (handoffBanner) handoffBanner.classList.remove('hidden');
+  const hHosp = document.getElementById('handoff-hosp-name');
+  if (hHosp) hHosp.textContent = 'Dr. B.S. Ambedkar (BSA) Hospital';
+  const hPrefix = document.getElementById('handoff-title-prefix');
+  if (hPrefix) hPrefix.textContent = 'Family Preference Transfer to';
+  const hBadge = document.getElementById('handoff-protocol-badge');
+  if (hBadge) {
+    hBadge.textContent = 'Family Override (Form 13-B)';
+    hBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+  }
+  const hSub = document.getElementById('handoff-status-subtext');
+  if (hSub) {
+    hSub.innerHTML = `Dispatched to BSA Civil Hospital &middot; <strong class="text-statRed">28m ER Dock Lag Counselled</strong> &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+  }
+  const hIcon = document.getElementById('handoff-status-icon-wrap');
+  if (hIcon) {
+    hIcon.className = 'w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0';
+  }
+
+  // Update map route to BSA
+  if (mapReady) {
+    if (markerDestination) {
+      markerDestination.setIcon(getBackupBlackPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bypassed per Family Preference');
+    }
+    if (markerBSA) {
+      markerBSA.setIcon(getDestinationPin());
+      markerBSA.setPopupContent('<b>Dr. B.S. Ambedkar Hospital</b><br>Active Destination (Family Preference Override · 28m Dock Lag)');
+    }
+
+    liveRoute = ROUTE_BSA;
+    if (routeLine) {
+      routeLine.setLatLngs(ROUTE_BSA);
+      routeLine.setStyle({ color: '#D97706', opacity: 0.9, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    startSmoothAmbulance();
+    const eta = document.getElementById('eta-txt');
+    if (eta) eta.textContent = 'En Route to BSA · 7 min (+28m dock lag)';
+  }
+
+  showToast('Medico-legal waiver confirmed. Ambulance DL-108 dispatched to Dr. B.S. Ambedkar Hospital.', 'terra');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ─────── 5. Role Initialization & Session Persistence ───────
@@ -3311,8 +3998,8 @@ function switchRole(role) {
 }
 
 // ─────── 6. Referral & Bed Lock (Handshake State Machine) ───────
-function doReserve(hospitalName) {
-  if (overrideActive) resetOverride();
+function doReserve(hospitalName, isSelf = true) {
+  if (overrideActive) resetOverride(false);
 
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
@@ -3321,7 +4008,7 @@ function doReserve(hospitalName) {
   transferPayload.handshakeStatus = 'PENDING_ACK';
   handshakeState = 'PENDING_ACK';
 
-  updateVitalsDisplay();
+  updateVitalsDisplay(false);
   updateICUChecklist();
 
   document.getElementById('icu-syndrome-tag').textContent = transferPayload.syndrome;
@@ -3344,14 +4031,24 @@ function doReserve(hospitalName) {
       markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Parallel Standby Active (#2 Cascade)');
     }
     liveRoute = ROUTE_MAX;
-    routeLine.setLatLngs(ROUTE_MAX);
-    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    if (routeLine) {
+      routeLine.setLatLngs(ROUTE_MAX);
+      routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
     startSmoothAmbulance();
     document.getElementById('eta-txt').textContent = 'Awaiting Bed ACK · 14 min ETA';
   }
 
-  showToast('Bed request sent to Max ICU (90s confirmation window).', 'terra');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('LOCK_BED', {
+      transferPayload,
+      handshakeState: 'PENDING_ACK',
+      remainingSec: 90
+    });
+    showToast('Bed request sent to Max ICU (90s confirmation window).', 'terra');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function updateHandshakeUI() {
@@ -3404,9 +4101,33 @@ function updateHandshakeUI() {
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = `Awaiting Max ICU ACK (${handshakeRemainingSec}s)...`;
   } else if (handshakeState === 'LOCKED') {
     // Bed accepted & locked
-    if (alertCard) alertCard.classList.add('hidden');
+    if (alertCard) {
+      alertCard.classList.remove('hidden');
+      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-emerald-400 bg-gradient-to-r from-emerald-50/90 via-teal-50/90 to-emerald-50/90 shadow-md';
+    }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
+
+    const alertTitle = document.getElementById('icu-banner-title');
+    if (alertTitle) alertTitle.innerHTML = 'Bed Accepted &middot; Bay 05 Assigned for DL-108 Intake';
+    const alertSub = document.getElementById('icu-banner-subtext');
+    if (alertSub) alertSub.textContent = 'Intensivist confirmed intake. Bay 05 staged and locked. Telemetry actively streaming.';
+    const badge = document.getElementById('icu-banner-status-badge');
+    if (badge) {
+      badge.textContent = 'Bay 05 Assigned & Locked';
+      badge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+    }
+    const actionsWrap = document.getElementById('icu-banner-actions');
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <div class="flex items-center gap-2.5">
+          <span class="clinical-badge badge-green text-xs font-bold px-3 py-1.5 flex items-center gap-1.5 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-stableGreen animate-pulse"></span>
+            Bay 05 Assigned &amp; Locked
+          </span>
+          <span class="text-xs font-semibold text-inkDark">Attending: Dr. V. Anand (HPR-99214-DEL)</span>
+        </div>`;
+    }
 
     if (b05) {
       b05.className = 'bed-tile bt-res col-span-2';
@@ -3434,15 +4155,34 @@ function updateHandshakeUI() {
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transfer Dispatched · Bed Locked';
   } else if (handshakeState === 'DECLINED') {
     // Cascaded to Saroj
-    if (alertCard) alertCard.classList.add('hidden');
+    if (alertCard) {
+      alertCard.classList.remove('hidden');
+      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-orange-400 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+    }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
 
-    if (b05) {
-      b05.className = 'bed-tile bt-occ col-span-2';
+    const alertTitle = document.getElementById('icu-banner-title');
+    if (alertTitle) alertTitle.innerHTML = `Transfer Diverted to Saroj Hospital (+3 min ETA) &middot; Reason: <span class="text-statRed">${escapeHtml(transferPayload.refusalReasonCode || 'Capacity Divert')}</span>`;
+    const alertSub = document.getElementById('icu-banner-subtext');
+    if (alertSub) alertSub.textContent = 'Immediate cascade executed via Madhuban Chowk backtracking algorithm. Intake Bay 05 released/diverted.';
+    const badge = document.getElementById('icu-banner-status-badge');
+    if (badge) {
+      badge.textContent = `Diverted & Cascaded: ${transferPayload.refusalReasonCode || 'Diverted'}`;
+      badge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
     }
-    if (b05Label) b05Label.textContent = 'Bay 05 Available / Not Reserved';
-    if (b05Sub) b05Sub.textContent = 'Transfer Cascaded to Saroj Hospital';
+    const actionsWrap = document.getElementById('icu-banner-actions');
+    if (actionsWrap) {
+      actionsWrap.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="clinical-badge badge-amber text-xs font-bold px-3 py-1.5 uppercase tracking-wide">
+            Cascaded to Saroj Hospital
+          </span>
+          <button type="button" class="btn-clinical-secondary !h-10 !px-4 text-xs font-bold" onclick="resetOverride()">
+            <span>↺ Restore Transfer to Max</span>
+          </button>
+        </div>`;
+    }
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = 'Cascaded to Saroj ICU';
     if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-medium flex items-center gap-1.5';
@@ -3463,6 +4203,28 @@ function updateHandshakeUI() {
       handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0';
     }
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Cascaded to Saroj Hospital (#2 Backup)';
+  } else if (handshakeState === 'IDLE') {
+    if (alertCard) alertCard.classList.add('hidden');
+    if (navPing) navPing.classList.add('hidden');
+    if (navDot) navDot.classList.add('hidden');
+
+    if (b05) {
+      b05.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
+    }
+    if (b05Label) b05Label.textContent = 'Available · Ready to Stage';
+    if (b05Sub) b05Sub.textContent = 'Awaiting Clinic Bed Lock';
+
+    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Standby';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-neutral text-xs font-medium flex items-center gap-1.5';
+
+    if (abdmStatusText) abdmStatusText.textContent = 'ICU Network: Ready (Awaiting Dispatch)';
+
+    if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Awaiting Bed Lock';
+    if (handoffBadge) {
+      handoffBadge.textContent = 'Referral Standby';
+      handoffBadge.className = 'clinical-badge badge-neutral text-[10px] font-bold uppercase tracking-wider';
+    }
+    if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transmit Telemetry & Dispatch';
   }
 }
 
@@ -3495,12 +4257,12 @@ function startHandshakeTimer(seconds = 90) {
       clearInterval(handshakeTimer);
       handshakeTimer = null;
       // 90s timeout expired: Automatic Cascade to Saroj Hospital
-      triggerCascade('TIMEOUT_90S', '90s Unacknowledged Confirmation Timeout');
+      cascadeWithReason('TIMEOUT_90S', '90s Unacknowledged Confirmation Timeout');
     }
   }, 1000);
 }
 
-function acceptHandshake() {
+function acceptHandshake(isSelf = true) {
   if (handshakeTimer) {
     clearInterval(handshakeTimer);
     handshakeTimer = null;
@@ -3510,19 +4272,39 @@ function acceptHandshake() {
 
   updateHandshakeUI();
 
+  const b = document.getElementById('bed05');
+  if (b) {
+    b.classList.add('bed-light-up');
+    setTimeout(() => b.classList.remove('bed-light-up'), 1500);
+  }
+
   if (mapReady) {
     if (markerDestination) {
       markerDestination.setIcon(getDestinationPin());
       markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Handshake Accepted (Bay 05 Locked)');
     }
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    if (routeLine) {
+      routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    }
     document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
   }
 
-  showToast('Bed Accepted: ICU Bay 05 Locked for Ambulance DL-108.', 'sage');
+  playLockChime();
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('HANDSHAKE_ACCEPT', { transferPayload, handshakeState: 'LOCKED' });
+    showToast('Bed Accepted: ICU Bay 05 Locked for Ambulance DL-108.', 'sage');
+  }
 }
 
-function triggerCascade(code, description) {
+function cascadeWithReason(reason, description, isSelf = true) {
+  closeDeclineModal();
+  closeModal();
+  overrideActive = true;
+  triggerCascade(reason, description || reason, isSelf);
+}
+
+function triggerCascade(code, description, isSelf = true) {
   if (handshakeTimer) {
     clearInterval(handshakeTimer);
     handshakeTimer = null;
@@ -3551,6 +4333,34 @@ function triggerCascade(code, description) {
 
   updateHandshakeUI();
 
+  // Update Bay 05 in ward grid based on refusal code
+  const b = document.getElementById('bed05');
+  if (b) {
+    b.className = 'bed-tile bt-walk col-span-2';
+    let bayLabel = 'DIVERTED: ' + code.toUpperCase();
+    let bayDesc = description || 'Hospital diverted inbound ambulance';
+    if (code === 'Walk-in Code Blue' || code.includes('Code Blue')) {
+      bayLabel = 'WALK-IN EMERGENCY';
+      bayDesc = 'Cardiac Arrest at Entrance · CPR Active';
+    } else if (code === 'Ventilator Fault' || code.includes('Ventilator')) {
+      bayLabel = 'VENTILATOR FAULT';
+      bayDesc = 'Circuit Calibration Breakdown · Bed Offline';
+    } else if (code === 'O₂ Line Drop' || code.includes('O2') || code.includes('Oxygen')) {
+      bayLabel = 'O₂ PRESSURE DROP';
+      bayDesc = 'LOX Manifold Pressure Interlock · Bed Offline';
+    }
+    b.innerHTML = `
+      <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+      <span class="text-xs font-bold text-statRed tracking-tight">${bayLabel}</span>
+      <span class="text-[10px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
+  }
+
+  const cap = document.getElementById('ward-capacity-badge');
+  if (cap) {
+    cap.textContent = '8/8 Occupied / Diverted';
+    cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
+  }
+
   // Update UI Elements in View 2
   const bannerSub = document.getElementById('banner-sub');
   if (bannerSub) {
@@ -3578,8 +4388,10 @@ function triggerCascade(code, description) {
     const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
     liveRoute = divertRoute;
 
-    routeLine.setLatLngs(divertRoute);
-    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    if (routeLine) {
+      routeLine.setLatLngs(divertRoute);
+      routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
     startSmoothAmbulance();
     document.getElementById('eta-txt').textContent = 'Cascaded → Saroj · +3 min ETA';
   }
@@ -3587,11 +4399,15 @@ function triggerCascade(code, description) {
   // Show dynamic divert alert bar
   const divertBar = document.getElementById('divert-bar');
   if (divertBar) {
-    divertBar.querySelector('p').innerHTML = `<strong>Automated Cascade:</strong> Max Hospital declined (${code}). Ambulance DL-108 automatically cascaded to <strong>Saroj Hospital</strong> (+3 min ETA). Zero re-typing required.`;
+    divertBar.querySelector('p').innerHTML = `<strong>Automated Cascade:</strong> Max Hospital diverted due to <strong>${escapeHtml(code)}</strong>. Ambulance DL-108 automatically cascaded to <strong>Saroj Hospital</strong> (+3 min ETA) via Madhuban Chowk backtracking algorithm.`;
     divertBar.classList.add('show');
   }
 
-  showToast(`Auto-Cascade Triggered (${code}): Payload routed to Saroj Hospital.`, 'terra');
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('HANDSHAKE_DECLINE', { code, description, transferPayload, handshakeState: 'DECLINED' });
+    showToast(`Ambulance DL-108 rerouted to Saroj Hospital (+3 min ETA). Reason: ${code}.`, 'terra');
+  }
 }
 
 function handoffToICU() {
@@ -3637,24 +4453,27 @@ function setThreat(level) {
     [1, 2, 3].forEach(i => {
       const el = document.getElementById('tl' + i);
       const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
-      el.className = `threat-card ${baseClass}`;
+      if (el) el.className = `threat-card ${baseClass}`;
     });
   } else {
     transferPayload.threatLevel = level;
     [1, 2, 3].forEach(i => {
       const el = document.getElementById('tl' + i);
       const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
-      el.className = `threat-card ${baseClass} ${i === level ? 'sel' : ''}`;
+      if (el) el.className = `threat-card ${baseClass} ${i === level ? 'sel' : ''}`;
     });
   }
-  updateVitalsDisplay();
+  updateVitalsDisplay(true);
 }
 
 // ─────── 8. Equipment Toggle ───────
 function toggleEq(el) {
   el.classList.toggle('sel');
-  updateHospitalEquipmentDisplays(getSelectedEquipments());
+  const selected = getSelectedEquipments();
+  updateHospitalEquipmentDisplays(selected);
   updateICUChecklist();
+  saveAppState();
+  GoldenBus.send('EQUIP_SYNC', selected);
 }
 
 // ─────── 9. In-Transit Support Toggle ───────
@@ -3862,12 +4681,12 @@ const OFFLINE_CORRIDOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
   <rect x="550" y="320" width="260" height="220" rx="12" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" opacity="0.6"/>
   <rect x="100" y="580" width="220" height="180" rx="12" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" opacity="0.6"/>
   <rect x="260" y="320" width="90" height="65" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
-  <text x="305" y="356" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="9" font-weight="600" fill="#059669" text-anchor="middle">JAPANESE PARK</text>
+  <text x="305" y="356" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#059669" text-anchor="middle">JAPANESE PARK</text>
   <rect x="670" y="330" width="85" height="60" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
-  <text x="712" y="364" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8.5" font-weight="600" fill="#059669" text-anchor="middle">DISTRICT PARK</text>
+  <text x="712" y="364" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#059669" text-anchor="middle">DISTRICT PARK</text>
   <path d="M 80 40 Q 350 110 520 100 T 920 170" fill="none" stroke="url(#canal-grad)" stroke-width="14" stroke-linecap="round" opacity="0.8"/>
   <path d="M 80 40 Q 350 110 520 100 T 920 170" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.5"/>
-  <text x="340" y="75" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="9" font-weight="600" fill="#0284C7" letter-spacing="1">NAJAFGARH CANAL / DRAIN</text>
+  <text x="340" y="75" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#0284C7" letter-spacing="1">NAJAFGARH CANAL / DRAIN</text>
   <g fill="none" stroke="#E2E8F0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M 120 200 L 480 200 M 120 270 L 480 270 M 120 340 L 480 340"/>
     <path d="M 200 120 L 200 400 M 280 120 L 280 400 M 360 120 L 360 400 M 440 120 L 440 400"/>
@@ -3884,29 +4703,29 @@ const OFFLINE_CORRIDOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
     <path d="M 240 140 L 258 165 L 295 285 L 480 450"/>
     <path d="M 258 165 L 140 240 L 120 420 L 150 730"/>
   </g>
-  <text x="545" y="432" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="9" font-weight="700" fill="#475569" letter-spacing="0.5">OUTER RING ROAD (NH 44)</text>
-  <text x="320" y="225" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8.5" font-weight="600" fill="#64748B" transform="rotate(35 320 225)">BHAGWAN MAHAVIR MARG</text>
-  <text x="480" y="468" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8" font-weight="700" fill="#0F172A">MADHUBAN CHOWK</text>
-  <text x="210" y="150" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 3</text>
-  <text x="370" y="220" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 14</text>
-  <text x="640" y="480" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="12" font-weight="800" fill="#94A3B8" letter-spacing="2">SHALIMAR BAGH</text>
-  <text x="520" y="515" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PITAMPURA</text>
-  <text x="160" y="695" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PASCHIM VIHAR</text>
+  <text x="545" y="432" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="700" fill="#475569" letter-spacing="0.5">OUTER RING ROAD (NH 44)</text>
+  <text x="320" y="225" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" font-weight="600" fill="#64748B" transform="rotate(35 320 225)">BHAGWAN MAHAVIR MARG</text>
+  <text x="480" y="468" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#0F172A">MADHUBAN CHOWK</text>
+  <text x="210" y="150" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 3</text>
+  <text x="370" y="220" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">ROHINI SEC 14</text>
+  <text x="640" y="480" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="800" fill="#94A3B8" letter-spacing="2">SHALIMAR BAGH</text>
+  <text x="520" y="515" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PITAMPURA</text>
+  <text x="160" y="695" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#94A3B8" letter-spacing="1.5">PASCHIM VIHAR</text>
   <g transform="translate(870, 720)">
     <circle cx="0" cy="0" r="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
     <polygon points="0,-15 4,-3 0,0" fill="#0C6277"/>
     <polygon points="0,15 4,3 0,0" fill="#94A3B8"/>
     <polygon points="0,-15 -4,-3 0,0" fill="#083B49"/>
     <polygon points="0,15 -4,3 0,0" fill="#CBD5E1"/>
-    <text x="0" y="-18" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8" font-weight="800" fill="#0C6277" text-anchor="middle">N</text>
+    <text x="0" y="-18" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="800" fill="#0C6277" text-anchor="middle">N</text>
   </g>
   <g transform="translate(50, 750)">
     <rect x="0" y="0" width="100" height="4" fill="#0F172A"/>
     <rect x="50" y="0" width="50" height="4" fill="#FFFFFF" stroke="#0F172A" stroke-width="0.5"/>
-    <text x="0" y="-5" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8" font-weight="700" fill="#64748B">0</text>
-    <text x="50" y="-5" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8" font-weight="700" fill="#64748B">1 km</text>
-    <text x="100" y="-5" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="8" font-weight="700" fill="#64748B">2 km</text>
-    <text x="0" y="15" font-family="'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8">OFFLINE PRE-CACHED CORRIDOR</text>
+    <text x="0" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">0</text>
+    <text x="50" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">1 km</text>
+    <text x="100" y="-5" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="8" font-weight="700" fill="#64748B">2 km</text>
+    <text x="0" y="15" font-family="'Cartisse', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8">OFFLINE PRE-CACHED CORRIDOR</text>
   </g>
 </svg>`;
 
@@ -4126,6 +4945,14 @@ const ROUTE_SAROJ = [
   [28.71646, 77.11302], [28.71658, 77.11285], [28.71672, 77.11267], [28.71675, 77.11262],
   [28.71686, 77.11244], [28.71689, 77.11240], [28.71696, 77.11231], [28.71775, 77.11117],
   [28.71627, 77.10982], [28.71650, 77.10950]
+];
+
+const ROUTE_BSA = [
+  [28.72850, 77.10580],
+  [28.72768, 77.10506],
+  [28.72660, 77.10671],
+  [28.72580, 77.10620],
+  [28.72500, 77.10600]
 ];
 
 function makeClinicalSquirclePin(crossColor, bgColor, borderColor, isPrimary = false, pulseColor = null) {
@@ -4462,7 +5289,18 @@ function startSmoothAmbulance() {
     let progress = 0;
     let newEtaText = '';
 
-    if (!overrideActive) {
+    if (transferPayload.familyOverride) {
+      const bsaDurationMs = 7000;
+      const bsaCycleElapsed = elapsed % (bsaDurationMs + 2400);
+      if (bsaCycleElapsed < bsaDurationMs) {
+        progress = bsaCycleElapsed / bsaDurationMs;
+        const remainingMin = Math.max(1, Math.ceil((1.0 - progress) * 7));
+        newEtaText = `En Route to BSA · ${remainingMin} min transit (+28m dock lag)`;
+      } else {
+        progress = 1.0;
+        newEtaText = 'Arrived at BSA Hospital · Queued at ER Dock (+28m)';
+      }
+    } else if (!overrideActive && handshakeState !== 'DECLINED') {
       const cycleElapsed = elapsed % totalCycleMs;
       if (cycleElapsed < routeDurationMs) {
         progress = cycleElapsed / routeDurationMs;
@@ -4526,11 +5364,12 @@ function startSmoothAmbulance() {
 
 // ─────── 13. Bed Reassignment Modal & Fallback Reroute ───────
 function openOverrideModal() {
-  document.getElementById('modal').classList.add('show');
+  openDeclineModal();
 }
 
 function closeModal() {
-  document.getElementById('modal').classList.remove('show');
+  const modal = document.getElementById('modal');
+  if (modal) modal.classList.remove('show');
 }
 
 function handleBg(event) {
@@ -4545,139 +5384,168 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
     closeDeclineModal();
+    closeFamilyOverrideModal();
     closeRoleModal();
   }
 });
 
-function confirmOverride() {
-  closeModal();
-  overrideActive = true;
+function applyOverrideUI(active) {
+  overrideActive = active;
+  const divertBar = document.getElementById('divert-bar');
+  const inboundTag = document.getElementById('inbound-tag');
+  const bannerSub = document.getElementById('banner-sub');
+  const b = document.getElementById('bed05');
+  const cap = document.getElementById('ward-capacity-badge');
+  const reassignDesc = document.getElementById('reassign-desc-txt');
+  const reassignWrap = document.getElementById('reassign-btn-wrap');
 
+  if (active) {
+    if (inboundTag) {
+      inboundTag.textContent = 'Ambulance DL-108 Rerouted — Walk-in Emergency at Hospital';
+      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+    }
+    if (bannerSub) {
+      bannerSub.innerHTML = 'Saroj Hospital, Rohini Sector 14 <span class="font-normal text-sm text-mutedSlate">— Receiving DL-108 (+3 min delay)</span>';
+    }
+    if (b) {
+      b.className = 'bed-tile bt-walk col-span-2';
+      b.innerHTML = `
+        <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span class="text-xs font-bold text-statRed tracking-tight">WALK-IN EMERGENCY</span>
+        <span class="text-[10px] text-statRed/80 font-medium mt-0.5">Cardiac Arrest at Entrance · CPR Active</span>`;
+    }
+    if (cap) {
+      cap.textContent = '8/8 Occupied · Full Capacity';
+      cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
+    }
+    if (reassignDesc) {
+      reassignDesc.textContent = 'Ambulance DL-108 diverted to Saroj Hospital. Click to restore original transit to Bay 05.';
+    }
+    if (reassignWrap) {
+      reassignWrap.innerHTML = `
+        <button type="button" class="btn-clinical-secondary !w-auto !h-11 !px-5 whitespace-nowrap shrink-0 !text-clinicalTeal !border-clinicalTeal hover:!bg-clinicalTeal/10" onclick="resetOverride()">
+          <span class="mr-1.5 font-bold text-base leading-none">↺</span>
+          <span>Restore Transfer to Max Hospital</span>
+        </button>`;
+    }
+    if (divertBar) divertBar.classList.add('show');
+
+    if (mapReady) {
+      if (markerDestination) {
+        markerDestination.setIcon(getBackupBlackPin());
+        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Walk-in Emergency (Bay Reassigned)');
+      }
+      if (markerSaroj) {
+        markerSaroj.setIcon(getDestinationPin());
+        markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Diverted Destination (Inbound)');
+      }
+      const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
+      const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
+      const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
+      liveRoute = divertRoute;
+
+      if (routeLine) {
+        routeLine.setLatLngs(divertRoute);
+        routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+      }
+      startSmoothAmbulance();
+      const eta = document.getElementById('eta-txt');
+      if (eta) eta.textContent = 'Rerouted → Saroj · +3 min ETA';
+    }
+  } else {
+    // Restore
+    if (inboundTag) {
+      inboundTag.textContent = 'Inbound Transfer · Ambulance DL-108 · Code Red';
+      inboundTag.className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
+    }
+    if (bannerSub) {
+      bannerSub.innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>';
+    }
+    if (b) {
+      if (handshakeState === 'LOCKED') {
+        b.className = 'bed-tile bt-res col-span-2';
+        b.innerHTML = `
+          <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
+          <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Locked · Staged In-Transit</span>
+          <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108 · Bed Confirmed</span>`;
+      } else if (handshakeState === 'PENDING_ACK') {
+        b.className = 'bed-tile bt-pending col-span-2';
+        b.innerHTML = `
+          <span class="text-[9px] font-bold text-amber-900 uppercase tracking-wider mb-0.5">Bay 05</span>
+          <span id="b05-label" class="text-xs font-bold text-amber-950 tracking-tight">Awaiting Confirmation</span>
+          <span id="b05-sub" class="text-[10px] text-amber-900/80 font-medium mt-0.5">Intensivist ACK Required (${handshakeRemainingSec}s)</span>`;
+      } else {
+        b.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
+        b.innerHTML = `
+          <span class="text-[9px] font-bold text-clinicalTeal uppercase tracking-wider mb-0.5">Bay 05 · Bed Open</span>
+          <span id="b05-label" class="text-xs font-bold text-inkDark tracking-tight">Available · Ready to Stage</span>
+          <span id="b05-sub" class="text-[10px] text-mutedSlate font-medium mt-0.5">Awaiting Clinic Bed Lock</span>`;
+      }
+    }
+    if (cap) {
+      cap.textContent = handshakeState === 'IDLE' ? '7/8 Occupied · 1 Open Bed (Bay 05)' : '7/8 Occupied · 1 Staged';
+      cap.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+    }
+    if (reassignDesc) {
+      reassignDesc.textContent = 'Stage Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.';
+    }
+    if (reassignWrap) {
+      reassignWrap.innerHTML = `
+        <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
+          <svg class="w-4 h-4 text-statRed shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span>Reassign Bed (Emergency Walk-In)</span>
+        </button>`;
+    }
+    if (divertBar) divertBar.classList.remove('show');
+
+    if (mapReady) {
+      if (markerDestination) {
+        markerDestination.setIcon(getDestinationPin());
+        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
+      }
+      if (markerSaroj) {
+        markerSaroj.setIcon(getBackupBlackPin());
+        markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
+      }
+      const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
+      const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
+      const returnRoute = computeResetToMax(currCoord);
+      liveRoute = returnRoute;
+
+      if (routeLine) {
+        routeLine.setLatLngs(returnRoute);
+        routeLine.setStyle({ color: handshakeState === 'PENDING_ACK' ? '#EA580C' : '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+      }
+      startSmoothAmbulance();
+      const eta = document.getElementById('eta-txt');
+      if (eta) eta.textContent = handshakeState === 'PENDING_ACK' ? 'Awaiting Bed ACK · 14 min ETA' : 'En Route to Max · 14 min ETA';
+    }
+  }
+}
+
+function confirmOverride(isSelf = true) {
+  closeModal();
   if (cdTimer) {
     clearInterval(cdTimer);
     cdTimer = null;
   }
-
-  document.getElementById('inbound-tag').textContent = 'Ambulance DL-108 Rerouted — Walk-in Emergency at Hospital';
-  document.getElementById('inbound-tag').className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
-  document.getElementById('banner-sub').innerHTML = 'Saroj Hospital, Rohini Sector 14 <span class="font-normal text-sm text-mutedSlate">— Receiving DL-108 (+3 min delay)</span>';
-
-  const b = document.getElementById('bed05');
-  b.className = 'bed-tile bt-walk col-span-2';
-  b.innerHTML = `
-    <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
-    <span class="text-xs font-bold text-statRed tracking-tight">WALK-IN EMERGENCY</span>
-    <span class="text-[10px] text-statRed/80 font-medium mt-0.5">Cardiac Arrest at Entrance · CPR Active</span>`;
-
-  const cap = document.getElementById('ward-capacity-badge');
-  if (cap) {
-    cap.textContent = '8/8 Occupied · Full Capacity';
-    cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
+  applyOverrideUI(true);
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('OVERRIDE_SYNC', { overrideActive: true });
+    showToast('Bay 05 reassigned. DL-108 rerouted to Saroj Hospital (+3 mins delay).', 'terra');
   }
-
-  const reassignDesc = document.getElementById('reassign-desc-txt');
-  if (reassignDesc) {
-    reassignDesc.textContent = 'Ambulance DL-108 diverted to Saroj Hospital. Click to restore original transit to Bay 05.';
-  }
-
-  const reassignWrap = document.getElementById('reassign-btn-wrap');
-  if (reassignWrap) {
-    reassignWrap.innerHTML = `
-      <button type="button" class="btn-clinical-secondary !w-auto !h-11 !px-5 whitespace-nowrap shrink-0 !text-clinicalTeal !border-clinicalTeal hover:!bg-clinicalTeal/10" onclick="resetOverride()">
-        <span class="mr-1.5 font-bold text-base leading-none">↺</span>
-        <span>Restore Transfer to Max Hospital</span>
-      </button>`;
-  }
-
-  document.getElementById('divert-bar').classList.add('show');
-
-  if (markerDestination) {
-    markerDestination.setIcon(getBackupBlackPin());
-    markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Walk-in Emergency (Bay Reassigned)');
-  }
-  if (markerSaroj) {
-    markerSaroj.setIcon(getDestinationPin());
-    markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Diverted Destination (Inbound)');
-  }
-
-  if (mapReady) {
-    const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
-    const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-
-    // Reroute dynamically from where the ambulance currently is rather than restarting
-    const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
-    liveRoute = divertRoute;
-
-    routeLine.setLatLngs(divertRoute);
-    routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
-    startSmoothAmbulance();
-    document.getElementById('eta-txt').textContent = 'Rerouted → Saroj · +3 min ETA';
-  }
-
-  showToast('Bay 05 reassigned. DL-108 rerouted to Saroj Hospital (+3 mins delay).', 'terra');
 }
 
-function resetOverride() {
-  overrideActive = false;
-  document.getElementById('inbound-tag').textContent = 'Inbound Transfer · Ambulance DL-108 · Code Red';
-  document.getElementById('inbound-tag').className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
-  document.getElementById('banner-sub').innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Staged</span>';
-
-  const b = document.getElementById('bed05');
-  b.className = 'bed-tile bt-res col-span-2';
-  b.innerHTML = `
-    <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-    <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Staged · In-Transit</span>
-    <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>`;
-
-  const capReset = document.getElementById('ward-capacity-badge');
-  if (capReset) {
-    capReset.textContent = '7/8 Occupied · 1 Staged';
-    capReset.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+function resetOverride(isSelf = true) {
+  applyOverrideUI(false);
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('OVERRIDE_SYNC', { overrideActive: false });
+    showToast('Transfer to Max Hospital restored. Bay 05 staged.', 'sage');
   }
-
-  const reassignDesc = document.getElementById('reassign-desc-txt');
-  if (reassignDesc) {
-    reassignDesc.textContent = 'Stage Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.';
-  }
-
-  const reassignWrap = document.getElementById('reassign-btn-wrap');
-  if (reassignWrap) {
-    reassignWrap.innerHTML = `
-      <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
-        <svg class="w-4 h-4 text-statRed shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-        </svg>
-        <span>Reassign Bed (Emergency Walk-In)</span>
-      </button>`;
-  }
-
-  document.getElementById('divert-bar').classList.remove('show');
-
-  if (markerDestination) {
-    markerDestination.setIcon(getDestinationPin());
-    markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Staged)');
-  }
-  if (markerSaroj) {
-    markerSaroj.setIcon(getBackupBlackPin());
-    markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
-  }
-
-  if (mapReady) {
-    const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
-    const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-
-    // Return to Max from where the ambulance currently is
-    const returnRoute = computeResetToMax(currCoord);
-    liveRoute = returnRoute;
-
-    routeLine.setLatLngs(returnRoute);
-    routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
-    startSmoothAmbulance();
-    document.getElementById('eta-txt').textContent = 'En Route to Max · 14 min ETA';
-  }
-
-  showToast('Transfer to Max Hospital restored. Bay 05 staged.', 'sage');
 }
 
 // ─────── 14. Real-Time Feedback Toast System ───────
@@ -4720,9 +5588,64 @@ function showToast(msg, type = 'normal') {
 window.addEventListener('DOMContentLoaded', () => {
   initRoleSelection();
   initMap();
-  updateVitalsDisplay();
+
+  const saved = loadAppState();
+  if (saved && saved.transferPayload) {
+    if (saved.transferPayload.vitals) transferPayload.vitals = saved.transferPayload.vitals;
+    if (saved.transferPayload.syndrome) transferPayload.syndrome = saved.transferPayload.syndrome;
+    if (saved.transferPayload.threatLevel !== undefined) transferPayload.threatLevel = saved.transferPayload.threatLevel;
+    if (saved.transferPayload.dispatched !== undefined) transferPayload.dispatched = saved.transferPayload.dispatched;
+    if (saved.handshakeState) handshakeState = saved.handshakeState;
+    if (saved.overrideActive !== undefined) overrideActive = saved.overrideActive;
+
+    const synSel = document.getElementById('syndrome-select');
+    if (synSel && transferPayload.syndrome) synSel.value = transferPayload.syndrome;
+
+    if (transferPayload.threatLevel) {
+      [1, 2, 3].forEach(i => {
+        const el = document.getElementById('tl' + i);
+        if (el) {
+          const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
+          el.className = `threat-card ${baseClass} ${i === transferPayload.threatLevel ? 'sel' : ''}`;
+        }
+      });
+    }
+
+    const elSpo2 = document.getElementById('input-spo2');
+    const elO2Dev = document.getElementById('input-o2-device');
+    const elBpSys = document.getElementById('input-bp-sys');
+    const elBpDia = document.getElementById('input-bp-dia');
+    const elHr = document.getElementById('input-hr');
+    const elGcs = document.getElementById('input-gcs');
+    if (elSpo2) elSpo2.value = transferPayload.vitals.spo2;
+    if (elO2Dev) elO2Dev.value = transferPayload.vitals.o2Device;
+    if (elBpSys) elBpSys.value = transferPayload.vitals.bpSys;
+    if (elBpDia) elBpDia.value = transferPayload.vitals.bpDia;
+    if (elHr) elHr.value = transferPayload.vitals.hr;
+    if (elGcs) elGcs.value = transferPayload.vitals.gcs;
+
+    if (saved.selectedEquips && Array.isArray(saved.selectedEquips)) {
+      document.querySelectorAll('.equip-chip').forEach(chip => {
+        const title = chip.querySelector('p')?.textContent.trim();
+        if (title && saved.selectedEquips.includes(title)) {
+          chip.classList.add('sel');
+        } else {
+          chip.classList.remove('sel');
+        }
+      });
+    }
+  }
+
+  updateVitalsDisplay(false);
   updateHospitalEquipmentDisplays(getSelectedEquipments());
   updateICUChecklist();
+  updateHandshakeUI();
+
+  if (overrideActive) {
+    applyOverrideUI(true);
+  } else if (handshakeState === 'PENDING_ACK') {
+    startHandshakeTimer(saved && saved.handshakeRemainingSec ? saved.handshakeRemainingSec : 90);
+  }
 });
 
 window.addEventListener('resize', () => {
