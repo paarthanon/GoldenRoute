@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GoldenRoute — Emergency Patient Transfer &amp; ICU Network · Delhi NCR</title>
+<title>Setu — System for Emergency Transfer and Urgency-coordination · Delhi NCR</title>
 <link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
 <link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
@@ -84,6 +84,16 @@
           stableGreenBg: '#F0FDF4',
           stableGreenBorder: '#BBF7D0',
           stableGreenText: '#166534',
+        },
+        boxShadow: {
+          none: 'none',
+          xs: 'none',
+          sm: 'none',
+          DEFAULT: 'none',
+          md: 'none',
+          lg: 'none',
+          xl: 'none',
+          '2xl': 'none',
         }
       }
     }
@@ -192,23 +202,26 @@ header {
   }
 }
 
-/* ── Buttons (120Hz GPU Hardware Composited) ── */
+/* ── Buttons (Crisp 1px Borders, Zero Blur Shadows) ── */
 .btn-clinical {
   background-color: #0C6277;
   color: #FFFFFF;
+  border: 1px solid #0C6277;
   mix-blend-mode: normal !important;
   isolation: isolate;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, box-shadow;
+  will-change: transform, background-color, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: none;
 }
 .btn-clinical:hover {
   background-color: #094B5C;
-  transform: translateY(-1.5px) translateZ(0);
-  box-shadow: 0 6px 20px rgba(12, 98, 119, 0.25);
+  border-color: #094B5C;
+  transform: translateY(-1px) translateZ(0);
+  box-shadow: none;
 }
 .btn-clinical:active {
   transform: scale(0.985) translateZ(0);
@@ -217,18 +230,19 @@ header {
 .btn-ghost {
   border: 1px solid #CBD5E1;
   color: #0F172A;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: #FFFFFF;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, box-shadow;
+  will-change: transform, background-color, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: none;
 }
 .btn-ghost:hover {
-  background-color: #FFFFFF;
-  border-color: #CBD5E1;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  background-color: #F8FAFC;
+  border-color: #94A3B8;
+  box-shadow: none;
   transform: translateY(-1px) translateZ(0);
 }
 .btn-ghost:active {
@@ -337,14 +351,14 @@ header {
 ═════════════════════════════════════════════════════════════════ -->
 <header class="relative z-20 h-20 border-b border-softBorder/80 px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
   
-  <!-- Left: GoldenRoute Wordmark + Emblem -->
+  <!-- Left: Setu Wordmark + Emblem -->
   <div class="flex items-center gap-3 sm:gap-4 shrink-0">
-    <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="GoldenRoute Home">
+    <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="Setu Home">
       <div class="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
-        <img src="assets/goldenroute-icon.png" alt="GoldenRoute Emblem" width="36" height="36" class="w-full h-full object-contain emblem-heartbeat" />
+        <img src="assets/goldenroute-icon.png" alt="Setu Emblem" width="36" height="36" class="w-full h-full object-contain emblem-heartbeat" />
       </div>
       <span class="text-xl sm:text-[23px] font-extrabold tracking-tight leading-none text-inkDark">
-        Golden<span class="text-clinicalTeal">Route</span>
+        Se<span class="text-clinicalTeal">tu</span>
       </span>
     </a>
   </div>
@@ -382,11 +396,11 @@ header {
 
     <!-- Action Row (Solid Dual Action Pair) -->
     <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-      <a href="dispatch.html" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
+      <a href="dispatch.html" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 select-none">
         <span>Referring Facility Console →</span>
       </a>
 
-      <a href="dispatch.html?role=icu" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-sm select-none">
+      <a href="dispatch.html?role=icu" class="btn-clinical h-12 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 select-none">
         <span>Receiving ICU Console →</span>
       </a>
     </div>

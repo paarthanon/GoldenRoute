@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GoldenRoute — Emergency Patient Transfer &amp; ICU Network · Delhi NCR</title>
+<title>Setu — System for Emergency Transfer and Urgency-coordination · Delhi NCR</title>
 <link rel="icon" type="image/png" href="assets/goldenroute-icon.png" />
 <link rel="apple-touch-icon" href="assets/goldenroute-icon.png" />
 
@@ -96,8 +96,16 @@
           stableGreenText: '#166534',
         },
         boxShadow: {
-          'clinical-card': '0 4px 20px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02)',
-          'clinical-hover': '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.02)',
+          none: 'none',
+          xs: 'none',
+          sm: 'none',
+          DEFAULT: 'none',
+          md: 'none',
+          lg: 'none',
+          xl: 'none',
+          '2xl': 'none',
+          'clinical-card': 'none',
+          'clinical-hover': 'none',
         }
       }
     }
@@ -153,49 +161,49 @@ header {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
 
-/* ── Liquid Glass System (Translucent Frosted Vibrancy) ── */
+/* ── Liquid Glass System (Crisp 1px #CBD5E1 Border, Clean Flat Finish) ── */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.86) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
   backdrop-filter: blur(24px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
-  border: 1px solid rgba(226, 232, 240, 0.95) !important;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: none !important;
 }
 
 .liquid-glass-alert-amber {
-  background: rgba(255, 247, 237, 0.85) !important;
+  background: rgba(255, 247, 237, 0.92) !important;
   backdrop-filter: blur(20px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1px solid rgba(254, 215, 170, 0.9) !important;
-  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #FED7AA !important;
+  box-shadow: none !important;
 }
 
 .liquid-glass-alert-red {
-  background: rgba(255, 241, 242, 0.85) !important;
+  background: rgba(255, 241, 242, 0.92) !important;
   backdrop-filter: blur(20px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1px solid rgba(254, 205, 211, 0.9) !important;
-  box-shadow: 0 8px 24px rgba(190, 18, 60, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #FECDD3 !important;
+  box-shadow: none !important;
 }
 
-/* ── Pure White Surface / Card with Soft Gray Border ── */
+/* ── Pure White Surface / Card with Crisp 1px #CBD5E1 Border ── */
 .glass-panel {
   background-color: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02);
+  border: 1px solid #CBD5E1;
+  box-shadow: none;
 }
 
 .glass-panel-interactive {
   background-color: #FFFFFF;
-  border: 1.5px solid #E2E8F0;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+  border: 1px solid #CBD5E1;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease;
+  box-shadow: none;
 }
 .glass-panel-interactive:hover {
   background-color: #FFFFFF;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.02);
-  transform: translateY(-2px);
-  border-color: #CBD5E1;
+  box-shadow: none;
+  transform: translateY(-1px);
+  border-color: #94A3B8;
 }
 
 /* ── Live Network Status Dot ── */
@@ -271,29 +279,31 @@ header {
 .station-pill.on {
   background-color: #0C6277;
   color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(12, 98, 119, 0.22);
+  border: 1px solid #0C6277;
+  box-shadow: none;
 }
 .station-pill.off {
   background-color: transparent;
   color: #334155;
+  border: 1px solid transparent;
 }
 .station-pill.off:hover {
   color: #0F172A;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* ── Urgency Level Selector Cards ── */
+/* ── Urgency Level Selector Cards (Crisp 1px #CBD5E1 Border) ── */
 .threat-card {
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 18px 20px;
   cursor: pointer;
-  border: 1.5px solid #E2E8F0;
+  border: 1px solid #CBD5E1;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, border-color, box-shadow;
+  will-change: transform, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
   text-align: left;
   width: 100%;
   background: #FFFFFF;
@@ -301,12 +311,12 @@ header {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+  box-shadow: none;
 }
 .threat-card:hover {
-  transform: translateY(-2px) translateZ(0);
-  border-color: #CBD5E1;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  transform: translateY(-1px) translateZ(0);
+  border-color: #94A3B8;
+  box-shadow: none;
 }
 .threat-card:active {
   transform: scale(0.985) translateZ(0);
@@ -314,49 +324,49 @@ header {
 .threat-card.tc-red.sel {
   background: #FFF1F2;
   border-color: #BE123C;
-  box-shadow: 0 0 0 1.5px #BE123C, 0 6px 20px rgba(190, 18, 60, 0.12);
+  box-shadow: 0 0 0 1px #BE123C;
 }
 .threat-card.tc-amber.sel {
   background: #FFF7ED;
   border-color: #EA580C;
-  box-shadow: 0 0 0 1.5px #EA580C, 0 6px 20px rgba(234, 88, 12, 0.12);
+  box-shadow: 0 0 0 1px #EA580C;
 }
 .threat-card.tc-yellow.sel {
   background: #FEFCE8;
   border-color: #CA8A04;
-  box-shadow: 0 0 0 1.5px #CA8A04, 0 6px 20px rgba(202, 138, 4, 0.12);
+  box-shadow: 0 0 0 1px #CA8A04;
 }
 .threat-card.tc-green.sel {
   background: #F0FDF4;
   border-color: #16A34A;
-  box-shadow: 0 0 0 1.5px #16A34A, 0 6px 20px rgba(22, 163, 74, 0.12);
+  box-shadow: 0 0 0 1px #16A34A;
 }
 
-/* ── Equipment Selection Chips ── */
+/* ── Equipment Selection Chips (Crisp 1px #CBD5E1 Border) ── */
 .equip-chip {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   padding: 14px 16px;
-  border-radius: 16px;
+  border-radius: 14px;
   cursor: pointer;
-  border: 1.5px solid #E2E8F0;
+  border: 1px solid #CBD5E1;
   background-color: #FFFFFF;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, border-color, box-shadow;
+  will-change: transform, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
   min-height: 66px;
   height: 100%;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+  box-shadow: none;
 }
 .equip-chip:hover {
-  border-color: #CBD5E1;
-  transform: translateY(-1.5px) translateZ(0);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  border-color: #94A3B8;
+  transform: translateY(-1px) translateZ(0);
+  box-shadow: none;
 }
 .equip-chip:active {
   transform: scale(0.985) translateZ(0);
@@ -364,7 +374,7 @@ header {
 .equip-chip.sel {
   border-color: #0C6277;
   background-color: rgba(12, 98, 119, 0.04);
-  box-shadow: 0 0 0 1px #0C6277, 0 4px 14px rgba(12, 98, 119, 0.1);
+  box-shadow: 0 0 0 1px #0C6277;
 }
 .ec-box {
   width: 18px;
@@ -420,7 +430,7 @@ header {
 .badge-blue    { background-color: #ECFEFF; color: #0C6277; border: 1px solid #A5F3FC; }
 .badge-neutral { background-color: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; }
 
-/* ── Primary & Secondary Buttons ── */
+/* ── Primary & Secondary Buttons (Crisp 1px Borders, Zero Blur Shadows) ── */
 .btn-clinical {
   display: inline-flex;
   align-items: center;
@@ -433,24 +443,26 @@ header {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
-  border: none;
+  border: 1px solid #0C6277;
   cursor: pointer;
   width: 100%;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, box-shadow;
+  will-change: transform, background-color, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 10px rgba(12, 98, 119, 0.22);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: none;
 }
 .btn-clinical:hover {
   background-color: #094B5C;
-  box-shadow: 0 6px 20px rgba(12, 98, 119, 0.3);
-  transform: translateY(-1.5px) translateZ(0);
+  border-color: #094B5C;
+  box-shadow: none;
+  transform: translateY(-1px) translateZ(0);
 }
 .btn-clinical:active {
   background-color: #083B49;
+  border-color: #083B49;
   transform: scale(0.985) translateZ(0);
   box-shadow: none;
 }
@@ -474,16 +486,16 @@ header {
   line-height: 1;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, background-color;
+  will-change: transform, background-color, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: none;
 }
 .btn-clinical-secondary:hover {
   background-color: #F8FAFC;
-  border-color: #CBD5E1;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  border-color: #94A3B8;
+  box-shadow: none;
   transform: translateY(-1px) translateZ(0);
 }
 .btn-clinical-secondary:active {
@@ -507,13 +519,14 @@ header {
   white-space: nowrap;
   width: 100%;
   line-height: 1;
+  box-shadow: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-clinical-destructive:hover {
   background-color: #FFE4E6;
   border-color: #FDA4AF;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(190, 18, 60, 0.08);
+  box-shadow: none;
 }
 .btn-clinical-destructive:active {
   transform: scale(0.985);
@@ -554,21 +567,21 @@ header {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 86px;
 }
-.bt-occ { background-color: #F1F5F9; border-color: #CBD5E1; }
-.bt-avail { background-color: #FFFFFF; border-color: #CBD5E1; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03); }
+.bt-occ { background-color: #F1F5F9; border: 1px solid #CBD5E1; }
+.bt-avail { background-color: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: none; }
 .bt-res {
   background-color: #0C6277;
-  border-color: #0C6277;
+  border: 1px solid #0C6277;
   color: #FFFFFF;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   animation: pulse-bay 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   will-change: box-shadow;
 }
-.bt-walk { background-color: #FFF1F2; border-color: #FECDD3; }
+.bt-walk { background-color: #FFF1F2; border: 1px solid #FECDD3; }
 .bt-pending {
   background-color: #FFFBEB;
-  border-color: #FCD34D;
+  border: 1px solid #FCD34D;
   color: #78350F;
   animation: pulse-pending-bay 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -596,11 +609,11 @@ header {
   animation: bed-flash-glow 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1, pulse-bay 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
 }
 
-/* ── Interactive Vitals Input Tile ── */
+/* ── Interactive Vitals Input Tile (Crisp 1px #CBD5E1 Border) ── */
 .vital-input-card {
   background-color: #FFFFFF;
-  border: 1.5px solid #E2E8F0;
-  border-radius: 18px;
+  border: 1px solid #CBD5E1;
+  border-radius: 16px;
   padding: 15px 15px;
   display: flex;
   flex-direction: column;
@@ -608,23 +621,23 @@ header {
   text-align: center;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, border-color, box-shadow;
+  will-change: transform, border-color;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: none;
   min-height: 126px;
   height: 100%;
 }
 .vital-input-card:hover {
-  border-color: #CBD5E1;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-  transform: translateY(-1.5px) translateZ(0);
+  border-color: #94A3B8;
+  box-shadow: none;
+  transform: translateY(-1px) translateZ(0);
 }
 .vital-input-card:focus-within {
   border-color: #0C6277;
-  box-shadow: 0 0 0 3px rgba(12, 98, 119, 0.12), 0 4px 16px rgba(15, 23, 42, 0.06);
-  transform: translateY(-1.5px) translateZ(0);
+  box-shadow: 0 0 0 1px #0C6277;
+  transform: translateY(-1px) translateZ(0);
 }
 
 .vital-input-num {
@@ -668,13 +681,14 @@ header {
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
   line-height: 1;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  border: 1px solid #CBD5E1;
+  box-shadow: none;
 }
 .squircle-step-btn:hover {
   background-color: #FFFFFF;
   border-color: #0C6277;
   color: #0C6277;
-  box-shadow: 0 2px 6px rgba(12, 98, 119, 0.18);
+  box-shadow: none;
   transform: translateY(-0.5px);
 }
 .squircle-step-btn:active {
@@ -773,23 +787,21 @@ button:focus-visible {
   pointer-events: all;
 }
 .modal-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.38) 100%);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #CBD5E1;
   padding: 32px 36px;
   max-width: 520px;
   width: 100%;
-  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.22), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 1px rgba(255, 255, 255, 0.25);
+  box-shadow: none;
   transform: translate3d(0, 16px, 0) scale(0.97);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   will-change: transform, opacity;
 }
 .modal-inner-glass {
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(15, 23, 42, 0.02);
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  box-shadow: none;
 }
 .modal-bg.show .modal-card {
   transform: translate3d(0, 0, 0) scale(1);
@@ -804,19 +816,19 @@ button:focus-visible {
   font-size: 13px;
   font-weight: 600;
   color: #0F172A;
-  background: rgba(255, 255, 255, 0.38);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  box-shadow: none;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   white-space: nowrap;
   width: 100%;
 }
 .btn-modal-cancel:hover {
-  background: rgba(255, 255, 255, 0.65);
-  border-color: rgba(255, 255, 255, 0.95);
+  background: #F8FAFC;
+  border-color: #94A3B8;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  box-shadow: none;
 }
 .btn-modal-cancel:active {
   transform: scale(0.985);
@@ -831,24 +843,24 @@ button:focus-visible {
   font-size: 13px;
   font-weight: 600;
   color: #9F1239;
-  background: rgba(255, 241, 242, 0.50);
-  border: 1px solid rgba(254, 205, 211, 0.75);
-  box-shadow: 0 1px 3px rgba(190, 18, 60, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  background: #FFF1F2;
+  border: 1px solid #FECDD3;
+  box-shadow: none;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   white-space: nowrap;
   width: 100%;
 }
 .btn-modal-confirm:hover {
-  background: rgba(255, 228, 230, 0.75);
+  background: #FFE4E6;
   border-color: #FDA4AF;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(190, 18, 60, 0.12);
+  box-shadow: none;
 }
 .btn-modal-confirm:active {
   transform: scale(0.985);
 }
-/* ── Toast Alert ── */
+/* ── Toast Alert (Crisp 1px #CBD5E1 Border) ── */
 .toast {
   position: fixed;
   bottom: 32px;
@@ -866,11 +878,9 @@ button:focus-visible {
   letter-spacing: -0.012em;
   opacity: 0;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08), 0 4px 14px rgba(15, 23, 42, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  box-shadow: none;
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
   will-change: transform, opacity;
 }
@@ -880,15 +890,13 @@ button:focus-visible {
   pointer-events: all;
 }
 
-/* ── Divert Alert Bar ── */
+/* ── Divert Alert Bar (Crisp 1px Border) ── */
 .divert-bar {
   display: none;
-  background: rgba(255, 241, 242, 0.85);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(254, 205, 211, 0.85);
-  box-shadow: 0 12px 36px rgba(190, 18, 60, 0.06), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
+  background: #FFF1F2;
+  border: 1px solid #FECDD3;
+  box-shadow: none;
+  border-radius: 16px;
 }
 .divert-bar.show {
   display: flex;
@@ -960,14 +968,14 @@ button:focus-visible {
   }
 }
 
-/* ── Clinical Map Zoom Controls ── */
+/* ── Clinical Map Zoom Controls (Crisp 1px #CBD5E1 Border) ── */
 .clinical-zoom-control {
   margin-top: 14px !important;
   margin-right: 14px !important;
   border-radius: 10px !important;
   border: 1px solid #CBD5E1 !important;
   background: #FFFFFF !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  box-shadow: none !important;
   pointer-events: auto !important;
   overflow: hidden !important;
 }
@@ -997,14 +1005,12 @@ button:focus-visible {
   background-color: #FAFAFA !important;
 }
 
-/* ── Modern Clinical Leaflet Popups ── */
+/* ── Modern Clinical Leaflet Popups (Crisp 1px #CBD5E1 Border, Zero Blur Shadow) ── */
 .leaflet-popup-content-wrapper {
-  background: rgba(255, 255, 255, 0.96) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  background: #FFFFFF !important;
   border: 1px solid #CBD5E1 !important;
   border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1) !important;
+  box-shadow: none !important;
   padding: 2px !important;
 }
 .leaflet-popup-content {
@@ -1022,7 +1028,7 @@ button:focus-visible {
   margin-bottom: 2px !important;
 }
 .leaflet-popup-tip {
-  background: rgba(255, 255, 255, 0.96) !important;
+  background: #FFFFFF !important;
   box-shadow: none !important;
   border: 1px solid #CBD5E1 !important;
 }
@@ -1248,16 +1254,16 @@ button:focus-visible {
 <!-- ═════════════════════════════════════════════════════════════════
      HEADER NAVIGATION BAR (Clean & Uncluttered: Logo, Switcher)
 ═════════════════════════════════════════════════════════════════ -->
-<header class="sticky top-0 z-50 h-20 bg-paper/60 backdrop-blur-xl border-b border-softBorder/80 px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
+<header class="sticky top-0 z-50 h-20 bg-paper/80 backdrop-blur-xl border-b border-softBorder px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
 
-  <!-- Left: GoldenRoute Emblem + Station Label -->
+  <!-- Left: Setu Emblem + Station Label -->
   <div class="flex items-center gap-3 sm:gap-4 shrink-0">
-    <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="Back to GoldenRoute Home">
+    <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer select-none" title="Back to Setu Home">
       <div class="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 shrink-0">
-        <img src="assets/goldenroute-icon.png" alt="GoldenRoute Logo" width="36" height="36" class="w-full h-full object-contain emblem-heartbeat" />
+        <img src="assets/goldenroute-icon.png" alt="Setu Logo" width="36" height="36" class="w-full h-full object-contain emblem-heartbeat" />
       </div>
       <span class="text-xl sm:text-[23px] font-extrabold tracking-tight leading-none text-inkDark">
-        Golden<span class="text-clinicalTeal">Route</span>
+        Se<span class="text-clinicalTeal">tu</span>
       </span>
     </a>
 
@@ -1265,7 +1271,7 @@ button:focus-visible {
 
   <!-- Center: Station Switcher Segmented Pills (Centered in header space) -->
   <nav aria-label="Operational Stations" class="flex items-center justify-center sm:absolute sm:left-1/2 sm:-translate-x-1/2">
-    <div class="inline-flex items-center gap-1 bg-white/70 backdrop-blur-md rounded-full p-1 border border-softBorder shadow-xs" role="tablist">
+    <div class="inline-flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full p-1 border border-softBorder" role="tablist">
       <button id="btn1" type="button" role="tab" aria-selected="true" class="station-pill on" onclick="switchRole('clinic')">
         Referring Facility
       </button>
@@ -1279,11 +1285,11 @@ button:focus-visible {
 
   <!-- Right: Real-time Multi-Tab Sync Indicator & Simulation Reset -->
   <div class="flex items-center justify-end gap-2.5 shrink-0">
-    <div id="sync-status-pill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-softBorder text-[11px] font-bold text-mutedSlate shadow-xs select-none transition-all duration-300" title="Real-time multi-window sync active across BroadcastChannel & localStorage">
+    <div id="sync-status-pill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-softBorder text-[11px] font-bold text-mutedSlate select-none transition-all duration-300" title="Real-time multi-window sync active across BroadcastChannel & localStorage">
       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
       <span class="hidden md:inline">Multi-Tab</span> Synced
     </div>
-    <button type="button" onclick="resetSimulationState()" class="text-xs font-semibold text-mutedSlate hover:text-inkDark px-2.5 py-1 rounded-lg hover:bg-slate-200/60 border border-softBorder/60 transition-colors" title="Reset Demo to Standby (unlock bed)">
+    <button type="button" onclick="resetSimulationState()" class="text-xs font-semibold text-mutedSlate hover:text-inkDark px-2.5 py-1 rounded-lg hover:bg-slate-100 border border-softBorder transition-colors" title="Reset Demo to Standby (unlock bed)">
       ↺ Reset
     </button>
   </div>
@@ -1352,7 +1358,7 @@ button:focus-visible {
       </header>
 
       <!-- 1. PATIENT ACUITY LEVEL (Horizontal 3-Col Layout) -->
-      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder shadow-xs">
+      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder">
         <div class="mb-4">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">1</span>
@@ -1366,7 +1372,7 @@ button:focus-visible {
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#BE123C]" style="box-shadow:0 0 0 3px rgba(190,18,60,0.15)"></span>
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#BE123C] ring-2 ring-statRed/20"></span>
                   <span class="text-sm font-bold tracking-tight text-statRedText">Code Red &middot; Critical</span>
                 </div>
                 <span class="clinical-badge badge-red text-[10px]">STAT</span>
@@ -1382,7 +1388,7 @@ button:focus-visible {
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EA580C]" style="box-shadow:0 0 0 3px rgba(234,88,12,0.18)"></span>
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EA580C] ring-2 ring-urgentAmber/20"></span>
                   <span class="text-sm font-bold tracking-tight text-urgentAmberText">Code Amber &middot; Serious</span>
                 </div>
                 <span class="clinical-badge badge-amber text-[10px]">Urgent</span>
@@ -1398,7 +1404,7 @@ button:focus-visible {
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EAB308] border border-[#CA8A04]/40" style="box-shadow:0 0 0 3px rgba(234,179,8,0.22)"></span>
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EAB308] border border-[#CA8A04]/40 ring-2 ring-cautionYellow/25"></span>
                   <span class="text-sm font-bold tracking-tight text-cautionYellowText">Code Yellow &middot; Stable</span>
                 </div>
                 <span class="clinical-badge badge-yellow text-[10px]">Stable</span>
@@ -1412,7 +1418,7 @@ button:focus-visible {
       </article>
 
       <!-- 2. REQUIRED ICU EQUIPMENT (Full-Width Responsive Grid) -->
-      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder shadow-xs">
+      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder">
         <div class="flex items-center justify-between gap-3 mb-4 flex-wrap">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">2</span>
@@ -1499,7 +1505,7 @@ button:focus-visible {
       </article>
 
       <!-- 3. CLINICAL CONDITION & DEPARTURE VITALS (Full-Width Integrated Section) -->
-      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder shadow-xs">
+      <article class="glass-panel rounded-2xl p-6 sm:p-7 border border-softBorder">
         <div class="mb-5">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">3</span>
@@ -1693,21 +1699,21 @@ button:focus-visible {
 
       <!-- Primary Action: Proceed to Recommended Hospitals -->
       <div class="pt-2 pb-6 flex flex-col items-center">
-        <button type="button" onclick="goToStep2()" class="btn-clinical !h-12 !text-sm !font-bold w-full max-w-md shadow-sm flex items-center justify-center gap-2">
+        <button type="button" onclick="goToStep2()" class="btn-clinical !h-12 !text-sm !font-bold w-full max-w-md flex items-center justify-center gap-2">
           <span>Find Matching Hospitals &amp; Available Beds</span>
           <span class="text-base">&rarr;</span>
         </button>
       </div>
 
       <!-- Sticky Floating Summary Bar on Step 1 (Always reachable on all laptop screen heights) -->
-      <aside id="step-1-sticky-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-4xl liquid-glass rounded-2xl p-3 sm:px-6 sm:py-3.5 border border-white/80 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 backdrop-blur-md transition-all">
+      <aside id="step-1-sticky-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-4xl liquid-glass rounded-2xl p-3 sm:px-6 sm:py-3.5 border border-softBorder flex flex-col sm:flex-row items-center justify-between gap-3 backdrop-blur-md transition-all">
         <div class="flex items-center gap-2.5 flex-wrap text-xs">
           <span class="inline-block w-2.5 h-2.5 rounded-full bg-clinicalTeal animate-pulse"></span>
           <span id="sticky-summary-text" class="font-bold text-inkDark">
             Standard Triage &middot; Standard ICU Monitoring &middot; SpO₂ 82% | BP 85/55
           </span>
         </div>
-        <button type="button" onclick="goToStep2()" class="btn-clinical !h-9 !px-5 !text-xs !font-bold w-full sm:w-auto shadow-xs flex items-center justify-center gap-2 shrink-0">
+        <button type="button" onclick="goToStep2()" class="btn-clinical !h-9 !px-5 !text-xs !font-bold w-full sm:w-auto flex items-center justify-center gap-2 shrink-0">
           <span>Find Matching ICU Beds</span>
           <span class="text-sm">&rarr;</span>
         </button>
@@ -1752,9 +1758,9 @@ button:focus-visible {
       </header>
 
       <!-- ── Financial & Scheme Filter Bar (Solving Patient Refusal) ── -->
-      <section class="liquid-glass rounded-2xl p-4 sm:p-5 border border-softBorder flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs" aria-label="Financial and Government Scheme Filter">
+      <section class="liquid-glass rounded-2xl p-4 sm:p-5 border border-softBorder flex flex-col md:flex-row items-start md:items-center justify-between gap-4" aria-label="Financial and Government Scheme Filter">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-700 flex items-center justify-center shrink-0 shadow-xs">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-700 flex items-center justify-center shrink-0">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -1769,8 +1775,8 @@ button:focus-visible {
         </div>
 
         <!-- Clean Segmented Filter Bar -->
-        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder shadow-xs flex-wrap" role="tablist" aria-label="Scheme Filter Bar">
-          <button type="button" id="filter-scheme-all" onclick="filterByScheme('all')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs" role="tab" aria-selected="true">
+        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Scheme Filter Bar">
+          <button type="button" id="filter-scheme-all" onclick="filterByScheme('all')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white" role="tab" aria-selected="true">
             All Facilities (8)
           </button>
           <button type="button" id="filter-scheme-pmjay" onclick="filterByScheme('pmjay')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100" role="tab" aria-selected="false">
@@ -1786,7 +1792,7 @@ button:focus-visible {
       </section>
 
       <!-- ── Ergonomic Tier Quick-Filter Navigation Bar (Preventing Infinite Scroll) ── -->
-      <section class="liquid-glass rounded-2xl px-4 py-3 border border-softBorder flex items-center justify-between gap-3 flex-wrap shadow-xs" aria-label="Hospital Priority Tiers">
+      <section class="liquid-glass rounded-2xl px-4 py-3 border border-softBorder flex items-center justify-between gap-3 flex-wrap" aria-label="Hospital Priority Tiers">
         <div class="flex items-center gap-2">
           <span class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
             <svg class="w-4 h-4 text-clinicalTeal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
@@ -1796,8 +1802,8 @@ button:focus-visible {
           </span>
           <span class="text-[11px] text-mutedSlate hidden md:inline">&middot; Delhi NCR Emergency Referral Matrix</span>
         </div>
-        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder shadow-xs flex-wrap" role="tablist" aria-label="Tier Navigation Tabs">
-          <button type="button" id="tab-tier-all" onclick="showTier('all')" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs">
+        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Tier Navigation Tabs">
+          <button type="button" id="tab-tier-all" onclick="showTier('all')" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white">
             All (8)
           </button>
           <button type="button" id="tab-tier-1" onclick="showTier(1)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
@@ -1829,7 +1835,7 @@ button:focus-visible {
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
 
             <!-- Facility 1: Max Super Speciality Hospital (BEST DIRECT MATCH) -->
-            <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal/60 shadow-md lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
+            <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
               <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-clinicalTeal via-teal-400 to-clinicalTeal"></div>
               <div>
                 <div class="flex items-start justify-between gap-4 mb-3">
@@ -2156,7 +2162,7 @@ button:focus-visible {
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
-                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1 shadow-xs">
+                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                     Govt / Civil Free (100% Free ICU)
                   </span>
@@ -2180,7 +2186,7 @@ button:focus-visible {
               </div>
 
               <!-- Family Preference Override Button -->
-              <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2 shadow-xs" onclick="openFamilyOverrideModal('bsa')">
+              <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('bsa')">
                 <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -2216,7 +2222,7 @@ button:focus-visible {
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
-                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1 shadow-xs">
+                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                     Govt / Civil Free (100% Free ICU)
                   </span>
@@ -2243,7 +2249,7 @@ button:focus-visible {
               </div>
 
               <!-- Family Preference Override Button -->
-              <button id="btn-sgmh-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2 shadow-xs" onclick="openFamilyOverrideModal('sgmh')">
+              <button id="btn-sgmh-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('sgmh')">
                 <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -2327,12 +2333,12 @@ button:focus-visible {
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
     <!-- ── Two-Way ICU Acceptance Banner (Solving Hospital Refusal) ── -->
-    <section id="handshake-alert-card" class="mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md">
+    <section id="handshake-alert-card" class="mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         
         <!-- Left: Incoming broadcast alert details -->
         <div class="flex items-start sm:items-center gap-3.5">
-          <div class="w-11 h-11 rounded-xl bg-orange-500/15 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0 shadow-xs">
+          <div class="w-11 h-11 rounded-xl bg-orange-500/15 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0">
             <svg class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
@@ -2361,7 +2367,7 @@ button:focus-visible {
         <!-- Right: 90s Countdown & Accept / Divert Action Buttons -->
         <div id="icu-banner-actions" class="flex items-center gap-3 shrink-0 self-end lg:self-center flex-wrap sm:flex-nowrap">
           <!-- Countdown Ring Box -->
-          <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+          <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
             <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
             <div class="flex items-baseline gap-0.5">
               <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
@@ -2370,7 +2376,7 @@ button:focus-visible {
           </div>
 
           <!-- [ Accept & Assign Bay 05 ] -->
-          <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+          <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
@@ -2378,7 +2384,7 @@ button:focus-visible {
           </button>
 
           <!-- [ Capacity/Equipment Divert ] -->
-          <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+          <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
@@ -2390,9 +2396,9 @@ button:focus-visible {
     </section>
 
     <!-- Active Inbound Patient Telemetry Dossier (Executive Clinical Dashboard Header) -->
-    <aside class="mb-6 rounded-2xl liquid-glass p-4 sm:p-5 shadow-sm">
+    <aside class="mb-6 rounded-2xl liquid-glass p-4 sm:p-5">
       <!-- Top Meta Row: Origin, Live Status, Transfer Token & Urgency -->
-      <div class="flex items-center justify-between gap-3 flex-wrap pb-3.5 border-b border-softBorder/80">
+      <div class="flex items-center justify-between gap-3 flex-wrap pb-3.5 border-b border-softBorder">
         <div class="flex items-center gap-2.5 flex-wrap">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-clinicalTealBg border border-clinicalTealBorder text-clinicalTeal text-[10px] font-bold tracking-wide uppercase">
             <span class="dot-sync !w-2 !h-2"></span>
@@ -2538,7 +2544,7 @@ button:focus-visible {
           <!-- Command Map Container -->
           <div id="map-wrap" class="aspect-[4/3] w-full rounded-xl overflow-hidden border border-softBorder relative bg-paper">
             <div id="offline-map-fallback" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-300 z-[1]" style="display:none;"></div>
-            <div id="offline-map-badge" class="absolute top-3 left-3 z-[1000] clinical-badge badge-blue text-[11px] font-semibold bg-white/95 backdrop-blur shadow-sm border border-softBorder hidden items-center gap-1.5 px-2.5 py-1 rounded-lg pointer-events-none select-none">
+            <div id="offline-map-badge" class="absolute top-3 left-3 z-[1000] clinical-badge badge-blue text-[11px] font-semibold bg-white/95 backdrop-blur border border-softBorder hidden items-center gap-1.5 px-2.5 py-1 rounded-lg pointer-events-none select-none">
               <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
               <span>Offline Resilient Map · Pre-Cached Active</span>
             </div>
@@ -2710,7 +2716,7 @@ button:focus-visible {
 <div id="modal" class="modal-bg" onclick="handleBg(event)" role="dialog" aria-modal="true" aria-labelledby="reclaim-title">
   <div class="modal-card">
     <div class="flex items-center gap-3 mb-2">
-      <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0 shadow-xs">
+      <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
@@ -2759,7 +2765,7 @@ button:focus-visible {
 <div id="decline-modal" class="modal-bg" onclick="handleDeclineBg(event)" role="dialog" aria-modal="true" aria-labelledby="decline-title">
   <div class="modal-card max-w-lg">
     <div class="flex items-center gap-3 mb-2">
-      <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0 shadow-xs">
+      <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-300/40 text-statRed flex items-center justify-center shrink-0">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
@@ -2774,11 +2780,11 @@ button:focus-visible {
     </div>
 
     <div class="modal-inner-glass rounded-xl p-4 my-4 space-y-3">
-      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder/60">
+      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder">
         <span class="text-mutedSlate">Facility Identifier:</span>
         <span class="font-mono font-bold text-inkDark">HFR-DL-10492 (Max Hospital)</span>
       </div>
-      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder/60">
+      <div class="flex items-center justify-between text-xs pb-2 border-b border-softBorder">
         <span class="text-mutedSlate">Attending Intensivist:</span>
         <span class="font-mono font-bold text-inkDark">Dr. V. Anand (HPR-99214-DEL)</span>
       </div>
@@ -2790,7 +2796,7 @@ button:focus-visible {
       <!-- 3 Mandatory Reason Pills (1-Click Action) -->
       <div class="grid grid-cols-1 gap-2.5">
         <!-- Pill 1: Ventilator Fault -->
-        <button type="button" onclick="cascadeWithReason('Ventilator Fault', 'Critical Ventilator Circuit Fault / Calibration Breakdown')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+        <button type="button" onclick="cascadeWithReason('Ventilator Fault', 'Critical Ventilator Circuit Fault / Calibration Breakdown')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
               🫁
@@ -2804,7 +2810,7 @@ button:focus-visible {
         </button>
 
         <!-- Pill 2: Walk-in Code Blue -->
-        <button type="button" onclick="cascadeWithReason('Walk-in Code Blue', 'Walk-in Cardiac Arrest at Hospital ER Doors')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+        <button type="button" onclick="cascadeWithReason('Walk-in Code Blue', 'Walk-in Cardiac Arrest at Hospital ER Doors')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
               ⚡
@@ -2818,7 +2824,7 @@ button:focus-visible {
         </button>
 
         <!-- Pill 3: O2 Line Drop -->
-        <button type="button" onclick="cascadeWithReason('O₂ Line Drop', 'Central Liquid Oxygen (LOX) Manifold Pressure Drop')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group shadow-xs">
+        <button type="button" onclick="cascadeWithReason('O₂ Line Drop', 'Central Liquid Oxygen (LOX) Manifold Pressure Drop')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
               💨
@@ -2852,7 +2858,7 @@ button:focus-visible {
 <div id="family-override-modal" class="modal-bg" onclick="handleFamilyOverrideBg(event)" role="dialog" aria-modal="true" aria-labelledby="override-modal-title">
   <div class="modal-card max-w-lg">
     <div class="flex items-center gap-3 mb-2">
-      <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0 shadow-xs">
+      <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
         </svg>
@@ -2878,19 +2884,19 @@ button:focus-visible {
       </div>
 
       <div class="space-y-2 text-xs">
-        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder">
           <span class="text-mutedSlate">Selected Facility:</span>
           <span id="override-modal-facility-name" class="font-semibold text-inkDark">Dr. B.S. Ambedkar (BSA) Civil Hospital</span>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder">
           <span class="text-mutedSlate">Patient / Token:</span>
           <span class="font-mono font-semibold text-inkDark">Rajesh Sharma (45M) &middot; #GR-DEL-9421</span>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder">
           <span class="text-mutedSlate">Attending Clinician:</span>
           <span class="font-semibold text-inkDark">Dr. K. Mehta (DMC-48201)</span>
         </div>
-        <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
+        <div class="flex items-center justify-between py-1.5 border-b border-softBorder">
           <span class="text-mutedSlate">Kin Acknowledgment:</span>
           <span class="font-semibold text-inkDark">Sanjay Sharma (Brother) &middot; Informed Choice</span>
         </div>
@@ -2928,9 +2934,9 @@ button:focus-visible {
      CLIENT-SIDE LOGIC, INPUT-ABLE VITALS & LEAFLET MAP TRACKING
 ═════════════════════════════════════════════════════════════════ -->
 <script>
-// ─────── 25-line BroadcastChannel('goldenroute_bus') Wrapper Synced with localStorage Events ───────
+// ─────── 25-line BroadcastChannel('setu_bus') Wrapper Synced with localStorage Events ───────
 const GoldenBus = (() => {
-  const ch = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('goldenroute_bus') : null;
+  const ch = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('setu_bus') : null;
   const subs = [];
   let lastId = '';
   function dispatch(msg) {
@@ -2940,7 +2946,7 @@ const GoldenBus = (() => {
   }
   if (ch) ch.onmessage = e => dispatch(e.data);
   window.addEventListener('storage', e => {
-    if (e.key === 'goldenroute_bus' && e.newValue) {
+    if (e.key === 'setu_bus' && e.newValue) {
       try { dispatch(JSON.parse(e.newValue)); } catch (_) {}
     }
   });
@@ -2949,7 +2955,7 @@ const GoldenBus = (() => {
       const msg = { type, data, id: Date.now() + '-' + Math.random().toString(36).slice(2) };
       lastId = msg.id;
       if (ch) ch.postMessage(msg);
-      try { localStorage.setItem('goldenroute_bus', JSON.stringify(msg)); } catch (_) {}
+      try { localStorage.setItem('setu_bus', JSON.stringify(msg)); } catch (_) {}
     },
     on(cb) { subs.push(cb); }
   };
@@ -3042,13 +3048,13 @@ function saveAppState() {
       selectedEquips: getSelectedEquipments(),
       timestamp: Date.now()
     };
-    localStorage.setItem('goldenroute_state', JSON.stringify(state));
+    localStorage.setItem('setu_state', JSON.stringify(state));
   } catch (_) {}
 }
 
 function loadAppState() {
   try {
-    const raw = localStorage.getItem('goldenroute_state');
+    const raw = localStorage.getItem('setu_state');
     return raw ? JSON.parse(raw) : null;
   } catch (_) {
     return null;
@@ -3310,7 +3316,7 @@ function applyIncomingReset() {
 }
 
 function resetSimulationState(isSelf = true) {
-  try { localStorage.removeItem('goldenroute_state'); } catch (_) {}
+  try { localStorage.removeItem('setu_state'); } catch (_) {}
   if (handshakeTimer) {
     clearInterval(handshakeTimer);
     handshakeTimer = null;
@@ -4286,7 +4292,7 @@ function showTier(tier) {
 
   const activeBtn = tier === 'all' ? tAll : tier === 1 ? t1 : tier === 2 ? t2 : t3;
   if (activeBtn) {
-    activeBtn.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs';
+    activeBtn.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white';
   }
 
   const w1 = document.getElementById('tier-1-wrapper');
@@ -4316,7 +4322,7 @@ function filterByScheme(scheme) {
     const btn = document.getElementById(`filter-scheme-${s}`);
     if (btn) {
       if (s === currentSchemeFilter) {
-        btn.className = 'scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs';
+        btn.className = 'scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white';
         btn.setAttribute('aria-selected', 'true');
       } else {
         btn.className = 'scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100';
@@ -4506,7 +4512,7 @@ function initRoleSelection() {
 
   const urlParams = new URLSearchParams(window.location.search);
   const paramRole = urlParams.get('role');
-  const storedRole = sessionStorage.getItem('goldenRoute_role');
+  const storedRole = sessionStorage.getItem('setu_role');
 
   if (paramRole === 'clinic' || paramRole === 'referring-facility') {
     applyRole('clinic');
@@ -4570,7 +4576,7 @@ function applyRole(role) {
 }
 
 function switchRole(role) {
-  sessionStorage.setItem('goldenRoute_role', role);
+  sessionStorage.setItem('setu_role', role);
   applyRole(role);
 }
 
@@ -4678,7 +4684,7 @@ function updateHandshakeUI() {
     // Show alert on ICU console
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
     }
     if (navPing) navPing.classList.remove('hidden');
     if (navDot) navDot.classList.remove('hidden');
@@ -4696,18 +4702,18 @@ function updateHandshakeUI() {
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
           <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
           <div class="flex items-baseline gap-0.5">
             <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">${handshakeRemainingSec}</span>
             <span class="text-[11px] font-bold text-amber-900">s</span>
           </div>
         </div>
-        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           <span>Accept &amp; Assign Bay 05</span>
         </button>
-        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <span>Capacity/Equipment Divert</span>
         </button>`;
@@ -4741,7 +4747,7 @@ function updateHandshakeUI() {
     // Bed accepted & locked
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-emerald-400 bg-gradient-to-r from-emerald-50/90 via-teal-50/90 to-emerald-50/90 shadow-md';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-emerald-400 bg-gradient-to-r from-emerald-50/90 via-teal-50/90 to-emerald-50/90';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4759,7 +4765,7 @@ function updateHandshakeUI() {
     if (actionsWrap) {
       actionsWrap.innerHTML = `
         <div class="flex items-center gap-2.5">
-          <span class="clinical-badge badge-green text-xs font-bold px-3 py-1.5 flex items-center gap-1.5 shadow-xs">
+          <span class="clinical-badge badge-green text-xs font-bold px-3 py-1.5 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-stableGreen animate-pulse"></span>
             Bay 05 Assigned &amp; Locked
           </span>
@@ -4795,7 +4801,7 @@ function updateHandshakeUI() {
     // Cascaded to Standby Hospital
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border-2 border-orange-400 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-orange-400 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4844,7 +4850,7 @@ function updateHandshakeUI() {
   } else if (handshakeState === 'IDLE') {
     if (alertCard) {
       alertCard.classList.add('hidden');
-      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border-2 border-urgentAmber/80 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90 shadow-md';
+      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4852,18 +4858,18 @@ function updateHandshakeUI() {
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-xs min-w-[90px]">
+        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
           <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
           <div class="flex items-baseline gap-0.5">
             <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
             <span class="text-[11px] font-bold text-amber-900">s</span>
           </div>
         </div>
-        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           <span>Accept &amp; Assign Bay 05</span>
         </button>
-        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <span>Capacity/Equipment Divert</span>
         </button>`;
@@ -5328,10 +5334,10 @@ function updateClinicChecklistSync() {
     readinessPill.textContent = 'Bay 05 100% Primed · Trauma Team Standing By at Door';
 
     if (banner) {
-      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border-2 border-emerald-400/80 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 shadow-md';
+      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border border-emerald-400 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50';
     }
     if (iconWrap) {
-      iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0 shadow-xs';
+      iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0';
       iconWrap.innerHTML = `
         <svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -5926,14 +5932,13 @@ function makeClinicalSquirclePin(crossColor, bgColor, borderColor, isPrimary = f
 
   return L.divIcon({
     html: `
-      <div style="position:relative;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(15,23,42,0.14));">
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center;">
         ${pulseHtml}
         <div style="
           width:${size}px;height:${size}px;border-radius:9px;
-          background:${bgColor};border:1px solid ${borderColor};
+          background:${bgColor};border:1.5px solid ${borderColor};
           display:flex;align-items:center;justify-content:center;
           position:relative;z-index:2;
-          box-shadow:0 1px 3px rgba(15,23,42,0.06);
         ">
           <svg width="${crossW}" height="${crossW}" viewBox="0 0 24 24" fill="${crossColor}">
             <path d="M9 3h6v6h6v6h-6v6h-6v-6h-6v-6h6z"/>
@@ -5977,7 +5982,7 @@ function makeAmbulanceBeacon() {
     html: `
       <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
         <div class="apple-beacon-ping"></div>
-        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style="position:relative;z-index:3;filter:drop-shadow(0 2px 6px rgba(15,23,42,0.3));">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style="position:relative;z-index:3;">
           <rect x="4" y="21" width="24" height="7" rx="3.5" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
           <line x1="6.5" y1="21.5" x2="25.5" y2="21.5" stroke="#475569" stroke-width="0.8" stroke-linecap="round"/>
           <rect x="7" y="5" width="18" height="17" rx="5" fill="#BE123C" stroke="#9F1239" stroke-width="0.8"/>
