@@ -1296,7 +1296,7 @@ button:focus-visible {
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
     <!-- Active In-Transit Banner (Visible after reservation) -->
-    <section id="handoff-banner" class="hidden mb-7 liquid-glass rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" aria-label="Active Transfer Status">
+    <section id="handoff-banner" class="hidden mb-7 liquid-glass rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300" aria-label="Active Transfer Status">
       <div class="flex items-center gap-3.5">
         <div id="handoff-status-icon-wrap" class="w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -1304,11 +1304,12 @@ button:focus-visible {
           </svg>
         </div>
         <div>
-          <div class="flex items-center gap-2 mb-0.5">
+          <div class="flex items-center gap-2 mb-0.5 flex-wrap">
             <p class="text-sm font-bold text-inkDark">
               <span id="handoff-title-prefix">Transfer In Progress to</span> <span id="handoff-hosp-name" class="text-clinicalTeal">Max Super Speciality Hospital</span>
             </p>
             <span id="handoff-protocol-badge" class="clinical-badge badge-blue text-[10px] font-bold">Live Network Handshake</span>
+            <span id="handoff-readiness-pill" class="clinical-badge badge-amber text-[10px] font-bold">Receiving Team Readiness: 3/6 Primed (Ventilator, Norepinephrine)</span>
           </div>
           <p id="handoff-status-subtext" class="text-xs text-mutedSlate">
             ICU Bay 05 Assigned · Telemetry Active · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
@@ -1326,17 +1327,23 @@ button:focus-visible {
          STEP 1: PATIENT INTAKE & REQUIREMENTS
          (Visible first. Clinician selects threat level, equipment, condition & editable vitals)
     ───────────────────────────────────────────────────────────── -->
-    <section id="clinic-step-1" class="flex flex-col gap-6">
+    <section id="clinic-step-1" class="flex flex-col gap-6 pb-20 sm:pb-24">
 
       <!-- Step 1 Header -->
       <header class="mb-1">
         <div class="flex items-center justify-between gap-4 flex-wrap mb-2">
-          <div class="flex items-center gap-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-clinicalTeal"></span>
-            <p class="text-xs font-bold uppercase tracking-wide text-clinicalTeal">
-              Step 1 of 2 &middot; Patient Intake
-            </p>
-          </div>
+          <!-- Interactive 2-Step Breadcrumb Bar -->
+          <nav class="clinic-steps-nav flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-softBorder select-none" aria-label="Referral Workflow Steps">
+            <button type="button" onclick="goToStep1()" class="clinic-step-pill-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-clinicalTeal shadow-xs border border-clinicalTeal/20 cursor-default">
+              <span class="w-4 h-4 rounded-full bg-clinicalTeal text-white text-[10px] flex items-center justify-center font-bold">1</span>
+              <span>Triage &amp; Vitals</span>
+            </button>
+            <span class="text-slate-300 text-xs select-none px-0.5">───</span>
+            <button type="button" onclick="goToStep2()" class="clinic-step-pill-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-mutedSlate hover:text-inkDark hover:bg-slate-200/60 cursor-pointer">
+              <span class="w-4 h-4 rounded-full bg-slate-200 text-mutedSlate text-[10px] flex items-center justify-center font-bold">2</span>
+              <span>Hospital Match &amp; Dispatch</span>
+            </button>
+          </nav>
           <span class="text-xs font-medium text-mutedSlate bg-paper border border-softBorder rounded-lg px-2.5 py-1 font-mono">
             Patient ID: #GR-DEL-9421
           </span>
@@ -1697,6 +1704,20 @@ button:focus-visible {
         </button>
       </div>
 
+      <!-- Sticky Floating Summary Bar on Step 1 (Always reachable on all laptop screen heights) -->
+      <aside id="step-1-sticky-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-4xl liquid-glass rounded-2xl p-3 sm:px-6 sm:py-3.5 border border-white/80 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 backdrop-blur-md transition-all">
+        <div class="flex items-center gap-2.5 flex-wrap text-xs">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-clinicalTeal animate-pulse"></span>
+          <span id="sticky-summary-text" class="font-bold text-inkDark">
+            Code Red (STAT) &middot; 1 Machine Selected &middot; SpO₂ 82% | BP 85/55
+          </span>
+        </div>
+        <button type="button" onclick="goToStep2()" class="btn-clinical !h-9 !px-5 !text-xs !font-bold w-full sm:w-auto shadow-xs flex items-center justify-center gap-2 shrink-0">
+          <span>Find Matching ICU Beds</span>
+          <span class="text-sm">&rarr;</span>
+        </button>
+      </aside>
+
     </section>
 <section id="clinic-step-2" class="hidden flex flex-col gap-6">
 
@@ -1704,12 +1725,18 @@ button:focus-visible {
       <header class="glass-panel rounded-2xl p-6 sm:p-7 border-softBorder">
         <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
           <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="inline-block w-2.5 h-2.5 rounded-full bg-stableGreen"></span>
-              <p class="text-xs font-bold uppercase tracking-wide text-clinicalTeal">
-                Step 2 of 2 &middot; Hospital Selection
-              </p>
-            </div>
+            <!-- Interactive 2-Step Breadcrumb Bar -->
+            <nav class="clinic-steps-nav flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-softBorder select-none mb-3" aria-label="Referral Workflow Steps">
+              <button type="button" onclick="goToStep1()" class="clinic-step-pill-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-mutedSlate hover:text-inkDark hover:bg-slate-200/60 cursor-pointer">
+                <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-[10px] flex items-center justify-center font-bold">✓</span>
+                <span>1. Triage &amp; Vitals</span>
+              </button>
+              <span class="text-slate-300 text-xs select-none px-0.5">───</span>
+              <button type="button" onclick="goToStep2()" class="clinic-step-pill-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-clinicalTeal shadow-xs border border-clinicalTeal/20 cursor-default">
+                <span class="w-4 h-4 rounded-full bg-clinicalTeal text-white text-[10px] flex items-center justify-center font-bold">2</span>
+                <span>Hospital Match &amp; Dispatch</span>
+              </button>
+            </nav>
             <h1 class="text-2xl sm:text-3xl font-bold text-inkDark tracking-tight leading-snug">
               Available ICU Beds
             </h1>
@@ -1746,7 +1773,7 @@ button:focus-visible {
           <div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold text-inkDark uppercase tracking-wide">Financial &amp; Scheme Comfort Filter</span>
-              <span id="scheme-filter-count" class="text-[11px] text-mutedSlate hidden sm:inline">&middot; Showing all 5 facilities</span>
+              <span id="scheme-filter-count" class="text-[11px] text-mutedSlate hidden sm:inline">&middot; Showing all 8 facilities</span>
             </div>
             <p class="text-[11px] text-mutedSlate">Filter hospitals by government schemes and family financial comfort in one click</p>
           </div>
@@ -1755,7 +1782,7 @@ button:focus-visible {
         <!-- Clean Segmented Filter Bar -->
         <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder shadow-xs flex-wrap" role="tablist" aria-label="Scheme Filter Bar">
           <button type="button" id="filter-scheme-all" onclick="filterByScheme('all')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs" role="tab" aria-selected="true">
-            All Facilities
+            All Facilities (8)
           </button>
           <button type="button" id="filter-scheme-pmjay" onclick="filterByScheme('pmjay')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100" role="tab" aria-selected="false">
             Ayushman Bharat (PM-JAY)
@@ -1769,264 +1796,535 @@ button:focus-visible {
         </div>
       </section>
 
-      <!-- Ranked Hospital Options Grid (Wide Responsive 2-Col Layout) -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6" id="hospital-cards-wrapper">
+      <!-- ── Ergonomic Tier Quick-Filter Navigation Bar (Preventing Infinite Scroll) ── -->
+      <section class="liquid-glass rounded-2xl px-4 py-3 border border-softBorder flex items-center justify-between gap-3 flex-wrap shadow-xs" aria-label="Hospital Priority Tiers">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-clinicalTeal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+            Hospital Directory Tiers:
+          </span>
+          <span class="text-[11px] text-mutedSlate hidden md:inline">&middot; Delhi NCR Emergency Referral Matrix</span>
+        </div>
+        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder shadow-xs flex-wrap" role="tablist" aria-label="Tier Navigation Tabs">
+          <button type="button" id="tab-tier-all" onclick="showTier('all')" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs">
+            All (8)
+          </button>
+          <button type="button" id="tab-tier-1" onclick="showTier(1)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
+            ⭐ Top Matched (5)
+          </button>
+          <button type="button" id="tab-tier-2" onclick="showTier(2)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
+            🏛️ Civil &amp; Govt Free (2)
+          </button>
+          <button type="button" id="tab-tier-3" onclick="showTier(3)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
+            ⚠️ Diverted / Full (1)
+          </button>
+        </div>
+      </section>
 
-        <!-- Facility 1: Max Super Speciality Hospital (BEST DIRECT MATCH) -->
-        <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal/60 shadow-md lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
-          <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-clinicalTeal via-teal-400 to-clinicalTeal"></div>
-          <div>
-            <div class="flex items-start justify-between gap-4 mb-3">
+      <!-- ── Grouped Hospital Options Directory ── -->
+      <div class="space-y-7" id="hospital-directory-wrapper">
+
+        <!-- ════════ TIER 1: TOP MATCHED FACILITIES (100% Machine Compatibility) ════════ -->
+        <div id="tier-1-wrapper" class="space-y-4">
+          <div class="flex items-center justify-between py-2 border-b border-softBorder">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="w-2.5 h-2.5 rounded-full bg-clinicalTeal"></span>
+              <h4 class="text-xs sm:text-sm font-bold text-inkDark uppercase tracking-wider">Tier 1 &middot; Top Matched Facilities</h4>
+              <span class="clinical-badge badge-blue text-[10px] font-bold">100% Machine Compatibility</span>
+            </div>
+            <span class="text-xs text-mutedSlate font-semibold">5 Facilities &middot; Direct / Low Lag</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+
+            <!-- Facility 1: Max Super Speciality Hospital (BEST DIRECT MATCH) -->
+            <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal/60 shadow-md lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
+              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-clinicalTeal via-teal-400 to-clinicalTeal"></div>
               <div>
-                <div id="hosp-badge-max" class="flex items-center gap-2 flex-wrap mb-1.5">
-                  <span class="clinical-badge badge-blue">
-                    <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
-                    Optimal Equipment Match &middot; Bay 05 Ready
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-max" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-blue">
+                        <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
+                        Optimal Equipment Match &middot; Bay 05 Ready
+                      </span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-inkDark tracking-tight">
+                      Max Super Speciality Hospital
+                    </h3>
+                    <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">Shalimar Bagh &middot; Quaternary Trauma Center</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-3xl sm:text-4xl font-extrabold text-clinicalTeal leading-none">14</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] font-medium text-mutedSlate mt-1">Outer Ring Rd</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
+                      <span>Direct: 14m (14m drive + 0m bay queue)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-4">
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
                   </span>
                 </div>
-                <h3 class="text-xl sm:text-2xl font-bold text-inkDark tracking-tight">
-                  Max Super Speciality Hospital
-                </h3>
-                <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">Shalimar Bagh &middot; Trauma Center</p>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="inline-flex items-baseline gap-1">
-                  <span class="font-mono text-3xl sm:text-4xl font-extrabold text-clinicalTeal leading-none">14</span>
-                  <span class="text-xs font-semibold text-mutedSlate">mins</span>
-                </div>
-                <p class="text-[11px] font-medium text-mutedSlate mt-1">Outer Ring Rd</p>
-                <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
-                  <span>Direct: 14m (14m drive + 0m bay queue)</span>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-max" class="flex flex-wrap gap-2 mb-5">
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
+                    <span class="font-semibold text-slate-900">Standard ICU Bed Available</span>
+                    <span class="text-slate-400">&middot;</span>
+                    <span class="text-clinicalTeal font-bold">Bay 05 Ready</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Financial Scheme Badges -->
-            <div class="flex flex-wrap items-center gap-1.5 mb-4">
-              <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                Ayushman Bharat (PM-JAY)
-              </span>
-              <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
-                Delhi Farishtey Scheme (Free Trauma)
-              </span>
-            </div>
+              <!-- Primary CTA Button -->
+              <button id="btn-dispatch-max" type="button" class="btn-clinical w-full h-12 text-sm font-bold flex items-center justify-center gap-2" onclick="doReserve('Max Super Speciality Hospital (Shalimar Bagh)')">
+                <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span id="btn-dispatch-max-txt">Transmit Telemetry &amp; Dispatch (Bay 05)</span>
+              </button>
+            </article>
 
-            <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-max" class="flex flex-wrap gap-2 mb-5">
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-50/80 border border-teal-300 text-xs text-slate-900 font-medium">
-                <span class="w-2 h-2 rounded-full bg-clinicalTeal shrink-0"></span>
-                <span class="font-semibold text-slate-900">Standard ICU Bed Available</span>
-                <span class="text-slate-400">&middot;</span>
-                <span class="text-clinicalTeal font-bold">Bay 05 Ready</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Primary CTA Button: Transmit Telemetry & Dispatch -->
-          <button id="btn-dispatch-max" type="button" class="btn-clinical w-full h-12 text-sm font-bold flex items-center justify-center gap-2" onclick="doReserve('Max Super Speciality Hospital (Shalimar Bagh)')">
-            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            <span id="btn-dispatch-max-txt">Transmit Telemetry &amp; Dispatch</span>
-          </button>
-        </article>
-
-        <!-- Facility 4: Saroj Super Speciality Hospital (PRIMARY BACKUP) -->
-        <article id="hosp-card-saroj" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full">
-          <div>
-            <div class="flex items-start justify-between gap-4 mb-3">
+            <!-- Facility 2: Jaipur Golden Hospital (FASTEST PRIVATE OPTION) -->
+            <article id="hosp-card-jaipur" data-schemes="farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
               <div>
-                <div id="hosp-badge-saroj" class="flex items-center gap-2 flex-wrap mb-1.5">
-                  <span class="clinical-badge badge-blue font-semibold">Primary Backup Hospital</span>
-                  <span class="clinical-badge badge-neutral">Rohini Sector 14</span>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-jaipur" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-blue font-semibold">Fastest Private Bed &middot; 4m</span>
+                      <span class="clinical-badge badge-neutral">Rohini Sector 3 (&lt;1.5 km)</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Jaipur Golden Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">NABH Multispecialty &middot; Institutional Area (250+ Beds)</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold text-clinicalTeal leading-none">4</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">Bhagwan Mahavir Marg</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
+                      <span>Direct: 4m (4m drive + 0m bay queue)</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
-                  Saroj Super Speciality Hospital
-                </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Tertiary Trauma Unit</p>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="inline-flex items-baseline gap-1">
-                  <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">12</span>
-                  <span class="text-xs font-semibold text-mutedSlate">mins</span>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
+                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                    CGHS / ECHS Empaneled
+                  </span>
+                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                    TPA Cashless Accepted
+                  </span>
                 </div>
-                <p class="text-[11px] text-mutedSlate mt-1">via Bhagwan Mahavir</p>
+
+                <div class="rounded-xl p-3 my-2.5 bg-teal-50/70 border border-teal-200 text-xs text-teal-950 leading-relaxed font-medium">
+                  <strong class="font-semibold text-teal-950">Intensivist Status:</strong> 1 Adult Medical ICU Bed open (Bay 03). Cath Lab 24/7 active. <span class="text-amber-800 font-semibold">(CRRT Dialysis under calibration maintenance &sim;6h).</span>
+                </div>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-jaipur" class="flex flex-wrap gap-2 mb-4">
+                </div>
               </div>
-            </div>
 
-            <!-- Financial Scheme Badges -->
-            <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-              <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                Ayushman Bharat (PM-JAY)
-              </span>
-              <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
-                Delhi Farishtey Scheme (Free Trauma)
-              </span>
-            </div>
+              <!-- CTA Button -->
+              <button id="btn-dispatch-jaipur" type="button" class="btn-clinical w-full h-11 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 mt-auto" onclick="doReserve('Jaipur Golden Hospital (Rohini Sec 3)')">
+                <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span>Transmit Telemetry &amp; Dispatch (Jaipur Golden)</span>
+              </button>
+            </article>
 
-            <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-saroj" class="flex flex-wrap gap-2 mb-4">
-            </div>
-          </div>
-
-          <button id="btn-saroj-standby" type="button" class="btn-clinical-secondary w-full mt-auto" onclick="showToast('Saroj Hospital active on ABDM parallel standby cascade.', 'sage')">
-            ABDM Standby Link Active (Cascade #2)
-          </button>
-        </article>
-
-        <!-- Facility 2: Dr. B.S. Ambedkar Hospital (SECONDARY BACKUP) -->
-        <article id="hosp-card-bsa" data-schemes="govt farishtey pmjay" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full">
-          <div>
-            <div class="flex items-start justify-between gap-4 mb-3">
+            <!-- Facility 3: Maharaja Agrasen Hospital (PREMIER CHARITABLE TRUST) -->
+            <article id="hosp-card-agrasen" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
               <div>
-                <div id="hosp-badge-bsa" class="flex items-center gap-2 flex-wrap mb-1.5">
-                  <span class="clinical-badge badge-neutral font-semibold">Secondary Backup &middot; Civil Hospital</span>
-                  <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-agrasen" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-blue font-semibold">Premier Charitable Trust</span>
+                      <span class="clinical-badge badge-neutral">Punjabi Bagh &middot; 400+ Beds</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Maharaja Agrasen Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">Non-Profit Super Speciality &middot; 70+ Bed ICU Complex</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">18</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">via Rohtak Road</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 border border-slate-300 text-[10px] font-bold text-inkDark">
+                      <span>Total Time: 21m (18m drive + 3m triage lag)</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
-                  Dr. B.S. Ambedkar (BSA) Hospital
-                </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">District Hospital &middot; Rohini Sector 6</p>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
+                  <span class="clinical-badge bg-amber-50 text-amber-900 border-amber-200 font-bold text-[10px]">
+                    Lower Non-Profit Trust Tariff
+                  </span>
+                </div>
+
+                <div class="rounded-xl p-3 my-2.5 bg-sky-50/70 border border-sky-200 text-xs text-sky-950 leading-relaxed font-medium">
+                  <strong class="font-semibold text-sky-950">Trust Super Speciality:</strong> 70+ bed ICU with 4 open ventilator bays, CRRT NxStage dialysis, Cardiohelp ECMO console, and 6 units O-Neg blood ready. Preferred non-corporate middle ground.
+                </div>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-agrasen" class="flex flex-wrap gap-2 mb-4">
+                </div>
               </div>
-              <div class="text-right shrink-0">
-                <div class="inline-flex items-baseline gap-1">
-                  <span class="font-mono text-2xl sm:text-3xl font-bold leading-none text-inkDark">7</span>
-                  <span class="text-xs font-semibold text-mutedSlate">mins</span>
-                </div>
-                <p class="text-[11px] text-mutedSlate mt-1">via Sector 3 Rd</p>
-                <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
-                  <span>Effective Time-to-Bed: 35 mins total (7m drive + 28m ER queue)</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- Financial Scheme Badges -->
-            <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
-              <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1 shadow-xs">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                Govt / Civil Free (100% Free ICU)
-              </span>
-              <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
-                Delhi Farishtey Scheme (Free Trauma)
-              </span>
-              <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                Ayushman Bharat (PM-JAY)
-              </span>
-            </div>
+              <!-- CTA Button -->
+              <button id="btn-dispatch-agrasen" type="button" class="btn-clinical w-full h-11 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 mt-auto" onclick="doReserve('Maharaja Agrasen Hospital (Punjabi Bagh)')">
+                <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span>Transmit Telemetry &amp; Dispatch (Agrasen)</span>
+              </button>
+            </article>
 
-            <div class="rounded-xl p-3 my-2.5 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
-              <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 4 ambulances queued at ER intake dock (~28m triage lag).
-            </div>
-
-            <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-bsa" class="flex flex-wrap gap-2 mb-4">
-            </div>
-          </div>
-
-          <!-- Family Preference Override Button -->
-          <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2 shadow-xs" onclick="openFamilyOverrideModal()">
-            <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-            </svg>
-            <span>Dispatch Here (Family Preference Override)</span>
-          </button>
-        </article>
-
-        <!-- Facility 5: Action Balaji Hospital (CONTINGENCY BACKUP) -->
-        <article id="hosp-card-balaji" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full">
-          <div>
-            <div class="flex items-start justify-between gap-4 mb-3">
+            <!-- Facility 4: Saroj Super Speciality Hospital (PRIMARY BACKUP) -->
+            <article id="hosp-card-saroj" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
               <div>
-                <div id="hosp-badge-balaji" class="flex items-center gap-2 flex-wrap mb-1.5">
-                  <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
-                  <span class="clinical-badge badge-neutral">West Delhi</span>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-saroj" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-blue font-semibold">Primary Standby Backup</span>
+                      <span class="clinical-badge badge-neutral">Rohini Sector 14</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Saroj Super Speciality Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">Tertiary Trauma Unit &middot; Rohini Sec 14</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">12</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">via Bhagwan Mahavir</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
+                      <span>Direct: 12m (12m drive + 0m queue)</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
-                  Action Balaji Hospital
-                </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Specialized Inpatient Facility &middot; Paschim Vihar</p>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="inline-flex items-baseline gap-1">
-                  <span class="font-mono text-2xl sm:text-3xl font-bold text-mutedSlate leading-none">21</span>
-                  <span class="text-xs font-semibold text-mutedSlate">mins</span>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
                 </div>
-                <p class="text-[11px] text-mutedSlate mt-1">via Rohtak Road</p>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-saroj" class="flex flex-wrap gap-2 mb-4">
+                </div>
               </div>
-            </div>
 
-            <!-- Financial Scheme Badges -->
-            <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-              <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                Ayushman Bharat (PM-JAY)
-              </span>
-              <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
-                Delhi Farishtey Scheme (Free Trauma)
-              </span>
-            </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto">
+                <button id="btn-saroj-standby" type="button" class="btn-clinical-secondary w-full text-xs font-bold" onclick="showToast('Saroj Hospital active on ABDM parallel standby cascade.', 'sage')">
+                  ABDM Standby (#2)
+                </button>
+                <button type="button" class="btn-clinical w-full text-xs font-bold" onclick="doReserve('Saroj Super Speciality Hospital (Rohini Sec 14)')">
+                  Dispatch Direct
+                </button>
+              </div>
+            </article>
 
-            <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-balaji" class="flex flex-wrap gap-2 mb-4">
-            </div>
-          </div>
-
-          <button type="button" class="btn-clinical-secondary w-full mt-auto" onclick="showToast('Action Balaji Hospital designated as contingency backup.', 'info')">
-            Designate as Contingency Backup
-          </button>
-        </article>
-
-        <!-- Facility 3: Fortis Hospital (CAPACITY FULL / DIVERTED) -->
-        <article id="hosp-card-fortis" data-schemes="farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full opacity-75 bg-slate-50/60 transition-opacity">
-          <div>
-            <div class="flex items-start justify-between gap-4 mb-2.5">
+            <!-- Facility 5: Action Balaji Hospital (CONTINGENCY BACKUP) -->
+            <article id="hosp-card-balaji" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
               <div>
-                <div id="hosp-badge-fortis" class="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <span class="clinical-badge badge-neutral">Multispecialty Center</span>
-                  <span class="clinical-badge badge-neutral text-slate-800 font-semibold">Ventilator Beds Full</span>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-balaji" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
+                      <span class="clinical-badge badge-neutral">West Delhi</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Action Balaji Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">Specialized Inpatient Facility &middot; Paschim Vihar</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold text-mutedSlate leading-none">21</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">via Rohtak Road</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
+                      <span>Direct: 21m (3 Open Beds)</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
-                  Fortis Hospital
-                </h3>
-                <p class="text-xs text-mutedSlate mt-0.5">Shalimar Bagh &middot; Tertiary Care</p>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="inline-flex items-baseline gap-1">
-                  <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">10</span>
-                  <span class="text-xs font-semibold text-mutedSlate">mins</span>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
                 </div>
-                <p class="text-[11px] text-mutedSlate mt-1">via Ring Road</p>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-balaji" class="flex flex-wrap gap-2 mb-4">
+                </div>
               </div>
-            </div>
 
-            <!-- Financial Scheme Badges -->
-            <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-              <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
-                Delhi Farishtey Scheme (Free Trauma)
-              </span>
-            </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto">
+                <button type="button" class="btn-clinical-secondary w-full text-xs font-bold" onclick="showToast('Action Balaji Hospital designated as contingency backup.', 'info')">
+                  Designate Backup
+                </button>
+                <button type="button" class="btn-clinical w-full text-xs font-bold" onclick="doReserve('Action Balaji Hospital (Paschim Vihar)')">
+                  Dispatch Direct
+                </button>
+              </div>
+            </article>
 
-            <div id="hosp-alert-fortis" class="rounded-xl p-3 my-3 bg-slate-100 border border-slate-300 text-xs text-slate-800 leading-relaxed font-medium">
-              <strong class="font-semibold text-slate-900">Notice:</strong> All ventilator bays in use. Transfer diverted to Max or Balaji.
-            </div>
+          </div>
+        </div>
 
-            <!-- Feature / Equipment Badges -->
-            <div id="hosp-equip-fortis" class="flex flex-wrap gap-2 mb-4">
+        <!-- ════════ TIER 2: CIVIL & GOVERNMENT FREE NETWORK ════════ -->
+        <div id="tier-2-wrapper" class="space-y-4">
+          <div class="flex items-center justify-between py-2 border-b border-softBorder">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="w-2.5 h-2.5 rounded-full bg-urgentAmber"></span>
+              <h4 class="text-xs sm:text-sm font-bold text-inkDark uppercase tracking-wider">Tier 2 &middot; Civil &amp; Government Free Network</h4>
+              <span class="clinical-badge badge-amber text-[10px] font-bold">100% Free ICU Care &middot; Intake Triage Queued</span>
             </div>
+            <span class="text-xs text-mutedSlate font-semibold">2 District Civil Hospitals</span>
           </div>
 
-          <button id="hosp-btn-fortis" disabled class="w-full h-11 rounded-xl border border-slate-300 bg-slate-100 text-slate-700 text-xs font-bold cursor-not-allowed mt-auto">
-            Capacity Reached &mdash; Transfer Diverted
-          </button>
-        </article>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+
+            <!-- Facility 6: Dr. B.S. Ambedkar (BSA) Hospital (Rohini Sec 6) -->
+            <article id="hosp-card-bsa" data-schemes="govt farishtey pmjay" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
+              <div>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-bsa" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-neutral font-semibold">Civil Hospital &middot; 100% Free</span>
+                      <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Dr. B.S. Ambedkar (BSA) Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">District Hospital &middot; Rohini Sector 6</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold leading-none text-inkDark">7</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">via Sector 3 Rd</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
+                      <span>Effective Time: 35m (7m drive + 28m ER queue)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
+                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1 shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    Govt / Civil Free (100% Free ICU)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                </div>
+
+                <div class="rounded-xl p-3 my-2.5 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
+                  <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 4 ambulances queued at ER intake dock (~28m triage lag). Ventilator beds congested.
+                </div>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-bsa" class="flex flex-wrap gap-2 mb-4">
+                </div>
+              </div>
+
+              <!-- Family Preference Override Button -->
+              <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2 shadow-xs" onclick="openFamilyOverrideModal('bsa')">
+                <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <span>Dispatch Here (Family Preference Override)</span>
+              </button>
+            </article>
+
+            <!-- Facility 7: Sanjay Gandhi Memorial Hospital (SGMH) (Mangolpuri) -->
+            <article id="hosp-card-sgmh" data-schemes="govt farishtey pmjay" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder flex flex-col justify-between h-full">
+              <div>
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div id="hosp-badge-sgmh" class="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span class="clinical-badge badge-neutral font-semibold">Delhi Govt Civil &middot; 100% Free</span>
+                      <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~22m</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Sanjay Gandhi Memorial Hospital (SGMH)
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">300+ Bed Tertiary Trauma Center &middot; Mangolpuri Flyover</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold leading-none text-inkDark">9</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">Outer Ring Road</p>
+                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
+                      <span>Effective Time: 31m (9m drive + 22m ER queue)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
+                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1 shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    Govt / Civil Free (100% Free ICU)
+                  </span>
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
+                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Ayushman Bharat (PM-JAY)
+                  </span>
+                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                    Delhi Arogya Kosh (DAK)
+                  </span>
+                </div>
+
+                <div class="rounded-xl p-3 my-2.5 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
+                  <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 3 ambulances queued at ER intake dock (~22m triage queue). Severe ventilator occupancy / Trauma triage active.
+                </div>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-sgmh" class="flex flex-wrap gap-2 mb-4">
+                </div>
+              </div>
+
+              <!-- Family Preference Override Button -->
+              <button id="btn-sgmh-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2 shadow-xs" onclick="openFamilyOverrideModal('sgmh')">
+                <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <span>Dispatch Here (Family Preference Override)</span>
+              </button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- ════════ TIER 3: CAPACITY REACHED / DIVERTED NETWORK ════════ -->
+        <div id="tier-3-wrapper" class="space-y-4">
+          <div class="flex items-center justify-between py-2 border-b border-softBorder">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+              <h4 class="text-xs sm:text-sm font-bold text-inkDark uppercase tracking-wider">Tier 3 &middot; Capacity Reached / Diverted Network</h4>
+              <span class="clinical-badge badge-neutral text-[10px] font-bold">Ventilators Full</span>
+            </div>
+            <span class="text-xs text-mutedSlate font-semibold">1 Facility Diverted</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+
+            <!-- Facility 8: Fortis Hospital (CAPACITY FULL / DIVERTED) -->
+            <article id="hosp-card-fortis" data-schemes="farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-softBorder lg:col-span-1 flex flex-col justify-between h-full opacity-75 bg-slate-50/60 transition-opacity">
+              <div>
+                <div class="flex items-start justify-between gap-4 mb-2.5">
+                  <div>
+                    <div id="hosp-badge-fortis" class="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span class="clinical-badge badge-neutral">Multispecialty Center</span>
+                      <span class="clinical-badge badge-neutral text-slate-800 font-semibold">Ventilator Beds Full</span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+                      Fortis Hospital
+                    </h3>
+                    <p class="text-xs text-mutedSlate mt-0.5">Shalimar Bagh &middot; Tertiary Care</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="inline-flex items-baseline gap-1">
+                      <span class="font-mono text-2xl sm:text-3xl font-bold text-inkDark leading-none">10</span>
+                      <span class="text-xs font-semibold text-mutedSlate">mins</span>
+                    </div>
+                    <p class="text-[11px] text-mutedSlate mt-1">via Ring Road</p>
+                  </div>
+                </div>
+
+                <!-- Financial Scheme Badges -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
+                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                    Delhi Farishtey Scheme (Free Trauma)
+                  </span>
+                </div>
+
+                <div id="hosp-alert-fortis" class="rounded-xl p-3 my-3 bg-slate-100 border border-slate-300 text-xs text-slate-800 leading-relaxed font-medium">
+                  <strong class="font-semibold text-slate-900">Notice:</strong> All ventilator bays in use. Transfer diverted to Max, Jaipur Golden, or Agrasen.
+                </div>
+
+                <!-- Feature / Equipment Badges -->
+                <div id="hosp-equip-fortis" class="flex flex-wrap gap-2 mb-4">
+                </div>
+              </div>
+
+              <button id="hosp-btn-fortis" disabled class="w-full h-11 rounded-xl border border-slate-300 bg-slate-100 text-slate-700 text-xs font-bold cursor-not-allowed mt-auto">
+                Capacity Reached &mdash; Transfer Diverted
+              </button>
+            </article>
+
+          </div>
+        </div>
 
       </div>
 
@@ -2580,20 +2878,20 @@ button:focus-visible {
     </div>
 
     <div class="modal-inner-glass rounded-xl p-4 my-3.5 space-y-3">
-      <div class="rounded-lg p-3 bg-red-50/80 border border-red-200 text-xs text-statRedText leading-relaxed">
+      <div id="override-modal-warn-box" class="rounded-lg p-3 bg-red-50/80 border border-red-200 text-xs text-statRedText leading-relaxed">
         <div class="flex items-center gap-1.5 font-bold mb-1 text-statRed">
           <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
           <span>Severe ER Dock Delay Warning Counselled:</span>
         </div>
-        Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct staged transfer to Max Shalimar Bagh offers zero queue (14m total).
+        <p id="override-modal-warn-text">Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct staged transfer to Max Shalimar Bagh offers zero queue (14m total).</p>
       </div>
 
       <div class="space-y-2 text-xs">
         <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
           <span class="text-mutedSlate">Selected Facility:</span>
-          <span class="font-semibold text-inkDark">Dr. B.S. Ambedkar (BSA) Civil Hospital</span>
+          <span id="override-modal-facility-name" class="font-semibold text-inkDark">Dr. B.S. Ambedkar (BSA) Civil Hospital</span>
         </div>
         <div class="flex items-center justify-between py-1.5 border-b border-softBorder/60">
           <span class="text-mutedSlate">Patient / Token:</span>
@@ -2609,7 +2907,7 @@ button:focus-visible {
         </div>
         <div class="flex items-start justify-between py-1.5">
           <span class="text-mutedSlate">Counseling Confirmation:</span>
-          <span class="text-right text-[11px] text-inkDark font-medium max-w-[240px]">
+          <span id="override-modal-counsel-text" class="text-right text-[11px] text-inkDark font-medium max-w-[240px]">
             Family was counselled on the 28-min dock queue and clinical risks. Family confirmed preference for Civil Hospital (100% Free Govt Care).
           </span>
         </div>
@@ -2618,10 +2916,10 @@ button:focus-visible {
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
       <button type="button" class="btn-modal-cancel" onclick="closeFamilyOverrideModal()">
-        Cancel (Keep Max Staged)
+        Cancel (Keep Staged Option)
       </button>
-      <button type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700" onclick="confirmFamilyOverride()">
-        Confirm Waiver &amp; Dispatch to BSA
+      <button id="override-modal-confirm-btn" type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700" onclick="confirmFamilyOverride()">
+        Confirm Waiver &amp; Dispatch
       </button>
     </div>
   </div>
@@ -2692,10 +2990,22 @@ GoldenBus.on((type, data) => {
     applyIncomingOverride(data.overrideActive);
   } else if (type === 'EQUIP_SYNC') {
     applyIncomingEquip(data);
+  } else if (type === 'CHECKLIST_SYNC') {
+    applyIncomingChecklist(data);
   } else if (type === 'STATE_RESET') {
     applyIncomingReset();
   }
 });
+
+function applyIncomingChecklist(data) {
+  if (data && data.doneAll) {
+    document.querySelectorAll('#chklist .chk-row').forEach(row => {
+      row.querySelector('.chk-circle')?.classList.add('done');
+      row.querySelector('.chk-text')?.classList.add('done');
+    });
+  }
+  updateClinicChecklistSync();
+}
 
 function playLockChime() {
   try {
@@ -2807,6 +3117,7 @@ function applyIncomingBedLock(data) {
   if (handoffHosp) handoffHosp.textContent = transferPayload.hospital;
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.remove('hidden');
+  updateClinicChecklistSync();
 
   if (transferPayload.familyOverride) {
     const hPrefix = document.getElementById('handoff-title-prefix');
@@ -3122,6 +3433,50 @@ const SYNDROME_PRESET_VITALS = {
   }
 };
 
+function syncSyndromePresets(syndrome) {
+  // 1. Critical Emergency Triage defaults to Code Red · STAT
+  setThreat(1);
+
+  // 2. Select appropriate life-saving equipment
+  const equipsToSelect = [];
+  if (syndrome.includes('Lung Failure') || syndrome.includes('ARDS')) {
+    equipsToSelect.push('Invasive Ventilator');
+  } else if (syndrome.includes('Heart Attack') || syndrome.includes('Cardiac')) {
+    equipsToSelect.push('Invasive Ventilator', 'Cardiac Cath Lab');
+  } else if (syndrome.includes('Brain Bleed') || syndrome.includes('Stroke')) {
+    equipsToSelect.push('Invasive Ventilator');
+  } else if (syndrome.includes('Trauma') || syndrome.includes('Accident')) {
+    equipsToSelect.push('Invasive Ventilator', 'Emergency O-Negative Blood');
+  } else {
+    equipsToSelect.push('Invasive Ventilator');
+  }
+
+  document.querySelectorAll('.equip-chip').forEach(chip => {
+    const title = chip.querySelector('p')?.textContent.trim();
+    if (equipsToSelect.includes(title)) {
+      chip.classList.add('sel');
+    } else {
+      chip.classList.remove('sel');
+    }
+  });
+
+  // 3. Pre-select In-Transit Life Support (Norepinephrine infusion)
+  const norepiEl = document.querySelector('#life-support-grid > div:first-child');
+  if (norepiEl) {
+    const dot = norepiEl.querySelector('.tt-dot');
+    if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active';
+    norepiEl.classList.remove('opacity-60', 'border-softBorder', 'bg-white');
+    norepiEl.classList.add('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
+  }
+
+  const selected = getSelectedEquipments();
+  updateEquipmentCountHeader();
+  updateHospitalEquipmentDisplays(selected);
+  updateICUChecklist();
+  updateStep1StickySummary();
+  saveAppState();
+}
+
 function handleSyndromeChange() {
   const select = document.getElementById('syndrome-select');
   if (!select) return;
@@ -3146,6 +3501,7 @@ function handleSyndromeChange() {
     if (elGcs) elGcs.value = preset.gcs;
   }
 
+  syncSyndromePresets(syndrome);
   updateVitalsDisplay(true);
 }
 
@@ -3392,6 +3748,8 @@ function updateVitalsDisplay(shouldBroadcast = true) {
     summaryVitalsBadge.textContent = `SpO2 ${spo2}% · ${o2Device} · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
   }
 
+  updateStep1StickySummary();
+
   if (shouldBroadcast) {
     saveAppState();
     GoldenBus.send('VITALS_SYNC', {
@@ -3413,6 +3771,22 @@ const HOSPITAL_EQUIPMENT_DATA = {
     'Negative-Pressure Isolation Room': 'Bay 102 Empty & Isolated',
     'ECMO Life Support': 'Cardiohelp Console Primed',
     _default: 'Verified & Primed at Bay 05'
+  },
+  jaipur: {
+    available: {
+      'Invasive Ventilator': '1 Bed Free (Bay 03)',
+      'Emergency O-Negative Blood': '2 Units O-Neg Stocked',
+      'Cardiac Cath Lab': 'Cath Lab 24/7 Primed',
+      'High-Flow Nasal Cannula': 'Airvo-2 HFNC Ready',
+      'Negative-Pressure Isolation Room': 'Bay 104 Negative-Pressure Open',
+      _default: 'Available & Primed (<1.5 km)'
+    },
+    missing: {
+      'Emergency Kidney Dialysis': 'CRRT in Maintenance (~6h)',
+      'ECMO Life Support': 'No ECMO Console Free',
+      'Pediatric / Neonatal ICU': 'Level II Nursery Only (No Level III PICU)',
+      _default: 'Unit Unavailable'
+    }
   },
   saroj: {
     available: {
@@ -3460,6 +3834,38 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Negative-Pressure Isolation Room': 'Isolation Ward Full',
       'ECMO Life Support': 'No ECMO Capability',
       _default: 'Unavailable at District Level'
+    }
+  },
+  sgmh: {
+    available: {
+      'High-Flow Nasal Cannula': '2 HFNC Oxygen Carts Free',
+      'Negative-Pressure Isolation Room': 'General Isolation Ward',
+      _default: 'General Trauma Resuscitation Ready'
+    },
+    missing: {
+      'Invasive Ventilator': 'All 10 Ventilators 100% Occupied',
+      'Emergency Kidney Dialysis': 'No CRRT Machine Available',
+      'Emergency O-Negative Blood': 'O-Neg Stock Exhausted',
+      'Pediatric / Neonatal ICU': 'SNCU 100% Full',
+      'Cardiac Cath Lab': 'No Primary PCI / Cath Lab',
+      'ECMO Life Support': 'No ECMO Capability',
+      _default: 'Unavailable at Civil Level'
+    }
+  },
+  agrasen: {
+    available: {
+      'Invasive Ventilator': '4 Ventilator Bays Ready',
+      'Emergency Kidney Dialysis': 'CRRT NxStage Dialysis Ready',
+      'Emergency O-Negative Blood': '6 Units O-Neg Stocked',
+      'Pediatric / Neonatal ICU': 'Level III PICU (2 Beds Open)',
+      'Cardiac Cath Lab': '24/7 Primary PCI Team Ready',
+      'High-Flow Nasal Cannula': 'Heated HFNC Ready',
+      'Negative-Pressure Isolation Room': 'Isolation Suite Open',
+      'ECMO Life Support': 'Cardiohelp ECMO Ready',
+      _default: 'Trust Super Speciality Ready'
+    },
+    missing: {
+      _default: 'Under Maintenance'
     }
   },
   balaji: {
@@ -3517,14 +3923,17 @@ function updateEquipmentCountHeader() {
 }
 
 function updateHospitalEquipmentDisplays(selectedEquips) {
-  const hospKeys = ['max', 'bsa', 'fortis', 'saroj', 'balaji'];
+  const hospKeys = ['max', 'jaipur', 'saroj', 'bsa', 'sgmh', 'agrasen', 'balaji', 'fortis'];
 
   // Handle baseline state when no specialized equipment is selected
   if (!selectedEquips || selectedEquips.length === 0) {
     const defaultLabels = {
       max: { name: 'Standard ICU Bed Available', note: 'Bay 05 Ready' },
+      jaipur: { name: 'Standard ICU Bed Available', note: 'Bay 03 Ready (4m away)' },
       saroj: { name: 'Standard ICU Bed Available', note: 'Bay 02 Free' },
       bsa: { name: 'General ICU Ward', note: '1 Bed Free' },
+      sgmh: { name: 'General Trauma Ward', note: 'Intake Congested' },
+      agrasen: { name: 'Super Speciality ICU', note: '4 Beds Open (Trust Tariff)' },
       balaji: { name: 'Standard ICU Bed Available', note: '3 Beds Free' },
       fortis: { name: 'Standard ICU Bed Available', note: 'Floor 3 ICU Ready' }
     };
@@ -3552,29 +3961,42 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
               <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal shrink-0"></span>
               Optimal Equipment Match &middot; Bay 05 Ready
             </span>`;
-        } else if (key === 'bsa') {
+        } else if (key === 'jaipur') {
           badgeWrap.innerHTML = `
-            <span class="clinical-badge badge-neutral font-semibold">Secondary Backup &middot; Civil Hospital</span>
-            <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>`;
-        } else if (key === 'fortis') {
-          badgeWrap.innerHTML = `
-            <span class="clinical-badge badge-blue">Multispecialty Center &middot; Available</span>`;
-          const alertEl = document.getElementById('hosp-alert-fortis');
-          if (alertEl) alertEl.style.display = 'none';
-          const btnEl = document.getElementById('hosp-btn-fortis');
-          if (btnEl) {
-            btnEl.disabled = false;
-            btnEl.className = 'btn-clinical-secondary w-full';
-            btnEl.textContent = 'Keep on Standby';
-          }
+            <span class="clinical-badge badge-blue font-semibold">Fastest Private Bed &middot; 4m</span>
+            <span class="clinical-badge badge-neutral">Rohini Sector 3 (&lt;1.5 km)</span>`;
         } else if (key === 'saroj') {
           badgeWrap.innerHTML = `
-            <span class="clinical-badge badge-blue font-semibold">Primary Backup Hospital</span>
+            <span class="clinical-badge badge-blue font-semibold">Primary Standby Backup</span>
             <span class="clinical-badge badge-neutral">Rohini Sector 14</span>`;
+        } else if (key === 'bsa') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-neutral font-semibold">Civil Hospital &middot; 100% Free</span>
+            <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>`;
+        } else if (key === 'sgmh') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-neutral font-semibold">Delhi Govt Civil &middot; 100% Free</span>
+            <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~22m</span>`;
+        } else if (key === 'agrasen') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-blue font-semibold">Premier Charitable Trust</span>
+            <span class="clinical-badge badge-neutral">Punjabi Bagh &middot; 400+ Beds</span>`;
         } else if (key === 'balaji') {
           badgeWrap.innerHTML = `
             <span class="clinical-badge badge-blue font-semibold">Contingency Backup Center</span>
             <span class="clinical-badge badge-neutral">West Delhi</span>`;
+        } else if (key === 'fortis') {
+          badgeWrap.innerHTML = `
+            <span class="clinical-badge badge-neutral">Multispecialty Center</span>
+            <span class="clinical-badge badge-neutral text-slate-800 font-semibold">Ventilator Beds Full</span>`;
+          const alertEl = document.getElementById('hosp-alert-fortis');
+          if (alertEl) alertEl.style.display = 'block';
+          const btnEl = document.getElementById('hosp-btn-fortis');
+          if (btnEl) {
+            btnEl.disabled = true;
+            btnEl.className = 'w-full h-11 rounded-xl border border-slate-300 bg-slate-100 text-slate-700 text-xs font-bold cursor-not-allowed mt-auto';
+            btnEl.textContent = 'Capacity Reached — Transfer Diverted';
+          }
         }
       }
     });
@@ -3582,9 +4004,6 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
   }
 
   // Determine missing items for backups:
-  // 1. Max: Always has 100% of selected items.
-  // 2. Saroj (Primary Backup): Always missing at least 1 item from selection.
-  // 3. BSA (Secondary Backup): Always missing at least 1 (or 2) items, with available <= Saroj.
   const sarojPriorityMissing = [
     'Emergency Kidney Dialysis',
     'ECMO Life Support',
@@ -3642,6 +4061,17 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
       if (key === 'max') {
         isAvailable = true;
         note = HOSPITAL_EQUIPMENT_DATA.max[eqName] || HOSPITAL_EQUIPMENT_DATA.max._default;
+      } else if (key === 'jaipur') {
+        if (eqName === 'Emergency Kidney Dialysis' || eqName === 'ECMO Life Support' || eqName === 'Pediatric / Neonatal ICU') {
+          isAvailable = false;
+          note = HOSPITAL_EQUIPMENT_DATA.jaipur.missing[eqName] || HOSPITAL_EQUIPMENT_DATA.jaipur.missing._default;
+        } else {
+          isAvailable = true;
+          note = HOSPITAL_EQUIPMENT_DATA.jaipur.available[eqName] || HOSPITAL_EQUIPMENT_DATA.jaipur.available._default;
+        }
+      } else if (key === 'agrasen') {
+        isAvailable = true;
+        note = HOSPITAL_EQUIPMENT_DATA.agrasen.available[eqName] || HOSPITAL_EQUIPMENT_DATA.agrasen.available._default;
       } else if (key === 'saroj') {
         if (sarojMissingList.includes(eqName)) {
           isAvailable = false;
@@ -3657,6 +4087,14 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
         } else {
           isAvailable = true;
           note = HOSPITAL_EQUIPMENT_DATA.bsa.available[eqName] || HOSPITAL_EQUIPMENT_DATA.bsa.available._default;
+        }
+      } else if (key === 'sgmh') {
+        if (eqName === 'High-Flow Nasal Cannula' || eqName === 'Negative-Pressure Isolation Room') {
+          isAvailable = true;
+          note = HOSPITAL_EQUIPMENT_DATA.sgmh.available[eqName] || HOSPITAL_EQUIPMENT_DATA.sgmh.available._default;
+        } else {
+          isAvailable = false;
+          note = HOSPITAL_EQUIPMENT_DATA.sgmh.missing[eqName] || HOSPITAL_EQUIPMENT_DATA.sgmh.missing._default;
         }
       } else if (key === 'balaji') {
         isAvailable = true;
@@ -3706,15 +4144,30 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
             Optimal Equipment Match &middot; Bay 05 Ready
           </span>
           <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
+      } else if (key === 'jaipur') {
+        badgeWrap.innerHTML = `
+          <span class="clinical-badge badge-blue font-semibold">Fastest Private Bed &middot; 4m</span>
+          <span class="clinical-badge badge-neutral">Rohini Sector 3 (&lt;1.5 km)</span>
+          <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
       } else if (key === 'saroj') {
         badgeWrap.innerHTML = `
-          <span class="clinical-badge badge-blue font-semibold">Primary Backup Hospital</span>
+          <span class="clinical-badge badge-blue font-semibold">Primary Standby Backup</span>
           <span class="clinical-badge badge-neutral">Rohini Sector 14</span>
           <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
       } else if (key === 'bsa') {
         badgeWrap.innerHTML = `
-          <span class="clinical-badge badge-neutral font-semibold">Secondary Backup &middot; Civil Hospital</span>
+          <span class="clinical-badge badge-neutral font-semibold">Civil Hospital &middot; 100% Free</span>
           <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~28m</span>
+          <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
+      } else if (key === 'sgmh') {
+        badgeWrap.innerHTML = `
+          <span class="clinical-badge badge-neutral font-semibold">Delhi Govt Civil &middot; 100% Free</span>
+          <span class="clinical-badge badge-amber font-semibold">Intake Delay: ~22m</span>
+          <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
+      } else if (key === 'agrasen') {
+        badgeWrap.innerHTML = `
+          <span class="clinical-badge badge-blue font-semibold">Premier Charitable Trust</span>
+          <span class="clinical-badge badge-neutral">Punjabi Bagh &middot; 400+ Beds</span>
           <span class="clinical-badge badge-neutral font-medium text-slate-700">${matchedCount} of ${selectedEquips.length} Available</span>`;
       } else if (key === 'balaji') {
         badgeWrap.innerHTML = `
@@ -3729,7 +4182,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
           const alertEl = document.getElementById('hosp-alert-fortis');
           if (alertEl) {
             alertEl.style.display = 'block';
-            alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium"><strong class="font-semibold text-slate-900">${missingEquips.join(', ')}</strong> currently at full capacity. Transfer diverted to Max or Balaji.</p>`;
+            alertEl.innerHTML = `<p class="text-xs leading-relaxed text-slate-800 font-medium"><strong class="font-semibold text-slate-900">${missingEquips.join(', ')}</strong> currently at full capacity. Transfer diverted to Max, Jaipur Golden, or Agrasen.</p>`;
             alertEl.className = 'rounded-xl p-3 mb-3.5 bg-slate-100 border border-slate-300 text-xs leading-relaxed';
           }
           const btnEl = document.getElementById('hosp-btn-fortis');
@@ -3812,6 +4265,7 @@ function goToStep2() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  updateBreadcrumbs(2);
   filterByScheme(currentSchemeFilter || 'all');
   showToast('Filtered hospital beds for patient requirements.', 'info');
 }
@@ -3825,18 +4279,101 @@ function goToStep1() {
     s1.classList.remove('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  updateBreadcrumbs(1);
+  updateStep1StickySummary();
+}
+
+function updateBreadcrumbs(step) {
+  const allCrumb1 = document.querySelectorAll('.clinic-step-pill-1');
+  const allCrumb2 = document.querySelectorAll('.clinic-step-pill-2');
+
+  if (step === 1) {
+    allCrumb1.forEach(b => {
+      b.className = 'clinic-step-pill-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-clinicalTeal shadow-xs border border-clinicalTeal/20 cursor-default';
+      b.innerHTML = '<span class="w-4 h-4 rounded-full bg-clinicalTeal text-white text-[10px] flex items-center justify-center font-bold">1</span><span>Triage &amp; Vitals</span>';
+    });
+    allCrumb2.forEach(b => {
+      b.className = 'clinic-step-pill-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-mutedSlate hover:text-inkDark hover:bg-slate-200/60 cursor-pointer';
+      b.innerHTML = '<span class="w-4 h-4 rounded-full bg-slate-200 text-mutedSlate text-[10px] flex items-center justify-center font-bold">2</span><span>Hospital Match &amp; Dispatch</span>';
+    });
+  } else if (step === 2) {
+    allCrumb1.forEach(b => {
+      b.className = 'clinic-step-pill-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-mutedSlate hover:text-inkDark hover:bg-slate-200/60 cursor-pointer';
+      b.innerHTML = '<span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-[10px] flex items-center justify-center font-bold">✓</span><span>1. Triage &amp; Vitals</span>';
+    });
+    allCrumb2.forEach(b => {
+      b.className = 'clinic-step-pill-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-clinicalTeal shadow-xs border border-clinicalTeal/20 cursor-default';
+      b.innerHTML = '<span class="w-4 h-4 rounded-full bg-clinicalTeal text-white text-[10px] flex items-center justify-center font-bold">2</span><span>Hospital Match &amp; Dispatch</span>';
+    });
+  }
+}
+
+function updateStep1StickySummary() {
+  const el = document.getElementById('sticky-summary-text');
+  if (!el) return;
+
+  let threatTxt = 'Standard Triage';
+  if (transferPayload.threatLevel === 1) threatTxt = 'Code Red (STAT)';
+  else if (transferPayload.threatLevel === 2) threatTxt = 'Code Amber (Urgent)';
+  else if (transferPayload.threatLevel === 3) threatTxt = 'Code Yellow (Stable)';
+
+  const equips = getSelectedEquipments();
+  let equipTxt = 'Standard ICU Monitoring';
+  if (equips.length === 1) {
+    equipTxt = '1 Machine Selected';
+  } else if (equips.length > 1) {
+    equipTxt = `${equips.length} Machines Selected`;
+  }
+
+  const spo2 = document.getElementById('input-spo2')?.value || (transferPayload.vitals && transferPayload.vitals.spo2) || 82;
+  const sys = document.getElementById('input-bp-sys')?.value || (transferPayload.vitals && transferPayload.vitals.bpSys) || 85;
+  const dia = document.getElementById('input-bp-dia')?.value || (transferPayload.vitals && transferPayload.vitals.bpDia) || 55;
+
+  el.textContent = `${threatTxt} · ${equipTxt} · SpO₂ ${spo2}% | BP ${sys}/${dia}`;
 }
 
 // ─────── Financial & Scheme Filter Bar (Solving Patient Refusal) ───────
 let currentSchemeFilter = 'all';
+let currentTierFilter = 'all';
+
+function showTier(tier) {
+  currentTierFilter = tier;
+  const tAll = document.getElementById('tab-tier-all');
+  const t1 = document.getElementById('tab-tier-1');
+  const t2 = document.getElementById('tab-tier-2');
+  const t3 = document.getElementById('tab-tier-3');
+  const btns = [tAll, t1, t2, t3];
+  
+  btns.forEach(b => {
+    if (b) {
+      b.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100';
+    }
+  });
+
+  const activeBtn = tier === 'all' ? tAll : tier === 1 ? t1 : tier === 2 ? t2 : t3;
+  if (activeBtn) {
+    activeBtn.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white shadow-xs';
+  }
+
+  const w1 = document.getElementById('tier-1-wrapper');
+  const w2 = document.getElementById('tier-2-wrapper');
+  const w3 = document.getElementById('tier-3-wrapper');
+
+  if (w1) w1.style.display = (tier === 'all' || tier === 1) ? 'block' : 'none';
+  if (w2) w2.style.display = (tier === 'all' || tier === 2) ? 'block' : 'none';
+  if (w3) w3.style.display = (tier === 'all' || tier === 3) ? 'block' : 'none';
+}
 
 function filterByScheme(scheme) {
   currentSchemeFilter = scheme || 'all';
   const cards = [
-    { id: 'hosp-card-max', schemes: ['pmjay', 'farishtey'], name: 'Max Super Speciality Hospital' },
-    { id: 'hosp-card-saroj', schemes: ['pmjay', 'farishtey'], name: 'Saroj Super Speciality Hospital' },
-    { id: 'hosp-card-bsa', schemes: ['govt', 'farishtey', 'pmjay'], name: 'Dr. B.S. Ambedkar (BSA) Hospital' },
-    { id: 'hosp-card-balaji', schemes: ['pmjay', 'farishtey'], name: 'Action Balaji Hospital' },
+    { id: 'hosp-card-max', schemes: ['pmjay', 'farishtey'], name: 'Max Hospital' },
+    { id: 'hosp-card-jaipur', schemes: ['farishtey'], name: 'Jaipur Golden' },
+    { id: 'hosp-card-saroj', schemes: ['pmjay', 'farishtey'], name: 'Saroj Hospital' },
+    { id: 'hosp-card-bsa', schemes: ['govt', 'pmjay', 'farishtey'], name: 'BSA Hospital' },
+    { id: 'hosp-card-sgmh', schemes: ['govt', 'pmjay', 'farishtey'], name: 'SGMH Mangolpuri' },
+    { id: 'hosp-card-agrasen', schemes: ['pmjay', 'farishtey'], name: 'Maharaja Agrasen' },
+    { id: 'hosp-card-balaji', schemes: ['pmjay', 'farishtey'], name: 'Action Balaji' },
     { id: 'hosp-card-fortis', schemes: ['farishtey'], name: 'Fortis Hospital' }
   ];
 
@@ -3855,8 +4392,6 @@ function filterByScheme(scheme) {
   });
 
   let visibleCount = 0;
-  let lastVisibleCardEl = null;
-
   cards.forEach(c => {
     const el = document.getElementById(c.id);
     if (!el) return;
@@ -3864,47 +4399,77 @@ function filterByScheme(scheme) {
     if (match) {
       el.style.display = 'flex';
       visibleCount++;
-      lastVisibleCardEl = el;
     } else {
       el.style.display = 'none';
     }
   });
 
-  // Responsive grid span adjustment
-  cards.forEach(c => {
-    const el = document.getElementById(c.id);
-    if (!el) return;
-    if (c.id === 'hosp-card-max') {
-      if (currentSchemeFilter === 'all' || currentSchemeFilter === 'pmjay' || currentSchemeFilter === 'farishtey') {
-        el.classList.add('lg:col-span-2');
-      } else {
-        el.classList.remove('lg:col-span-2');
-      }
-    } else {
-      if (visibleCount === 1 && el === lastVisibleCardEl) {
-        el.classList.add('lg:col-span-2');
-      } else {
-        el.classList.remove('lg:col-span-2');
-      }
-    }
-  });
+  // Ensure parent tier wrappers are visible if they contain matching cards
+  const w1 = document.getElementById('tier-1-wrapper');
+  const w2 = document.getElementById('tier-2-wrapper');
+  const w3 = document.getElementById('tier-3-wrapper');
+  if (w1) {
+    const hasVis = ['hosp-card-max', 'hosp-card-jaipur', 'hosp-card-agrasen', 'hosp-card-saroj', 'hosp-card-balaji'].some(id => {
+      const el = document.getElementById(id);
+      return el && el.style.display !== 'none';
+    });
+    w1.style.display = hasVis ? 'block' : 'none';
+  }
+  if (w2) {
+    const hasVis = ['hosp-card-bsa', 'hosp-card-sgmh'].some(id => {
+      const el = document.getElementById(id);
+      return el && el.style.display !== 'none';
+    });
+    w2.style.display = hasVis ? 'block' : 'none';
+  }
+  if (w3) {
+    const hasVis = ['hosp-card-fortis'].some(id => {
+      const el = document.getElementById(id);
+      return el && el.style.display !== 'none';
+    });
+    w3.style.display = hasVis ? 'block' : 'none';
+  }
 
   const countEl = document.getElementById('scheme-filter-count');
   if (countEl) {
     if (currentSchemeFilter === 'all') {
-      countEl.textContent = '· Showing all 5 facilities';
+      countEl.textContent = '· Showing all 8 facilities';
     } else if (currentSchemeFilter === 'pmjay') {
       countEl.textContent = `· Showing ${visibleCount} facilities with Ayushman Bharat (PM-JAY)`;
     } else if (currentSchemeFilter === 'farishtey') {
       countEl.textContent = `· Showing ${visibleCount} facilities under Delhi Farishtey Free Trauma Scheme`;
     } else if (currentSchemeFilter === 'govt') {
-      countEl.textContent = `· Showing ${visibleCount} civil hospital with 100% Free Govt ICU`;
+      countEl.textContent = `· Showing ${visibleCount} civil hospitals with 100% Free Govt ICU`;
     }
   }
 }
 
 // ─────── Family Preference Override Handlers ───────
-function openFamilyOverrideModal() {
+let currentFamilyOverrideTarget = 'bsa'; // 'bsa' | 'sgmh'
+
+function openFamilyOverrideModal(target = 'bsa') {
+  currentFamilyOverrideTarget = target;
+  const isSgmh = target === 'sgmh';
+  const nameEl = document.getElementById('override-modal-facility-name');
+  const warnEl = document.getElementById('override-modal-warn-text');
+  const counselEl = document.getElementById('override-modal-counsel-text');
+  const confirmBtn = document.getElementById('override-modal-confirm-btn');
+
+  if (nameEl) nameEl.textContent = isSgmh ? 'Sanjay Gandhi Memorial Hospital (SGMH) Civil Hospital' : 'Dr. B.S. Ambedkar (BSA) Civil Hospital';
+  if (warnEl) {
+    warnEl.innerHTML = isSgmh
+      ? `Sanjay Gandhi Memorial Hospital currently has <strong class="font-bold underline text-red-950">3 ambulances queued at ER intake dock (~22 min triage delay)</strong> with high trauma volume.`
+      : `Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct staged transfer offers zero queue.`;
+  }
+  if (counselEl) {
+    counselEl.textContent = isSgmh
+      ? 'Family was counselled on the 22-min dock queue and clinical risks. Family confirmed preference for Civil Hospital (100% Free Govt Care).'
+      : 'Family was counselled on the 28-min dock queue and clinical risks. Family confirmed preference for Civil Hospital (100% Free Govt Care).';
+  }
+  if (confirmBtn) {
+    confirmBtn.textContent = `Confirm Waiver & Dispatch to ${isSgmh ? 'SGMH' : 'BSA'}`;
+  }
+
   const modal = document.getElementById('family-override-modal');
   if (modal) modal.classList.add('show');
 }
@@ -3924,11 +4489,17 @@ function confirmFamilyOverride() {
   closeFamilyOverrideModal();
   if (overrideActive) resetOverride();
 
-  transferPayload.hospital = 'Dr. B.S. Ambedkar (BSA) Hospital';
+  const isSgmh = currentFamilyOverrideTarget === 'sgmh';
+  const targetHospName = isSgmh ? 'Sanjay Gandhi Memorial Hospital (SGMH)' : 'Dr. B.S. Ambedkar (BSA) Hospital';
+  const lagText = isSgmh ? '22m ER Dock Lag Counselled' : '28m ER Dock Lag Counselled';
+  const driveMin = isSgmh ? 9 : 7;
+  const lagMin = isSgmh ? 22 : 28;
+
+  transferPayload.hospital = targetHospName;
   transferPayload.familyOverride = true;
   transferPayload.dispatched = true;
   transferPayload.overrideTimestamp = new Date().toISOString();
-  transferPayload.overrideCounseling = 'Family counselled on 28m dock lag; explicitly chose Civil Govt Free ICU care.';
+  transferPayload.overrideCounseling = `Family counselled on ${lagMin}m dock lag; explicitly chose Civil Govt Free ICU care.`;
 
   updateVitalsDisplay();
   updateICUChecklist();
@@ -3936,8 +4507,9 @@ function confirmFamilyOverride() {
   // Update Referring Facility Handoff Banner
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.remove('hidden');
+  updateClinicChecklistSync();
   const hHosp = document.getElementById('handoff-hosp-name');
-  if (hHosp) hHosp.textContent = 'Dr. B.S. Ambedkar (BSA) Hospital';
+  if (hHosp) hHosp.textContent = targetHospName;
   const hPrefix = document.getElementById('handoff-title-prefix');
   if (hPrefix) hPrefix.textContent = 'Family Preference Transfer to';
   const hBadge = document.getElementById('handoff-protocol-badge');
@@ -3947,32 +4519,39 @@ function confirmFamilyOverride() {
   }
   const hSub = document.getElementById('handoff-status-subtext');
   if (hSub) {
-    hSub.innerHTML = `Dispatched to BSA Civil Hospital &middot; <strong class="text-statRed">28m ER Dock Lag Counselled</strong> &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+    hSub.innerHTML = `Dispatched to ${isSgmh ? 'SGMH Civil Hospital' : 'BSA Civil Hospital'} &middot; <strong class="text-statRed">${lagText}</strong> &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
   }
   const hIcon = document.getElementById('handoff-status-icon-wrap');
   if (hIcon) {
     hIcon.className = 'w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0';
   }
 
-  // Update map route to BSA
+  // Update map route
   if (mapReady) {
-    if (markerDestination) {
-      markerDestination.setIcon(getBackupBlackPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bypassed per Family Preference');
-    }
-    if (markerBSA) {
-      markerBSA.setIcon(getDestinationPin());
-      markerBSA.setPopupContent('<b>Dr. B.S. Ambedkar Hospital</b><br>Active Destination (Family Preference Override · 28m Dock Lag)');
+    resetAllMapPinsToNeutral();
+    if (markerClinic) markerClinic.setIcon(getClinicPin());
+
+    if (isSgmh) {
+      if (markerSGMH) {
+        markerSGMH.setIcon(getDestinationPin());
+        markerSGMH.setPopupContent('<b>Sanjay Gandhi Memorial Hospital (SGMH)</b><br>Active Destination (Family Preference Override · 22m Dock Lag)');
+      }
+      liveRoute = ROUTE_SGMH;
+    } else {
+      if (markerBSA) {
+        markerBSA.setIcon(getDestinationPin());
+        markerBSA.setPopupContent('<b>Dr. B.S. Ambedkar Hospital</b><br>Active Destination (Family Preference Override · 28m Dock Lag)');
+      }
+      liveRoute = ROUTE_BSA;
     }
 
-    liveRoute = ROUTE_BSA;
     if (routeLine) {
-      routeLine.setLatLngs(ROUTE_BSA);
+      routeLine.setLatLngs(liveRoute);
       routeLine.setStyle({ color: '#D97706', opacity: 0.9, dashArray: '8 6', className: 'clinical-route-line' });
     }
     startSmoothAmbulance();
     const eta = document.getElementById('eta-txt');
-    if (eta) eta.textContent = 'En Route to BSA · 7 min (+28m dock lag)';
+    if (eta) eta.textContent = `En Route to ${isSgmh ? 'SGMH' : 'BSA'} · ${driveMin} min (+${lagMin}m dock lag)`;
   }
 
   saveAppState();
@@ -3981,7 +4560,7 @@ function confirmFamilyOverride() {
     handshakeState: 'LOCKED'
   });
 
-  showToast('Medico-legal waiver confirmed. Ambulance DL-108 dispatched to Dr. B.S. Ambedkar Hospital.', 'terra');
+  showToast(`Medico-legal waiver confirmed. Ambulance DL-108 dispatched to ${targetHospName}.`, 'terra');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -4082,6 +4661,7 @@ function doReserve(hospitalName, isSelf = true) {
   // Update Clinic Handoff banner to reflect PENDING_ACK handshake status
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.remove('hidden');
+  updateClinicChecklistSync();
 
   updateHandshakeUI();
   startHandshakeTimer(90);
@@ -4589,6 +5169,7 @@ function setThreat(level) {
     });
   }
   updateVitalsDisplay(true);
+  updateStep1StickySummary();
 }
 
 // ─────── 8. Equipment Toggle ───────
@@ -4598,6 +5179,7 @@ function toggleEq(el) {
   updateEquipmentCountHeader();
   updateHospitalEquipmentDisplays(selected);
   updateICUChecklist();
+  updateStep1StickySummary();
   saveAppState();
   GoldenBus.send('EQUIP_SYNC', selected);
 }
@@ -4619,6 +5201,7 @@ function toggleTransit(el) {
     el.classList.add('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
   }
   updateICUChecklist();
+  updateClinicChecklistSync();
 }
 
 // ─────── 10. ICU Arrival Checklist & Dynamic Generation ───────
@@ -4734,6 +5317,8 @@ function updateICUChecklist() {
       </div>
     </div>
   `).join('');
+
+  updateClinicChecklistSync();
 }
 
 function chkToggle(row) {
@@ -4742,6 +5327,8 @@ function chkToggle(row) {
   const isDone = circle.classList.contains('done');
   circle.classList.toggle('done', !isDone);
   text.classList.toggle('done', !isDone);
+  updateClinicChecklistSync();
+  GoldenBus.send('CHECKLIST_SYNC', { doneCount: document.querySelectorAll('#chklist .chk-circle.done').length });
 }
 
 function ackAll() {
@@ -4749,7 +5336,69 @@ function ackAll() {
     row.querySelector('.chk-circle').classList.add('done');
     row.querySelector('.chk-text').classList.add('done');
   });
+  updateClinicChecklistSync();
+  GoldenBus.send('CHECKLIST_SYNC', { doneAll: true });
   showToast('Bay 05 confirmed ready. Medical team and room prepared.', 'sage');
+}
+
+function updateClinicChecklistSync() {
+  const readinessPill = document.getElementById('handoff-readiness-pill');
+  const banner = document.getElementById('handoff-banner');
+  const iconWrap = document.getElementById('handoff-status-icon-wrap');
+  if (!readinessPill) return;
+
+  const rows = document.querySelectorAll('#chklist .chk-row');
+  const total = rows.length || 6;
+  const doneRows = document.querySelectorAll('#chklist .chk-row .chk-circle.done');
+  const doneCount = doneRows.length;
+
+  if (total > 0 && doneCount === total) {
+    readinessPill.className = 'clinical-badge badge-green text-[10px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
+    readinessPill.textContent = 'Bay 05 100% Primed · Trauma Team Standing By at Door';
+
+    if (banner) {
+      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border-2 border-emerald-400/80 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 shadow-md';
+    }
+    if (iconWrap) {
+      iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0 shadow-xs';
+      iconWrap.innerHTML = `
+        <svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>`;
+    }
+  } else {
+    const primedNames = [];
+    doneRows.forEach(circle => {
+      const row = circle.closest('.chk-row');
+      if (!row) return;
+      const textEl = row.querySelector('.chk-text');
+      if (!textEl) return;
+      const txt = textEl.textContent.trim();
+      if (txt.includes('Ventilator')) primedNames.push('Ventilator');
+      else if (txt.includes('Norepinephrine')) primedNames.push('Norepinephrine');
+      else if (txt.includes('Blood')) primedNames.push('O-Neg Blood Ready');
+      else if (txt.includes('Airway') || txt.includes('Laryngoscope')) primedNames.push('Airway Tray');
+      else if (txt.includes('Arterial Line')) primedNames.push('Arterial Line');
+      else if (txt.includes('Cath Lab')) primedNames.push('Cath Lab');
+    });
+
+    const uniquePrimed = [...new Set(primedNames)].slice(0, 3);
+    const detailSuffix = uniquePrimed.length > 0 ? ` (${uniquePrimed.join(', ')})` : '';
+
+    readinessPill.className = 'clinical-badge badge-amber text-[10px] font-bold';
+    readinessPill.textContent = `Receiving Team Readiness: ${doneCount}/${total} Primed${detailSuffix}`;
+
+    if (banner && !banner.classList.contains('border-amber-300')) {
+      banner.className = 'mb-7 liquid-glass rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300';
+    }
+    if (iconWrap && !iconWrap.classList.contains('text-urgentAmber')) {
+      iconWrap.className = 'w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0';
+      iconWrap.innerHTML = `
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+        </svg>`;
+    }
+  }
 }
 
 // ─────── 11. Bed-Hold Reservation ───────
@@ -4918,14 +5567,17 @@ function activateOfflineMapFallback(reason) {
 
 let markerClinic = null;
 let markerDestination = null;
-let markerBSA = null;
-let markerFortis = null;
+let markerJaipur = null;
 let markerSaroj = null;
+let markerBSA = null;
+let markerSGMH = null;
+let markerAgrasen = null;
 let markerBalaji = null;
+let markerFortis = null;
 
 const CORRIDOR_BOUNDS = [
-  [28.6880, 77.0980], // Southwest: Pitampura / Rohini Sec 3 / Outer Ring Rd
-  [28.7360, 77.1680]  // Northeast: Shalimar Bagh / Badli / GT Karnal Rd
+  [28.6600, 77.0750], // Southwest: Punjabi Bagh (28.6675) / Mangolpuri (28.6900) / Paschim Vihar (28.6720)
+  [28.7450, 77.1700]  // Northeast: Shalimar Bagh / Badli / GT Karnal Rd / Rohini Sec 3 (28.7285)
 ];
 
 let baseCorridorZoom = 12;
@@ -5776,12 +6428,23 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
+  } else {
+    // Initial load without saved state: pre-select Code Red · STAT, Invasive Ventilator, and Norepinephrine
+    syncSyndromePresets(transferPayload.syndrome || 'Severe Lung Failure & Infection (ARDS / Sepsis)');
+  }
+
+  // Safety fallback: ensure default Code Red · STAT and equipment are pre-selected
+  if (transferPayload.threatLevel === null) {
+    syncSyndromePresets(transferPayload.syndrome || 'Severe Lung Failure & Infection (ARDS / Sepsis)');
   }
 
   updateVitalsDisplay(false);
   updateHospitalEquipmentDisplays(getSelectedEquipments());
   updateICUChecklist();
   updateHandshakeUI();
+  updateClinicChecklistSync();
+  updateStep1StickySummary();
+  updateBreadcrumbs(clinicStep || 1);
 
   if (overrideActive) {
     applyOverrideUI(true);
