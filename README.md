@@ -1,8 +1,8 @@
-# Setu (सेतु)
+# SETU (सेतु)
 
 > **Real-Time Emergency Patient Transfer & Critical Care Allocation Network for Delhi-NCR**
 
-Setu (System for Emergency Transfer and Urgency-coordination) is a clinical decision-support and emergency dispatch platform engineered to coordinate urgent inter-facility patient transfers and real-time ICU bed reservations across Delhi-NCR.
+SETU (System for Emergency Transfer and Urgency-coordination) is a clinical decision-support and emergency dispatch platform engineered to coordinate urgent inter-facility patient transfers and real-time ICU bed reservations across Delhi-NCR.
 
 ---
 
@@ -27,7 +27,7 @@ Setu (System for Emergency Transfer and Urgency-coordination) is a clinical deci
 
 ```text
 .
-├── index.html              # Setu public landing page & station portal
+├── index.html              # SETU public landing page & station portal
 ├── dispatch.html           # Core dispatch console (Referring Facility & Receiving ICU dual views)
 ├── assets/                 # Brand emblems, logos, and arterial visual assets
 │   ├── goldenroute-icon.png
@@ -43,7 +43,7 @@ Setu (System for Emergency Transfer and Urgency-coordination) is a clinical deci
 
 ## Getting Started Locally
 
-Setu is built with standard web technologies (HTML5, Tailwind CSS, Leaflet.js, and Inter typography) and requires zero build dependencies.
+SETU is built with standard web technologies (HTML5, Tailwind CSS, Leaflet.js, and Inter typography) and requires zero build dependencies.
 
 ### Option 1: Direct File Opening
 Double-click `index.html` or `dispatch.html` to open directly in any modern web browser.
