@@ -11,7 +11,7 @@ Thumbs.db
 *.zip
 *.tar.gz
 goldenroute-standard-v1.zip
-goldenroute-standard-v1/
+/goldenroute-standard-v1/
 GoldenRoute-App/
 
 # Temporary & Scratch Files
