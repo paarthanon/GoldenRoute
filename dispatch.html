@@ -2350,8 +2350,32 @@ button:focus-visible {
 <main id="v2" class="view flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
+    <!-- Top ICU Station Header Card -->
+    <header id="transit-reservation-card" class="glass-panel rounded-2xl p-4 sm:p-5 mb-5 border border-softBorder">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Left: Inbound Status & Receiving Location -->
+        <div class="flex-1 min-w-[260px]">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span id="inbound-tag" class="clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase">
+              Inbound Transfer · Ambulance DL-108 · Code Red
+            </span>
+            <span class="text-xs font-semibold text-mutedSlate">Ward 3B Critical Care Unit</span>
+          </div>
+          <h1 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
+            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>
+          </h1>
+        </div>
+
+        <!-- Network Status Tag Right -->
+        <div id="abdm-status-tag" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-softBorder text-xs text-mutedSlate self-start sm:self-center shrink-0">
+          <span class="w-2 h-2 rounded-full bg-clinicalTeal"></span>
+          <span id="abdm-status-text" class="font-semibold text-inkDark">Network Handshake: Ready</span>
+        </div>
+      </div>
+    </header>
+
     <!-- ── Two-Way ICU Acceptance Banner (Solving Hospital Refusal) ── -->
-    <section id="handshake-alert-card" class="mb-6 rounded-2xl p-5 border border-amber-300 bg-amber-50/60">
+    <section id="handshake-alert-card" class="mb-5 rounded-2xl p-5 border border-amber-300 bg-amber-50/60">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         
         <!-- Left: Incoming broadcast alert details -->
@@ -2513,30 +2537,6 @@ button:focus-visible {
       </button>
     </section>
 
-    <!-- Top ICU Station Header Card -->
-    <section id="transit-reservation-card" class="liquid-glass rounded-2xl p-5 sm:p-6 mb-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        
-        <!-- Left: Inbound Status & Receiving Location -->
-        <div class="flex-1 min-w-[260px]">
-          <div class="flex items-center gap-2 mb-2 flex-wrap">
-            <span id="inbound-tag" class="clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase">
-              Inbound Transfer · Ambulance DL-108 · Code Red
-            </span>
-          </div>
-            <h2 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-              Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>
-            </h2>
-          </div>
-
-          <!-- Network Status Tag Right -->
-          <div id="abdm-status-tag" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/80 border border-softBorder text-xs text-mutedSlate self-start sm:self-center">
-            <span class="w-2 h-2 rounded-full bg-clinicalTeal"></span>
-            <span id="abdm-status-text" class="font-semibold text-inkDark">Network Handshake: Ready</span>
-          </div>
-        </div>
-      </section>
-
     <!-- Main Ward & Map Grid Split -->
     <div class="flex flex-col lg:flex-row gap-6 items-start">
 
@@ -2553,9 +2553,14 @@ button:focus-visible {
               </h2>
               <p class="text-xs text-mutedSlate mt-0.5">Unit DL-108 · Outer Ring Road</p>
             </div>
-            <div id="eta-pill" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-paper border border-softBorder">
-              <span class="dot-sync"></span>
-              <span id="eta-txt" class="text-xs font-bold text-inkDark font-mono">En Route to Max · 14 min ETA</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <div id="eta-pill" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-paper border border-softBorder">
+                <span class="dot-sync"></span>
+                <span id="eta-txt" class="text-xs font-bold text-inkDark font-mono">En Route to Max · 14 min ETA</span>
+              </div>
+              <button id="btn-fast-forward-map" type="button" onclick="triggerAmbulanceArrival(true)" class="hidden text-xs font-bold px-3 py-1.5 rounded-full border border-clinicalTeal/40 text-clinicalTeal bg-clinicalTeal/[0.06] hover:bg-clinicalTeal/15 transition-all cursor-pointer" title="Simulate ambulance arriving at hospital dock">
+                Simulate Arrival
+              </button>
             </div>
           </div>
 
@@ -5365,22 +5370,48 @@ function updateHandshakeUI() {
     if (b05) {
       if (transferPayload.isAdmitted) {
         b05.className = 'bed-tile bt-res col-span-2 bg-emerald-700 border-emerald-600 text-white';
+      } else if (transferPayload.ambulanceArrived) {
+        b05.className = 'bed-tile bt-res col-span-2 !bg-emerald-600 !border-emerald-500 text-white ring-2 ring-emerald-400';
       } else {
         b05.className = 'bed-tile bt-res col-span-2';
       }
     }
     if (b05Label) {
-      b05Label.textContent = transferPayload.isAdmitted ? 'Bay 05 · Patient Admitted' : 'Assigned · Team Priming';
+      if (transferPayload.isAdmitted) {
+        b05Label.textContent = 'Bay 05 · Patient Admitted';
+      } else if (transferPayload.ambulanceArrived) {
+        b05Label.textContent = 'Ambulance at Dock · Intake Ready';
+      } else {
+        b05Label.textContent = 'Assigned · Team Priming';
+      }
     }
     if (b05Sub) {
-      b05Sub.textContent = transferPayload.isAdmitted ? `Direct Handoff (${transferPayload.admittedAt || 'Active'})` : 'Ambulance DL-108 · Bed Confirmed';
+      if (transferPayload.isAdmitted) {
+        b05Sub.textContent = `Direct Handoff (${transferPayload.admittedAt || 'Active'})`;
+      } else if (transferPayload.ambulanceArrived) {
+        b05Sub.textContent = 'Unit DL-108 · Awaiting Pass Code Handoff';
+      } else {
+        b05Sub.textContent = 'Ambulance DL-108 · Bed Confirmed';
+      }
     }
 
     if (stageBadgeTxt) {
-      stageBadgeTxt.textContent = transferPayload.isAdmitted ? 'Bay 05 Admitted · Direct Care' : 'Bay 05 Assigned · Telemetry Active';
+      if (transferPayload.isAdmitted) {
+        stageBadgeTxt.textContent = 'Bay 05 Admitted · Direct Care';
+      } else if (transferPayload.ambulanceArrived) {
+        stageBadgeTxt.textContent = 'Ambulance at Dock · Intake Active';
+      } else {
+        stageBadgeTxt.textContent = 'Bay 05 Assigned · Telemetry Active';
+      }
     }
     if (stageBadge) {
-      stageBadge.className = transferPayload.isAdmitted ? 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5' : 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+      if (transferPayload.isAdmitted) {
+        stageBadge.className = 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5';
+      } else if (transferPayload.ambulanceArrived) {
+        stageBadge.className = 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5 blink-fast';
+      } else {
+        stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+      }
     }
 
     const capLocked = document.getElementById('ward-capacity-badge');
@@ -5407,6 +5438,8 @@ function updateHandshakeUI() {
     if (handoffSubtext) {
       if (transferPayload.isAdmitted) {
         handoffSubtext.innerHTML = `Ambulance DL-108 arrived at Bay 05 · Bedside clinical handoff confirmed with ICU team · Transfer ID: <span class="font-mono text-inkDark font-semibold">${transferPayload.token}</span>`;
+      } else if (transferPayload.ambulanceArrived) {
+        handoffSubtext.innerHTML = `Ambulance DL-108 docked at ${escapeHtml(transferPayload.hospital)} ER &middot; <strong class="text-emerald-700">Paramedic at Bay 05 with Pass Code <span class="font-mono">${transferPayload.transferCode || '----'}</span></strong>`;
       } else {
         handoffSubtext.innerHTML = `ICU Bay 05 Assigned · Telemetry Active · Confirmed by Dr. V. Anand · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
       }
@@ -5559,11 +5592,28 @@ function updateHandshakeUI() {
     }
   }
 
+  const ffBtn = document.getElementById('btn-fast-forward-map');
+  if (ffBtn) {
+    if (handshakeState === 'LOCKED' && !transferPayload.ambulanceArrived && !transferPayload.isAdmitted) {
+      ffBtn.classList.remove('hidden');
+    } else {
+      ffBtn.classList.add('hidden');
+    }
+  }
+
   const inboundTag = document.getElementById('inbound-tag');
   if (inboundTag && !overrideActive) {
     if (handshakeState === 'LOCKED') {
-      inboundTag.textContent = `Inbound Transfer · Ambulance DL-108 · En Route to ${getHospitalMeta(transferPayload.hospital).shortName}`;
-      inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+      if (transferPayload.isAdmitted) {
+        inboundTag.textContent = `Patient Admitted · Bay 05 Active · ${getHospitalMeta(transferPayload.hospital).shortName}`;
+        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+      } else if (transferPayload.ambulanceArrived) {
+        inboundTag.textContent = `Arrived at Hospital Dock · Ambulance DL-108 · Intake Ready`;
+        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase blink-fast';
+      } else {
+        inboundTag.textContent = `Inbound Transfer · Ambulance DL-108 · En Route to ${getHospitalMeta(transferPayload.hospital).shortName}`;
+        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+      }
     } else if (handshakeState === 'PENDING_ACK') {
       inboundTag.textContent = `Inbound Request · DL-108 Primed at Clinic · Awaiting ACK`;
       inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
