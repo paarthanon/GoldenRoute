@@ -77,14 +77,20 @@
           statRedBorder: '#FECDD3',
           statRedText: '#9F1239',
           
-          // Distinct Warm Amber-Orange (Vibrant Topaz / Warm Coral-Amber)
-          urgentAmber: '#EA580C',
+          // Harmonized Palette Tokens
+          statRed: '#BE123C',
+          statRedBg: '#FFF1F2',
+          statRedBorder: '#FECDD3',
+          statRedText: '#9F1239',
+          
+          // Distinct Warm Amber-Orange (Accessible, Non-Vibrating)
+          urgentAmber: '#C2410C',
           urgentAmberBg: '#FFF7ED',
           urgentAmberBorder: '#FED7AA',
           urgentAmberText: '#9A3412',
 
-          // Distinct Sunny Sunflower Yellow (Clean Golden Citron)
-          cautionYellow: '#EAB308',
+          // Distinct Golden Citron (Accessible, Non-Vibrating)
+          cautionYellow: '#A16207',
           cautionYellowBg: '#FEFCE8',
           cautionYellowBorder: '#FDE047',
           cautionYellowText: '#854D0E',
@@ -321,25 +327,61 @@ header {
 .threat-card:active {
   transform: scale(0.985) translateZ(0);
 }
+.threat-card .threat-card-title {
+  color: #0F172A;
+  transition: color 0.18s ease;
+}
+.threat-card .threat-card-desc {
+  color: #334155;
+  transition: color 0.18s ease;
+}
 .threat-card.tc-red.sel {
   background: #FFF1F2;
   border-color: #BE123C;
   box-shadow: 0 0 0 1px #BE123C;
 }
+.threat-card.tc-red.sel .threat-card-title {
+  color: #9F1239;
+}
+.threat-card.tc-red.sel .threat-card-desc {
+  color: #9F1239;
+  opacity: 0.9;
+}
 .threat-card.tc-amber.sel {
   background: #FFF7ED;
-  border-color: #EA580C;
-  box-shadow: 0 0 0 1px #EA580C;
+  border-color: #C2410C;
+  box-shadow: 0 0 0 1px #C2410C;
+}
+.threat-card.tc-amber.sel .threat-card-title {
+  color: #9A3412;
+}
+.threat-card.tc-amber.sel .threat-card-desc {
+  color: #9A3412;
+  opacity: 0.9;
 }
 .threat-card.tc-yellow.sel {
   background: #FEFCE8;
-  border-color: #CA8A04;
-  box-shadow: 0 0 0 1px #CA8A04;
+  border-color: #A16207;
+  box-shadow: 0 0 0 1px #A16207;
+}
+.threat-card.tc-yellow.sel .threat-card-title {
+  color: #854D0E;
+}
+.threat-card.tc-yellow.sel .threat-card-desc {
+  color: #854D0E;
+  opacity: 0.9;
 }
 .threat-card.tc-green.sel {
   background: #F0FDF4;
-  border-color: #16A34A;
-  box-shadow: 0 0 0 1px #16A34A;
+  border-color: #15803D;
+  box-shadow: 0 0 0 1px #15803D;
+}
+.threat-card.tc-green.sel .threat-card-title {
+  color: #166534;
+}
+.threat-card.tc-green.sel .threat-card-desc {
+  color: #166534;
+  opacity: 0.9;
 }
 
 /* ── Equipment Selection Chips (Crisp 1px #CBD5E1 Border) ── */
@@ -409,7 +451,7 @@ header {
   transform: scale(1);
 }
 
-/* ── Clinical Status Badges ── */
+/* ── Clinical Status Badges & Scheme Pills ── */
 .clinical-badge {
   display: inline-flex;
   align-items: center;
@@ -418,15 +460,33 @@ header {
   font-size: 11px;
   font-weight: 600;
   line-height: 1.2;
-  padding: 5px 11px;
+  padding: 4px 10px;
   border-radius: 9999px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.015em;
   white-space: nowrap;
 }
-.badge-red     { background-color: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
-.badge-amber   { background-color: #FEF3C7; color: #78350F; border: 1px solid #FCD34D; }
-.badge-yellow  { background-color: #FEFCE8; color: #854D0E; border: 1px solid #FEF08A; }
+.badge-red     { background-color: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
+.badge-amber   { background-color: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
+.badge-yellow  { background-color: #FEFCE8; color: #854D0E; border: 1px solid #FDE047; }
 .badge-green   { background-color: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
+.badge-blue    { background-color: #F0F9FF; color: #0C6277; border: 1px solid #BAE6FD; }
+.badge-neutral { background-color: #F8FAFC; color: #334155; border: 1px solid #CBD5E1; }
+
+.clinical-scheme-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.25;
+  background-color: #F8FAFC;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
 .badge-blue    { background-color: #ECFEFF; color: #0C6277; border: 1px solid #A5F3FC; }
 .badge-neutral { background-color: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; }
 
@@ -1340,20 +1400,20 @@ button:focus-visible {
       <header class="mb-1">
         <div class="flex items-center justify-between gap-4 flex-wrap mb-2">
           <div class="flex items-center gap-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-clinicalTeal"></span>
-            <p class="text-xs font-bold uppercase tracking-wide text-clinicalTeal">
+            <span class="inline-block w-2 h-2 rounded-full bg-clinicalTeal"></span>
+            <p class="text-xs font-bold uppercase tracking-wider text-clinicalTeal">
               Step 1 of 2 &middot; Patient Intake
             </p>
           </div>
-          <span class="text-xs font-medium text-mutedSlate bg-paper border border-softBorder rounded-lg px-2.5 py-1 font-mono">
-            Patient ID: #GR-DEL-9421
+          <span class="text-xs font-semibold text-mutedSlate bg-paper border border-softBorder rounded-md px-2 py-0.5 font-mono">
+            ID: #GR-DEL-9421
           </span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-bold text-inkDark tracking-tight leading-snug mb-1">
-          Patient Triage &amp; Required Equipment
+          Patient Triage &amp; Clinical Match
         </h1>
-        <p class="text-sm text-mutedSlate leading-relaxed max-w-3xl">
-          Select triage priority, required equipment, and departure vitals to instantly match verified ICU beds
+        <p class="text-xs sm:text-sm text-mutedSlate max-w-2xl">
+          Set triage acuity, required equipment, and vitals to filter matching ICU bays.
         </p>
       </header>
 
@@ -1362,7 +1422,7 @@ button:focus-visible {
         <div class="mb-4">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">1</span>
-            <span>Patient Acuity Level</span>
+            <span>Acuity Priority</span>
           </h2>
         </div>
 
@@ -1373,12 +1433,12 @@ button:focus-visible {
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
                   <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#BE123C] ring-2 ring-statRed/20"></span>
-                  <span class="text-sm font-bold tracking-tight text-statRedText">Code Red &middot; Critical</span>
+                  <span class="threat-card-title text-sm font-bold tracking-tight">Code Red &middot; Critical</span>
                 </div>
                 <span class="clinical-badge badge-red text-[10px]">STAT</span>
               </div>
-              <p class="text-xs leading-relaxed font-normal text-statRedText/80">
-                Airway, respiratory, or hemodynamic compromise. Dedicated resuscitation bay and ICU team on arrival.
+              <p class="threat-card-desc text-xs leading-normal font-normal mt-1">
+                Airway, respiratory, or hemodynamic compromise. Staged resuscitation bay on arrival.
               </p>
             </div>
           </button>
@@ -1388,13 +1448,13 @@ button:focus-visible {
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EA580C] ring-2 ring-urgentAmber/20"></span>
-                  <span class="text-sm font-bold tracking-tight text-urgentAmberText">Code Amber &middot; Serious</span>
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#C2410C] ring-2 ring-urgentAmber/20"></span>
+                  <span class="threat-card-title text-sm font-bold tracking-tight">Code Amber &middot; Urgent</span>
                 </div>
                 <span class="clinical-badge badge-amber text-[10px]">Urgent</span>
               </div>
-              <p class="text-xs leading-relaxed font-normal text-urgentAmberText/80">
-                Hemodynamically borderline. Continuous inotropic support or cardiac telemetry in transit.
+              <p class="threat-card-desc text-xs leading-normal font-normal mt-1">
+                Hemodynamically borderline. Inotropic support or telemetry in transit.
               </p>
             </div>
           </button>
@@ -1404,13 +1464,13 @@ button:focus-visible {
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#EAB308] border border-[#CA8A04]/40 ring-2 ring-cautionYellow/25"></span>
-                  <span class="text-sm font-bold tracking-tight text-cautionYellowText">Code Yellow &middot; Stable</span>
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-[#A16207] ring-2 ring-cautionYellow/20"></span>
+                  <span class="threat-card-title text-sm font-bold tracking-tight">Code Yellow &middot; Stable</span>
                 </div>
                 <span class="clinical-badge badge-yellow text-[10px]">Stable</span>
               </div>
-              <p class="text-xs leading-relaxed font-normal text-cautionYellowText/80">
-                Hemodynamically stable. Requires specialized inpatient care or diagnostic suites.
+              <p class="threat-card-desc text-xs leading-normal font-normal mt-1">
+                Hemodynamically stable. Specialized inpatient unit or diagnostic suite.
               </p>
             </div>
           </button>
@@ -1429,7 +1489,7 @@ button:focus-visible {
           </span>
         </div>
 
-        <div id="equip-chips-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div id="equip-chips-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <!-- Invasive Ventilator -->
           <div class="equip-chip" onclick="toggleEq(this)">
             <div class="ec-box"></div>
@@ -1444,7 +1504,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Emergency Kidney Dialysis</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Continuous CRRT filtration</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">CRRT filtration</p>
             </div>
           </div>
 
@@ -1453,7 +1513,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Emergency O-Negative Blood</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Packed RBC units primed</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Packed RBC units</p>
             </div>
           </div>
 
@@ -1462,7 +1522,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Pediatric / Neonatal ICU</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Specialist incubator bay</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Incubator bay</p>
             </div>
           </div>
 
@@ -1471,7 +1531,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Cardiac Cath Lab</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Emergency angioplasty ready</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Emergency angioplasty</p>
             </div>
           </div>
 
@@ -1480,7 +1540,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">High-Flow Nasal Cannula</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Heated humidified O₂</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Humidified high-flow O₂</p>
             </div>
           </div>
 
@@ -1489,7 +1549,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">Negative-Pressure Isolation Room</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Airborne infection control protocol</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Infection control protocol</p>
             </div>
           </div>
 
@@ -1498,7 +1558,7 @@ button:focus-visible {
             <div class="ec-box"></div>
             <div>
               <p class="text-[13px] font-semibold text-inkDark leading-tight">ECMO Life Support</p>
-              <p class="text-[11px] text-mutedSlate mt-0.5">Extracorporeal membrane oxygenation</p>
+              <p class="text-[11px] text-mutedSlate mt-0.5">Extracorporeal circuit</p>
             </div>
           </div>
         </div>
@@ -1509,7 +1569,7 @@ button:focus-visible {
         <div class="mb-5">
           <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider flex items-center gap-2">
             <span class="w-5 h-5 rounded-full bg-slate-100 text-inkDark flex items-center justify-center font-mono text-[11px] font-bold border border-softBorder">3</span>
-            <span>Clinical Condition &amp; Departure Vitals</span>
+            <span>Condition &amp; Vitals</span>
           </h2>
         </div>
 
@@ -1699,8 +1759,8 @@ button:focus-visible {
 
       <!-- Primary Action: Proceed to Recommended Hospitals -->
       <div class="pt-2 pb-6 flex flex-col items-center">
-        <button type="button" onclick="goToStep2()" class="btn-clinical !h-12 !text-sm !font-bold w-full max-w-md flex items-center justify-center gap-2">
-          <span>Find Matching Hospitals &amp; Available Beds</span>
+        <button type="button" onclick="goToStep2()" class="btn-clinical !h-11 !text-sm !font-bold w-full max-w-sm flex items-center justify-center gap-2">
+          <span>Find Available ICU Beds</span>
           <span class="text-base">&rarr;</span>
         </button>
       </div>
@@ -1714,7 +1774,7 @@ button:focus-visible {
           </span>
         </div>
         <button type="button" onclick="goToStep2()" class="btn-clinical !h-9 !px-5 !text-xs !font-bold w-full sm:w-auto flex items-center justify-center gap-2 shrink-0">
-          <span>Find Matching ICU Beds</span>
+          <span>View Matches</span>
           <span class="text-sm">&rarr;</span>
         </button>
       </aside>
@@ -1727,8 +1787,8 @@ button:focus-visible {
         <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
           <div>
             <div class="flex items-center gap-2 mb-1.5">
-              <span class="inline-block w-2.5 h-2.5 rounded-full bg-stableGreen"></span>
-              <p class="text-xs font-bold uppercase tracking-wide text-clinicalTeal">
+              <span class="inline-block w-2 h-2 rounded-full bg-stableGreen"></span>
+              <p class="text-xs font-bold uppercase tracking-wider text-clinicalTeal">
                 Step 2 of 2 &middot; Hospital Selection
               </p>
             </div>
@@ -1736,13 +1796,13 @@ button:focus-visible {
               Available ICU Beds
             </h1>
             <p class="text-xs sm:text-sm text-mutedSlate mt-0.5">
-              Ranked by transit time and confirmed equipment compatibility
+              Ranked by transit time and verified equipment compatibility
             </p>
           </div>
 
           <!-- Edit button to return to Step 1 -->
           <button type="button" onclick="goToStep1()" class="btn-clinical-secondary !w-auto !h-10 !px-4 text-xs font-bold flex items-center gap-1.5 shrink-0">
-            <span>&larr; Edit Patient Details</span>
+            <span>&larr; Edit Triage</span>
           </button>
         </div>
 
@@ -1757,64 +1817,62 @@ button:focus-visible {
         </div>
       </header>
 
-      <!-- ── Financial & Scheme Filter Bar (Solving Patient Refusal) ── -->
-      <section class="liquid-glass rounded-2xl p-4 sm:p-5 border border-softBorder flex flex-col md:flex-row items-start md:items-center justify-between gap-4" aria-label="Financial and Government Scheme Filter">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-300/40 text-emerald-700 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <!-- ── Hospital Directory Command & Filter Toolbar (Consolidated & Uncluttered) ── -->
+      <section class="glass-panel rounded-2xl p-4 sm:p-5 border border-softBorder space-y-3" aria-label="Hospital Directory Controls">
+        <!-- Top Row: Tier Navigation Tabs + Dynamic Counter -->
+        <div class="flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-clinicalTeal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              Tiers:
+            </span>
+            <div class="inline-flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Tier Navigation Tabs">
+              <button type="button" id="tab-tier-all" onclick="showTier('all')" class="tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white">
+                All (8)
+              </button>
+              <button type="button" id="tab-tier-1" onclick="showTier(1)" class="tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-200/60">
+                Top Matched (5)
+              </button>
+              <button type="button" id="tab-tier-2" onclick="showTier(2)" class="tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-200/60">
+                Civil &amp; Free (2)
+              </button>
+              <button type="button" id="tab-tier-3" onclick="showTier(3)" class="tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-200/60">
+                Diverted (1)
+              </button>
+            </div>
+          </div>
+          <span id="scheme-filter-count" class="text-xs font-medium text-mutedSlate hidden sm:inline">
+            Showing all 8 facilities &middot; Rohini Corridor
+          </span>
+        </div>
+
+        <!-- Bottom Row: Financial & Scheme Comfort Filter -->
+        <div class="flex items-center justify-between gap-3 flex-wrap pt-2.5 border-t border-softBorder/60">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 text-clinicalTeal shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
+            <span class="text-xs font-bold text-inkDark uppercase tracking-wider">
+              Schemes:
+            </span>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-inkDark uppercase tracking-wide">Financial &amp; Scheme Comfort Filter</span>
-              <span id="scheme-filter-count" class="text-[11px] text-mutedSlate hidden sm:inline">&middot; Showing all 8 facilities</span>
-            </div>
-            <p class="text-[11px] text-mutedSlate">Filter hospitals by government schemes and family financial comfort in one click</p>
+
+          <div class="inline-flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Scheme Filter Bar">
+            <button type="button" id="filter-scheme-all" onclick="filterByScheme('all')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white" role="tab" aria-selected="true">
+              All
+            </button>
+            <button type="button" id="filter-scheme-pmjay" onclick="filterByScheme('pmjay')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-200/60" role="tab" aria-selected="false">
+              Ayushman Bharat (PM-JAY)
+            </button>
+            <button type="button" id="filter-scheme-farishtey" onclick="filterByScheme('farishtey')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-200/60" role="tab" aria-selected="false">
+              Delhi Farishtey (Trauma)
+            </button>
+            <button type="button" id="filter-scheme-govt" onclick="filterByScheme('govt')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-200/60" role="tab" aria-selected="false">
+              Govt / Civil Free
+            </button>
           </div>
-        </div>
-
-        <!-- Clean Segmented Filter Bar -->
-        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Scheme Filter Bar">
-          <button type="button" id="filter-scheme-all" onclick="filterByScheme('all')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white" role="tab" aria-selected="true">
-            All Facilities (8)
-          </button>
-          <button type="button" id="filter-scheme-pmjay" onclick="filterByScheme('pmjay')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100" role="tab" aria-selected="false">
-            Ayushman Bharat (PM-JAY)
-          </button>
-          <button type="button" id="filter-scheme-farishtey" onclick="filterByScheme('farishtey')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100" role="tab" aria-selected="false">
-            Delhi Farishtey Scheme (Free Trauma)
-          </button>
-          <button type="button" id="filter-scheme-govt" onclick="filterByScheme('govt')" class="scheme-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-mutedSlate hover:text-inkDark hover:bg-slate-100" role="tab" aria-selected="false">
-            Govt / Civil Free
-          </button>
-        </div>
-      </section>
-
-      <!-- ── Ergonomic Tier Quick-Filter Navigation Bar (Preventing Infinite Scroll) ── -->
-      <section class="liquid-glass rounded-2xl px-4 py-3 border border-softBorder flex items-center justify-between gap-3 flex-wrap" aria-label="Hospital Priority Tiers">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-clinicalTeal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-            </svg>
-            Hospital Directory Tiers:
-          </span>
-          <span class="text-[11px] text-mutedSlate hidden md:inline">&middot; Delhi NCR Emergency Referral Matrix</span>
-        </div>
-        <div class="inline-flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-softBorder flex-wrap" role="tablist" aria-label="Tier Navigation Tabs">
-          <button type="button" id="tab-tier-all" onclick="showTier('all')" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white">
-            All (8)
-          </button>
-          <button type="button" id="tab-tier-1" onclick="showTier(1)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
-            ⭐ Top Matched (5)
-          </button>
-          <button type="button" id="tab-tier-2" onclick="showTier(2)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
-            🏛️ Civil &amp; Govt Free (2)
-          </button>
-          <button type="button" id="tab-tier-3" onclick="showTier(3)" class="tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100">
-            ⚠️ Diverted / Full (1)
-          </button>
         </div>
       </section>
 
@@ -1858,19 +1916,19 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] font-medium text-mutedSlate mt-1">Outer Ring Rd</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
-                      <span>Direct: 14m (14m drive + 0m bay queue)</span>
+                      <span>Direct: 14m (0m queue)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-4">
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
                 </div>
@@ -1916,27 +1974,29 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] text-mutedSlate mt-1">Bhagwan Mahavir Marg</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
-                      <span>Direct: 4m (4m drive + 0m bay queue)</span>
+                      <span>Direct: 4m (0m queue)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-3">
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
-                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
                     CGHS / ECHS Empaneled
                   </span>
-                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
                     TPA Cashless Accepted
                   </span>
                 </div>
 
-                <div class="rounded-xl p-3 my-2.5 bg-teal-50/70 border border-teal-200 text-xs text-teal-950 leading-relaxed font-medium">
-                  <strong class="font-semibold text-teal-950">Intensivist Status:</strong> 1 Adult Medical ICU Bed open (Bay 03). Cath Lab 24/7 active. <span class="text-amber-800 font-semibold">(CRRT Dialysis under calibration maintenance &sim;6h).</span>
+                <div class="rounded-xl p-3 my-2.5 bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed font-normal">
+                  <strong class="font-semibold text-slate-900">Intensivist Status:</strong> 1 Adult Medical ICU Bed open (Bay 03). Cath Lab 24/7 active. <span class="text-amber-800 font-medium">(CRRT Dialysis under calibration maintenance ~6h).</span>
                 </div>
 
                 <!-- Feature / Equipment Badges -->
@@ -1974,28 +2034,29 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] text-mutedSlate mt-1">via Rohtak Road</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 border border-slate-300 text-[10px] font-bold text-inkDark">
-                      <span>Total Time: 21m (18m drive + 3m triage lag)</span>
+                      <span>Total: 21m (3m triage lag)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-3">
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
-                  <span class="clinical-badge bg-amber-50 text-amber-900 border-amber-200 font-bold text-[10px]">
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-600 shrink-0"></span>
                     Lower Non-Profit Trust Tariff
                   </span>
                 </div>
 
-                <div class="rounded-xl p-3 my-2.5 bg-sky-50/70 border border-sky-200 text-xs text-sky-950 leading-relaxed font-medium">
-                  <strong class="font-semibold text-sky-950">Trust Super Speciality:</strong> 70+ bed ICU with 4 open ventilator bays, CRRT NxStage dialysis, Cardiohelp ECMO console, and 6 units O-Neg blood ready. Preferred non-corporate middle ground.
+                <div class="rounded-xl p-3 my-2.5 bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed font-normal">
+                  <strong class="font-semibold text-slate-900">Trust Super Speciality:</strong> 70+ bed ICU with 4 open ventilator bays, CRRT NxStage dialysis, Cardiohelp ECMO console, and 6 units O-Neg blood ready. Preferred non-corporate middle ground.
                 </div>
 
                 <!-- Feature / Equipment Badges -->
@@ -2033,19 +2094,19 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] text-mutedSlate mt-1">via Bhagwan Mahavir</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-[10px] font-bold text-clinicalTeal">
-                      <span>Direct: 12m (12m drive + 0m queue)</span>
+                      <span>Direct: 12m (0m queue)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
                 </div>
@@ -2056,10 +2117,10 @@ button:focus-visible {
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto">
-                <button id="btn-saroj-standby" type="button" class="btn-clinical-secondary w-full text-xs font-bold" onclick="showToast('Saroj Hospital active on ABDM parallel standby cascade.', 'sage')">
+                <button id="btn-saroj-standby" type="button" class="btn-clinical-secondary w-full h-11 text-xs font-bold" onclick="showToast('Saroj Hospital active on ABDM parallel standby cascade.', 'sage')">
                   ABDM Standby (#2)
                 </button>
-                <button type="button" class="btn-clinical w-full text-xs font-bold" onclick="doReserve('Saroj Super Speciality Hospital (Rohini Sec 14)')">
+                <button type="button" class="btn-clinical w-full h-11 text-xs font-bold" onclick="doReserve('Saroj Super Speciality Hospital (Rohini Sec 14)')">
                   Dispatch Direct
                 </button>
               </div>
@@ -2093,12 +2154,12 @@ button:focus-visible {
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
                 </div>
@@ -2109,10 +2170,10 @@ button:focus-visible {
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto">
-                <button type="button" class="btn-clinical-secondary w-full text-xs font-bold" onclick="showToast('Action Balaji Hospital designated as contingency backup.', 'info')">
+                <button type="button" class="btn-clinical-secondary w-full h-11 text-xs font-bold" onclick="showToast('Action Balaji Hospital designated as contingency backup.', 'info')">
                   Designate Backup
                 </button>
-                <button type="button" class="btn-clinical w-full text-xs font-bold" onclick="doReserve('Action Balaji Hospital (Paschim Vihar)')">
+                <button type="button" class="btn-clinical w-full h-11 text-xs font-bold" onclick="doReserve('Action Balaji Hospital (Paschim Vihar)')">
                   Dispatch Direct
                 </button>
               </div>
@@ -2155,29 +2216,29 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] text-mutedSlate mt-1">via Sector 3 Rd</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
-                      <span>Effective Time: 35m (7m drive + 28m ER queue)</span>
+                      <span>Total: 35m (28m dock lag)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
-                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-teal-600 shrink-0"></span>
                     Govt / Civil Free (100% Free ICU)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
                 </div>
 
-                <div class="rounded-xl p-3 my-2.5 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
-                  <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 4 ambulances queued at ER intake dock (~28m triage lag). Ventilator beds congested.
+                <div class="rounded-xl p-3 my-2.5 bg-amber-50/50 border border-amber-200 text-xs text-inkDark leading-relaxed font-normal">
+                  <strong class="font-semibold text-amber-900">Intake Dock Lag:</strong> 4 ambulances queued at ER dock (~28m triage lag). Ventilator beds congested.
                 </div>
 
                 <!-- Feature / Equipment Badges -->
@@ -2186,7 +2247,7 @@ button:focus-visible {
               </div>
 
               <!-- Family Preference Override Button -->
-              <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('bsa')">
+              <button id="btn-bsa-override" type="button" class="btn-clinical-secondary w-full h-11 mt-auto !border-amber-300 !text-amber-900 hover:!bg-amber-50/70 font-semibold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('bsa')">
                 <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -2215,32 +2276,33 @@ button:focus-visible {
                     </div>
                     <p class="text-[11px] text-mutedSlate mt-1">Outer Ring Road</p>
                     <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-[10px] font-bold text-urgentAmber">
-                      <span>Effective Time: 31m (9m drive + 22m ER queue)</span>
+                      <span>Total: 31m (22m dock lag)</span>
                     </div>
                   </div>
                 </div>
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-2.5">
-                  <span class="clinical-badge bg-emerald-100 text-emerald-950 border-emerald-300 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-teal-600 shrink-0"></span>
                     Govt / Civil Free (100% Free ICU)
                   </span>
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
-                  <span class="clinical-badge bg-green-50 text-green-800 border-green-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
                     Ayushman Bharat (PM-JAY)
                   </span>
-                  <span class="clinical-badge bg-slate-100 text-slate-800 border-slate-300 font-semibold text-[10px]">
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
                     Delhi Arogya Kosh (DAK)
                   </span>
                 </div>
 
-                <div class="rounded-xl p-3 my-2.5 bg-amber-50 border border-amber-300 text-xs text-amber-950 leading-relaxed font-medium">
-                  <strong class="font-semibold text-amber-950">Intake Dock Lag:</strong> 3 ambulances queued at ER intake dock (~22m triage queue). Severe ventilator occupancy / Trauma triage active.
+                <div class="rounded-xl p-3 my-2.5 bg-amber-50/50 border border-amber-200 text-xs text-inkDark leading-relaxed font-normal">
+                  <strong class="font-semibold text-amber-900">Intake Dock Lag:</strong> 3 ambulances queued at ER dock (~22m triage queue). High trauma occupancy.
                 </div>
 
                 <!-- Feature / Equipment Badges -->
@@ -2249,7 +2311,7 @@ button:focus-visible {
               </div>
 
               <!-- Family Preference Override Button -->
-              <button id="btn-sgmh-override" type="button" class="btn-clinical-secondary w-full mt-auto !border-amber-400 !text-amber-900 hover:!bg-amber-50 font-bold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('sgmh')">
+              <button id="btn-sgmh-override" type="button" class="btn-clinical-secondary w-full h-11 mt-auto !border-amber-300 !text-amber-900 hover:!bg-amber-50/70 font-semibold flex items-center justify-center gap-2" onclick="openFamilyOverrideModal('sgmh')">
                 <svg class="w-4 h-4 text-urgentAmber shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -2298,13 +2360,13 @@ button:focus-visible {
 
                 <!-- Financial Scheme Badges -->
                 <div class="flex flex-wrap items-center gap-1.5 mb-3.5">
-                  <span class="clinical-badge bg-sky-50 text-sky-800 border-sky-200 font-bold text-[10px] flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  <span class="clinical-scheme-pill">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-600 shrink-0"></span>
                     Delhi Farishtey Scheme (Free Trauma)
                   </span>
                 </div>
 
-                <div id="hosp-alert-fortis" class="rounded-xl p-3 my-3 bg-slate-100 border border-slate-300 text-xs text-slate-800 leading-relaxed font-medium">
+                <div id="hosp-alert-fortis" class="rounded-xl p-3 my-3 bg-slate-100/80 border border-slate-200 text-xs text-slate-700 leading-relaxed font-normal">
                   <strong class="font-semibold text-slate-900">Notice:</strong> All ventilator bays in use. Transfer diverted to Max, Jaipur Golden, or Agrasen.
                 </div>
 
@@ -2333,12 +2395,12 @@ button:focus-visible {
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
     <!-- ── Two-Way ICU Acceptance Banner (Solving Hospital Refusal) ── -->
-    <section id="handshake-alert-card" class="mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90">
+    <section id="handshake-alert-card" class="mb-6 rounded-2xl p-5 border border-amber-300 bg-amber-50/60">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         
         <!-- Left: Incoming broadcast alert details -->
         <div class="flex items-start sm:items-center gap-3.5">
-          <div class="w-11 h-11 rounded-xl bg-orange-500/15 border border-orange-300 text-urgentAmber flex items-center justify-center shrink-0">
+          <div class="w-11 h-11 rounded-xl bg-amber-100 border border-amber-300 text-urgentAmber flex items-center justify-center shrink-0">
             <svg class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
@@ -2346,20 +2408,20 @@ button:focus-visible {
           <div>
             <div class="flex items-center gap-2 mb-1 flex-wrap">
               <span id="icu-banner-status-badge" class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast">
-                Two-Way ICU Handshake &middot; Awaiting Response
+                ICU Handshake Pending
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-white/80 border border-amber-200 text-amber-900">
+              <span class="text-xs font-medium px-2 py-0.5 rounded bg-white border border-amber-200 text-inkDark">
                 Primary: Max Hospital (Bay 05)
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-white/80 border border-amber-200 text-amber-900">
+              <span class="text-xs font-medium px-2 py-0.5 rounded bg-white border border-amber-200 text-inkDark">
                 Standby #2: Saroj Hospital
               </span>
             </div>
             <h2 id="icu-banner-title" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-              Inbound Transfer Request: DL-108 &middot; ARDS / Code Red Patient En Route
+              Inbound Transfer: DL-108 &middot; Code Red Patient
             </h2>
-            <p id="icu-banner-subtext" class="text-xs text-amber-900/90 mt-0.5 font-medium">
-              Referring Facility transmitted live telemetry. Intensivist confirmation required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">90s</span>, transfer automatically cascades to Saroj Hospital.
+            <p id="icu-banner-subtext" class="text-xs text-inkDark/80 mt-0.5 font-medium">
+              Live telemetry active. Intensivist action required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">90s</span>, auto-cascades to Saroj Hospital.
             </p>
           </div>
         </div>
@@ -2367,16 +2429,16 @@ button:focus-visible {
         <!-- Right: 90s Countdown & Accept / Divert Action Buttons -->
         <div id="icu-banner-actions" class="flex items-center gap-3 shrink-0 self-end lg:self-center flex-wrap sm:flex-nowrap">
           <!-- Countdown Ring Box -->
-          <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
-            <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+          <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
+            <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
             <div class="flex items-baseline gap-0.5">
               <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
-              <span class="text-[11px] font-bold text-amber-900">s</span>
+              <span class="text-[11px] font-bold text-mutedSlate">s</span>
             </div>
           </div>
 
           <!-- [ Accept & Assign Bay 05 ] -->
-          <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-11 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
@@ -2384,7 +2446,7 @@ button:focus-visible {
           </button>
 
           <!-- [ Capacity/Equipment Divert ] -->
-          <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-11 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
@@ -2647,48 +2709,48 @@ button:focus-visible {
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Prime &amp; Test Mechanical Ventilator (Servo-Air)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Dual-limb circuit checked &middot; AC/VC Mode (FiO₂ 100%, PEEP 10 cmH₂O) ready for post-intubation connection</p>
+                <p class="chk-text done">Prime Mechanical Ventilator (Servo-Air)</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">AC/VC mode (FiO₂ 100%, PEEP 10) tested and ready</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Prepare Dedicated Syringe Infusion Pump (Norepinephrine)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Concentration 4 mg/50 mL primed &middot; Pressure line ready for zero-interruption handover</p>
+                <p class="chk-text done">Prepare Infusion Pump (Norepinephrine)</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">4 mg/50 mL primed for uninterrupted handover</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle done"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text done">Verify 2 Units O-Negative Blood &amp; Rapid Infuser at Bay</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Emergency PRBCs received from blood bank &middot; Belmont rapid warmer primed</p>
+                <p class="chk-text done">Verify 2 Units O-Negative Blood &amp; Rapid Infuser</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Emergency PRBCs received · Rapid warmer primed</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Set Up Video Laryngoscope &amp; Emergency Airway Tray</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">GlideScope blade tested &middot; ETT 7.5 styletted &middot; Rapid Sequence Intubation drugs verified</p>
+                <p class="chk-text">Set Up Video Laryngoscope &amp; Airway Tray</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">GlideScope tested · ETT 7.5 styletted · RSI drugs ready</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Prepare Arterial Line Kit &amp; Vascular Ultrasound</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Radial line sterile tray opened &middot; Transducer cable zeroed and leveled to phlebostatic axis</p>
+                <p class="chk-text">Prepare Arterial Line Kit &amp; Ultrasound</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Sterile tray opened · Transducer zeroed and leveled</p>
               </div>
             </div>
 
             <div class="chk-row" onclick="chkToggle(this)">
               <div class="chk-circle"></div>
               <div class="flex-1 min-w-0">
-                <p class="chk-text">Station Resuscitation Team at Bay 05 (Attending Intensivist &amp; Lead ICU RN)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Bedside team assembled &middot; Telemetry monitor patched for immediate SBAR paramedic handover</p>
+                <p class="chk-text">Station Resuscitation Team at Bay 05</p>
+                <p class="text-[11px] text-mutedSlate mt-0.5">Intensivist &amp; ICU RN assembled · Monitor patched</p>
               </div>
             </div>
           </div>
@@ -2697,7 +2759,7 @@ button:focus-visible {
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            <span>Confirm Bay 05 Fully Prepared</span>
+            <span>Confirm Bay 05 Prepared</span>
           </button>
         </article>
 
@@ -2772,10 +2834,10 @@ button:focus-visible {
       </div>
       <div>
         <div class="flex items-center gap-2 mb-0.5">
-          <span class="clinical-badge badge-red text-[10px] font-bold uppercase tracking-wider">Mandatory Refusal Log</span>
+          <span class="clinical-badge badge-red text-[10px] font-bold uppercase tracking-wider">Refusal Log</span>
         </div>
         <h3 id="decline-title" class="text-xl font-bold text-inkDark tracking-tight">Capacity / Equipment Divert</h3>
-        <p class="text-xs text-mutedSlate">1-Click Mandatory Reason &middot; Immediate Cascade to Saroj (+3 min ETA)</p>
+        <p class="text-xs text-mutedSlate">Mandatory clinical reason &middot; Reroutes to Saroj (+3 min ETA)</p>
       </div>
     </div>
 
@@ -2790,48 +2852,54 @@ button:focus-visible {
       </div>
 
       <p class="text-xs font-bold text-inkDark uppercase tracking-wider pt-1">
-        Pick Mandatory Reason Pill (1-Click Instant Cascade):
+        Select Reason to Cascade:
       </p>
 
       <!-- 3 Mandatory Reason Pills (1-Click Action) -->
       <div class="grid grid-cols-1 gap-2.5">
         <!-- Pill 1: Ventilator Fault -->
-        <button type="button" onclick="cascadeWithReason('Ventilator Fault', 'Critical Ventilator Circuit Fault / Calibration Breakdown')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
+        <button type="button" onclick="cascadeWithReason('Ventilator Fault', 'Critical Ventilator Circuit Fault / Calibration Breakdown')" class="p-3.5 rounded-xl border border-rose-200 bg-white hover:bg-rose-50/50 text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
-              🫁
+            <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
             <div>
-              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">Ventilator Fault</span>
-              <span class="text-xs text-mutedSlate">Ventilator circuit calibration failure &middot; No open ventilator bay</span>
+              <span class="text-sm font-bold text-inkDark group-hover:text-rose-700 block">Ventilator Fault</span>
+              <span class="text-xs text-mutedSlate">Circuit calibration failure &middot; No open ventilator bay</span>
             </div>
           </div>
           <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
         </button>
 
         <!-- Pill 2: Walk-in Code Blue -->
-        <button type="button" onclick="cascadeWithReason('Walk-in Code Blue', 'Walk-in Cardiac Arrest at Hospital ER Doors')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
+        <button type="button" onclick="cascadeWithReason('Walk-in Code Blue', 'Walk-in Cardiac Arrest at Hospital ER Doors')" class="p-3.5 rounded-xl border border-rose-200 bg-white hover:bg-rose-50/50 text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
-              ⚡
+            <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
             <div>
-              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">Walk-in Code Blue</span>
-              <span class="text-xs text-mutedSlate">Walk-in cardiac arrest arrives at ER doors &middot; Bay 05 seized for CPR</span>
+              <span class="text-sm font-bold text-inkDark group-hover:text-rose-700 block">Walk-in Code Blue</span>
+              <span class="text-xs text-mutedSlate">ER cardiac arrest &middot; Bay 05 seized for CPR</span>
             </div>
           </div>
           <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
         </button>
 
         <!-- Pill 3: O2 Line Drop -->
-        <button type="button" onclick="cascadeWithReason('O₂ Line Drop', 'Central Liquid Oxygen (LOX) Manifold Pressure Drop')" class="p-3.5 rounded-xl border-2 border-red-200 bg-white hover:bg-red-50 hover:border-statRed text-left transition-all flex items-center justify-between group">
+        <button type="button" onclick="cascadeWithReason('O₂ Line Drop', 'Central Liquid Oxygen (LOX) Manifold Pressure Drop')" class="p-3.5 rounded-xl border border-rose-200 bg-white hover:bg-rose-50/50 text-left transition-all flex items-center justify-between group">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-red-100 text-statRed flex items-center justify-center font-bold text-lg shrink-0">
-              💨
+            <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
             </div>
             <div>
-              <span class="text-sm font-bold text-inkDark group-hover:text-statRed block">O₂ Line Drop</span>
-              <span class="text-xs text-mutedSlate">Central LOX manifold pressure drop below safety interlock</span>
+              <span class="text-sm font-bold text-inkDark group-hover:text-rose-700 block">O₂ Line Drop</span>
+              <span class="text-xs text-mutedSlate">LOX manifold pressure drop below safety interlock</span>
             </div>
           </div>
           <span class="clinical-badge badge-red text-[11px] font-bold shrink-0">Cascade &rarr;</span>
@@ -2839,7 +2907,7 @@ button:focus-visible {
       </div>
 
       <p class="text-[11px] text-statRedText leading-relaxed bg-red-50/80 p-2.5 rounded-lg border border-red-200 mt-2">
-        <strong>Madhuban Chowk Backtracking Algorithm:</strong> Picking any reason pill immediately signs this refusal and executes <code class="font-mono font-bold text-inkDark">computeRerouteToSaroj</code>, rerouting DL-108 to Saroj Hospital (+3 min ETA).
+        Selecting any reason logs the refusal and immediately cascades DL-108 to Saroj Hospital (+3 min ETA).
       </p>
     </div>
 
@@ -2865,10 +2933,10 @@ button:focus-visible {
       </div>
       <div>
         <div class="flex items-center gap-2 mb-0.5">
-          <span class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider">Form 13-B Statutory Log</span>
+          <span class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider">Statutory Log</span>
         </div>
         <h3 id="override-modal-title" class="text-xl font-bold text-inkDark tracking-tight">Family Preference Override</h3>
-        <p class="text-xs text-mutedSlate">1-Click Medico-Legal Counseling &amp; Autonomous Dispatch Record</p>
+        <p class="text-xs text-mutedSlate">Informed consent and dispatch confirmation</p>
       </div>
     </div>
 
@@ -2878,9 +2946,9 @@ button:focus-visible {
           <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
-          <span>Severe ER Dock Delay Warning Counselled:</span>
+          <span>Intake Delay Counselled:</span>
         </div>
-        <p id="override-modal-warn-text">Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct staged transfer to Max Shalimar Bagh offers zero queue (14m total).</p>
+        <p id="override-modal-warn-text">Dr. B.S. Ambedkar Hospital currently has <strong class="font-bold underline text-red-950">4 ambulances queued at ER intake dock (~28 min triage delay)</strong>. Direct transfer to Max Shalimar Bagh offers zero queue (14m total).</p>
       </div>
 
       <div class="space-y-2 text-xs">
@@ -2901,9 +2969,9 @@ button:focus-visible {
           <span class="font-semibold text-inkDark">Sanjay Sharma (Brother) &middot; Informed Choice</span>
         </div>
         <div class="flex items-start justify-between py-1.5">
-          <span class="text-mutedSlate">Counseling Confirmation:</span>
+          <span class="text-mutedSlate">Confirmation:</span>
           <span id="override-modal-counsel-text" class="text-right text-[11px] text-inkDark font-medium max-w-[240px]">
-            Family was counselled on the 28-min dock queue and clinical risks. Family confirmed preference for Civil Hospital (100% Free Govt Care).
+            Family counselled on the 28-min dock queue. Family confirmed preference for Civil Hospital (100% Free Care).
           </span>
         </div>
       </div>
@@ -2911,10 +2979,10 @@ button:focus-visible {
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
       <button type="button" class="btn-modal-cancel" onclick="closeFamilyOverrideModal()">
-        Cancel (Keep Staged Option)
+        Cancel (Keep Staged)
       </button>
       <button id="override-modal-confirm-btn" type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700" onclick="confirmFamilyOverride()">
-        Confirm Waiver &amp; Dispatch
+        Confirm &amp; Dispatch
       </button>
     </div>
   </div>
@@ -3164,7 +3232,7 @@ function applyIncomingBedLock(data) {
       if (eta) eta.textContent = `En Route to ${isSgmh ? 'SGMH' : 'BSA'} · ${driveMin} min (+${lagMin}m dock lag)`;
     }
 
-    showToast(`🚨 Family Preference Override: Dispatched to ${isSgmh ? 'SGMH' : 'BSA'} Hospital!`, 'terra');
+    showToast(`Family Preference Override: Dispatched to ${isSgmh ? 'SGMH' : 'BSA'} Hospital.`, 'terra');
   } else {
     updateHandshakeUI();
     if (handshakeState === 'PENDING_ACK') {
@@ -3203,7 +3271,7 @@ function applyIncomingBedLock(data) {
       if (eta) eta.textContent = `Awaiting Bed ACK · ${meta.baseMin} min ETA`;
     }
 
-    showToast(`🚨 Incoming Transfer Request: DL-108 Locked Bed!`, 'terra');
+    showToast(`Incoming Transfer Request: DL-108 Telemetry Transmitted.`, 'terra');
   }
 
   playLockChime();
@@ -4684,36 +4752,36 @@ function updateHandshakeUI() {
     // Show alert on ICU console
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-300 bg-amber-50/60';
     }
     if (navPing) navPing.classList.remove('hidden');
     if (navDot) navDot.classList.remove('hidden');
 
     const alertTitle = document.getElementById('icu-banner-title');
-    if (alertTitle) alertTitle.innerHTML = 'Inbound Transfer Request: DL-108 &middot; ARDS / Code Red Patient En Route';
+    if (alertTitle) alertTitle.innerHTML = 'Inbound Transfer: DL-108 &middot; Code Red Patient';
     const alertSub = document.getElementById('icu-banner-subtext');
-    if (alertSub) alertSub.innerHTML = `Referring Facility transmitted live telemetry. Intensivist confirmation required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">${handshakeRemainingSec}s</span>, transfer automatically cascades to ${escapeHtml(transferPayload.standbyHospital || 'Saroj Hospital')}.`;
+    if (alertSub) alertSub.innerHTML = `Live telemetry active. Intensivist action required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">${handshakeRemainingSec}s</span>, auto-cascades to ${escapeHtml(transferPayload.standbyHospital || 'Saroj Hospital')}.`;
     const badge = document.getElementById('icu-banner-status-badge');
     if (badge) {
-      badge.textContent = 'Two-Way ICU Handshake · Awaiting Response';
+      badge.textContent = 'ICU Handshake Pending';
       badge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast';
     }
 
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
-          <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
+          <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
           <div class="flex items-baseline gap-0.5">
             <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">${handshakeRemainingSec}</span>
-            <span class="text-[11px] font-bold text-amber-900">s</span>
+            <span class="text-[11px] font-bold text-mutedSlate">s</span>
           </div>
         </div>
-        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-11 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           <span>Accept &amp; Assign Bay 05</span>
         </button>
-        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-11 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <span>Capacity/Equipment Divert</span>
         </button>`;
@@ -4747,7 +4815,7 @@ function updateHandshakeUI() {
     // Bed accepted & locked
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-emerald-400 bg-gradient-to-r from-emerald-50/90 via-teal-50/90 to-emerald-50/90';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-emerald-200 bg-emerald-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4801,7 +4869,7 @@ function updateHandshakeUI() {
     // Cascaded to Standby Hospital
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-orange-400 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
+      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4850,7 +4918,7 @@ function updateHandshakeUI() {
   } else if (handshakeState === 'IDLE') {
     if (alertCard) {
       alertCard.classList.add('hidden');
-      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border border-amber-300 bg-gradient-to-r from-orange-50/90 via-amber-50/90 to-orange-50/90';
+      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -4858,18 +4926,18 @@ function updateHandshakeUI() {
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-2 rounded-xl bg-white/90 border border-amber-300 min-w-[90px]">
-          <span class="text-[9px] font-bold text-amber-900/70 uppercase tracking-wider">Cascade in</span>
+        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
+          <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
           <div class="flex items-baseline gap-0.5">
             <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
-            <span class="text-[11px] font-bold text-amber-900">s</span>
+            <span class="text-[11px] font-bold text-mutedSlate">s</span>
           </div>
         </div>
-        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-12 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+        <button type="button" id="btn-accept-bay" onclick="acceptHandshake()" class="btn-clinical !h-11 !px-5 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           <span>Accept &amp; Assign Bay 05</span>
         </button>
-        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-12 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+        <button type="button" id="btn-capacity-divert" onclick="openDeclineModal()" class="btn-clinical-destructive !h-11 !px-4 text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <span>Capacity/Equipment Divert</span>
         </button>`;
@@ -4879,7 +4947,7 @@ function updateHandshakeUI() {
       b05.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
     }
     if (b05Label) b05Label.textContent = 'Available · Ready to Stage';
-    if (b05Sub) b05Sub.textContent = 'Awaiting Clinic Bed Lock';
+    if (b05Sub) b05Sub.textContent = 'Awaiting Transfer Request';
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Standby';
     if (stageBadge) stageBadge.className = 'clinical-badge badge-neutral text-xs font-medium flex items-center gap-1.5';
@@ -5120,14 +5188,6 @@ function handleDeclineBg(event) {
   }
 }
 
-function confirmDecline() {
-  closeDeclineModal();
-  const select = document.getElementById('decline-reason-select');
-  const code = select ? select.value : 'REF_01_VENT_FAULT';
-  const desc = select ? select.options[select.selectedIndex].text : 'Critical Ventilator Circuit Fault';
-  triggerCascade(code, desc);
-}
-
 // ─────── 7. Urgency Level Selection ───────
 function setThreat(level) {
   if (transferPayload.threatLevel === level) {
@@ -5184,36 +5244,36 @@ function toggleTransit(el) {
 // ─────── 10. ICU Arrival Checklist & Dynamic Generation ───────
 const CHECKLIST_TEMPLATES = {
   'Invasive Ventilator': {
-    title: 'Prime & Test Mechanical Ventilator (Servo-Air)',
-    subtitle: 'Dual-limb circuit checked · AC/VC Mode (FiO₂ 100%, PEEP 10 cmH₂O) ready for immediate post-intubation connection'
+    title: 'Prime Mechanical Ventilator (Servo-Air)',
+    subtitle: 'AC/VC mode (FiO₂ 100%, PEEP 10) tested and ready'
   },
   'Emergency O-Negative Blood': {
-    title: 'Verify 2 Units O-Negative Blood & Rapid Infuser at Bay',
-    subtitle: 'Emergency PRBCs received from blood bank · Belmont rapid warmer primed'
+    title: 'Verify 2 Units O-Negative Blood & Rapid Infuser',
+    subtitle: 'Emergency PRBCs received · Rapid warmer primed'
   },
   'Emergency Kidney Dialysis': {
-    title: 'Prime Continuous Renal Replacement Therapy (CRRT) Machine',
-    subtitle: 'Prismaflex cartridge loaded · Heparin-free prime completed with dialysate on standby'
+    title: 'Prime Continuous Renal Replacement Therapy (CRRT)',
+    subtitle: 'Prismaflex cartridge loaded · Prime complete'
   },
   'ECMO Life Support': {
-    title: 'Prepare Extracorporeal Membrane Oxygenation (ECMO) Circuit',
-    subtitle: 'Cardiohelp circuit de-aired & primed · Cannulation tray open · Perfusionist present'
+    title: 'Prepare ECMO Circuit',
+    subtitle: 'Cardiohelp circuit de-aired & primed · Cannulation tray open'
   },
   'Cardiac Cath Lab': {
-    title: 'Alert Interventional Cardiology & Cath Lab Team',
-    subtitle: 'Emergency PCI team activated · Suite on 15-minute primary angioplasty standby'
+    title: 'Alert Cath Lab Team',
+    subtitle: 'Emergency PCI team activated · Primary angioplasty standby'
   },
   'High-Flow Nasal Cannula': {
-    title: 'Assemble High-Flow Nasal Cannula (HFNC Optiflow) System',
-    subtitle: 'Heated humidifier set to 37°C · Flow set to 50 L/min at 80% FiO₂ ready'
+    title: 'Assemble High-Flow Nasal Cannula (HFNC)',
+    subtitle: 'Heated humidifier at 37°C · 50 L/min at 80% FiO₂ ready'
   },
   'Negative-Pressure Isolation Room': {
-    title: 'Verify Negative-Pressure Isolation & Airborne PPE',
-    subtitle: 'Differential pressure gauge verified (≥12 ACH) · N95/PAPR station stocked at antechamber'
+    title: 'Verify Negative-Pressure Isolation',
+    subtitle: 'Differential pressure gauge verified · Anteroom PPE staged'
   },
   'Pediatric / Neonatal ICU': {
-    title: 'Calibrate Pediatric Resuscitation Bay & Weight-Based Protocol',
-    subtitle: 'Overhead infant warmer calibrated · Broselow emergency tape and pediatric doses verified'
+    title: 'Prepare Pediatric / Neonatal Bay',
+    subtitle: 'Infant warmer calibrated · Pediatric circuit verified'
   }
 };
 
@@ -5244,44 +5304,44 @@ function updateICUChecklist() {
 
   if (activeSupports.includes('Norepinephrine')) {
     items.push({
-      title: 'Prepare Dedicated Syringe Infusion Pump (Norepinephrine)',
-      subtitle: 'Concentration 4 mg/50 mL primed · Pressure line ready for zero-interruption handover',
+      title: 'Prepare Infusion Pump (Norepinephrine)',
+      subtitle: '4 mg/50 mL primed for uninterrupted handover',
       done: true
     });
   }
   if (activeSupports.includes('Ambu-Bag O₂')) {
     items.push({
-      title: 'Prepare Emergency Airway Transfer & Rapid Oxygen Switchover',
-      subtitle: 'High-capacity oxygen regulator primed · Flow calibrated for immediate ambulance handoff',
+      title: 'Prepare Emergency Oxygen Switchover',
+      subtitle: 'Oxygen regulator primed for immediate handoff',
       done: true
     });
   }
   if (items.length === 0) {
     items.push({
-      title: 'Prepare Dedicated Resuscitation Bay (Bay 05)',
-      subtitle: 'Standard bedside infusion lines and monitoring leads primed for incoming patient',
+      title: 'Prepare Resuscitation Bay (Bay 05)',
+      subtitle: 'Standard bedside infusion lines and monitoring leads primed',
       done: true
     });
   }
 
   // 3. Airway / Intubation
   items.push({
-    title: 'Set Up Video Laryngoscope & Emergency Airway Tray',
-    subtitle: 'GlideScope blade tested · ETT 7.5 styletted · Rapid Sequence Intubation drugs verified',
+    title: 'Set Up Video Laryngoscope & Airway Tray',
+    subtitle: 'GlideScope tested · ETT 7.5 styletted · RSI drugs ready',
     done: false
   });
 
   // 4. Invasive hemodynamic monitoring
   items.push({
-    title: 'Prepare Arterial Line Kit & Vascular Ultrasound',
-    subtitle: 'Radial line sterile tray opened · Transducer cable zeroed and leveled to phlebostatic axis',
+    title: 'Prepare Arterial Line Kit & Ultrasound',
+    subtitle: 'Sterile tray opened · Transducer zeroed and leveled',
     done: false
   });
 
   // 5. Staffing reception
   items.push({
-    title: 'Station Resuscitation Team at Bay 05 (Attending Intensivist & Lead ICU RN)',
-    subtitle: 'Bedside team assembled · Telemetry monitor patched for immediate SBAR paramedic handover',
+    title: 'Station Resuscitation Team at Bay 05',
+    subtitle: 'Intensivist & ICU RN assembled · Monitor patched',
     done: false
   });
 
@@ -5378,7 +5438,7 @@ function updateClinicChecklistSync() {
   }
 }
 
-// ─────── 11. Bed-Hold Reservation ───────
+// ─────── 11. Bed-Hold Reservation (Decommissioned) ───────
 let cdSec = 0;
 let cdTimer = null;
 
@@ -5387,22 +5447,7 @@ function formatCountdown(sec) {
 }
 
 function updateHoldTimers(formattedTime, cdClass) {
-  // Guarded against null references: legacy 25-min timer elements
-  const cdEl = document.getElementById('countdown');
-  const b05El = document.getElementById('b05-timer');
-  const dosEl = document.getElementById('dossier-timer');
-  if (cdEl && formattedTime) {
-    cdEl.textContent = formattedTime;
-    if (cdClass) cdEl.className = cdClass;
-  }
-  if (b05El && formattedTime) {
-    b05El.textContent = formattedTime;
-    if (cdClass) b05El.className = cdClass;
-  }
-  if (dosEl && formattedTime) {
-    dosEl.textContent = formattedTime;
-    if (cdClass) dosEl.className = cdClass;
-  }
+  // Decommissioned: no-op stub for backward compatibility
 }
 
 function startCountdown(fromSec) {
@@ -5428,8 +5473,8 @@ let offlineMapOverlay = null;
 let leafletLoadAttempts = 0;
 
 const OFFLINE_CORRIDOR_BOUNDS = [
-  [28.6650, 77.0800], // Southwest: West Delhi / Outer Ring Rd / Balaji
-  [28.7450, 77.1750]  // Northeast: Shalimar Bagh / Badli / GT Karnal Rd
+  [28.6618, 77.0813], // Southwest: Paschim Vihar / Action Balaji / Punjabi Bagh
+  [28.7389, 77.1676]  // Northeast: Rohini Sec 3 / Badli / Shalimar Bagh
 ];
 
 const OFFLINE_CORRIDOR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 800" width="100%" height="100%">
@@ -5553,19 +5598,19 @@ let markerBalaji = null;
 let markerFortis = null;
 
 const CORRIDOR_BOUNDS = [
-  [28.6600, 77.0750], // Southwest: Punjabi Bagh (28.6675) / Mangolpuri (28.6900) / Paschim Vihar (28.6720)
-  [28.7450, 77.1700]  // Northeast: Shalimar Bagh / Badli / GT Karnal Rd / Rohini Sec 3 (28.7285)
+  [28.6618, 77.0813], // Southwest: Paschim Vihar / Action Balaji / Punjabi Bagh
+  [28.7389, 77.1676]  // Northeast: Shalimar Bagh / Badli / Rohini Sec 3
 ];
 
-let baseCorridorZoom = 12;
+let baseCorridorZoom = 13;
 
 function getCorridorBaseZoom() {
-  if (!lmap) return 12;
+  if (!lmap) return 13;
   try {
-    const bZoom = lmap.getBoundsZoom(CORRIDOR_BOUNDS, false, [16, 16]);
+    const bZoom = lmap.getBoundsZoom(CORRIDOR_BOUNDS, false, [0, 0]);
     return Math.max(10, Math.min(bZoom, 15));
   } catch (e) {
-    return 12;
+    return 13;
   }
 }
 
@@ -5617,7 +5662,7 @@ function handleMapZoomOut() {
   if (currentZoom <= baseCorridorZoom) return;
 
   if (currentZoom - 1 <= baseCorridorZoom) {
-    lmap.fitBounds(CORRIDOR_BOUNDS, { animate: true, padding: [16, 16] });
+    lmap.fitBounds(CORRIDOR_BOUNDS, { animate: true, padding: [0, 0] });
   } else {
     lmap.zoomOut();
   }
@@ -5632,7 +5677,7 @@ function lockMapToCorridor(forceReset = false) {
   if (forceReset || !baseCorridorZoom || currentZoom <= baseCorridorZoom) {
     lmap.setMinZoom(1);
     lmap.setMaxZoom(19);
-    lmap.fitBounds(CORRIDOR_BOUNDS, { animate: false, padding: [16, 16] });
+    lmap.fitBounds(CORRIDOR_BOUNDS, { animate: false, padding: [0, 0] });
     baseCorridorZoom = lmap.getZoom();
     lmap.setMinZoom(baseCorridorZoom);
     lmap.setMaxZoom(18);
@@ -5641,6 +5686,9 @@ function lockMapToCorridor(forceReset = false) {
     lmap.setMinZoom(baseCorridorZoom);
     lmap.setMaxZoom(18);
   }
+
+  // Constrain panning strictly within the corridor framing
+  lmap.setMaxBounds(CORRIDOR_BOUNDS);
 
   updateZoomControls();
 }
@@ -6030,8 +6078,10 @@ function initMap() {
   mapReady = true;
 
   lmap = L.map('map-wrap', {
-    center: [28.7120, 77.1330],
+    center: [28.7003, 77.1244],
     zoom: 13,
+    maxBounds: CORRIDOR_BOUNDS,
+    maxBoundsViscosity: 1.0,
     zoomControl: false,
     scrollWheelZoom: true,
     doubleClickZoom: true,
@@ -6453,14 +6503,14 @@ function applyOverrideUI(active) {
         b.className = 'bed-tile bt-pending col-span-2';
         b.innerHTML = `
           <span class="text-[9px] font-bold text-amber-900 uppercase tracking-wider mb-0.5">Bay 05</span>
-          <span id="b05-label" class="text-xs font-bold text-amber-950 tracking-tight">Awaiting Confirmation</span>
-          <span id="b05-sub" class="text-[10px] text-amber-900/80 font-medium mt-0.5">Intensivist ACK Required (${handshakeRemainingSec}s)</span>`;
+          <span id="b05-label" class="text-xs font-bold text-amber-900 tracking-tight">Awaiting Confirmation</span>
+          <span id="b05-sub" class="text-[10px] text-amber-800 font-medium mt-0.5">Intensivist ACK Required (${handshakeRemainingSec}s)</span>`;
       } else {
         b.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
         b.innerHTML = `
           <span class="text-[9px] font-bold text-clinicalTeal uppercase tracking-wider mb-0.5">Bay 05 · Bed Open</span>
           <span id="b05-label" class="text-xs font-bold text-inkDark tracking-tight">Available · Ready to Stage</span>
-          <span id="b05-sub" class="text-[10px] text-mutedSlate font-medium mt-0.5">Awaiting Clinic Bed Lock</span>`;
+          <span id="b05-sub" class="text-[10px] text-mutedSlate font-medium mt-0.5">Awaiting Transfer Request</span>`;
       }
     }
     if (cap) {
