@@ -1371,6 +1371,10 @@ button:focus-visible {
             </p>
             <span id="handoff-protocol-badge" class="clinical-badge badge-blue text-[10px] font-bold">Live Network Handshake</span>
             <span id="handoff-readiness-pill" class="clinical-badge badge-amber text-[10px] font-bold">Receiving Team Readiness: 3/6 Primed (Ventilator, Norepinephrine)</span>
+            <span id="handoff-token-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-white border border-slate-300 text-xs font-mono font-bold text-inkDark shadow-xs">
+              <span class="text-[10px] uppercase font-semibold text-mutedSlate tracking-wider">Pass Code:</span>
+              <span id="handoff-token-code" class="text-clinicalTeal tracking-widest font-black text-sm">----</span>
+            </span>
           </div>
           <p id="handoff-status-subtext" class="text-xs text-mutedSlate">
             ICU Bay 05 Assigned · Telemetry Active · Ambulance Unit DL-108 En Route · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
@@ -2687,6 +2691,24 @@ button:focus-visible {
           </div>
         </article>
 
+        <!-- Direct-to-Bay Arrival Intake & Token Verification -->
+        <article id="arrival-intake-card" class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder transition-all duration-300">
+          <div class="flex items-center justify-between mb-2">
+            <div>
+              <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
+                Direct-to-Bay Arrival Intake
+              </h2>
+              <p class="text-xs text-mutedSlate mt-0.5">Paramedic Handoff Verification</p>
+            </div>
+            <span class="clinical-badge badge-neutral text-[10px] font-semibold">Standby</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-paper border border-softBorder mt-3 text-center">
+            <p class="text-xs text-mutedSlate">
+              Awaiting incoming referral dispatch. Pass code entry activates when clinic initiates transfer.
+            </p>
+          </div>
+        </article>
+
         <!-- Preparation Checklist for Arrival -->
         <article class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder">
           <div class="flex items-center justify-between mb-2">
@@ -3059,6 +3081,8 @@ GoldenBus.on((type, data) => {
     applyIncomingEquip(data);
   } else if (type === 'CHECKLIST_SYNC') {
     applyIncomingChecklist(data);
+  } else if (type === 'PATIENT_ADMITTED') {
+    applyIncomingPatientAdmitted(data);
   } else if (type === 'STATE_RESET') {
     applyIncomingReset();
   }
@@ -3079,6 +3103,7 @@ function applyIncomingChecklist(data) {
     });
   }
   updateClinicChecklistSync();
+    updateArrivalIntakeUI();
 }
 
 function playLockChime() {
@@ -3442,6 +3467,9 @@ function resetSimulationState(isSelf = true) {
   transferPayload.overrideTimestamp = null;
   transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
   transferPayload.standbyHospital = 'Saroj Super Speciality Hospital';
+  transferPayload.transferCode = null;
+  transferPayload.isAdmitted = false;
+  transferPayload.admittedAt = null;
 
   clinicStep = 1;
   const s1 = document.getElementById('clinic-step-1');
@@ -3479,6 +3507,7 @@ function resetSimulationState(isSelf = true) {
   if (handoffBanner) handoffBanner.classList.add('hidden');
   updateClinicChecklistSync();
   updateStep1StickySummary();
+  updateArrivalIntakeUI();
 
   if (mapReady) {
     resetAllMapPinsToNeutral();
@@ -3525,6 +3554,9 @@ function escapeHtml(str) {
 
 let transferPayload = {
   token: '#GR-DEL-9421',
+  transferCode: null,
+  isAdmitted: false,
+  admittedAt: null,
   syndrome: 'Severe Lung Failure & Infection (ARDS / Sepsis)',
   threatLevel: null,
   hospital: 'Max Super Speciality Hospital (Shalimar Bagh)',
@@ -4758,6 +4790,11 @@ function doReserve(hospitalName, isSelf = true) {
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
   transferPayload.hospital = hospitalName || 'Max Super Speciality Hospital (Shalimar Bagh)';
+  if (!transferPayload.transferCode) {
+    transferPayload.transferCode = generateTransferCode();
+  }
+  transferPayload.isAdmitted = false;
+  transferPayload.admittedAt = null;
   const standby = getDynamicStandbyHospital(transferPayload.hospital);
   transferPayload.standbyHospital = standby.name;
   transferPayload.standbyHfrId = standby.hfrId;
@@ -4832,7 +4869,274 @@ function doReserve(hospitalName, isSelf = true) {
   }
 }
 
+function generateTransferCode() {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let res = '';
+  for (let i = 0; i < 4; i++) {
+    res += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return res;
+}
+
+function updateArrivalIntakeUI() {
+  const card = document.getElementById('arrival-intake-card');
+  const codeBadge = document.getElementById('handoff-token-badge');
+  const codeText = document.getElementById('handoff-token-code');
+
+  if (codeText) {
+    codeText.textContent = transferPayload.transferCode || '----';
+  }
+  if (codeBadge) {
+    if (transferPayload.dispatched) {
+      codeBadge.classList.remove('hidden');
+    } else {
+      codeBadge.classList.add('hidden');
+    }
+  }
+
+  if (!card) return;
+
+  if (!transferPayload.dispatched) {
+    card.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
+            Direct-to-Bay Arrival Intake
+          </h2>
+          <p class="text-xs text-mutedSlate mt-0.5">Paramedic Handoff Verification</p>
+        </div>
+        <span class="clinical-badge badge-neutral text-[10px] font-semibold">Standby</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-paper border border-softBorder mt-3 text-center">
+        <p class="text-xs text-mutedSlate">
+          Awaiting incoming referral dispatch. Pass code entry activates when clinic initiates transfer.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  if (transferPayload.isAdmitted) {
+    const v = transferPayload.vitals || { spo2: 82, bpSys: 85, bpDia: 55, hr: 128, gcs: 7 };
+    const shockIdx = (v.bpSys && v.bpSys > 0) ? (v.hr / v.bpSys).toFixed(2) : '1.51';
+
+    card.innerHTML = `
+      <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-300">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                Bay 05 Direct Admission Confirmed
+              </h2>
+              <p class="text-[11px] text-emerald-800 font-medium">
+                Admitted at ${transferPayload.admittedAt || 'Just now'} &middot; 14m Transit &middot; Zero ER Queue
+              </p>
+            </div>
+          </div>
+          <span class="clinical-badge badge-green text-[10px] font-bold border border-emerald-300">
+            Pass: ${transferPayload.transferCode || '----'}
+          </span>
+        </div>
+
+        <div class="bg-white/95 rounded-lg p-3 border border-emerald-200 mb-3">
+          <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
+            Immediate Bedside Vitals
+          </span>
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
+              <span class="text-[9px] text-mutedSlate block font-medium">SpO₂</span>
+              <span class="font-mono text-xs font-bold text-statRed">${v.spo2}%</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
+              <span class="text-[9px] text-mutedSlate block font-medium">BP</span>
+              <span class="font-mono text-xs font-bold text-statRed">${v.bpSys}/${v.bpDia}</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
+              <span class="text-[9px] text-mutedSlate block font-medium">HR</span>
+              <span class="font-mono text-xs font-bold text-urgentAmber">${v.hr}</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
+              <span class="text-[9px] text-mutedSlate block font-medium">Shock Idx</span>
+              <span class="font-mono text-xs font-bold text-statRed">${shockIdx}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/95 rounded-lg p-3 border border-emerald-200">
+          <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
+            Immediate Bedside Orders
+          </span>
+          <ul class="text-[11px] text-inkDark space-y-1.5 font-medium">
+            <li class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
+              <span><strong>Ventilator:</strong> Servo-Air AC/VC (FiO₂ 100%, PEEP 10) connected</span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
+              <span><strong>Vasopressor:</strong> Norepinephrine IV infusion (4 mcg/min) ongoing</span>
+            </li>
+            <li class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
+              <span><strong>Blood Product:</strong> 2 Units O-Negative PRBCs verified at bedside</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const currentCode = transferPayload.transferCode || '----';
+  card.innerHTML = `
+    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+      <div>
+        <h2 class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
+          Direct-to-Bay Arrival Intake
+        </h2>
+        <p class="text-xs text-mutedSlate mt-0.5">Enter 4-character pass code from incoming paramedic</p>
+      </div>
+      <span class="clinical-badge badge-blue text-[10px] font-bold">Ambulance DL-108 En Route</span>
+    </div>
+
+    <div class="mt-3.5 p-3.5 sm:p-4 rounded-xl bg-paper border border-softBorder flex flex-col gap-2.5">
+      <div class="flex items-center gap-2">
+        <input
+          id="arrival-token-input"
+          type="text"
+          maxlength="4"
+          placeholder="e.g. 8K4M"
+          oninput="this.value = this.value.toUpperCase();"
+          onkeydown="if(event.key==='Enter') verifyAdmissionCode();"
+          class="uppercase font-mono text-center text-lg font-black tracking-widest w-32 h-11 rounded-xl border border-softBorder bg-white focus:border-clinicalTeal focus:ring-2 focus:ring-clinicalTeal/20 outline-none text-inkDark placeholder:text-mutedSlate/40"
+          aria-label="4-character Transfer Pass Code"
+        />
+        <button
+          id="btn-verify-admission"
+          type="button"
+          onclick="verifyAdmissionCode()"
+          class="btn-clinical !h-11 !px-4 text-xs font-bold shrink-0 flex-1 flex items-center justify-center gap-1.5"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Verify &amp; Admit to Bay 05</span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between text-[11px] text-mutedSlate pt-0.5">
+        <span>Direct-to-bay admission bypasses 28m ER queue</span>
+        <button
+          type="button"
+          onclick="autoFillTransferCode()"
+          class="text-clinicalTeal hover:underline font-semibold cursor-pointer"
+          title="Fill current incoming transfer code"
+        >
+          Demo: Auto-fill <span class="font-mono font-bold">${currentCode}</span>
+        </button>
+      </div>
+
+      <p id="arrival-token-error" class="hidden text-xs text-statRed font-semibold"></p>
+    </div>
+  `;
+}
+
+function autoFillTransferCode() {
+  const input = document.getElementById('arrival-token-input');
+  if (input && transferPayload.transferCode) {
+    input.value = transferPayload.transferCode;
+    const err = document.getElementById('arrival-token-error');
+    if (err) err.classList.add('hidden');
+  }
+}
+
+function verifyAdmissionCode() {
+  const input = document.getElementById('arrival-token-input');
+  const err = document.getElementById('arrival-token-error');
+  if (!input) return;
+  const val = input.value.trim().toUpperCase();
+  const expected = (transferPayload.transferCode || '').toUpperCase();
+
+  if (!val) {
+    if (err) {
+      err.textContent = 'Please enter the 4-character transfer code from paramedic pass.';
+      err.classList.remove('hidden');
+    }
+    return;
+  }
+
+  if (val !== expected) {
+    if (err) {
+      err.textContent = `Invalid code "${val}". Check transfer code on clinic dispatch pass (expected ${expected}).`;
+      err.classList.remove('hidden');
+    }
+    return;
+  }
+
+  if (err) err.classList.add('hidden');
+  admitPatientDirectToBay(true);
+}
+
+function admitPatientDirectToBay(isSelf = true) {
+  transferPayload.isAdmitted = true;
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
+  transferPayload.admittedAt = timeStr;
+
+  playLockChime();
+  updateArrivalIntakeUI();
+  updateHandshakeUI();
+  updateClinicChecklistSync();
+
+  const b05 = document.getElementById('bed05');
+  const b05Label = document.getElementById('b05-label');
+  const b05Sub = document.getElementById('b05-sub');
+  if (b05) {
+    b05.className = 'bed-tile bt-res col-span-2 bg-emerald-700 border-emerald-600 text-white';
+    b05.classList.add('bed-light-up');
+    setTimeout(() => b05.classList.remove('bed-light-up'), 1500);
+  }
+  if (b05Label) b05Label.textContent = 'Bay 05 · Patient Admitted';
+  if (b05Sub) b05Sub.textContent = `Direct Handoff (${timeStr})`;
+
+  const wardBadge = document.getElementById('ward-capacity-badge');
+  if (wardBadge) {
+    wardBadge.textContent = '8/8 Occupied · Bay 05 Active';
+    wardBadge.className = 'clinical-badge badge-green text-[10px] font-semibold';
+  }
+
+  showToast('Patient Admitted to Bay 05. Direct-to-bay bedside handoff complete.', 'sage');
+
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('PATIENT_ADMITTED', {
+      transferCode: transferPayload.transferCode,
+      admittedAt: transferPayload.admittedAt,
+      transferPayload
+    });
+  }
+}
+
+function applyIncomingPatientAdmitted(data) {
+  if (data && data.transferPayload) {
+    transferPayload = { ...transferPayload, ...data.transferPayload };
+  } else {
+    transferPayload.isAdmitted = true;
+    if (data && data.admittedAt) transferPayload.admittedAt = data.admittedAt;
+  }
+  updateArrivalIntakeUI();
+  updateHandshakeUI();
+  updateClinicChecklistSync();
+  flashSyncIndicator();
+}
+
 function updateHandshakeUI() {
+  updateArrivalIntakeUI();
   const alertCard = document.getElementById('handshake-alert-card');
   const navPing = document.getElementById('icu-handshake-nav-ping');
   const navDot = document.getElementById('icu-handshake-nav-dot');
@@ -4950,30 +5254,53 @@ function updateHandshakeUI() {
     }
 
     if (b05) {
-      b05.className = 'bed-tile bt-res col-span-2';
+      if (transferPayload.isAdmitted) {
+        b05.className = 'bed-tile bt-res col-span-2 bg-emerald-700 border-emerald-600 text-white';
+      } else {
+        b05.className = 'bed-tile bt-res col-span-2';
+      }
     }
-    if (b05Label) b05Label.textContent = 'Assigned · Team Priming';
-    if (b05Sub) b05Sub.textContent = 'Ambulance DL-108 · Bed Confirmed';
+    if (b05Label) {
+      b05Label.textContent = transferPayload.isAdmitted ? 'Bay 05 · Patient Admitted' : 'Assigned · Team Priming';
+    }
+    if (b05Sub) {
+      b05Sub.textContent = transferPayload.isAdmitted ? `Direct Handoff (${transferPayload.admittedAt || 'Active'})` : 'Ambulance DL-108 · Bed Confirmed';
+    }
 
-    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Assigned · Telemetry Active';
-    if (stageBadge) stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+    if (stageBadgeTxt) {
+      stageBadgeTxt.textContent = transferPayload.isAdmitted ? 'Bay 05 Admitted · Direct Care' : 'Bay 05 Assigned · Telemetry Active';
+    }
+    if (stageBadge) {
+      stageBadge.className = transferPayload.isAdmitted ? 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5' : 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+    }
 
     const capLocked = document.getElementById('ward-capacity-badge');
     if (capLocked) {
-      capLocked.textContent = '7/8 Occupied · 1 Staged';
-      capLocked.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+      capLocked.textContent = transferPayload.isAdmitted ? '8/8 Occupied · Bay 05 Active' : '7/8 Occupied · 1 Staged';
+      capLocked.className = transferPayload.isAdmitted ? 'clinical-badge badge-green text-[10px] font-semibold' : 'clinical-badge badge-blue text-[10px] font-semibold';
     }
 
-    if (abdmStatusText) abdmStatusText.textContent = 'Bed Assigned & Confirmed';
+    if (abdmStatusText) abdmStatusText.textContent = transferPayload.isAdmitted ? 'Bed Admitted & Active' : 'Bed Assigned & Confirmed';
 
-    if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Transfer In Progress to';
+    if (handoffTitlePrefix) {
+      handoffTitlePrefix.textContent = transferPayload.isAdmitted ? 'Patient Admitted to' : 'Transfer In Progress to';
+    }
     if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
     if (handoffBadge) {
-      handoffBadge.textContent = 'ICU Bay 05 Assigned · Telemetry Active';
-      handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+      if (transferPayload.isAdmitted) {
+        handoffBadge.textContent = 'Direct-to-Bay Admission Verified';
+        handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+      } else {
+        handoffBadge.textContent = 'ICU Bay 05 Assigned · Telemetry Active';
+        handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+      }
     }
     if (handoffSubtext) {
-      handoffSubtext.innerHTML = `ICU Bay 05 Assigned · Telemetry Active · Confirmed by Dr. V. Anand · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+      if (transferPayload.isAdmitted) {
+        handoffSubtext.innerHTML = `Ambulance DL-108 arrived at Bay 05 · Bedside clinical handoff confirmed with ICU team · Transfer ID: <span class="font-mono text-inkDark font-semibold">${transferPayload.token}</span>`;
+      } else {
+        handoffSubtext.innerHTML = `ICU Bay 05 Assigned · Telemetry Active · Confirmed by Dr. V. Anand · Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>`;
+      }
     }
     if (handoffIconWrap) {
       handoffIconWrap.className = 'w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0';
@@ -5543,6 +5870,22 @@ function updateClinicChecklistSync() {
   const banner = document.getElementById('handoff-banner');
   const iconWrap = document.getElementById('handoff-status-icon-wrap');
   if (!readinessPill) return;
+
+  if (transferPayload.isAdmitted) {
+    readinessPill.className = 'clinical-badge badge-green text-[10px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
+    readinessPill.textContent = 'Bay 05 Direct Handoff Complete · Bedside Active';
+    if (banner) {
+      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border border-emerald-400 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50';
+    }
+    if (iconWrap) {
+      iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0';
+      iconWrap.innerHTML = `
+        <svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>`;
+    }
+    return;
+  }
 
   const rows = document.querySelectorAll('#chklist .chk-row');
   const total = rows.length;
