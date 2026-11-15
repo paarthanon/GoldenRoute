@@ -1392,7 +1392,7 @@ button:focus-visible {
          STEP 1: PATIENT INTAKE & REQUIREMENTS
          (Visible first. Clinician selects threat level, equipment, condition & editable vitals)
     ───────────────────────────────────────────────────────────── -->
-    <section id="clinic-step-1" class="flex flex-col gap-6 pb-20 sm:pb-24">
+    <section id="clinic-step-1" class="flex flex-col gap-6 pb-6 sm:pb-8">
 
       <!-- Step 1 Header -->
       <header class="mb-1">
@@ -1763,19 +1763,7 @@ button:focus-visible {
         </button>
       </div>
 
-      <!-- Sticky Floating Summary Bar on Step 1 (Always reachable on all laptop screen heights) -->
-      <aside id="step-1-sticky-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-4xl liquid-glass rounded-2xl p-3 sm:px-6 sm:py-3.5 border border-softBorder flex flex-col sm:flex-row items-center justify-between gap-3 backdrop-blur-md transition-all">
-        <div class="flex items-center gap-2.5 flex-wrap text-xs">
-          <span class="inline-block w-2.5 h-2.5 rounded-full bg-clinicalTeal animate-pulse"></span>
-          <span id="sticky-summary-text" class="font-bold text-inkDark">
-            Standard Triage &middot; Standard ICU Monitoring &middot; SpO₂ 82% | BP 85/55
-          </span>
-        </div>
-        <button type="button" onclick="goToStep2()" class="btn-clinical !h-9 !px-5 !text-xs !font-bold w-full sm:w-auto flex items-center justify-center gap-2 shrink-0">
-          <span>View Matches</span>
-          <span class="text-sm">&rarr;</span>
-        </button>
-      </aside>
+
 
     </section>
 <section id="clinic-step-2" class="hidden flex flex-col gap-6">
@@ -3081,6 +3069,8 @@ GoldenBus.on((type, data) => {
     applyIncomingEquip(data);
   } else if (type === 'CHECKLIST_SYNC') {
     applyIncomingChecklist(data);
+  } else if (type === 'AMBULANCE_ARRIVED') {
+    applyIncomingAmbulanceArrived(data);
   } else if (type === 'PATIENT_ADMITTED') {
     applyIncomingPatientAdmitted(data);
   } else if (type === 'STATE_RESET') {
@@ -3477,6 +3467,8 @@ function resetSimulationState(isSelf = true) {
   transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
   transferPayload.standbyHospital = 'Saroj Super Speciality Hospital';
   transferPayload.transferCode = null;
+  transferPayload.ambulanceArrived = false;
+  transferPayload.arrivedAt = null;
   transferPayload.isAdmitted = false;
   transferPayload.admittedAt = null;
 
@@ -3564,6 +3556,8 @@ function escapeHtml(str) {
 let transferPayload = {
   token: '#GR-DEL-9421',
   transferCode: null,
+  ambulanceArrived: false,
+  arrivedAt: null,
   isAdmitted: false,
   admittedAt: null,
   syndrome: 'Severe Lung Failure & Infection (ARDS / Sepsis)',
@@ -4806,6 +4800,8 @@ function doReserve(hospitalName, isSelf = true) {
   }
   transferPayload.isAdmitted = false;
   transferPayload.admittedAt = null;
+  transferPayload.ambulanceArrived = false;
+  transferPayload.arrivedAt = null;
   const standby = getDynamicStandbyHospital(transferPayload.hospital);
   transferPayload.standbyHospital = standby.name;
   transferPayload.standbyHfrId = standby.hfrId;
@@ -4909,6 +4905,7 @@ function updateArrivalIntakeUI() {
 
   if (!card) return;
 
+  // Phase 1: Not dispatched yet -> Standby
   if (!transferPayload.dispatched) {
     card.innerHTML = `
       <div class="flex items-center justify-between mb-2">
@@ -4920,25 +4917,26 @@ function updateArrivalIntakeUI() {
         </div>
         <span class="clinical-badge badge-neutral text-[10px] font-semibold">Standby</span>
       </div>
-      <div class="p-3.5 rounded-xl bg-paper border border-softBorder mt-3 text-center">
-        <p class="text-xs text-mutedSlate">
-          Awaiting incoming referral dispatch. Pass code entry activates when clinic initiates transfer.
+      <div class="p-4 rounded-xl bg-paper border border-softBorder mt-3 text-center">
+        <p class="text-xs text-mutedSlate leading-relaxed">
+          Awaiting incoming referral dispatch. Pass code entry activates when ambulance reaches hospital intake dock.
         </p>
       </div>
     `;
     return;
   }
 
+  // Phase 2: Patient already admitted -> Confirmed Direct-to-Bay Dossier
   if (transferPayload.isAdmitted) {
     const v = transferPayload.vitals || { spo2: 82, bpSys: 85, bpDia: 55, hr: 128, gcs: 7 };
     const shockIdx = (v.bpSys && v.bpSys > 0) ? (v.hr / v.bpSys).toFixed(2) : '1.51';
 
     card.innerHTML = `
-      <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-300">
+      <div class="p-4 rounded-xl bg-emerald-50/90 border border-emerald-300">
         <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </span>
@@ -4947,7 +4945,7 @@ function updateArrivalIntakeUI() {
                 Bay 05 Direct Admission Confirmed
               </h2>
               <p class="text-[11px] text-emerald-800 font-medium">
-                Admitted at ${transferPayload.admittedAt || 'Just now'} &middot; 14m Transit &middot; Zero ER Queue
+                Admitted at ${transferPayload.admittedAt || 'Just now'} &middot; Zero ER Dock Queue
               </p>
             </div>
           </div>
@@ -4958,7 +4956,7 @@ function updateArrivalIntakeUI() {
 
         <div class="bg-white/95 rounded-lg p-3 border border-emerald-200 mb-3">
           <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
-            Immediate Bedside Vitals
+            Immediate Bedside Vitals Snapshot
           </span>
           <div class="grid grid-cols-4 gap-2 text-center">
             <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
@@ -4982,7 +4980,7 @@ function updateArrivalIntakeUI() {
 
         <div class="bg-white/95 rounded-lg p-3 border border-emerald-200">
           <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
-            Immediate Bedside Orders
+            Immediate Bedside Orders Connected
           </span>
           <ul class="text-[11px] text-inkDark space-y-1.5 font-medium">
             <li class="flex items-center gap-1.5">
@@ -4991,7 +4989,7 @@ function updateArrivalIntakeUI() {
             </li>
             <li class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
-              <span><strong>Vasopressor:</strong> Norepinephrine IV infusion (4 mcg/min) ongoing</span>
+              <span><strong>Vasopressor:</strong> Norepinephrine IV infusion (4 mcg/min) active</span>
             </li>
             <li class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
@@ -5004,59 +5002,187 @@ function updateArrivalIntakeUI() {
     return;
   }
 
+  const meta = getHospitalMeta(transferPayload.hospital);
+
+  // Phase 3: In Transit (Ambulance has NOT reached hospital dock) -> Locked Tracker
+  if (!transferPayload.ambulanceArrived) {
+    card.innerHTML = `
+      <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+        <div>
+          <h2 class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
+            Ambulance DL-108 In Transit
+          </h2>
+          <p class="text-xs text-mutedSlate mt-0.5">En Route to ${escapeHtml(meta.shortName)} &middot; Bay 05 Primed</p>
+        </div>
+        <span class="clinical-badge badge-blue text-[10px] font-bold">Pass Code Locked</span>
+      </div>
+
+      <div class="mt-3.5 p-4 rounded-xl bg-paper border border-softBorder flex flex-col gap-3">
+        <div class="flex items-center justify-between text-xs font-medium text-inkDark">
+          <span class="text-mutedSlate font-semibold">Transit Progress</span>
+          <span class="font-mono font-bold text-clinicalTeal" id="transit-progress-text">Approaching Hospital</span>
+        </div>
+
+        <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+          <div id="transit-progress-bar" class="bg-clinicalTeal h-2 rounded-full transition-all duration-300" style="width: 45%;"></div>
+        </div>
+
+        <div class="flex items-start gap-2.5 p-3 rounded-lg bg-white border border-softBorder text-xs text-mutedSlate">
+          <svg class="w-4 h-4 text-clinicalTeal shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <div class="flex-1 leading-snug">
+            <strong class="text-inkDark">Code Interface Locked:</strong> Paramedic transfer pass code unlocks automatically once Ambulance DL-108 arrives at the hospital intake dock.
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onclick="triggerAmbulanceArrival(true)"
+          class="w-full h-10 px-4 rounded-xl border border-clinicalTeal/40 text-clinicalTeal bg-clinicalTeal/[0.04] hover:bg-clinicalTeal/10 active:bg-clinicalTeal/20 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+          title="Simulate ambulance arriving at hospital doors now"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span>Fast-Forward: Simulate Ambulance Arrival</span>
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  // Phase 4: Ambulance HAS ARRIVED at Hospital Dock -> Active Code Verification Form
   const currentCode = transferPayload.transferCode || '----';
   card.innerHTML = `
-    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
-      <div>
-        <h2 class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
-          Direct-to-Bay Arrival Intake
-        </h2>
-        <p class="text-xs text-mutedSlate mt-0.5">Enter 4-character pass code from incoming paramedic</p>
-      </div>
-      <span class="clinical-badge badge-blue text-[10px] font-bold">Ambulance DL-108 En Route</span>
-    </div>
-
-    <div class="mt-3.5 p-3.5 sm:p-4 rounded-xl bg-paper border border-softBorder flex flex-col gap-2.5">
-      <div class="flex items-center gap-2">
-        <input
-          id="arrival-token-input"
-          type="text"
-          maxlength="4"
-          placeholder="e.g. 8K4M"
-          oninput="this.value = this.value.toUpperCase();"
-          onkeydown="if(event.key==='Enter') verifyAdmissionCode();"
-          class="uppercase font-mono text-center text-lg font-black tracking-widest w-32 h-11 rounded-xl border border-softBorder bg-white focus:border-clinicalTeal focus:ring-2 focus:ring-clinicalTeal/20 outline-none text-inkDark placeholder:text-mutedSlate/40"
-          aria-label="4-character Transfer Pass Code"
-        />
-        <button
-          id="btn-verify-admission"
-          type="button"
-          onclick="verifyAdmissionCode()"
-          class="btn-clinical !h-11 !px-4 text-xs font-bold shrink-0 flex-1 flex items-center justify-center gap-1.5"
-        >
-          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>Verify &amp; Admit to Bay 05</span>
-        </button>
+    <div class="p-4 rounded-xl bg-emerald-50/90 border border-emerald-300">
+      <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-600"></span>
+          </span>
+          <div>
+            <h2 class="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+              Ambulance Arrived at Hospital Dock
+            </h2>
+            <p class="text-xs text-emerald-800 font-medium mt-0.5">
+              Unit DL-108 at Bay 05 ER Entrance &middot; Paramedic Ready for Bedside Handoff
+            </p>
+          </div>
+        </div>
+        <span class="clinical-badge badge-green text-[10px] font-bold">At Bay 05 Entrance</span>
       </div>
 
-      <div class="flex items-center justify-between text-[11px] text-mutedSlate pt-0.5">
-        <span>Direct-to-bay admission bypasses 28m ER queue</span>
-        <button
-          type="button"
-          onclick="autoFillTransferCode()"
-          class="text-clinicalTeal hover:underline font-semibold cursor-pointer"
-          title="Fill current incoming transfer code"
-        >
-          Demo: Auto-fill <span class="font-mono font-bold">${currentCode}</span>
-        </button>
-      </div>
+      <div class="mt-3 p-3.5 sm:p-4 rounded-xl bg-white border border-emerald-200 flex flex-col gap-2.5">
+        <label for="arrival-token-input" class="text-xs font-bold text-inkDark flex items-center justify-between">
+          <span>Enter 4-Character Paramedic Pass Code:</span>
+          <span class="text-[11px] font-normal text-mutedSlate">Check paramedic transfer tablet</span>
+        </label>
 
-      <p id="arrival-token-error" class="hidden text-xs text-statRed font-semibold"></p>
+        <div class="flex items-center gap-2">
+          <input
+            id="arrival-token-input"
+            type="text"
+            maxlength="4"
+            placeholder="e.g. 8K4M"
+            oninput="this.value = this.value.toUpperCase();"
+            onkeydown="if(event.key==='Enter') verifyAdmissionCode();"
+            class="uppercase font-mono text-center text-lg font-black tracking-widest w-32 h-11 rounded-xl border border-softBorder bg-white focus:border-clinicalTeal focus:ring-2 focus:ring-clinicalTeal/20 outline-none text-inkDark placeholder:text-mutedSlate/40"
+            aria-label="4-character Transfer Pass Code"
+            autofocus
+          />
+          <button
+            id="btn-verify-admission"
+            type="button"
+            onclick="verifyAdmissionCode()"
+            class="btn-clinical !h-11 !px-4 text-xs font-bold shrink-0 flex-1 flex items-center justify-center gap-1.5"
+          >
+            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Verify &amp; Admit to Bay 05</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] text-mutedSlate pt-0.5">
+          <span>Direct-to-bay admission bypasses 28m ER queue</span>
+          <button
+            type="button"
+            onclick="autoFillTransferCode()"
+            class="text-clinicalTeal hover:underline font-semibold cursor-pointer"
+            title="Fill current incoming transfer code"
+          >
+            Demo: Auto-fill <span class="font-mono font-bold">${currentCode}</span>
+          </button>
+        </div>
+
+        <p id="arrival-token-error" class="hidden text-xs text-statRed font-semibold"></p>
+      </div>
     </div>
   `;
+}
+
+function triggerAmbulanceArrival(isSelf = true) {
+  if (transferPayload.ambulanceArrived) return;
+  transferPayload.ambulanceArrived = true;
+  transferPayload.arrivedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
+
+  const meta = getHospitalMeta(transferPayload.hospital);
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl) {
+    etaEl.textContent = `${meta.shortName} Arrival · Bay 05 Dock Reached`;
+  }
+  const etaPill = document.getElementById('eta-pill');
+  if (etaPill) {
+    etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold';
+  }
+
+  if (liveRoute && liveRoute.length > 0) {
+    const dest = liveRoute[liveRoute.length - 1];
+    currentAmbuPos = dest;
+    currentAmbuIdx = liveRoute.length - 1;
+    if (ambuMkr) ambuMkr.setLatLng(dest);
+  }
+
+  updateArrivalIntakeUI();
+  updateHandshakeUI();
+
+  if (isSelf) {
+    saveAppState();
+    GoldenBus.send('AMBULANCE_ARRIVED', {
+      transferPayload,
+      arrivedAt: transferPayload.arrivedAt
+    });
+    showToast(`Ambulance DL-108 arrived at ${meta.shortName} dock. Enter pass code to admit.`, 'sage');
+  }
+}
+
+function applyIncomingAmbulanceArrived(data) {
+  transferPayload.ambulanceArrived = true;
+  transferPayload.arrivedAt = (data && data.arrivedAt) ? data.arrivedAt : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
+  if (data && data.transferPayload) {
+    transferPayload = { ...transferPayload, ...data.transferPayload };
+  }
+  const meta = getHospitalMeta(transferPayload.hospital);
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl) {
+    etaEl.textContent = `${meta.shortName} Arrival · Bay 05 Dock Reached`;
+  }
+  const etaPill = document.getElementById('eta-pill');
+  if (etaPill) {
+    etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold';
+  }
+  if (liveRoute && liveRoute.length > 0) {
+    const dest = liveRoute[liveRoute.length - 1];
+    currentAmbuPos = dest;
+    currentAmbuIdx = liveRoute.length - 1;
+    if (ambuMkr) ambuMkr.setLatLng(dest);
+  }
+  updateArrivalIntakeUI();
+  updateHandshakeUI();
+  flashSyncIndicator();
 }
 
 function autoFillTransferCode() {
