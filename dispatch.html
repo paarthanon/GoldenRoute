@@ -77,12 +77,6 @@
           statRedBorder: '#FECDD3',
           statRedText: '#9F1239',
           
-          // Harmonized Palette Tokens
-          statRed: '#BE123C',
-          statRedBg: '#FFF1F2',
-          statRedBorder: '#FECDD3',
-          statRedText: '#9F1239',
-          
           // Distinct Warm Amber-Orange (Accessible, Non-Vibrating)
           urgentAmber: '#C2410C',
           urgentAmberBg: '#FFF7ED',
@@ -3006,10 +3000,20 @@ button:focus-visible {
 const GoldenBus = (() => {
   const ch = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('setu_bus') : null;
   const subs = [];
-  let lastId = '';
+  const seenIds = new Set();
+
+  function markAndCheckSeen(id) {
+    if (!id || seenIds.has(id)) return true;
+    seenIds.add(id);
+    if (seenIds.size > 100) {
+      const first = seenIds.values().next().value;
+      seenIds.delete(first);
+    }
+    return false;
+  }
+
   function dispatch(msg) {
-    if (!msg || !msg.type || msg.id === lastId) return;
-    lastId = msg.id;
+    if (!msg || !msg.type || markAndCheckSeen(msg.id)) return;
     subs.forEach(cb => cb(msg.type, msg.data));
   }
   if (ch) ch.onmessage = e => dispatch(e.data);
@@ -3021,7 +3025,7 @@ const GoldenBus = (() => {
   return {
     send(type, data) {
       const msg = { type, data, id: Date.now() + '-' + Math.random().toString(36).slice(2) };
-      lastId = msg.id;
+      markAndCheckSeen(msg.id);
       if (ch) ch.postMessage(msg);
       try { localStorage.setItem('setu_bus', JSON.stringify(msg)); } catch (_) {}
     },
@@ -3305,19 +3309,21 @@ function applyIncomingHandshakeAccept(data) {
   }
 
   if (mapReady) {
-    if (markerDestination) {
-      markerDestination.setIcon(getDestinationPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Handshake Accepted (Bay 05 Confirmed)');
+    const destMarker = getMarkerForHospital(transferPayload.hospital);
+    if (destMarker) {
+      destMarker.setIcon(getDestinationPin());
+      destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Handshake Accepted (Bay 05 Confirmed)`);
     }
     if (routeLine) {
       routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
     }
+    const meta = getHospitalMeta(transferPayload.hospital);
     const eta = document.getElementById('eta-txt');
-    if (eta) eta.textContent = 'En Route to Max · 14 min ETA';
+    if (eta) eta.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
   }
 
   playLockChime();
-  showToast('ABDM Handshake Accepted: Bay 05 Locked for DL-108.', 'sage');
+  showToast(`ABDM Handshake Accepted: Bay 05 Locked at ${transferPayload.hospital}.`, 'sage');
   flashSyncIndicator();
 }
 
@@ -3328,45 +3334,52 @@ function applyIncomingHandshakeDecline(data) {
   }
   handshakeState = 'DECLINED';
   transferPayload.handshakeStatus = 'DECLINED';
-  transferPayload.hospital = 'Saroj Super Speciality Hospital (Rohini Sector 14)';
+  const cascadeHosp = (data && data.transferPayload && data.transferPayload.hospital) || transferPayload.standbyHospital || 'Saroj Super Speciality Hospital (Rohini Sector 14)';
+  const prevHosp = (data && data.prevHospital) || 'Max Super Speciality Hospital (Shalimar Bagh)';
+  transferPayload.hospital = cascadeHosp;
   transferPayload.refusalReasonCode = data.code;
   transferPayload.refusalTimestamp = data.timestamp || new Date().toISOString();
-  overrideActive = true;
 
   updateHandshakeUI();
 
   // Show divert alert bar across peer windows
   const divertBar = document.getElementById('divert-bar');
   if (divertBar) {
-    const prevHosp = 'Max Super Speciality Hospital (Shalimar Bagh)';
-    const cascadeHosp = transferPayload.hospital;
     divertBar.querySelector('p').innerHTML = `<strong>Automated Cascade:</strong> ${escapeHtml(prevHosp)} diverted due to <strong>${escapeHtml(data.code || 'Capacity Divert')}</strong>. Ambulance DL-108 automatically cascaded to <strong>${escapeHtml(cascadeHosp)}</strong>.`;
     divertBar.classList.add('show');
   }
 
   if (mapReady) {
-    if (markerDestination) {
-      markerDestination.setIcon(getBackupBlackPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Declined (' + (data.code || 'Capacity') + ') · Cascaded to Saroj');
+    const prevMarker = getMarkerForHospital(prevHosp);
+    if (prevMarker) {
+      prevMarker.setIcon(getBackupBlackPin());
+      prevMarker.setPopupContent(`<b>${escapeHtml(prevHosp)}</b><br>Declined (${escapeHtml(data.code || 'Capacity')}) · Cascaded to ${escapeHtml(cascadeHosp)}`);
     }
-    if (markerSaroj) {
-      markerSaroj.setIcon(getDestinationPin());
-      markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Cascaded Destination (Inbound)');
+    const cascadeMarker = getMarkerForHospital(cascadeHosp);
+    if (cascadeMarker) {
+      cascadeMarker.setIcon(getDestinationPin());
+      cascadeMarker.setPopupContent(`<b>${escapeHtml(cascadeHosp)}</b><br>Cascaded Destination (Inbound)`);
     }
     const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
     const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-    const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
+    let divertRoute;
+    if (cascadeHosp.includes('Saroj')) {
+      divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
+    } else {
+      divertRoute = getRouteForHospital(cascadeHosp);
+    }
     liveRoute = divertRoute;
     if (routeLine) {
       routeLine.setLatLngs(divertRoute);
       routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
     }
     startSmoothAmbulance();
+    const meta = getHospitalMeta(cascadeHosp);
     const eta = document.getElementById('eta-txt');
-    if (eta) eta.textContent = 'Cascaded → Saroj · +3 min ETA';
+    if (eta) eta.textContent = `Cascaded → ${meta.shortName} · ${meta.baseMin} min ETA`;
   }
 
-  showToast('Max ICU Declined: Transfer cascaded to Saroj Hospital.', 'terra');
+  showToast(`Transfer cascaded to ${cascadeHosp}.`, 'terra');
   flashSyncIndicator();
 }
 
@@ -3471,8 +3484,8 @@ function resetSimulationState(isSelf = true) {
     resetAllMapPinsToNeutral();
     if (markerClinic) markerClinic.setIcon(getClinicPin());
     if (markerDestination) {
-      markerDestination.setIcon(getDestinationPin());
-      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Bed Request Transmitted');
+      markerDestination.setIcon(getBackupBlackPin());
+      markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Referral Standby');
     }
     if (markerSaroj) {
       markerSaroj.setIcon(getBackupBlackPin());
@@ -3915,7 +3928,6 @@ const HOSPITAL_EQUIPMENT_DATA = {
       'Cardiac Cath Lab': 'Secondary Cath Unit Standby',
       'High-Flow Nasal Cannula': 'HFNC Cart Ready',
       'Negative-Pressure Isolation Room': 'General Isolation Bay',
-      'ECMO Life Support': 'Basic Perfusion Standby',
       _default: 'Basic Unit Available'
     },
     missing: {
@@ -4175,7 +4187,7 @@ function updateHospitalEquipmentDisplays(selectedEquips) {
           note = HOSPITAL_EQUIPMENT_DATA.saroj.available[eqName] || HOSPITAL_EQUIPMENT_DATA.saroj.available._default;
         }
       } else if (key === 'bsa') {
-        if (bsaMissingList.includes(eqName)) {
+        if (eqName === 'ECMO Life Support' || bsaMissingList.includes(eqName)) {
           isAvailable = false;
           note = HOSPITAL_EQUIPMENT_DATA.bsa.missing[eqName] || HOSPITAL_EQUIPMENT_DATA.bsa.missing._default;
         } else {
@@ -4311,7 +4323,7 @@ function goToStep2() {
     transferPayload.syndrome = syndromeSelect.value;
   }
 
-  updateVitalsDisplay();
+  updateVitalsDisplay(false);
 
   const urgencyBadge = document.getElementById('summary-urgency-badge');
   if (urgencyBadge) {
@@ -4568,7 +4580,11 @@ function handleFamilyOverrideBg(event) {
 
 function confirmFamilyOverride() {
   closeFamilyOverrideModal();
-  if (overrideActive) resetOverride();
+  overrideActive = false;
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
 
   const isSgmh = currentFamilyOverrideTarget === 'sgmh';
   const targetHospName = isSgmh ? 'Sanjay Gandhi Memorial Hospital (SGMH)' : 'Dr. B.S. Ambedkar (BSA) Hospital';
@@ -4576,14 +4592,17 @@ function confirmFamilyOverride() {
   const driveMin = isSgmh ? 9 : 7;
   const lagMin = isSgmh ? 22 : 28;
 
+  handshakeState = 'LOCKED';
   transferPayload.hospital = targetHospName;
   transferPayload.familyOverride = true;
   transferPayload.dispatched = true;
+  transferPayload.handshakeStatus = 'LOCKED';
   transferPayload.overrideTimestamp = new Date().toISOString();
   transferPayload.overrideCounseling = `Family counselled on ${lagMin}m dock lag; explicitly chose Civil Govt Free ICU care.`;
 
-  updateVitalsDisplay();
+  updateVitalsDisplay(false);
   updateICUChecklist();
+  updateHandshakeUI();
 
   // Update Referring Facility Handoff Banner
   const handoffBanner = document.getElementById('handoff-banner');
@@ -4667,7 +4686,7 @@ function initRoleSelection() {
     applyRole('clinic');
   }
 
-  updateVitalsDisplay();
+  updateVitalsDisplay(false);
   updateHospitalEquipmentDisplays(getSelectedEquipments());
 }
 
@@ -4692,7 +4711,7 @@ function applyRole(role) {
 
 
   if (!isClinic) {
-    updateVitalsDisplay();
+    updateVitalsDisplay(false);
     updateICUChecklist();
     requestAnimationFrame(() => {
       initMap();
@@ -4723,8 +4742,18 @@ function switchRole(role) {
 
 // ─────── 6. Referral & Bed Lock (Handshake State Machine) ───────
 function doReserve(hospitalName, isSelf = true) {
-  if (overrideActive) resetOverride(false);
+  if (handshakeState === 'LOCKED' || handshakeState === 'PENDING_ACK') {
+    showToast(`Bed request already active for ${transferPayload.hospital}. Divert or reset to change.`, 'info');
+    return;
+  }
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
+  }
+  overrideActive = false;
   transferPayload.familyOverride = false;
+  transferPayload.handshakeExpiresAt = Date.now() + 90 * 1000;
+  handshakeRemainingSec = 90;
 
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
@@ -5083,7 +5112,11 @@ function updateHandshakeUI() {
 
 function startHandshakeTimer(seconds = 90) {
   if (handshakeTimer) clearInterval(handshakeTimer);
-  handshakeRemainingSec = seconds;
+  if (!transferPayload.handshakeExpiresAt) {
+    transferPayload.handshakeExpiresAt = Date.now() + seconds * 1000;
+  }
+  const calcRemaining = () => Math.max(0, Math.ceil((transferPayload.handshakeExpiresAt - Date.now()) / 1000));
+  handshakeRemainingSec = calcRemaining();
 
   const countNum = document.getElementById('handshake-countdown-num');
   const secText = document.getElementById('handshake-sec-text');
@@ -5094,7 +5127,7 @@ function startHandshakeTimer(seconds = 90) {
   if (handoffCountdown) handoffCountdown.textContent = `${handshakeRemainingSec}s`;
 
   handshakeTimer = setInterval(() => {
-    handshakeRemainingSec--;
+    handshakeRemainingSec = calcRemaining();
     if (countNum) countNum.textContent = handshakeRemainingSec;
     if (secText) secText.textContent = `${handshakeRemainingSec}s`;
     
@@ -5109,8 +5142,10 @@ function startHandshakeTimer(seconds = 90) {
     if (handshakeRemainingSec <= 0) {
       clearInterval(handshakeTimer);
       handshakeTimer = null;
-      // 90s timeout expired: Automatic Cascade to Saroj Hospital
-      cascadeWithReason('TIMEOUT_90S', '90s Unacknowledged Confirmation Timeout');
+      // 90s timeout expired: Automatic Cascade only if still in PENDING_ACK
+      if (handshakeState === 'PENDING_ACK') {
+        cascadeWithReason('TIMEOUT_90S', '90s Unacknowledged Confirmation Timeout');
+      }
     }
   }, 1000);
 }
@@ -5155,11 +5190,12 @@ function acceptHandshake(isSelf = true) {
 function cascadeWithReason(reason, description, isSelf = true) {
   closeDeclineModal();
   closeModal();
-  overrideActive = true;
+  overrideActive = false;
   triggerCascade(reason, description || reason, isSelf);
 }
 
 function triggerCascade(code, description, isSelf = true) {
+  if (handshakeState === 'DECLINED') return;
   if (handshakeTimer) {
     clearInterval(handshakeTimer);
     handshakeTimer = null;
@@ -5273,7 +5309,7 @@ function triggerCascade(code, description, isSelf = true) {
 
   if (isSelf) {
     saveAppState();
-    GoldenBus.send('HANDSHAKE_DECLINE', { code, description, transferPayload, handshakeState: 'DECLINED' });
+    GoldenBus.send('HANDSHAKE_DECLINE', { code, description, transferPayload, prevHospital: prevHosp, handshakeState: 'DECLINED' });
     showToast(`Ambulance DL-108 rerouted to ${cascadeHosp}. Reason: ${code}.`, 'terra');
   }
 }
@@ -5283,7 +5319,8 @@ function handoffToICU() {
   if (handshakeState === 'PENDING_ACK') {
     showToast('Switched to Receiving ICU. Awaiting Intensivist ACK (90s).', 'terra');
   } else if (handshakeState === 'DECLINED') {
-    showToast('Switched to Receiving ICU. Viewing Saroj Hospital Cascade.', 'info');
+    const meta = getHospitalMeta(transferPayload.hospital);
+    showToast(`Switched to Receiving ICU. Viewing ${meta.shortName} Cascade.`, 'info');
   } else {
     showToast('Connected to Receiving ICU. Bay 05 staged.', 'sage');
   }
@@ -5408,7 +5445,7 @@ function updateICUChecklist() {
       items.push({
         title: CHECKLIST_TEMPLATES[eq].title,
         subtitle: CHECKLIST_TEMPLATES[eq].subtitle,
-        done: true
+        done: false
       });
     }
   });
@@ -5424,21 +5461,21 @@ function updateICUChecklist() {
     items.push({
       title: 'Prepare Infusion Pump (Norepinephrine)',
       subtitle: '4 mg/50 mL primed for uninterrupted handover',
-      done: true
+      done: false
     });
   }
   if (activeSupports.includes('Ambu-Bag O₂')) {
     items.push({
       title: 'Prepare Emergency Oxygen Switchover',
       subtitle: 'Oxygen regulator primed for immediate handoff',
-      done: true
+      done: false
     });
   }
   if (items.length === 0) {
     items.push({
       title: 'Prepare Resuscitation Bay (Bay 05)',
       subtitle: 'Standard bedside infusion lines and monitoring leads primed',
-      done: true
+      done: false
     });
   }
 
@@ -5489,13 +5526,15 @@ function chkToggle(row) {
 }
 
 function ackAll() {
-  document.querySelectorAll('#chklist .chk-row').forEach(row => {
+  const rows = document.querySelectorAll('#chklist .chk-row');
+  rows.forEach(row => {
     row.querySelector('.chk-circle')?.classList.add('done');
     row.querySelector('.chk-text')?.classList.add('done');
   });
   updateClinicChecklistSync();
-  const count = document.querySelectorAll('#chklist .chk-row').length;
-  GoldenBus.send('CHECKLIST_SYNC', { doneAll: true, doneCount: count });
+  const count = rows.length;
+  const states = Array.from(rows).map(() => true);
+  GoldenBus.send('CHECKLIST_SYNC', { doneAll: true, doneCount: count, states });
   showToast('Bay 05 confirmed ready. Medical team and room prepared.', 'sage');
 }
 
@@ -5506,11 +5545,16 @@ function updateClinicChecklistSync() {
   if (!readinessPill) return;
 
   const rows = document.querySelectorAll('#chklist .chk-row');
-  const total = rows.length || 6;
+  const total = rows.length;
+  if (total === 0) {
+    readinessPill.className = 'clinical-badge badge-neutral text-[10px] font-semibold';
+    readinessPill.textContent = 'Receiving Team Standby';
+    return;
+  }
   const doneRows = document.querySelectorAll('#chklist .chk-row .chk-circle.done');
   const doneCount = doneRows.length;
 
-  if (total > 0 && doneCount === total) {
+  if (doneCount === total) {
     readinessPill.className = 'clinical-badge badge-green text-[10px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
     readinessPill.textContent = 'Bay 05 100% Primed · Trauma Team Standing By at Door';
 
@@ -5816,9 +5860,9 @@ function lockMapToCorridor(forceReset = false) {
 
 const CLINIC  = [28.7285, 77.1058]; // Rohini Sector 3 Clinic
 const MAX_HSP = [28.7022, 77.1540]; // Max Shalimar Bagh
-const JAIPUR  = [28.6978, 77.1099]; // Jaipur Golden Hospital (Rohini Sector 3 Institutional Area)
+const JAIPUR  = [28.7135, 77.1090]; // Jaipur Golden Hospital (Rohini Sector 3 Institutional Area)
 const SAROJ   = [28.7165, 77.1095]; // Saroj Hospital (Rohini Sector 14)
-const BSA     = [28.7250, 77.1060]; // Dr. B.S. Ambedkar Hospital (Rohini Sector 6)
+const BSA     = [28.7148, 77.1125]; // Dr. B.S. Ambedkar Hospital (Rohini Sector 6)
 const SGMH    = [28.6900, 77.0850]; // Sanjay Gandhi Memorial Hospital (Mangolpuri)
 const AGRASEN = [28.6675, 77.1265]; // Maharaja Agrasen Hospital (Punjabi Bagh)
 const BALAJI  = [28.6720, 77.0950]; // Action Balaji Hospital (Paschim Vihar)
@@ -5872,9 +5916,8 @@ const ROUTE_MAX = [
 const ROUTE_JAIPUR = [
   [28.72850, 77.10580], [28.72768, 77.10506], [28.72660, 77.10671],
   [28.72496, 77.10913], [28.72373, 77.10814], [28.72234, 77.10693],
-  [28.72096, 77.10764], [28.71838, 77.11053], [28.71427, 77.11648],
-  [28.71000, 77.11450], [28.70500, 77.11200], [28.70100, 77.11080],
-  [28.69780, 77.10990]
+  [28.72096, 77.10764], [28.71926, 77.10925], [28.71838, 77.11053],
+  [28.71680, 77.10980], [28.71520, 77.10940], [28.71350, 77.10900]
 ];
 
 const ROUTE_SAROJ = [
@@ -5898,12 +5941,21 @@ const ROUTE_SAROJ = [
   [28.71627, 77.10982], [28.71650, 77.10950]
 ];
 
+// Dr. B.S. Ambedkar Hospital: Rohini Sector 3 clinic south down Bhagwan Mahavir Marg to Rohini Sector 6 (~7 mins)
 const ROUTE_BSA = [
-  [28.72850, 77.10580],
-  [28.72768, 77.10506],
-  [28.72660, 77.10671],
-  [28.72580, 77.10620],
-  [28.72500, 77.10600]
+  [28.72850, 77.10580], [28.72768, 77.10506], [28.72660, 77.10671],
+  [28.72496, 77.10913], [28.72373, 77.10814], [28.72234, 77.10693],
+  [28.72096, 77.10764], [28.71974, 77.10856], [28.71887, 77.10983],
+  [28.71838, 77.11053], [28.71750, 77.11120], [28.71660, 77.11180],
+  [28.71580, 77.11220], [28.71480, 77.11250]
+];
+
+// Fortis Hospital: Outer Ring Road south-east to Shalimar Bagh / Pitampura (~15 mins)
+const ROUTE_FORTIS = [
+  ...ROUTE_MAX.slice(0, 135),
+  [28.70320, 77.15500],
+  [28.70420, 77.15650],
+  [28.70500, 77.15800]
 ];
 
 // Sanjay Gandhi Memorial Hospital (SGMH): Rohini Sec 3 south via Outer Ring Rd over Mangolpuri flyover (~9 mins)
@@ -5982,7 +6034,7 @@ function getRouteForHospital(name) {
   if (name.includes('Sanjay') || name.includes('SGMH')) return ROUTE_SGMH;
   if (name.includes('Agrasen')) return ROUTE_AGRASEN;
   if (name.includes('Balaji')) return ROUTE_BALAJI;
-  if (name.includes('Fortis')) return ROUTE_MAX;
+  if (name.includes('Fortis')) return ROUTE_FORTIS;
   return ROUTE_MAX;
 }
 
@@ -6018,6 +6070,30 @@ function getDynamicStandbyHospital(primaryHospital) {
       hfrId: 'IN-DL-HFR-10512',
       eta: 4,
       route: ROUTE_JAIPUR
+    };
+  }
+  if (name.includes('BSA') || name.includes('Ambedkar')) {
+    return {
+      name: 'Sanjay Gandhi Memorial Hospital (SGMH)',
+      hfrId: 'IN-DL-HFR-10520',
+      eta: 9,
+      route: ROUTE_SGMH
+    };
+  }
+  if (name.includes('SGMH') || name.includes('Sanjay')) {
+    return {
+      name: 'Dr. B.S. Ambedkar (BSA) Hospital',
+      hfrId: 'IN-DL-HFR-10515',
+      eta: 7,
+      route: ROUTE_BSA
+    };
+  }
+  if (name.includes('Fortis')) {
+    return {
+      name: 'Max Super Speciality Hospital (Shalimar Bagh)',
+      hfrId: 'IN-DL-HFR-10492',
+      eta: 14,
+      route: ROUTE_MAX
     };
   }
   // Default for Max or others:
@@ -6196,7 +6272,6 @@ function initMap() {
     lockMapToCorridor();
     return;
   }
-  mapReady = true;
 
   lmap = L.map('map-wrap', {
     center: [28.7003, 77.1244],
@@ -6324,6 +6399,7 @@ function initMap() {
   }).addTo(lmap).bindPopup('<b>Ambulance Unit DL-108</b><br>Active Emergency Transfer');
 
   liveRoute = ROUTE_MAX;
+  mapReady = true;
   startSmoothAmbulance();
 
   setTimeout(() => {
@@ -6432,7 +6508,7 @@ function startSmoothAmbulance() {
     const totalDist = liveDists.total;
     if (totalDist <= 0) return;
 
-    const elapsed = timestamp - animStartTime;
+    const elapsed = Math.max(0, timestamp - animStartTime);
     let progress = 0;
     let newEtaText = '';
 
@@ -6516,7 +6592,8 @@ function startSmoothAmbulance() {
 
 // ─────── 13. Bed Reassignment Modal & Fallback Reroute ───────
 function openOverrideModal() {
-  openDeclineModal();
+  const modal = document.getElementById('modal');
+  if (modal) modal.classList.add('show');
 }
 
 function closeModal() {
@@ -6551,13 +6628,17 @@ function applyOverrideUI(active) {
   const reassignDesc = document.getElementById('reassign-desc-txt');
   const reassignWrap = document.getElementById('reassign-btn-wrap');
 
+  const overrideTarget = transferPayload.standbyHospital || 'Saroj Super Speciality Hospital (Rohini Sector 14)';
+  const overrideMeta = getHospitalMeta(overrideTarget);
+  const primaryMeta = getHospitalMeta(transferPayload.hospital);
+
   if (active) {
     if (inboundTag) {
       inboundTag.textContent = 'Ambulance DL-108 Rerouted — Walk-in Emergency at Hospital';
       inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
     }
     if (bannerSub) {
-      bannerSub.innerHTML = 'Saroj Hospital, Rohini Sector 14 <span class="font-normal text-sm text-mutedSlate">— Receiving DL-108 (+3 min delay)</span>';
+      bannerSub.innerHTML = `${escapeHtml(overrideMeta.shortName)} <span class="font-normal text-sm text-mutedSlate">— Receiving DL-108 (+3 min delay)</span>`;
     }
     if (b) {
       b.className = 'bed-tile bt-walk col-span-2';
@@ -6571,29 +6652,31 @@ function applyOverrideUI(active) {
       cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
     }
     if (reassignDesc) {
-      reassignDesc.textContent = 'Ambulance DL-108 diverted to Saroj Hospital. Click to restore original transit to Bay 05.';
+      reassignDesc.textContent = `Ambulance DL-108 diverted to ${overrideMeta.shortName}. Click to restore original transit.`;
     }
     if (reassignWrap) {
       reassignWrap.innerHTML = `
         <button type="button" class="btn-clinical-secondary !w-auto !h-11 !px-5 whitespace-nowrap shrink-0 !text-clinicalTeal !border-clinicalTeal hover:!bg-clinicalTeal/10" onclick="resetOverride()">
           <span class="mr-1.5 font-bold text-base leading-none">↺</span>
-          <span>Restore Transfer to Max Hospital</span>
+          <span>Restore Transfer to ${escapeHtml(primaryMeta.shortName)}</span>
         </button>`;
     }
     if (divertBar) divertBar.classList.add('show');
 
     if (mapReady) {
-      if (markerDestination) {
-        markerDestination.setIcon(getBackupBlackPin());
-        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Walk-in Emergency (Bay Reassigned)');
+      const primMarker = getMarkerForHospital(transferPayload.hospital);
+      if (primMarker) {
+        primMarker.setIcon(getBackupBlackPin());
+        primMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Walk-in Emergency (Bay Reassigned)`);
       }
-      if (markerSaroj) {
-        markerSaroj.setIcon(getDestinationPin());
-        markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Diverted Destination (Inbound)');
+      const overrideMarker = getMarkerForHospital(overrideTarget);
+      if (overrideMarker) {
+        overrideMarker.setIcon(getDestinationPin());
+        overrideMarker.setPopupContent(`<b>${escapeHtml(overrideTarget)}</b><br>Diverted Destination (Inbound)`);
       }
       const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
       const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-      const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
+      const divertRoute = overrideTarget.includes('Saroj') ? computeRerouteToSaroj(currCoord, currentAmbuIdx) : getRouteForHospital(overrideTarget);
       liveRoute = divertRoute;
 
       if (routeLine) {
@@ -6602,7 +6685,7 @@ function applyOverrideUI(active) {
       }
       startSmoothAmbulance();
       const eta = document.getElementById('eta-txt');
-      if (eta) eta.textContent = 'Rerouted → Saroj · +3 min ETA';
+      if (eta) eta.textContent = `Rerouted → ${overrideMeta.shortName} · +3 min ETA`;
     }
   } else {
     // Restore
@@ -6611,7 +6694,8 @@ function applyOverrideUI(active) {
       inboundTag.className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
     }
     if (bannerSub) {
-      bannerSub.innerHTML = 'Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>';
+      const subStatus = handshakeState === 'LOCKED' ? 'ICU Bay 05 Assigned · Telemetry Active' : 'Bed Request Transmitted · Telemetry Active';
+      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— ${subStatus}</span>`;
     }
     if (b) {
       if (handshakeState === 'LOCKED') {
@@ -6653,17 +6737,19 @@ function applyOverrideUI(active) {
     if (divertBar) divertBar.classList.remove('show');
 
     if (mapReady) {
-      if (markerDestination) {
-        markerDestination.setIcon(getDestinationPin());
-        markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Assigned · Telemetry Active)');
+      const primMarker = getMarkerForHospital(transferPayload.hospital);
+      if (primMarker) {
+        primMarker.setIcon(getDestinationPin());
+        primMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Active Destination (Bay 05 Assigned · Telemetry Active)`);
       }
-      if (markerSaroj) {
-        markerSaroj.setIcon(getBackupBlackPin());
-        markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Primary Backup Ready');
+      const overrideMarker = getMarkerForHospital(overrideTarget);
+      if (overrideMarker) {
+        overrideMarker.setIcon(getBackupBlackPin());
+        overrideMarker.setPopupContent(`<b>${escapeHtml(overrideTarget)}</b><br>Primary Backup Ready`);
       }
       const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
       const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-      const returnRoute = computeResetToMax(currCoord);
+      const returnRoute = overrideTarget.includes('Saroj') ? computeResetToMax(currCoord) : getRouteForHospital(transferPayload.hospital);
       liveRoute = returnRoute;
 
       if (routeLine) {
@@ -6672,7 +6758,7 @@ function applyOverrideUI(active) {
       }
       startSmoothAmbulance();
       const eta = document.getElementById('eta-txt');
-      if (eta) eta.textContent = handshakeState === 'PENDING_ACK' ? 'Awaiting Bed ACK · 14 min ETA' : 'En Route to Max · 14 min ETA';
+      if (eta) eta.textContent = handshakeState === 'PENDING_ACK' ? `Awaiting Bed ACK · ${primaryMeta.baseMin} min ETA` : `En Route to ${primaryMeta.shortName} · ${primaryMeta.baseMin} min ETA`;
     }
   }
 }
