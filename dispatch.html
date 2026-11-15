@@ -3301,10 +3301,8 @@ function applyIncomingBedLock(data) {
         routeLine.setLatLngs(liveRoute);
         routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
       }
-      startSmoothAmbulance();
       const meta = getHospitalMeta(transferPayload.hospital);
-      const eta = document.getElementById('eta-txt');
-      if (eta) eta.textContent = `Awaiting Bed ACK · ${meta.baseMin} min ETA`;
+      parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`);
     }
 
     showToast(`Incoming Transfer Request: DL-108 Telemetry Transmitted.`, 'terra');
@@ -3321,7 +3319,7 @@ function applyIncomingHandshakeAccept(data) {
   }
   handshakeState = 'LOCKED';
   transferPayload.handshakeStatus = 'LOCKED';
-  if (data.transferPayload) {
+  if (data && data.transferPayload) {
     transferPayload = { ...transferPayload, ...data.transferPayload };
   }
 
@@ -3334,14 +3332,25 @@ function applyIncomingHandshakeAccept(data) {
   }
 
   if (mapReady) {
+    resetAllMapPinsToNeutral();
+    if (markerClinic) markerClinic.setIcon(getClinicPin());
+
     const destMarker = getMarkerForHospital(transferPayload.hospital);
     if (destMarker) {
       destMarker.setIcon(getDestinationPin());
       destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Handshake Accepted (Bay 05 Confirmed)`);
     }
-    if (routeLine) {
-      routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    const standbyMarker = getMarkerForHospital(transferPayload.standbyHospital);
+    if (standbyMarker) {
+      standbyMarker.setIcon(getBackupBlackPin());
+      standbyMarker.setPopupContent(`<b>${escapeHtml(transferPayload.standbyHospital)}</b><br>Parallel Standby Active`);
     }
+    liveRoute = getRouteForHospital(transferPayload.hospital);
+    if (routeLine) {
+      routeLine.setLatLngs(liveRoute);
+      routeLine.setStyle({ color: '#0C6277', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    startSmoothAmbulance();
     const meta = getHospitalMeta(transferPayload.hospital);
     const eta = document.getElementById('eta-txt');
     if (eta) eta.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
@@ -4790,6 +4799,8 @@ function doReserve(hospitalName, isSelf = true) {
   const syndromeSelect = document.getElementById('syndrome-select');
   transferPayload.syndrome = syndromeSelect ? syndromeSelect.value : 'Severe Lung Failure & Infection (ARDS / Sepsis)';
   transferPayload.hospital = hospitalName || 'Max Super Speciality Hospital (Shalimar Bagh)';
+  transferPayload.primaryHospital = transferPayload.hospital;
+  transferPayload.preOverrideHospital = transferPayload.hospital;
   if (!transferPayload.transferCode) {
     transferPayload.transferCode = generateTransferCode();
   }
@@ -4837,11 +4848,9 @@ function doReserve(hospitalName, isSelf = true) {
       routeLine.setLatLngs(liveRoute);
       routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
     }
-    startSmoothAmbulance();
 
     const meta = getHospitalMeta(transferPayload.hospital);
-    const etaEl = document.getElementById('eta-txt');
-    if (etaEl) etaEl.textContent = `Awaiting Bed ACK · ${meta.baseMin} min ETA`;
+    parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`);
 
     // Asynchronously query OSRM for dynamic live geometry with zero-latency hardcoded fallback
     const targetCoord = getCoordForHospital(transferPayload.hospital);
@@ -4850,7 +4859,11 @@ function doReserve(hospitalName, isSelf = true) {
         if (osrmCoords && routeLine && transferPayload.dispatched && !transferPayload.familyOverride) {
           liveRoute = osrmCoords;
           routeLine.setLatLngs(osrmCoords);
-          startSmoothAmbulance();
+          if (handshakeState === 'LOCKED') {
+            startSmoothAmbulance();
+          } else {
+            parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`);
+          }
         }
       });
     }
@@ -5435,6 +5448,37 @@ function updateHandshakeUI() {
     }
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transmit Telemetry & Dispatch';
   }
+
+  const bannerSub = document.getElementById('banner-sub');
+  if (bannerSub && !overrideActive) {
+    if (handshakeState === 'LOCKED') {
+      const subStatus = transferPayload.isAdmitted ? 'Bay 05 Admitted · Direct Care' : 'ICU Bay 05 Assigned · Telemetry Active';
+      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— ${subStatus}</span>`;
+    } else if (handshakeState === 'PENDING_ACK') {
+      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— Bed Request Transmitted · Telemetry Active</span>`;
+    } else if (handshakeState === 'DECLINED') {
+      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— Automated Cascade Destination</span>`;
+    } else {
+      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital || 'Max Super Speciality Hospital')} <span class="font-normal text-sm text-mutedSlate">— ICU Standby · Awaiting Referral</span>`;
+    }
+  }
+
+  const inboundTag = document.getElementById('inbound-tag');
+  if (inboundTag && !overrideActive) {
+    if (handshakeState === 'LOCKED') {
+      inboundTag.textContent = `Inbound Transfer · Ambulance DL-108 · En Route to ${getHospitalMeta(transferPayload.hospital).shortName}`;
+      inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+    } else if (handshakeState === 'PENDING_ACK') {
+      inboundTag.textContent = `Inbound Request · DL-108 Primed at Clinic · Awaiting ACK`;
+      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+    } else if (handshakeState === 'DECLINED') {
+      inboundTag.textContent = `Auto-Cascade Dispatched · ${escapeHtml(transferPayload.hospital)} Primary`;
+      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+    } else {
+      inboundTag.textContent = 'ICU Standby · Bed 05 Open';
+      inboundTag.className = 'clinical-badge badge-neutral text-[10px] font-bold tracking-wide uppercase';
+    }
+  }
 }
 
 function startHandshakeTimer(seconds = 90) {
@@ -5494,16 +5538,30 @@ function acceptHandshake(isSelf = true) {
   }
 
   if (mapReady) {
+    resetAllMapPinsToNeutral();
+    if (markerClinic) markerClinic.setIcon(getClinicPin());
+
     const destMarker = getMarkerForHospital(transferPayload.hospital);
     if (destMarker) {
       destMarker.setIcon(getDestinationPin());
       destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Handshake Accepted (Bay Assigned &amp; Locked)`);
     }
-    if (routeLine) {
-      routeLine.setStyle({ color: '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
+    const standbyMarker = getMarkerForHospital(transferPayload.standbyHospital);
+    if (standbyMarker) {
+      standbyMarker.setIcon(getBackupBlackPin());
+      standbyMarker.setPopupContent(`<b>${escapeHtml(transferPayload.standbyHospital)}</b><br>Parallel Standby Active`);
     }
+
+    liveRoute = getRouteForHospital(transferPayload.hospital);
+    if (routeLine) {
+      routeLine.setLatLngs(liveRoute);
+      routeLine.setStyle({ color: '#0C6277', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+    }
+    startSmoothAmbulance();
+
     const meta = getHospitalMeta(transferPayload.hospital);
-    document.getElementById('eta-txt').textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
+    const etaEl = document.getElementById('eta-txt');
+    if (etaEl) etaEl.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
   }
 
   playLockChime();
@@ -6703,19 +6761,19 @@ function initMap() {
   markerClinic = L.marker(CLINIC,  { icon: getClinicPin() }).addTo(lmap)
    .bindPopup('<b>Referring Facility</b><br>Rohini Sector 3 · Origin Point');
 
-  markerDestination = L.marker(MAX_HSP, { icon: getDestinationPin() }).addTo(lmap)
-   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Active Destination (Bay 05 Assigned · Telemetry Active)');
+  markerDestination = L.marker(MAX_HSP, { icon: getNeutralPin() }).addTo(lmap)
+   .bindPopup('<b>Max Super Speciality Hospital</b><br>Shalimar Bagh · Quaternary Trauma Center');
 
-  markerJaipur = L.marker(JAIPUR, { icon: getBackupBlackPin() }).addTo(lmap)
+  markerJaipur = L.marker(JAIPUR, { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Jaipur Golden Hospital</b><br>Rohini Sector 3 · 4 mins (Fastest Private Bed)');
 
-  markerSaroj = L.marker(SAROJ,   { icon: getBackupBlackPin() }).addTo(lmap)
+  markerSaroj = L.marker(SAROJ,   { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Saroj Super Speciality Hospital</b><br>Rohini Sector 14 · Primary Backup Ready');
 
-  markerAgrasen = L.marker(AGRASEN, { icon: getBackupBlackPin() }).addTo(lmap)
+  markerAgrasen = L.marker(AGRASEN, { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Maharaja Agrasen Hospital</b><br>Punjabi Bagh · Charitable Trust (400+ Beds · ECMO/CRRT)');
 
-  markerBalaji = L.marker(BALAJI, { icon: getBackupBlackPin() }).addTo(lmap)
+  markerBalaji = L.marker(BALAJI, { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Action Balaji Hospital</b><br>Paschim Vihar, West Delhi · 3 Open ICU Beds');
 
   markerBSA = L.marker(BSA,     { icon: getNeutralPin() }).addTo(lmap)
@@ -6727,23 +6785,33 @@ function initMap() {
   markerFortis = L.marker(FORTIS,  { icon: getNeutralPin() }).addTo(lmap)
    .bindPopup('<b>Fortis Hospital</b><br>Shalimar Bagh / Pitampura · Ventilators Full');
 
-  routeLine = L.polyline(ROUTE_MAX, {
-    color: '#0C6277',
+  const initialHospital = (transferPayload && transferPayload.hospital) ? transferPayload.hospital : 'Max Super Speciality Hospital';
+  liveRoute = getRouteForHospital(initialHospital);
+
+  routeLine = L.polyline(liveRoute, {
+    color: (handshakeState === 'LOCKED') ? '#0C6277' : '#EA580C',
     weight: 3.5,
-    opacity: 0.8,
+    opacity: (handshakeState === 'IDLE') ? 0.4 : 0.85,
     dashArray: '8 6',
     lineCap: 'round',
     className: 'clinical-route-line',
   }).addTo(lmap);
 
-  ambuMkr = L.marker(ROUTE_MAX[0], {
+  ambuMkr = L.marker((liveRoute && liveRoute[0]) ? liveRoute[0] : CLINIC, {
     icon: makeAmbulanceBeacon(),
     zIndexOffset: 1000
   }).addTo(lmap).bindPopup('<b>Ambulance Unit DL-108</b><br>Active Emergency Transfer');
 
-  liveRoute = ROUTE_MAX;
   mapReady = true;
-  startSmoothAmbulance();
+
+  if (handshakeState === 'LOCKED' || handshakeState === 'DECLINED' || transferPayload.familyOverride) {
+    startSmoothAmbulance();
+  } else if (handshakeState === 'PENDING_ACK') {
+    const meta = getHospitalMeta(transferPayload.hospital);
+    parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`);
+  } else {
+    parkAmbulanceAtOrigin('Ambulance DL-108 · Standby at Referring Facility');
+  }
 
   setTimeout(() => {
     if (lmap) {
@@ -6831,9 +6899,44 @@ function computeResetToMax(currCoord) {
   return r;
 }
 
+function parkAmbulanceAtOrigin(statusText) {
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
+  const origin = (liveRoute && liveRoute[0]) ? liveRoute[0] : CLINIC;
+  currentAmbuPos = origin;
+  currentAmbuIdx = 0;
+  animStartTime = null;
+  liveDists = null;
+  if (ambuMkr) {
+    ambuMkr.setLatLng(origin);
+  }
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl && statusText) {
+    etaEl.textContent = statusText;
+  }
+}
+
 function startSmoothAmbulance() {
-  if (smoothAnimFrameId) cancelAnimationFrame(smoothAnimFrameId);
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
   if (!liveRoute || liveRoute.length < 2) return;
+
+  const isAccepted = handshakeState === 'LOCKED';
+  const isDeclined = handshakeState === 'DECLINED';
+  const isFamilyOverride = !!transferPayload.familyOverride;
+
+  if (!isAccepted && !isDeclined && !isFamilyOverride) {
+    const meta = getHospitalMeta(transferPayload.hospital);
+    const txt = (handshakeState === 'PENDING_ACK')
+      ? `Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`
+      : 'Ambulance DL-108 · Standby at Referring Facility';
+    parkAmbulanceAtOrigin(txt);
+    return;
+  }
 
   liveDists = computeRouteDists(liveRoute);
   animStartTime = performance.now();
@@ -6846,6 +6949,19 @@ function startSmoothAmbulance() {
   const meta = getHospitalMeta(transferPayload.hospital);
 
   function step(timestamp) {
+    const isAcceptedStep = handshakeState === 'LOCKED';
+    const isDeclinedStep = handshakeState === 'DECLINED';
+    const isFamilyOverrideStep = !!transferPayload.familyOverride;
+
+    if (!isAcceptedStep && !isDeclinedStep && !isFamilyOverrideStep) {
+      const metaStep = getHospitalMeta(transferPayload.hospital);
+      const txt = (handshakeState === 'PENDING_ACK')
+        ? `Awaiting Bed ACK from ${metaStep.shortName} · Ambulance Primed at Clinic`
+        : 'Ambulance DL-108 · Standby at Referring Facility';
+      parkAmbulanceAtOrigin(txt);
+      return;
+    }
+
     if (!liveRoute || liveRoute.length < 2 || !liveDists) return;
 
     const totalDist = liveDists.total;
@@ -6874,8 +6990,7 @@ function startSmoothAmbulance() {
       if (cycleElapsed < routeDurationMs) {
         progress = cycleElapsed / routeDurationMs;
         const remainingMin = Math.max(1, Math.ceil((1.0 - progress) * meta.baseMin));
-        const prefix = (handshakeState === 'PENDING_ACK') ? 'Awaiting Bed ACK · ' : 'En Route to ';
-        newEtaText = `${prefix}${meta.shortName} · ${remainingMin} min ETA`;
+        newEtaText = `En Route to ${meta.shortName} · ${remainingMin} min ETA`;
       } else {
         progress = 1.0;
         newEtaText = meta.arrivalMsg;
@@ -7092,16 +7207,20 @@ function applyOverrideUI(active) {
       }
       const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
       const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
-      const returnRoute = overrideTarget.includes('Saroj') ? computeResetToMax(currCoord) : getRouteForHospital(transferPayload.hospital);
+      const returnRoute = (transferPayload.hospital.includes('Max') && overrideTarget.includes('Saroj')) ? computeResetToMax(currCoord) : getRouteForHospital(transferPayload.hospital);
       liveRoute = returnRoute;
 
       if (routeLine) {
         routeLine.setLatLngs(returnRoute);
         routeLine.setStyle({ color: handshakeState === 'PENDING_ACK' ? '#EA580C' : '#0C6277', opacity: 0.8, dashArray: '8 6', className: 'clinical-route-line' });
       }
-      startSmoothAmbulance();
+      if (handshakeState === 'LOCKED') {
+        startSmoothAmbulance();
+      } else {
+        parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${primaryMeta.shortName} · Ambulance Primed at Clinic`);
+      }
       const eta = document.getElementById('eta-txt');
-      if (eta) eta.textContent = handshakeState === 'PENDING_ACK' ? `Awaiting Bed ACK · ${primaryMeta.baseMin} min ETA` : `En Route to ${primaryMeta.shortName} · ${primaryMeta.baseMin} min ETA`;
+      if (eta) eta.textContent = handshakeState === 'PENDING_ACK' ? `Awaiting Bed ACK from ${primaryMeta.shortName} · Ambulance Primed at Clinic` : `En Route to ${primaryMeta.shortName} · ${primaryMeta.baseMin} min ETA`;
     }
   }
 }
@@ -7124,7 +7243,7 @@ function resetOverride(isSelf = true) {
   overrideActive = false;
   if (handshakeState === 'DECLINED') {
     handshakeState = 'LOCKED';
-    transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
+    transferPayload.hospital = transferPayload.preOverrideHospital || transferPayload.primaryHospital || 'Max Super Speciality Hospital (Shalimar Bagh)';
     transferPayload.handshakeStatus = 'LOCKED';
     transferPayload.refusalReasonCode = null;
     transferPayload.refusalTimestamp = null;
@@ -7134,7 +7253,8 @@ function resetOverride(isSelf = true) {
   if (isSelf) {
     saveAppState();
     GoldenBus.send('OVERRIDE_SYNC', { overrideActive: false });
-    showToast('Transfer to Max Hospital restored. Bay 05 staged.', 'sage');
+    const meta = getHospitalMeta(transferPayload.hospital);
+    showToast(`Transfer to ${meta.shortName} restored. Bay 05 staged.`, 'sage');
   }
 }
 
@@ -7377,10 +7497,8 @@ window.addEventListener('DOMContentLoaded', () => {
             routeLine.setLatLngs(liveRoute);
             routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
           }
-          startSmoothAmbulance();
           const meta = getHospitalMeta(transferPayload.hospital);
-          const eta = document.getElementById('eta-txt');
-          if (eta) eta.textContent = `Awaiting Bed ACK · ${meta.baseMin} min ETA`;
+          parkAmbulanceAtOrigin(`Awaiting Bed ACK from ${meta.shortName} · Ambulance Primed at Clinic`);
         }
       }
     }, 150);
