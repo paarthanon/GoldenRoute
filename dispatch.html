@@ -3066,6 +3066,13 @@ function applyIncomingChecklist(data) {
       row.querySelector('.chk-circle')?.classList.add('done');
       row.querySelector('.chk-text')?.classList.add('done');
     });
+  } else if (data && Array.isArray(data.states)) {
+    const rows = document.querySelectorAll('#chklist .chk-row');
+    rows.forEach((row, i) => {
+      const isDone = !!data.states[i];
+      row.querySelector('.chk-circle')?.classList.toggle('done', isDone);
+      row.querySelector('.chk-text')?.classList.toggle('done', isDone);
+    });
   }
   updateClinicChecklistSync();
 }
@@ -3324,8 +3331,18 @@ function applyIncomingHandshakeDecline(data) {
   transferPayload.hospital = 'Saroj Super Speciality Hospital (Rohini Sector 14)';
   transferPayload.refusalReasonCode = data.code;
   transferPayload.refusalTimestamp = data.timestamp || new Date().toISOString();
+  overrideActive = true;
 
   updateHandshakeUI();
+
+  // Show divert alert bar across peer windows
+  const divertBar = document.getElementById('divert-bar');
+  if (divertBar) {
+    const prevHosp = 'Max Super Speciality Hospital (Shalimar Bagh)';
+    const cascadeHosp = transferPayload.hospital;
+    divertBar.querySelector('p').innerHTML = `<strong>Automated Cascade:</strong> ${escapeHtml(prevHosp)} diverted due to <strong>${escapeHtml(data.code || 'Capacity Divert')}</strong>. Ambulance DL-108 automatically cascaded to <strong>${escapeHtml(cascadeHosp)}</strong>.`;
+    divertBar.classList.add('show');
+  }
 
   if (mapReady) {
     if (markerDestination) {
@@ -3336,7 +3353,9 @@ function applyIncomingHandshakeDecline(data) {
       markerSaroj.setIcon(getDestinationPin());
       markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Rohini Sec 14 · Cascaded Destination (Inbound)');
     }
-    const divertRoute = ROUTE_SAROJ;
+    const currPos = ambuMkr ? ambuMkr.getLatLng() : null;
+    const currCoord = currPos ? [currPos.lat, currPos.lng] : currentAmbuPos;
+    const divertRoute = computeRerouteToSaroj(currCoord, currentAmbuIdx);
     liveRoute = divertRoute;
     if (routeLine) {
       routeLine.setLatLngs(divertRoute);
@@ -3353,7 +3372,15 @@ function applyIncomingHandshakeDecline(data) {
 
 function applyIncomingOverride(active) {
   overrideActive = active;
+  if (!active && handshakeState === 'DECLINED') {
+    handshakeState = 'LOCKED';
+    transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
+    transferPayload.handshakeStatus = 'LOCKED';
+    transferPayload.refusalReasonCode = null;
+    transferPayload.refusalTimestamp = null;
+  }
   applyOverrideUI(active);
+  updateHandshakeUI();
   if (active) {
     showToast('Bay 05 reassigned (Emergency Walk-In). DL-108 rerouted to Saroj Hospital.', 'terra');
   } else {
@@ -3396,6 +3423,24 @@ function resetSimulationState(isSelf = true) {
   transferPayload.familyOverride = false;
   transferPayload.handshakeStatus = 'IDLE';
   transferPayload.threatLevel = null;
+  transferPayload.refusalReasonCode = null;
+  transferPayload.refusalTimestamp = null;
+  transferPayload.overrideCounseling = null;
+  transferPayload.overrideTimestamp = null;
+  transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
+  transferPayload.standbyHospital = 'Saroj Super Speciality Hospital';
+
+  clinicStep = 1;
+  const s1 = document.getElementById('clinic-step-1');
+  const s2 = document.getElementById('clinic-step-2');
+  if (s1 && s2) {
+    s2.classList.add('hidden');
+    s1.classList.remove('hidden');
+  }
+
+  const divertBar = document.getElementById('divert-bar');
+  if (divertBar) divertBar.classList.remove('show');
+
   [1, 2, 3].forEach(i => {
     const el = document.getElementById('tl' + i);
     if (el) {
@@ -3403,14 +3448,24 @@ function resetSimulationState(isSelf = true) {
       el.className = `threat-card ${baseClass}`;
     }
   });
+
+  document.querySelectorAll('.equip-chip').forEach(chip => {
+    chip.classList.remove('sel');
+  });
+
+  document.querySelectorAll('#chklist .chk-row').forEach(row => {
+    row.querySelector('.chk-circle')?.classList.remove('done');
+    row.querySelector('.chk-text')?.classList.remove('done');
+  });
+
   updateVitalsDisplay(false);
+  updateHospitalEquipmentDisplays([]);
   updateHandshakeUI();
   applyOverrideUI(false);
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.add('hidden');
-
-  transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
-  transferPayload.standbyHospital = 'Saroj Super Speciality Hospital';
+  updateClinicChecklistSync();
+  updateStep1StickySummary();
 
   if (mapReady) {
     resetAllMapPinsToNeutral();
@@ -3430,6 +3485,10 @@ function resetSimulationState(isSelf = true) {
     }
     if (ambuMkr) ambuMkr.setLatLng(ROUTE_MAX[0]);
     if (smoothAnimFrameId) cancelAnimationFrame(smoothAnimFrameId);
+    currentAmbuIdx = 0;
+    currentAmbuPos = ROUTE_MAX[0];
+    animStartTime = null;
+    liveDists = null;
     const eta = document.getElementById('eta-txt');
     if (eta) eta.textContent = 'Ambulance DL-108 · Standby at Referring Facility';
   }
@@ -4344,8 +4403,23 @@ function updateStep1StickySummary() {
 let currentSchemeFilter = 'all';
 let currentTierFilter = 'all';
 
-function showTier(tier) {
-  currentTierFilter = tier;
+function isCardMatchScheme(cardId, scheme) {
+  if (scheme === 'all') return true;
+  const cardMap = {
+    'hosp-card-max': ['pmjay', 'farishtey'],
+    'hosp-card-jaipur': ['farishtey'],
+    'hosp-card-saroj': ['pmjay', 'farishtey'],
+    'hosp-card-bsa': ['govt', 'pmjay', 'farishtey'],
+    'hosp-card-sgmh': ['govt', 'pmjay', 'farishtey'],
+    'hosp-card-agrasen': ['pmjay', 'farishtey'],
+    'hosp-card-balaji': ['pmjay', 'farishtey'],
+    'hosp-card-fortis': ['farishtey']
+  };
+  const schemes = cardMap[cardId] || [];
+  return schemes.includes(scheme);
+}
+
+function updateTierTabButtons(tier) {
   const tAll = document.getElementById('tab-tier-all');
   const t1 = document.getElementById('tab-tier-1');
   const t2 = document.getElementById('tab-tier-2');
@@ -4362,28 +4436,45 @@ function showTier(tier) {
   if (activeBtn) {
     activeBtn.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white';
   }
+}
+
+function updateTierVisibility() {
+  const cardsTier1 = ['hosp-card-max', 'hosp-card-jaipur', 'hosp-card-agrasen', 'hosp-card-saroj', 'hosp-card-balaji'];
+  const cardsTier2 = ['hosp-card-bsa', 'hosp-card-sgmh'];
+  const cardsTier3 = ['hosp-card-fortis'];
+
+  const hasVisW1 = cardsTier1.some(id => isCardMatchScheme(id, currentSchemeFilter));
+  const hasVisW2 = cardsTier2.some(id => isCardMatchScheme(id, currentSchemeFilter));
+  const hasVisW3 = cardsTier3.some(id => isCardMatchScheme(id, currentSchemeFilter));
+
+  if (currentTierFilter === 1 && !hasVisW1) {
+    currentTierFilter = 'all';
+    updateTierTabButtons('all');
+  } else if (currentTierFilter === 2 && !hasVisW2) {
+    currentTierFilter = 'all';
+    updateTierTabButtons('all');
+  } else if (currentTierFilter === 3 && !hasVisW3) {
+    currentTierFilter = 'all';
+    updateTierTabButtons('all');
+  }
 
   const w1 = document.getElementById('tier-1-wrapper');
   const w2 = document.getElementById('tier-2-wrapper');
   const w3 = document.getElementById('tier-3-wrapper');
 
-  if (w1) w1.style.display = (tier === 'all' || tier === 1) ? 'block' : 'none';
-  if (w2) w2.style.display = (tier === 'all' || tier === 2) ? 'block' : 'none';
-  if (w3) w3.style.display = (tier === 'all' || tier === 3) ? 'block' : 'none';
+  if (w1) w1.style.display = ((currentTierFilter === 'all' || currentTierFilter === 1) && hasVisW1) ? 'block' : 'none';
+  if (w2) w2.style.display = ((currentTierFilter === 'all' || currentTierFilter === 2) && hasVisW2) ? 'block' : 'none';
+  if (w3) w3.style.display = ((currentTierFilter === 'all' || currentTierFilter === 3) && hasVisW3) ? 'block' : 'none';
+}
+
+function showTier(tier) {
+  currentTierFilter = tier;
+  updateTierTabButtons(tier);
+  updateTierVisibility();
 }
 
 function filterByScheme(scheme) {
   currentSchemeFilter = scheme || 'all';
-  const cards = [
-    { id: 'hosp-card-max', schemes: ['pmjay', 'farishtey'], name: 'Max Hospital' },
-    { id: 'hosp-card-jaipur', schemes: ['farishtey'], name: 'Jaipur Golden' },
-    { id: 'hosp-card-saroj', schemes: ['pmjay', 'farishtey'], name: 'Saroj Hospital' },
-    { id: 'hosp-card-bsa', schemes: ['govt', 'pmjay', 'farishtey'], name: 'BSA Hospital' },
-    { id: 'hosp-card-sgmh', schemes: ['govt', 'pmjay', 'farishtey'], name: 'SGMH Mangolpuri' },
-    { id: 'hosp-card-agrasen', schemes: ['pmjay', 'farishtey'], name: 'Maharaja Agrasen' },
-    { id: 'hosp-card-balaji', schemes: ['pmjay', 'farishtey'], name: 'Action Balaji' },
-    { id: 'hosp-card-fortis', schemes: ['farishtey'], name: 'Fortis Hospital' }
-  ];
 
   // Update button active states
   ['all', 'pmjay', 'farishtey', 'govt'].forEach(s => {
@@ -4399,11 +4490,17 @@ function filterByScheme(scheme) {
     }
   });
 
+  const cardIds = [
+    'hosp-card-max', 'hosp-card-jaipur', 'hosp-card-saroj',
+    'hosp-card-bsa', 'hosp-card-sgmh', 'hosp-card-agrasen',
+    'hosp-card-balaji', 'hosp-card-fortis'
+  ];
+
   let visibleCount = 0;
-  cards.forEach(c => {
-    const el = document.getElementById(c.id);
+  cardIds.forEach(id => {
+    const el = document.getElementById(id);
     if (!el) return;
-    const match = (currentSchemeFilter === 'all') || c.schemes.includes(currentSchemeFilter);
+    const match = isCardMatchScheme(id, currentSchemeFilter);
     if (match) {
       el.style.display = 'flex';
       visibleCount++;
@@ -4412,31 +4509,7 @@ function filterByScheme(scheme) {
     }
   });
 
-  // Ensure parent tier wrappers are visible if they contain matching cards
-  const w1 = document.getElementById('tier-1-wrapper');
-  const w2 = document.getElementById('tier-2-wrapper');
-  const w3 = document.getElementById('tier-3-wrapper');
-  if (w1) {
-    const hasVis = ['hosp-card-max', 'hosp-card-jaipur', 'hosp-card-agrasen', 'hosp-card-saroj', 'hosp-card-balaji'].some(id => {
-      const el = document.getElementById(id);
-      return el && el.style.display !== 'none';
-    });
-    w1.style.display = hasVis ? 'block' : 'none';
-  }
-  if (w2) {
-    const hasVis = ['hosp-card-bsa', 'hosp-card-sgmh'].some(id => {
-      const el = document.getElementById(id);
-      return el && el.style.display !== 'none';
-    });
-    w2.style.display = hasVis ? 'block' : 'none';
-  }
-  if (w3) {
-    const hasVis = ['hosp-card-fortis'].some(id => {
-      const el = document.getElementById(id);
-      return el && el.style.display !== 'none';
-    });
-    w3.style.display = hasVis ? 'block' : 'none';
-  }
+  updateTierVisibility();
 
   const countEl = document.getElementById('scheme-filter-count');
   if (countEl) {
@@ -4796,6 +4869,12 @@ function updateHandshakeUI() {
     if (stageBadgeTxt) stageBadgeTxt.textContent = `Pending ACK (${handshakeRemainingSec}s)`;
     if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-semibold flex items-center gap-1.5 blink-fast';
 
+    const capPending = document.getElementById('ward-capacity-badge');
+    if (capPending) {
+      capPending.textContent = '7/8 Occupied · 1 Pending ACK';
+      capPending.className = 'clinical-badge badge-amber text-[10px] font-semibold';
+    }
+
     if (abdmStatusText) abdmStatusText.textContent = `Bed Request: Awaiting ACK (${handshakeRemainingSec}s)`;
 
     if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Awaiting Bed ACK from';
@@ -4850,6 +4929,12 @@ function updateHandshakeUI() {
     if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Assigned · Telemetry Active';
     if (stageBadge) stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
 
+    const capLocked = document.getElementById('ward-capacity-badge');
+    if (capLocked) {
+      capLocked.textContent = '7/8 Occupied · 1 Staged';
+      capLocked.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+    }
+
     if (abdmStatusText) abdmStatusText.textContent = 'Bed Assigned & Confirmed';
 
     if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Transfer In Progress to';
@@ -4894,6 +4979,33 @@ function updateHandshakeUI() {
             <span>↺ Restore Transfer</span>
           </button>
         </div>`;
+    }
+
+    if (b05) {
+      b05.className = 'bed-tile bt-walk col-span-2';
+      const code = transferPayload.refusalReasonCode || 'Capacity Divert';
+      let bayLabel = 'DIVERTED: ' + code.toUpperCase();
+      let bayDesc = 'Hospital diverted inbound ambulance';
+      if (code === 'Walk-in Code Blue' || code.includes('Code Blue')) {
+        bayLabel = 'WALK-IN EMERGENCY';
+        bayDesc = 'Cardiac Arrest at Entrance · CPR Active';
+      } else if (code === 'Ventilator Fault' || code.includes('Ventilator')) {
+        bayLabel = 'VENTILATOR FAULT';
+        bayDesc = 'Circuit Calibration Breakdown · Bed Offline';
+      } else if (code === 'O₂ Line Drop' || code.includes('O2') || code.includes('Oxygen')) {
+        bayLabel = 'O₂ PRESSURE DROP';
+        bayDesc = 'LOX Manifold Pressure Interlock · Bed Offline';
+      }
+      b05.innerHTML = `
+        <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span class="text-xs font-bold text-statRed tracking-tight">${bayLabel}</span>
+        <span class="text-[10px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
+    }
+
+    const capDeclined = document.getElementById('ward-capacity-badge');
+    if (capDeclined) {
+      capDeclined.textContent = '8/8 Occupied / Diverted';
+      capDeclined.className = 'clinical-badge badge-red text-[10px] font-semibold';
     }
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = `Cascaded to ${escapeHtml(transferPayload.hospital)}`;
@@ -4948,6 +5060,12 @@ function updateHandshakeUI() {
     }
     if (b05Label) b05Label.textContent = 'Available · Ready to Stage';
     if (b05Sub) b05Sub.textContent = 'Awaiting Transfer Request';
+
+    const capIdle = document.getElementById('ward-capacity-badge');
+    if (capIdle) {
+      capIdle.textContent = '7/8 Occupied · 1 Open Bed (Bay 05)';
+      capIdle.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+    }
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Standby';
     if (stageBadge) stageBadge.className = 'clinical-badge badge-neutral text-xs font-medium flex items-center gap-1.5';
@@ -5365,16 +5483,19 @@ function chkToggle(row) {
   circle.classList.toggle('done', !isDone);
   text.classList.toggle('done', !isDone);
   updateClinicChecklistSync();
-  GoldenBus.send('CHECKLIST_SYNC', { doneCount: document.querySelectorAll('#chklist .chk-circle.done').length });
+  const rows = Array.from(document.querySelectorAll('#chklist .chk-row'));
+  const states = rows.map(r => r.querySelector('.chk-circle')?.classList.contains('done') || false);
+  GoldenBus.send('CHECKLIST_SYNC', { states, doneCount: states.filter(Boolean).length });
 }
 
 function ackAll() {
   document.querySelectorAll('#chklist .chk-row').forEach(row => {
-    row.querySelector('.chk-circle').classList.add('done');
-    row.querySelector('.chk-text').classList.add('done');
+    row.querySelector('.chk-circle')?.classList.add('done');
+    row.querySelector('.chk-text')?.classList.add('done');
   });
   updateClinicChecklistSync();
-  GoldenBus.send('CHECKLIST_SYNC', { doneAll: true });
+  const count = document.querySelectorAll('#chklist .chk-row').length;
+  GoldenBus.send('CHECKLIST_SYNC', { doneAll: true, doneCount: count });
   showToast('Bay 05 confirmed ready. Medical team and room prepared.', 'sage');
 }
 
@@ -6558,9 +6679,9 @@ function applyOverrideUI(active) {
 
 function confirmOverride(isSelf = true) {
   closeModal();
-  if (cdTimer) {
-    clearInterval(cdTimer);
-    cdTimer = null;
+  if (handshakeTimer) {
+    clearInterval(handshakeTimer);
+    handshakeTimer = null;
   }
   applyOverrideUI(true);
   if (isSelf) {
@@ -6571,7 +6692,16 @@ function confirmOverride(isSelf = true) {
 }
 
 function resetOverride(isSelf = true) {
+  overrideActive = false;
+  if (handshakeState === 'DECLINED') {
+    handshakeState = 'LOCKED';
+    transferPayload.hospital = 'Max Super Speciality Hospital (Shalimar Bagh)';
+    transferPayload.handshakeStatus = 'LOCKED';
+    transferPayload.refusalReasonCode = null;
+    transferPayload.refusalTimestamp = null;
+  }
   applyOverrideUI(false);
+  updateHandshakeUI();
   if (isSelf) {
     saveAppState();
     GoldenBus.send('OVERRIDE_SYNC', { overrideActive: false });
@@ -6622,13 +6752,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const saved = loadAppState();
   if (saved && saved.transferPayload && saved.transferPayload.dispatched) {
-    if (saved.transferPayload.vitals) transferPayload.vitals = saved.transferPayload.vitals;
-    if (saved.transferPayload.syndrome) transferPayload.syndrome = saved.transferPayload.syndrome;
-    if (saved.transferPayload.threatLevel !== undefined) transferPayload.threatLevel = saved.transferPayload.threatLevel;
-    if (saved.transferPayload.dispatched !== undefined) transferPayload.dispatched = saved.transferPayload.dispatched;
-    if (saved.transferPayload.familyOverride !== undefined) transferPayload.familyOverride = saved.transferPayload.familyOverride;
+    transferPayload = { ...transferPayload, ...saved.transferPayload };
     if (saved.handshakeState) handshakeState = saved.handshakeState;
     if (saved.overrideActive !== undefined) overrideActive = saved.overrideActive;
+
+    clinicStep = 2;
+    const s1 = document.getElementById('clinic-step-1');
+    const s2 = document.getElementById('clinic-step-2');
+    if (s1 && s2) {
+      s1.classList.add('hidden');
+      s2.classList.remove('hidden');
+    }
+
+    const handoffBanner = document.getElementById('handoff-banner');
+    if (handoffBanner) handoffBanner.classList.remove('hidden');
 
     const synSel = document.getElementById('syndrome-select');
     if (synSel && transferPayload.syndrome) synSel.value = transferPayload.syndrome;
@@ -6643,18 +6780,20 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    const elSpo2 = document.getElementById('input-spo2');
-    const elO2Dev = document.getElementById('input-o2-device');
-    const elBpSys = document.getElementById('input-bp-sys');
-    const elBpDia = document.getElementById('input-bp-dia');
-    const elHr = document.getElementById('input-hr');
-    const elGcs = document.getElementById('input-gcs');
-    if (elSpo2) elSpo2.value = transferPayload.vitals.spo2;
-    if (elO2Dev) elO2Dev.value = transferPayload.vitals.o2Device;
-    if (elBpSys) elBpSys.value = transferPayload.vitals.bpSys;
-    if (elBpDia) elBpDia.value = transferPayload.vitals.bpDia;
-    if (elHr) elHr.value = transferPayload.vitals.hr;
-    if (elGcs) elGcs.value = transferPayload.vitals.gcs;
+    if (transferPayload.vitals) {
+      const elSpo2 = document.getElementById('input-spo2');
+      const elO2Dev = document.getElementById('input-o2-device');
+      const elBpSys = document.getElementById('input-bp-sys');
+      const elBpDia = document.getElementById('input-bp-dia');
+      const elHr = document.getElementById('input-hr');
+      const elGcs = document.getElementById('input-gcs');
+      if (elSpo2 && transferPayload.vitals.spo2) elSpo2.value = transferPayload.vitals.spo2;
+      if (elO2Dev && transferPayload.vitals.o2Device) elO2Dev.value = transferPayload.vitals.o2Device;
+      if (elBpSys && transferPayload.vitals.bpSys) elBpSys.value = transferPayload.vitals.bpSys;
+      if (elBpDia && transferPayload.vitals.bpDia) elBpDia.value = transferPayload.vitals.bpDia;
+      if (elHr && transferPayload.vitals.hr) elHr.value = transferPayload.vitals.hr;
+      if (elGcs && transferPayload.vitals.gcs) elGcs.value = transferPayload.vitals.gcs;
+    }
 
     if (saved.selectedEquips && Array.isArray(saved.selectedEquips)) {
       document.querySelectorAll('.equip-chip').forEach(chip => {
@@ -6754,22 +6893,66 @@ window.addEventListener('DOMContentLoaded', () => {
       if (mapReady) {
         resetAllMapPinsToNeutral();
         if (markerClinic) markerClinic.setIcon(getClinicPin());
-        const destMarker = getMarkerForHospital(transferPayload.hospital);
-        if (destMarker) {
-          destMarker.setIcon(getDestinationPin());
-          destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Bed Request Transmitted`);
+
+        if (handshakeState === 'DECLINED') {
+          if (markerDestination) {
+            markerDestination.setIcon(getBackupBlackPin());
+            markerDestination.setPopupContent('<b>Max Super Speciality Hospital</b><br>Declined · Cascaded to Saroj');
+          }
+          if (markerSaroj) {
+            markerSaroj.setIcon(getDestinationPin());
+            markerSaroj.setPopupContent('<b>Saroj Super Speciality Hospital</b><br>Active Cascade Destination · Bay Prepared');
+          }
+          liveRoute = ROUTE_SAROJ;
+          if (routeLine) {
+            routeLine.setLatLngs(ROUTE_SAROJ);
+            routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+          }
+          startSmoothAmbulance();
+          const meta = getHospitalMeta(transferPayload.hospital || 'Saroj Super Speciality Hospital');
+          const eta = document.getElementById('eta-txt');
+          if (eta) eta.textContent = `Cascaded → ${meta.shortName} · ${meta.baseMin} min ETA`;
+        } else if (handshakeState === 'LOCKED') {
+          const destMarker = getMarkerForHospital(transferPayload.hospital);
+          if (destMarker) {
+            destMarker.setIcon(getDestinationPin());
+            destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Handshake Accepted (Bay Assigned &amp; Locked)`);
+          }
+          const standbyMarker = getMarkerForHospital(transferPayload.standbyHospital);
+          if (standbyMarker) {
+            standbyMarker.setIcon(getBackupBlackPin());
+            standbyMarker.setPopupContent(`<b>${escapeHtml(transferPayload.standbyHospital)}</b><br>Parallel Standby Active`);
+          }
+          liveRoute = getRouteForHospital(transferPayload.hospital);
+          if (routeLine) {
+            routeLine.setLatLngs(liveRoute);
+            routeLine.setStyle({ color: '#0C6277', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+          }
+          startSmoothAmbulance();
+          const meta = getHospitalMeta(transferPayload.hospital);
+          const eta = document.getElementById('eta-txt');
+          if (eta) eta.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
+        } else {
+          const destMarker = getMarkerForHospital(transferPayload.hospital);
+          if (destMarker) {
+            destMarker.setIcon(getDestinationPin());
+            destMarker.setPopupContent(`<b>${escapeHtml(transferPayload.hospital)}</b><br>Bed Request Transmitted (Awaiting ACK)`);
+          }
+          const standbyMarker = getMarkerForHospital(transferPayload.standbyHospital);
+          if (standbyMarker) {
+            standbyMarker.setIcon(getBackupBlackPin());
+            standbyMarker.setPopupContent(`<b>${escapeHtml(transferPayload.standbyHospital)}</b><br>Parallel Standby Active`);
+          }
+          liveRoute = getRouteForHospital(transferPayload.hospital);
+          if (routeLine) {
+            routeLine.setLatLngs(liveRoute);
+            routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
+          }
+          startSmoothAmbulance();
+          const meta = getHospitalMeta(transferPayload.hospital);
+          const eta = document.getElementById('eta-txt');
+          if (eta) eta.textContent = `Awaiting Bed ACK · ${meta.baseMin} min ETA`;
         }
-        const standbyMarker = getMarkerForHospital(transferPayload.standbyHospital);
-        if (standbyMarker) {
-          standbyMarker.setIcon(getBackupBlackPin());
-          standbyMarker.setPopupContent(`<b>${escapeHtml(transferPayload.standbyHospital)}</b><br>Parallel Standby Active`);
-        }
-        liveRoute = getRouteForHospital(transferPayload.hospital);
-        if (routeLine) {
-          routeLine.setLatLngs(liveRoute);
-          routeLine.setStyle({ color: '#EA580C', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
-        }
-        startSmoothAmbulance();
       }
     }, 150);
     if (handshakeState === 'PENDING_ACK') {
