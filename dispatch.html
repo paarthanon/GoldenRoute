@@ -17,28 +17,28 @@
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Regular.ttf') format('truetype');
-  font-weight: 300 500;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Italic.ttf') format('truetype');
-  font-weight: 300 500;
+  font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-Bold.ttf') format('truetype');
-  font-weight: 600 900;
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Libron';
   src: url('assets/fonts/Libron-BoldItalic.ttf') format('truetype');
-  font-weight: 600 900;
+  font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
@@ -214,7 +214,7 @@ header {
   border-radius: 50%;
   background-color: #0C6277;
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(12, 98, 119, 0.4);
+  box-shadow: none;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   will-change: transform, opacity;
@@ -332,7 +332,7 @@ header {
 .threat-card.tc-red.sel {
   background: #FFF1F2;
   border-color: #BE123C;
-  box-shadow: 0 0 0 1px #BE123C;
+  box-shadow: none;
 }
 .threat-card.tc-red.sel .threat-card-title {
   color: #9F1239;
@@ -344,7 +344,7 @@ header {
 .threat-card.tc-amber.sel {
   background: #FFF7ED;
   border-color: #C2410C;
-  box-shadow: 0 0 0 1px #C2410C;
+  box-shadow: none;
 }
 .threat-card.tc-amber.sel .threat-card-title {
   color: #9A3412;
@@ -356,7 +356,7 @@ header {
 .threat-card.tc-yellow.sel {
   background: #FEFCE8;
   border-color: #A16207;
-  box-shadow: 0 0 0 1px #A16207;
+  box-shadow: none;
 }
 .threat-card.tc-yellow.sel .threat-card-title {
   color: #854D0E;
@@ -368,7 +368,7 @@ header {
 .threat-card.tc-green.sel {
   background: #F0FDF4;
   border-color: #15803D;
-  box-shadow: 0 0 0 1px #15803D;
+  box-shadow: none;
 }
 .threat-card.tc-green.sel .threat-card-title {
   color: #166534;
@@ -409,8 +409,8 @@ header {
 }
 .equip-chip.sel {
   border-color: #0C6277;
-  background-color: rgba(12, 98, 119, 0.04);
-  box-shadow: 0 0 0 1px #0C6277;
+  background-color: rgba(12, 98, 119, 0.05);
+  box-shadow: none;
 }
 .ec-box {
   width: 18px;
@@ -463,8 +463,8 @@ header {
 .badge-amber   { background-color: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
 .badge-yellow  { background-color: #FEFCE8; color: #854D0E; border: 1px solid #FDE047; }
 .badge-green   { background-color: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
-.badge-blue    { background-color: #F0F9FF; color: #0C6277; border: 1px solid #BAE6FD; }
-.badge-neutral { background-color: #F8FAFC; color: #334155; border: 1px solid #CBD5E1; }
+.badge-blue    { background-color: #ECFEFF; color: #0C6277; border: 1px solid #A5F3FC; }
+.badge-neutral { background-color: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; }
 
 .clinical-scheme-pill {
   display: inline-flex;
@@ -473,7 +473,7 @@ header {
   padding: 3px 9px;
   border-radius: 7px;
   font-size: 11px;
-  font-weight: 550;
+  font-weight: 600;
   line-height: 1.25;
   background-color: #F8FAFC;
   color: #334155;
@@ -481,8 +481,6 @@ header {
   white-space: nowrap;
   letter-spacing: -0.01em;
 }
-.badge-blue    { background-color: #ECFEFF; color: #0C6277; border: 1px solid #A5F3FC; }
-.badge-neutral { background-color: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; }
 
 /* ── Primary & Secondary Buttons (Crisp 1px Borders, Zero Blur Shadows) ── */
 .btn-clinical {
@@ -532,7 +530,7 @@ header {
   padding: 0 18px;
   border-radius: 12px;
   font-size: 13.5px;
-  font-weight: 550;
+  font-weight: 600;
   border: 1px solid #CBD5E1;
   cursor: pointer;
   white-space: nowrap;
@@ -567,7 +565,7 @@ header {
   padding: 0 18px;
   border-radius: 12px;
   font-size: 13.5px;
-  font-weight: 550;
+  font-weight: 600;
   border: 1px solid #FECDD3;
   cursor: pointer;
   white-space: nowrap;
@@ -615,11 +613,11 @@ header {
   text-align: center;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, box-shadow;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 86px;
+  box-shadow: none;
 }
 .bt-occ { background-color: #F1F5F9; border: 1px solid #CBD5E1; }
 .bt-avail { background-color: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: none; }
@@ -629,38 +627,29 @@ header {
   color: #FFFFFF;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  animation: pulse-bay 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  will-change: box-shadow;
+  box-shadow: none;
 }
 .bt-walk { background-color: #FFF1F2; border: 1px solid #FECDD3; }
 .bt-pending {
   background-color: #FFFBEB;
   border: 1px solid #FCD34D;
   color: #78350F;
-  animation: pulse-pending-bay 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-@keyframes pulse-pending-bay {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.35); }
-  50% { box-shadow: 0 0 0 8px rgba(234, 88, 12, 0); }
+  box-shadow: none;
 }
 @keyframes blink-critical {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+  50% { opacity: 0.45; }
 }
 .blink-fast {
-  animation: blink-critical 1s ease-in-out infinite;
-}
-@keyframes pulse-bay {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(12, 98, 119, 0.4); transform: translateZ(0); }
-  50% { box-shadow: 0 0 0 10px rgba(12, 98, 119, 0); transform: translateZ(0); }
+  animation: blink-critical 1.2s ease-in-out infinite;
 }
 @keyframes bed-flash-glow {
-  0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(12, 98, 119, 0.95), 0 0 35px rgba(12, 98, 119, 0.7); }
-  35% { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(12, 98, 119, 0.35), 0 0 50px rgba(12, 98, 119, 0.85); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(12, 98, 119, 0); }
+  0% { transform: scale(0.97); }
+  40% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 .bed-light-up {
-  animation: bed-flash-glow 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1, pulse-bay 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  animation: bed-flash-glow 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1 !important;
 }
 
 /* ── Interactive Vitals Input Tile (Crisp 1px #CBD5E1 Border) ── */
@@ -690,7 +679,7 @@ header {
 }
 .vital-input-card:focus-within {
   border-color: #0C6277;
-  box-shadow: 0 0 0 1px #0C6277;
+  box-shadow: none;
   transform: translateY(-1px) translateZ(0);
 }
 
@@ -735,7 +724,6 @@ header {
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
   line-height: 1;
-  border: 1px solid #CBD5E1;
   box-shadow: none;
 }
 .squircle-step-btn:hover {
@@ -768,8 +756,8 @@ button:focus-visible {
 .chk-row {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 14px 0;
+  gap: 12px;
+  padding: 11px 0;
   border-bottom: 1px solid #CBD5E1;
   cursor: pointer;
   transition: opacity 0.15s ease;
@@ -917,14 +905,14 @@ button:focus-visible {
 /* ── Toast Alert (Crisp 1px #CBD5E1 Border) ── */
 .toast {
   position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translate3d(-50%, 24px, 0) scale(0.96);
+  bottom: 20px;
+  right: 24px;
+  transform: translate3d(0, 16px, 0) scale(0.96);
   z-index: 9998;
   border-radius: 9999px;
-  padding: 13px 26px;
-  font-size: 13.5px;
-  font-weight: 550;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -940,7 +928,7 @@ button:focus-visible {
 }
 .toast.show {
   opacity: 1;
-  transform: translate3d(-50%, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
   pointer-events: all;
 }
 
@@ -1356,7 +1344,44 @@ button:focus-visible {
 <main id="v1" class="view active flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
+    <!-- Active Referral & Handshake Status Banner (Shown upon Dispatch) -->
+    <section id="handoff-banner" class="hidden mb-6 glass-panel rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border border-softBorder transition-all duration-300" aria-live="polite">
+      <div class="flex items-start sm:items-center gap-3.5 flex-1 min-w-0">
+        <div id="handoff-status-icon-wrap" class="w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+          </svg>
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2 mb-1 flex-wrap">
+            <span id="handoff-protocol-badge" class="clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider">
+              Awaiting Confirmation
+            </span>
+            <span id="handoff-readiness-pill" class="clinical-badge badge-neutral text-[11px] font-semibold">
+              Receiving Team Standby
+            </span>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold text-inkDark tracking-tight">
+            <span id="handoff-title-prefix">Awaiting Bed ACK from</span>
+            <span id="handoff-hosp-name" class="text-clinicalTeal">Max Super Speciality Hospital (Shalimar Bagh)</span>
+          </h2>
+          <p id="handoff-status-subtext" class="text-xs text-mutedSlate mt-0.5 leading-snug">
+            ICU Bay 05 Assigned &middot; Telemetry Active &middot; Transfer ID: <span class="font-mono text-inkDark font-semibold">#GR-DEL-9421</span>
+          </p>
+        </div>
+      </div>
 
+      <div class="flex items-center gap-3 flex-wrap sm:flex-nowrap shrink-0 self-end lg:self-center">
+        <div id="handoff-token-badge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-paper border border-softBorder">
+          <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Paramedic Pass Code:</span>
+          <span id="handoff-token-code" class="font-mono text-sm font-black tracking-widest text-inkDark">----</span>
+        </div>
+        <button type="button" onclick="switchRole('icu')" class="btn-clinical !w-auto !h-10 !px-4 text-xs font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <span>Open Receiving ICU Console</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    </section>
 
     <!-- ─────────────────────────────────────────────────────────────
          STEP 1: PATIENT INTAKE & REQUIREMENTS
@@ -1396,7 +1421,7 @@ button:focus-visible {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           <!-- Level 1 (Code Red) -->
-          <button type="button" class="threat-card tc-red" id="tl1" onclick="setThreat(1)">
+          <button type="button" class="threat-card tc-red sel" id="tl1" onclick="setThreat(1)">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5">
@@ -1570,19 +1595,21 @@ button:focus-visible {
               In-Transit Life Support
             </p>
             <div id="life-support-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white opacity-60 hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
-                <span class="tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive"></span>
+              <div class="equip-chip !min-h-[44px] !py-2.5 !px-3.5 !items-center" onclick="toggleTransit(this)">
+                <div class="ec-box !mt-0"></div>
+                <span class="tt-dot hidden inactive"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Norepinephrine</p>
-                  <p class="text-[10px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
+                  <p class="text-[11px] text-mutedSlate font-normal truncate">0.1 mcg/kg/min infusion</p>
                 </div>
               </div>
 
-              <div class="h-11 flex items-center gap-2.5 px-3.5 rounded-xl border border-softBorder bg-white opacity-60 hover:bg-paper transition-all cursor-pointer select-none" onclick="toggleTransit(this)">
-                <span class="tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive"></span>
+              <div class="equip-chip !min-h-[44px] !py-2.5 !px-3.5 !items-center" onclick="toggleTransit(this)">
+                <div class="ec-box !mt-0"></div>
+                <span class="tt-dot hidden inactive"></span>
                 <div class="flex-1 min-w-0">
                   <p class="text-xs font-semibold text-inkDark truncate">Ambu-Bag O₂</p>
-                  <p class="text-[10px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
+                  <p class="text-[11px] text-mutedSlate font-normal truncate">100% manual bag vent</p>
                 </div>
               </div>
             </div>
@@ -1649,7 +1676,7 @@ button:focus-visible {
               </div>
               <div class="h-10 flex items-center justify-center my-1">
                 <div class="inline-flex items-center justify-center gap-1.5">
-                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp-sys', -5)" title="Decrease Systolic" aria-label="Decrease Systolic">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp', -5)" title="Decrease Blood Pressure" aria-label="Decrease Blood Pressure">
                     −
                   </button>
                   <div class="inline-flex items-center justify-center">
@@ -1657,7 +1684,7 @@ button:focus-visible {
                     <span class="font-mono text-lg font-bold text-mutedSlate/50 px-0.5">/</span>
                     <input id="input-bp-dia" type="number" min="20" max="160" value="55" class="vital-input-num text-statRed" style="width: 44px; text-align: center;" oninput="updateVitalsDisplay()" onblur="sanitizeVital('bp-dia')" placeholder="55" />
                   </div>
-                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp-sys', 5)" title="Increase Systolic" aria-label="Increase Systolic">
+                  <button type="button" class="squircle-step-btn" onclick="stepVital('bp', 5)" title="Increase Blood Pressure" aria-label="Increase Blood Pressure">
                     +
                   </button>
                 </div>
@@ -1849,8 +1876,7 @@ button:focus-visible {
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
 
             <!-- Facility 1: Max Super Speciality Hospital (BEST DIRECT MATCH) -->
-            <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border-2 border-clinicalTeal lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-clinicalTeal via-teal-400 to-clinicalTeal"></div>
+            <article id="hosp-card-max" data-schemes="pmjay farishtey" class="glass-panel-interactive rounded-2xl p-6 sm:p-7 border border-clinicalTeal bg-clinicalTeal/[0.02] lg:col-span-2 flex flex-col justify-between relative overflow-hidden">
               <div>
                 <div class="flex items-start justify-between gap-4 mb-3">
                   <div>
@@ -2350,32 +2376,132 @@ button:focus-visible {
 <main id="v2" class="view flex-1">
   <div class="w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-8">
 
-    <!-- Top ICU Station Header Card -->
-    <header id="transit-reservation-card" class="glass-panel rounded-2xl p-4 sm:p-5 mb-5 border border-softBorder">
+    <!-- Top ICU Station & Clinical Telemetry Command Header (Unified Single-Card Architecture) -->
+    <header id="transit-reservation-card" class="glass-panel rounded-2xl p-5 sm:p-6 mb-5 border border-softBorder">
+      <!-- Top Row: Facility Identity, Bay Assignment & Network Handshake Status -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <!-- Left: Inbound Status & Receiving Location -->
         <div class="flex-1 min-w-[260px]">
           <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-            <span id="inbound-tag" class="clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase">
-              Inbound Transfer · Ambulance DL-108 · Code Red
+            <span id="inbound-tag" class="clinical-badge badge-neutral text-[11px] font-bold tracking-wide uppercase">
+              ICU Standby &middot; Bed 05 Open
             </span>
             <span class="text-xs font-semibold text-mutedSlate">Ward 3B Critical Care Unit</span>
+            <span id="icu-stage-badge" class="clinical-badge badge-neutral text-[11px] font-semibold flex items-center gap-1.5">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-clinicalTeal"></span>
+              <span id="icu-stage-badge-txt">Bay 05 Standby</span>
+            </span>
           </div>
-          <h1 id="banner-sub" class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
-            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Bay 05 Assigned · Telemetry Active</span>
+          <h1 id="banner-sub" class="text-lg sm:text-xl font-bold text-inkDark tracking-tight">
+            Max Super Speciality Hospital <span class="font-normal text-sm text-mutedSlate">— ICU Standby &middot; Awaiting Referral</span>
           </h1>
         </div>
 
-        <!-- Network Status Tag Right -->
-        <div id="abdm-status-tag" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-softBorder text-xs text-mutedSlate self-start sm:self-center shrink-0">
-          <span class="w-2 h-2 rounded-full bg-clinicalTeal"></span>
-          <span id="abdm-status-text" class="font-semibold text-inkDark">Network Handshake: Ready</span>
+        <div class="flex items-center gap-2.5 flex-wrap self-start sm:self-center shrink-0">
+          <div id="icu-attending-tag" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-paper border border-softBorder text-xs text-mutedSlate">
+            <span class="font-semibold text-inkDark">Attending: Dr. V. Anand (HPR-99214-DEL)</span>
+          </div>
+          <div id="abdm-status-tag" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-paper border border-softBorder text-xs text-mutedSlate">
+            <span class="w-2 h-2 rounded-full bg-clinicalTeal"></span>
+            <span id="abdm-status-text" class="font-semibold text-inkDark">ICU Network: Ready (Awaiting Dispatch)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Integrated Inbound Telemetry Strip (Standby vs. Active Referral) -->
+      <div id="icu-telemetry-dossier" class="mt-4 pt-4 border-t border-softBorder">
+        <!-- State A: Standby Empty State (Shown when handshakeState === 'IDLE' and !dispatched) -->
+        <div id="icu-telemetry-standby" class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-paper border border-softBorder flex items-center justify-center text-mutedSlate shrink-0">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-inkDark uppercase tracking-wider">No Active Inbound Referral Telemetry</p>
+              <p class="text-xs text-mutedSlate mt-0.5">Bay 05 open and monitoring network. Patient diagnosis and live ambulance vitals stream upon clinic dispatch.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 shrink-0">
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[112px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">SpO₂</span>
+              <span class="font-mono text-sm font-bold text-mutedSlate mt-0.5">-- %</span>
+            </div>
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[112px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Blood Pressure</span>
+              <span class="font-mono text-sm font-bold text-mutedSlate mt-0.5">-- / --</span>
+            </div>
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[112px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Heart Rate</span>
+              <span class="font-mono text-sm font-bold text-mutedSlate mt-0.5">-- BPM</span>
+            </div>
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[112px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Glasgow Coma</span>
+              <span class="font-mono text-sm font-bold text-mutedSlate mt-0.5">-- / 15</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- State B: Active Referral Telemetry Strip (Shown when referral is dispatched) -->
+        <div id="icu-telemetry-active" class="hidden flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span id="icu-threat-badge" class="clinical-badge badge-red font-semibold text-[11px]">
+                Code Red &middot; STAT
+              </span>
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-paper border border-softBorder text-mutedSlate">
+                Token: <strong class="text-inkDark font-mono font-semibold">#GR-DEL-9421</strong>
+              </span>
+              <span class="text-xs text-mutedSlate">
+                Origin: <strong class="text-inkDark font-semibold">Rohini Sector 3 Referring Facility</strong>
+              </span>
+            </div>
+            <p id="icu-syndrome-tag" class="text-sm sm:text-base font-bold text-inkDark tracking-tight truncate">
+              Severe Lung Failure &amp; Infection (ARDS / Sepsis)
+            </p>
+          </div>
+
+          <!-- 4 Dedicated Live Vitals Metric Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 shrink-0">
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[114px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">SpO₂</span>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="icu-vital-spo2" class="font-mono text-base font-bold text-statRed">82%</span>
+                <span id="icu-vital-o2dev" class="text-[11px] text-mutedSlate font-medium truncate">15L Mask</span>
+              </div>
+            </div>
+
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[114px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Blood Pressure</span>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="icu-vital-bp" class="font-mono text-base font-bold text-statRed">85/55</span>
+                <span id="icu-vital-bpnote" class="text-[11px] text-statRed font-semibold truncate">Shock</span>
+              </div>
+            </div>
+
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[114px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Heart Rate</span>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span id="icu-vital-hr" class="font-mono text-base font-bold text-urgentAmber">128</span>
+                <span class="text-[11px] text-mutedSlate font-medium">BPM</span>
+              </div>
+            </div>
+
+            <div class="px-3.5 py-2 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[114px]">
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider">Glasgow Coma</span>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="icu-vital-gcs" class="font-mono text-base font-bold text-statRed">7/15</span>
+                <span id="icu-vital-gcsnote" class="text-[11px] text-statRed font-semibold truncate">Coma</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- ── Two-Way ICU Acceptance Banner (Solving Hospital Refusal) ── -->
-    <section id="handshake-alert-card" class="mb-5 rounded-2xl p-5 border border-amber-300 bg-amber-50/60">
+    <!-- ── Contextual Two-Way ICU Acceptance Banner (Shown Only When Decision / Divert Action Active) ── -->
+    <section id="handshake-alert-card" class="hidden mb-5 rounded-2xl p-5 border border-amber-300 bg-amber-50/60">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         
         <!-- Left: Incoming broadcast alert details -->
@@ -2387,7 +2513,7 @@ button:focus-visible {
           </div>
           <div>
             <div class="flex items-center gap-2 mb-1 flex-wrap">
-              <span id="icu-banner-status-badge" class="clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast">
+              <span id="icu-banner-status-badge" class="clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider blink-fast">
                 ICU Handshake Pending
               </span>
               <span class="text-xs font-medium px-2 py-0.5 rounded bg-white border border-amber-200 text-inkDark">
@@ -2409,10 +2535,10 @@ button:focus-visible {
         <!-- Right: 90s Countdown & Accept / Divert Action Buttons -->
         <div id="icu-banner-actions" class="flex items-center gap-3 shrink-0 self-end lg:self-center flex-wrap sm:flex-nowrap">
           <!-- Countdown Ring Box -->
-          <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
-            <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
-            <div class="flex items-baseline gap-0.5">
-              <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
+          <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[94px] h-11">
+            <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider leading-none">Cascade in</span>
+            <div class="flex items-baseline gap-0.5 mt-0.5">
+              <span id="handshake-countdown-num" class="font-mono text-xl font-black text-urgentAmber leading-none">90</span>
               <span class="text-[11px] font-bold text-mutedSlate">s</span>
             </div>
           </div>
@@ -2437,91 +2563,6 @@ button:focus-visible {
       </div>
     </section>
 
-    <!-- Active Inbound Patient Telemetry Dossier (Executive Clinical Dashboard Header) -->
-    <aside class="mb-6 rounded-2xl liquid-glass p-4 sm:p-5">
-      <!-- Top Meta Row: Origin, Live Status, Transfer Token & Urgency -->
-      <div class="flex items-center justify-between gap-3 flex-wrap pb-3.5 border-b border-softBorder">
-        <div class="flex items-center gap-2.5 flex-wrap">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-clinicalTealBg border border-clinicalTealBorder text-clinicalTeal text-[10px] font-bold tracking-wide uppercase">
-            <span class="dot-sync !w-2 !h-2"></span>
-            <span>Live Referral Intake</span>
-          </div>
-          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-paper border border-softBorder text-mutedSlate">
-            Token: <strong class="text-inkDark font-semibold">#GR-DEL-9421</strong>
-          </span>
-          <div class="flex items-center gap-1.5 text-xs text-mutedSlate">
-            <span>From:</span>
-            <strong class="text-inkDark font-semibold">Rohini Sector 3 Referring Facility</strong>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <span id="icu-threat-badge" class="clinical-badge badge-red font-semibold text-xs">
-            Code Red · STAT
-          </span>
-          <span id="icu-stage-badge" class="clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
-            <span id="icu-stage-badge-txt">Staged: Bay 05</span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Main Telemetry Row: Clinical Diagnosis + 4 Live Vitals Metric Cards -->
-      <div class="pt-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <!-- Diagnosis / Condition -->
-        <div class="min-w-0 max-w-md">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-mutedSlate mb-1 flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-clinicalTeal shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <span>Clinical Diagnosis</span>
-          </div>
-          <p id="icu-syndrome-tag" class="text-sm sm:text-base font-bold text-inkDark tracking-tight truncate">
-            Severe Lung Failure &amp; Infection (ARDS / Sepsis)
-          </p>
-        </div>
-
-        <!-- 4 Dedicated Vitals Metric Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 shrink-0">
-          <!-- SpO2 -->
-          <div class="px-3.5 py-2.5 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[110px]">
-            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">SpO₂</span>
-            <div class="flex items-baseline gap-1.5 mt-0.5">
-              <span id="icu-vital-spo2" class="font-mono text-base font-bold text-statRed">82%</span>
-              <span id="icu-vital-o2dev" class="text-[10px] text-mutedSlate font-medium truncate">15L Mask</span>
-            </div>
-          </div>
-
-          <!-- Blood Pressure -->
-          <div class="px-3.5 py-2.5 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[110px]">
-            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Blood Pressure</span>
-            <div class="flex items-baseline gap-1.5 mt-0.5">
-              <span id="icu-vital-bp" class="font-mono text-base font-bold text-statRed">85/55</span>
-              <span id="icu-vital-bpnote" class="text-[10px] text-statRed font-semibold truncate">Shock</span>
-            </div>
-          </div>
-
-          <!-- Heart Rate -->
-          <div class="px-3.5 py-2.5 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[110px]">
-            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Heart Rate</span>
-            <div class="flex items-baseline gap-1 mt-0.5">
-              <span id="icu-vital-hr" class="font-mono text-base font-bold text-urgentAmber">128</span>
-              <span class="text-[10px] text-mutedSlate font-medium">BPM</span>
-            </div>
-          </div>
-
-          <!-- GCS -->
-          <div class="px-3.5 py-2.5 rounded-xl bg-paper border border-softBorder flex flex-col justify-center min-w-[110px]">
-            <span class="text-[10px] font-bold text-mutedSlate uppercase tracking-wider">Glasgow Coma</span>
-            <div class="flex items-baseline gap-1.5 mt-0.5">
-              <span id="icu-vital-gcs" class="font-mono text-base font-bold text-statRed">7/15</span>
-              <span id="icu-vital-gcsnote" class="text-[10px] text-statRed font-semibold truncate">Coma</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
-
     <!-- Auto-Divert Alert Notification Bar (Shown on Emergency Walk-in Override) -->
     <section id="divert-bar" class="divert-bar mb-5 glass-panel rounded-2xl p-5 items-center gap-3.5 border-softBorder" aria-live="assertive">
       <div class="w-9 h-9 rounded-xl bg-paper border border-softBorder flex items-center justify-center shrink-0 text-inkDark">
@@ -2537,49 +2578,49 @@ button:focus-visible {
       </button>
     </section>
 
-    <!-- Main Ward & Map Grid Split -->
-    <div class="flex flex-col lg:flex-row gap-6 items-start">
+    <!-- Main Ward & Map Grid Split (Balanced Equal-Height Columns on Desktop) -->
+    <div class="flex flex-col lg:flex-row gap-6 items-stretch">
 
-      <!-- LEFT: Live Map Ambulance Tracker (64%) -->
-      <section class="w-full lg:w-[62%] xl:w-[64%] flex flex-col gap-3" aria-label="Ambulance Tracker">
-        <div class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder">
+      <!-- LEFT: Live Map Ambulance Tracker (62%) -->
+      <section class="w-full lg:w-[60%] xl:w-[62%] flex flex-col" aria-label="Ambulance Tracker">
+        <div class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder flex-1 flex flex-col justify-between">
           <div class="flex items-center justify-between gap-3 mb-4 flex-wrap">
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="clinical-badge badge-blue text-[10px] font-bold tracking-wide">Live GPS</span>
+                <span class="clinical-badge badge-blue text-[11px] font-bold tracking-wide">Live GPS Corridor</span>
               </div>
               <h2 class="text-base sm:text-lg font-bold text-inkDark tracking-tight">
                 Ambulance Transit Tracker
               </h2>
-              <p class="text-xs text-mutedSlate mt-0.5">Unit DL-108 · Outer Ring Road</p>
+              <p class="text-xs text-mutedSlate mt-0.5">Unit DL-108 &middot; Rohini – Outer Ring Road Corridor</p>
             </div>
             <div class="flex items-center gap-2 flex-wrap">
               <div id="eta-pill" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-paper border border-softBorder">
                 <span class="dot-sync"></span>
-                <span id="eta-txt" class="text-xs font-bold text-inkDark font-mono">En Route to Max · 14 min ETA</span>
+                <span id="eta-txt" class="text-xs font-bold text-inkDark font-mono">Ambulance DL-108 &middot; Standby at Referring Facility</span>
               </div>
-              <button id="btn-fast-forward-map" type="button" onclick="triggerAmbulanceArrival(true)" class="hidden text-xs font-bold px-3 py-1.5 rounded-full border border-clinicalTeal/40 text-clinicalTeal bg-clinicalTeal/[0.06] hover:bg-clinicalTeal/15 transition-all cursor-pointer" title="Simulate ambulance arriving at hospital dock">
+              <button id="btn-fast-forward-map" type="button" onclick="triggerAmbulanceArrival(true)" class="hidden text-xs font-bold px-3.5 py-2 rounded-full border border-clinicalTeal text-clinicalTeal bg-clinicalTeal/[0.06] hover:bg-clinicalTeal/15 transition-all cursor-pointer" title="Simulate ambulance arriving at hospital dock">
                 Simulate Arrival
               </button>
             </div>
           </div>
 
           <!-- Command Map Container -->
-          <div id="map-wrap" class="aspect-[4/3] w-full rounded-xl overflow-hidden border border-softBorder relative bg-paper">
+          <div id="map-wrap" class="w-full flex-1 min-h-[380px] lg:min-h-[460px] rounded-xl overflow-hidden border border-softBorder relative bg-paper">
             <div id="offline-map-fallback" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-300 z-[1]" style="display:none;"></div>
             <div id="offline-map-badge" class="absolute top-3 left-3 z-[1000] clinical-badge badge-blue text-[11px] font-semibold bg-white/95 backdrop-blur border border-softBorder hidden items-center gap-1.5 px-2.5 py-1 rounded-lg pointer-events-none select-none">
               <span class="w-1.5 h-1.5 rounded-full bg-clinicalTeal animate-pulse"></span>
-              <span>Offline Resilient Map · Pre-Cached Active</span>
+              <span>Offline Resilient Map &middot; Pre-Cached Active</span>
             </div>
           </div>
 
-          <!-- Bottom Action: Reassign Bed Button -->
-          <div class="mt-4 pt-3.5 border-t border-softBorder flex items-center justify-between gap-3 flex-wrap">
+          <!-- Bottom Action: Reassign Bed Button (Context-Aware for Standby vs Active Transit) -->
+          <div id="reassign-footer-bar" class="mt-4 pt-3.5 border-t border-softBorder flex items-center justify-between gap-3 flex-wrap">
             <p id="reassign-desc-txt" class="text-xs text-mutedSlate">
-              Stage Bay 05 for incoming transfer, or override if emergency walk-in arrives.
+              Bay 05 open on standby. Emergency walk-in override activates during active inbound transfer.
             </p>
-            <div id="reassign-btn-wrap">
-              <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
+            <div id="reassign-btn-wrap" class="hidden">
+              <button type="button" class="btn-clinical-destructive !w-auto !h-10 !px-4 text-xs font-bold whitespace-nowrap shrink-0" onclick="openOverrideModal()">
                 <svg class="w-4 h-4 text-statRed shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -2590,8 +2631,8 @@ button:focus-visible {
         </div>
       </section>
 
-      <!-- RIGHT: ICU Ward Status & Preparation Checklist (36%) -->
-      <section class="w-full lg:w-[38%] xl:w-[36%] flex flex-col gap-6" aria-label="ICU Bed Status">
+      <!-- RIGHT: ICU Ward Status, Arrival Intake & Preparation Checklist (38%) -->
+      <section class="w-full lg:w-[40%] xl:w-[38%] flex flex-col gap-5" aria-label="ICU Bed Status">
 
         <!-- Ward Bay Grid (8 Beds) -->
         <article class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder">
@@ -2600,56 +2641,56 @@ button:focus-visible {
               <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
                 ICU Bed Status
               </h2>
-              <p class="text-xs text-mutedSlate mt-0.5">Ward Overview</p>
+              <p class="text-xs text-mutedSlate mt-0.5">Ward 3B Capacity Overview</p>
             </div>
-            <span id="ward-capacity-badge" class="clinical-badge badge-blue text-[10px] font-semibold">7/8 Occupied · 1 Staged</span>
+            <span id="ward-capacity-badge" class="clinical-badge badge-blue text-[11px] font-semibold">7/8 Occupied &middot; 1 Open Bed (Bay 05)</span>
           </div>
 
           <div class="grid grid-cols-4 gap-2.5">
             <!-- Bay 01 to 04: Occupied -->
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">01</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">01</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">02</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">02</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">03</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">03</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">04</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">04</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
 
-            <!-- Bay 05: ASSIGNED & TEAM PRIMING (Spans 2 columns) -->
-            <div id="bed05" class="bed-tile bt-res col-span-2">
-              <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-              <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Assigned · Team Priming</span>
-              <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108</span>
+            <!-- Bay 05: Dynamic Intake Bay (Spans 2 columns) -->
+            <div id="bed05" class="bed-tile bt-avail col-span-2 border border-dashed border-clinicalTeal/50">
+              <span id="b05-tag" class="text-[11px] font-bold text-clinicalTeal uppercase tracking-wider mb-0.5">Bay 05</span>
+              <span id="b05-label" class="text-xs font-bold text-inkDark tracking-tight">Available &middot; Ready to Stage</span>
+              <span id="b05-sub" class="text-[11px] text-mutedSlate font-medium mt-0.5">Awaiting Transfer Request</span>
             </div>
 
             <!-- Bay 06 to 08: Occupied -->
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">06</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">06</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">07</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">07</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
             <div class="bed-tile bt-occ">
-              <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider mb-1">08</span>
+              <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider mb-1">08</span>
               <svg class="w-3.5 h-3.5 text-mutedSlate/60 fill-current" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              <span class="text-[9px] font-medium text-mutedSlate mt-1.5">Occupied</span>
+              <span class="text-[11px] font-medium text-mutedSlate mt-1">Occupied</span>
             </div>
           </div>
         </article>
@@ -2663,82 +2704,67 @@ button:focus-visible {
               </h2>
               <p class="text-xs text-mutedSlate mt-0.5">Paramedic Handoff Verification</p>
             </div>
-            <span class="clinical-badge badge-neutral text-[10px] font-semibold">Standby</span>
+            <span class="clinical-badge badge-neutral text-[11px] font-semibold">Standby</span>
           </div>
           <div class="p-3.5 rounded-xl bg-paper border border-softBorder mt-3 text-center">
             <p class="text-xs text-mutedSlate">
-              Awaiting incoming referral dispatch. Pass code entry activates when clinic initiates transfer.
+              Awaiting incoming referral dispatch. Pass code entry activates when ambulance reaches hospital intake dock.
             </p>
           </div>
         </article>
 
         <!-- Preparation Checklist for Arrival -->
-        <article class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder">
-          <div class="flex items-center justify-between mb-2">
-            <div>
-              <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
-                ICU Arrival Checklist
-              </h2>
-              <p class="text-xs text-mutedSlate mt-0.5">Bay 05 Team Preparation</p>
-            </div>
-            
-          </div>
-
-          <div id="chklist" class="divide-y divide-softBorder">
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle done"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text done">Prime Mechanical Ventilator (Servo-Air)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">AC/VC mode (FiO₂ 100%, PEEP 10) tested and ready</p>
+        <article class="glass-panel rounded-2xl p-5 sm:p-6 border-softBorder flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <h2 class="text-xs font-bold text-mutedSlate uppercase tracking-wider">
+                  ICU Arrival Checklist
+                </h2>
+                <p class="text-xs text-mutedSlate mt-0.5">Bay 05 Team Preparation</p>
               </div>
             </div>
 
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle done"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text done">Prepare Infusion Pump (Norepinephrine)</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">4 mg/50 mL primed for uninterrupted handover</p>
+            <div id="chklist" class="divide-y divide-softBorder">
+              <div class="chk-row" onclick="chkToggle(this)">
+                <div class="chk-circle"></div>
+                <div class="flex-1 min-w-0">
+                  <p class="chk-text">Prepare Resuscitation Bay (Bay 05)</p>
+                  <p class="text-[11px] text-mutedSlate mt-0.5">Standard bedside infusion lines and monitoring leads primed</p>
+                </div>
               </div>
-            </div>
 
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle done"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text done">Verify 2 Units O-Negative Blood &amp; Rapid Infuser</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Emergency PRBCs received · Rapid warmer primed</p>
+              <div class="chk-row" onclick="chkToggle(this)">
+                <div class="chk-circle"></div>
+                <div class="flex-1 min-w-0">
+                  <p class="chk-text">Set Up Video Laryngoscope &amp; Airway Tray</p>
+                  <p class="text-[11px] text-mutedSlate mt-0.5">GlideScope tested &middot; ETT 7.5 styletted &middot; RSI drugs ready</p>
+                </div>
               </div>
-            </div>
 
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text">Set Up Video Laryngoscope &amp; Airway Tray</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">GlideScope tested · ETT 7.5 styletted · RSI drugs ready</p>
+              <div class="chk-row" onclick="chkToggle(this)">
+                <div class="chk-circle"></div>
+                <div class="flex-1 min-w-0">
+                  <p class="chk-text">Prepare Arterial Line Kit &amp; Ultrasound</p>
+                  <p class="text-[11px] text-mutedSlate mt-0.5">Sterile tray opened &middot; Transducer zeroed and leveled</p>
+                </div>
               </div>
-            </div>
 
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text">Prepare Arterial Line Kit &amp; Ultrasound</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Sterile tray opened · Transducer zeroed and leveled</p>
-              </div>
-            </div>
-
-            <div class="chk-row" onclick="chkToggle(this)">
-              <div class="chk-circle"></div>
-              <div class="flex-1 min-w-0">
-                <p class="chk-text">Station Resuscitation Team at Bay 05</p>
-                <p class="text-[11px] text-mutedSlate mt-0.5">Intensivist &amp; ICU RN assembled · Monitor patched</p>
+              <div class="chk-row" onclick="chkToggle(this)">
+                <div class="chk-circle"></div>
+                <div class="flex-1 min-w-0">
+                  <p class="chk-text">Station Resuscitation Team at Bay 05</p>
+                  <p class="text-[11px] text-mutedSlate mt-0.5">Intensivist &amp; ICU RN assembled &middot; Monitor patched</p>
+                </div>
               </div>
             </div>
           </div>
 
-          <button type="button" class="btn-clinical mt-4 !h-11 text-xs font-bold" onclick="ackAll()">
+          <button id="btn-confirm-checklist" type="button" class="btn-clinical mt-4 !h-11 text-xs font-bold" onclick="ackAll()">
             <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            <span>Confirm Bay 05 Prepared</span>
+            <span id="btn-confirm-checklist-txt">Confirm Bay 05 Prepared</span>
           </button>
         </article>
 
@@ -2960,7 +2986,7 @@ button:focus-visible {
       <button type="button" class="btn-modal-cancel" onclick="closeFamilyOverrideModal()">
         Cancel (Keep Staged)
       </button>
-      <button id="override-modal-confirm-btn" type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700" onclick="confirmFamilyOverride()">
+      <button id="override-modal-confirm-btn" type="button" class="btn-modal-confirm !bg-amber-600 hover:!bg-amber-700 !border-amber-700 !text-white" onclick="confirmFamilyOverride()">
         Confirm &amp; Dispatch
       </button>
     </div>
@@ -3428,13 +3454,17 @@ function resetSimulationState(isSelf = true) {
     clearInterval(handshakeTimer);
     handshakeTimer = null;
   }
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
   handshakeRemainingSec = 90;
   handshakeState = 'IDLE';
   overrideActive = false;
   transferPayload.dispatched = false;
   transferPayload.familyOverride = false;
   transferPayload.handshakeStatus = 'IDLE';
-  transferPayload.threatLevel = null;
+  transferPayload.threatLevel = 1;
   transferPayload.refusalReasonCode = null;
   transferPayload.refusalTimestamp = null;
   transferPayload.overrideCounseling = null;
@@ -3462,28 +3492,35 @@ function resetSimulationState(isSelf = true) {
     const el = document.getElementById('tl' + i);
     if (el) {
       const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
-      el.className = `threat-card ${baseClass}`;
+      el.className = `threat-card ${baseClass} ${i === 1 ? 'sel' : ''}`;
     }
   });
 
   document.querySelectorAll('.equip-chip').forEach(chip => {
     chip.classList.remove('sel');
+    const dot = chip.querySelector('.tt-dot');
+    if (dot) dot.className = 'tt-dot hidden inactive';
   });
 
-  document.querySelectorAll('#chklist .chk-row').forEach(row => {
-    row.querySelector('.chk-circle')?.classList.remove('done');
-    row.querySelector('.chk-text')?.classList.remove('done');
-  });
+  const chkBtn = document.getElementById('btn-confirm-checklist');
+  if (chkBtn) chkBtn.className = 'btn-clinical mt-4 !h-11 text-xs font-bold';
+  const chkBtnTxt = document.getElementById('btn-confirm-checklist-txt');
+  if (chkBtnTxt) chkBtnTxt.textContent = 'Confirm Bay 05 Prepared';
 
+  updateICUChecklist();
   updateVitalsDisplay(false);
   updateHospitalEquipmentDisplays([]);
-  updateHandshakeUI();
   applyOverrideUI(false);
+  updateHandshakeUI();
   const handoffBanner = document.getElementById('handoff-banner');
   if (handoffBanner) handoffBanner.classList.add('hidden');
   updateClinicChecklistSync();
   updateStep1StickySummary();
   updateArrivalIntakeUI();
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl) etaEl.textContent = 'Ambulance DL-108 · Standby at Referring Facility';
+  const etaPill = document.getElementById('eta-pill');
+  if (etaPill) etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-paper border border-softBorder';
 
   if (mapReady) {
     resetAllMapPinsToNeutral();
@@ -3502,7 +3539,6 @@ function resetSimulationState(isSelf = true) {
       routeLine.setStyle({ color: '#0C6277', opacity: 0.4, dashArray: '6 6' });
     }
     if (ambuMkr) ambuMkr.setLatLng(ROUTE_MAX[0]);
-    if (smoothAnimFrameId) cancelAnimationFrame(smoothAnimFrameId);
     currentAmbuIdx = 0;
     currentAmbuPos = ROUTE_MAX[0];
     animStartTime = null;
@@ -3536,7 +3572,7 @@ let transferPayload = {
   isAdmitted: false,
   admittedAt: null,
   syndrome: 'Severe Lung Failure & Infection (ARDS / Sepsis)',
-  threatLevel: null,
+  threatLevel: 1,
   hospital: 'Max Super Speciality Hospital (Shalimar Bagh)',
   hfrId: 'IN-DL-HFR-10492',
   standbyHospital: 'Saroj Super Speciality Hospital',
@@ -3630,6 +3666,19 @@ function stepVital(param, delta) {
       el.value = Math.max(50, Math.min(100, val));
       updateVitalsDisplay(true);
     }
+  } else if (param === 'bp') {
+    const elSys = document.getElementById('input-bp-sys');
+    const elDia = document.getElementById('input-bp-dia');
+    if (elSys) {
+      let sysVal = (parseInt(elSys.value, 10) || 85) + delta;
+      elSys.value = Math.max(40, Math.min(250, sysVal));
+    }
+    if (elDia) {
+      const diaDelta = Math.round(delta * 0.6);
+      let diaVal = (parseInt(elDia.value, 10) || 55) + diaDelta;
+      elDia.value = Math.max(20, Math.min(160, diaVal));
+    }
+    updateVitalsDisplay(true);
   } else if (param === 'bp-sys') {
     const el = document.getElementById('input-bp-sys');
     if (el) {
@@ -3809,7 +3858,7 @@ function updateVitalsDisplay(shouldBroadcast = true) {
     icuSpo2.className = `font-mono text-base font-bold ${spo2Color}`;
   }
   const icuO2Dev = document.getElementById('icu-vital-o2dev');
-  if (icuO2Dev) icuO2Dev.textContent = o2Device;
+  if (icuO2Dev) icuO2Dev.textContent = o2Device.replace(/^On\s+/i, '');
 
   const icuBp = document.getElementById('icu-vital-bp');
   if (icuBp) {
@@ -3819,7 +3868,7 @@ function updateVitalsDisplay(shouldBroadcast = true) {
   const icuBpNote = document.getElementById('icu-vital-bpnote');
   if (icuBpNote) {
     icuBpNote.textContent = bpShortNote;
-    icuBpNote.className = `text-[10px] font-semibold truncate ${bpNoteColor}`;
+    icuBpNote.className = `text-[11px] font-semibold truncate ${bpNoteColor}`;
   }
 
   const icuHr = document.getElementById('icu-vital-hr');
@@ -3836,7 +3885,7 @@ function updateVitalsDisplay(shouldBroadcast = true) {
   const icuGcsNote = document.getElementById('icu-vital-gcsnote');
   if (icuGcsNote) {
     icuGcsNote.textContent = gcsShortNote;
-    icuGcsNote.className = `text-[10px] font-semibold truncate ${gcsNoteColor}`;
+    icuGcsNote.className = `text-[11px] font-semibold truncate ${gcsNoteColor}`;
   }
 
   const icuThreatBadge = document.getElementById('icu-threat-badge');
@@ -3862,7 +3911,7 @@ function updateVitalsDisplay(shouldBroadcast = true) {
   // Sync to Step 2 summary badge
   const summaryVitalsBadge = document.getElementById('summary-vitals-badge');
   if (summaryVitalsBadge) {
-    summaryVitalsBadge.textContent = `SpO2 ${spo2}% · ${o2Device} · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
+    summaryVitalsBadge.textContent = `SpO₂ ${spo2}% · ${o2Device.replace(/^On\s+/i, '')} · BP ${bpSys}/${bpDia} · HR ${hr} · GCS ${gcs}/15`;
   }
 
   updateStep1StickySummary();
@@ -4450,13 +4499,13 @@ function updateTierTabButtons(tier) {
   
   btns.forEach(b => {
     if (b) {
-      b.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-100';
+      b.className = 'tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-mutedSlate hover:text-inkDark hover:bg-slate-200/60';
     }
   });
 
   const activeBtn = tier === 'all' ? tAll : tier === 1 ? t1 : tier === 2 ? t2 : t3;
   if (activeBtn) {
-    activeBtn.className = 'tier-tab-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white';
+    activeBtn.className = 'tier-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-clinicalTeal text-white';
   }
 }
 
@@ -4536,13 +4585,13 @@ function filterByScheme(scheme) {
   const countEl = document.getElementById('scheme-filter-count');
   if (countEl) {
     if (currentSchemeFilter === 'all') {
-      countEl.textContent = '· Showing all 8 facilities';
+      countEl.textContent = 'Showing all 8 facilities · Rohini Corridor';
     } else if (currentSchemeFilter === 'pmjay') {
-      countEl.textContent = `· Showing ${visibleCount} facilities with Ayushman Bharat (PM-JAY)`;
+      countEl.textContent = `Showing ${visibleCount} facilities · Ayushman Bharat (PM-JAY)`;
     } else if (currentSchemeFilter === 'farishtey') {
-      countEl.textContent = `· Showing ${visibleCount} facilities under Delhi Farishtey Free Trauma Scheme`;
+      countEl.textContent = `Showing ${visibleCount} facilities · Delhi Farishtey Scheme`;
     } else if (currentSchemeFilter === 'govt') {
-      countEl.textContent = `· Showing ${visibleCount} civil hospitals with 100% Free Govt ICU`;
+      countEl.textContent = `Showing ${visibleCount} civil hospitals · 100% Free Govt ICU`;
     }
   }
 }
@@ -4890,7 +4939,7 @@ function updateArrivalIntakeUI() {
           </h2>
           <p class="text-xs text-mutedSlate mt-0.5">Paramedic Handoff Verification</p>
         </div>
-        <span class="clinical-badge badge-neutral text-[10px] font-semibold">Standby</span>
+        <span class="clinical-badge badge-neutral text-[11px] font-semibold">Standby</span>
       </div>
       <div class="p-4 rounded-xl bg-paper border border-softBorder mt-3 text-center">
         <p class="text-xs text-mutedSlate leading-relaxed">
@@ -4905,6 +4954,33 @@ function updateArrivalIntakeUI() {
   if (transferPayload.isAdmitted) {
     const v = transferPayload.vitals || { spo2: 82, bpSys: 85, bpDia: 55, hr: 128, gcs: 7 };
     const shockIdx = (v.bpSys && v.bpSys > 0) ? (v.hr / v.bpSys).toFixed(2) : '1.51';
+    const selectedEquips = getSelectedEquipments();
+    const orderLines = [];
+
+    selectedEquips.forEach(eq => {
+      if (CHECKLIST_TEMPLATES[eq]) {
+        orderLines.push(`<strong>${escapeHtml(eq)}:</strong> ${escapeHtml(CHECKLIST_TEMPLATES[eq].subtitle)}`);
+      }
+    });
+
+    const activeTransitDots = document.querySelectorAll('#life-support-grid .tt-dot.active');
+    Array.from(activeTransitDots).forEach(d => {
+      const p = d.closest('div[onclick]') ? d.closest('div[onclick]').querySelector('p.font-semibold') : null;
+      const name = p ? p.textContent.trim() : '';
+      if (name === 'Norepinephrine') {
+        orderLines.push('<strong>Vasopressor:</strong> Norepinephrine IV infusion (4 mg/50 mL) connected');
+      } else if (name === 'Ambu-Bag O₂') {
+        orderLines.push('<strong>Oxygen Handoff:</strong> 100% High-Flow O₂ wall regulator switched over');
+      }
+    });
+
+    if (orderLines.length === 0) {
+      orderLines.push(
+        '<strong>Resuscitation Bay 05:</strong> Bedside invasive arterial &amp; telemetry lines active',
+        '<strong>Airway &amp; Ventilation:</strong> GlideScope tray &amp; Servo-Air circuit connected at bedside',
+        '<strong>Critical Care Staffing:</strong> Intensivist &amp; ICU trauma team primary handover verified'
+      );
+    }
 
     card.innerHTML = `
       <div class="p-4 rounded-xl bg-emerald-50/90 border border-emerald-300">
@@ -4924,52 +5000,45 @@ function updateArrivalIntakeUI() {
               </p>
             </div>
           </div>
-          <span class="clinical-badge badge-green text-[10px] font-bold border border-emerald-300">
+          <span class="clinical-badge badge-green text-[11px] font-bold border border-emerald-300">
             Pass: ${transferPayload.transferCode || '----'}
           </span>
         </div>
 
         <div class="bg-white/95 rounded-lg p-3 border border-emerald-200 mb-3">
-          <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
             Immediate Bedside Vitals Snapshot
           </span>
           <div class="grid grid-cols-4 gap-2 text-center">
             <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
-              <span class="text-[9px] text-mutedSlate block font-medium">SpO₂</span>
+              <span class="text-[11px] text-mutedSlate block font-medium">SpO₂</span>
               <span class="font-mono text-xs font-bold text-statRed">${v.spo2}%</span>
             </div>
             <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
-              <span class="text-[9px] text-mutedSlate block font-medium">BP</span>
+              <span class="text-[11px] text-mutedSlate block font-medium">BP</span>
               <span class="font-mono text-xs font-bold text-statRed">${v.bpSys}/${v.bpDia}</span>
             </div>
             <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
-              <span class="text-[9px] text-mutedSlate block font-medium">HR</span>
+              <span class="text-[11px] text-mutedSlate block font-medium">HR</span>
               <span class="font-mono text-xs font-bold text-urgentAmber">${v.hr}</span>
             </div>
             <div class="p-1.5 rounded bg-slate-50 border border-slate-200">
-              <span class="text-[9px] text-mutedSlate block font-medium">Shock Idx</span>
+              <span class="text-[11px] text-mutedSlate block font-medium">Shock Idx</span>
               <span class="font-mono text-xs font-bold text-statRed">${shockIdx}</span>
             </div>
           </div>
         </div>
 
         <div class="bg-white/95 rounded-lg p-3 border border-emerald-200">
-          <span class="text-[9px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-mutedSlate block mb-1.5">
             Immediate Bedside Orders Connected
           </span>
           <ul class="text-[11px] text-inkDark space-y-1.5 font-medium">
+            ${orderLines.map(line => `
             <li class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
-              <span><strong>Ventilator:</strong> Servo-Air AC/VC (FiO₂ 100%, PEEP 10) connected</span>
-            </li>
-            <li class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
-              <span><strong>Vasopressor:</strong> Norepinephrine IV infusion (4 mcg/min) active</span>
-            </li>
-            <li class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"></span>
-              <span><strong>Blood Product:</strong> 2 Units O-Negative PRBCs verified at bedside</span>
-            </li>
+              <span>${line}</span>
+            </li>`).join('')}
           </ul>
         </div>
       </div>
@@ -4978,29 +5047,37 @@ function updateArrivalIntakeUI() {
   }
 
   const meta = getHospitalMeta(transferPayload.hospital);
+  const isPendingAck = handshakeState === 'PENDING_ACK';
 
-  // Phase 3: In Transit (Ambulance has NOT reached hospital dock) -> Locked Tracker
+  // Phase 3: Dispatched (Pending ACK or In Transit; Ambulance has NOT reached hospital dock) -> Locked Tracker
   if (!transferPayload.ambulanceArrived) {
+    const headerTitle = isPendingAck ? 'Ambulance DL-108 Primed at Clinic' : 'Ambulance DL-108 In Transit';
+    const headerSub = isPendingAck
+      ? `Awaiting ${escapeHtml(meta.shortName)} Bed ACK &middot; Departure Staged`
+      : `En Route to ${escapeHtml(meta.shortName)} &middot; Bay 05 Primed`;
+    const progressLabel = isPendingAck ? 'Staged at Clinic (Awaiting ACK)' : 'Approaching Hospital';
+    const progressWidth = isPendingAck ? '8%' : '45%';
+
     card.innerHTML = `
       <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div>
           <h2 class="text-xs font-bold text-inkDark uppercase tracking-wider flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-clinicalTeal animate-pulse"></span>
-            Ambulance DL-108 In Transit
+            <span class="w-2 h-2 rounded-full ${isPendingAck ? 'bg-urgentAmber' : 'bg-clinicalTeal'} animate-pulse"></span>
+            ${headerTitle}
           </h2>
-          <p class="text-xs text-mutedSlate mt-0.5">En Route to ${escapeHtml(meta.shortName)} &middot; Bay 05 Primed</p>
+          <p class="text-xs text-mutedSlate mt-0.5">${headerSub}</p>
         </div>
-        <span class="clinical-badge badge-blue text-[10px] font-bold">Pass Code Locked</span>
+        <span class="clinical-badge ${isPendingAck ? 'badge-amber' : 'badge-blue'} text-[11px] font-bold">Pass Code Locked</span>
       </div>
 
       <div class="mt-3.5 p-4 rounded-xl bg-paper border border-softBorder flex flex-col gap-3">
         <div class="flex items-center justify-between text-xs font-medium text-inkDark">
           <span class="text-mutedSlate font-semibold">Transit Progress</span>
-          <span class="font-mono font-bold text-clinicalTeal" id="transit-progress-text">Approaching Hospital</span>
+          <span class="font-mono font-bold ${isPendingAck ? 'text-urgentAmber' : 'text-clinicalTeal'}" id="transit-progress-text">${progressLabel}</span>
         </div>
 
         <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-          <div id="transit-progress-bar" class="bg-clinicalTeal h-2 rounded-full transition-all duration-300" style="width: 45%;"></div>
+          <div id="transit-progress-bar" class="${isPendingAck ? 'bg-urgentAmber' : 'bg-clinicalTeal'} h-2 rounded-full transition-all duration-300" style="width: ${progressWidth};"></div>
         </div>
 
         <div class="flex items-start gap-2.5 p-3 rounded-lg bg-white border border-softBorder text-xs text-mutedSlate">
@@ -5015,7 +5092,7 @@ function updateArrivalIntakeUI() {
         <button
           type="button"
           onclick="triggerAmbulanceArrival(true)"
-          class="w-full h-10 px-4 rounded-xl border border-clinicalTeal/40 text-clinicalTeal bg-clinicalTeal/[0.04] hover:bg-clinicalTeal/10 active:bg-clinicalTeal/20 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+          class="${isPendingAck ? 'hidden' : 'flex'} w-full h-10 px-4 rounded-xl border border-clinicalTeal/40 text-clinicalTeal bg-clinicalTeal/[0.04] hover:bg-clinicalTeal/10 active:bg-clinicalTeal/20 text-xs font-bold transition-all items-center justify-center gap-1.5 cursor-pointer"
           title="Simulate ambulance arriving at hospital doors now"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -5047,24 +5124,26 @@ function updateArrivalIntakeUI() {
             </p>
           </div>
         </div>
-        <span class="clinical-badge badge-green text-[10px] font-bold">At Bay 05 Entrance</span>
+        <span class="clinical-badge badge-green text-[11px] font-bold">At Bay 05 Entrance</span>
       </div>
 
       <div class="mt-3 p-3.5 sm:p-4 rounded-xl bg-white border border-emerald-200 flex flex-col gap-2.5">
-        <label for="arrival-token-input" class="text-xs font-bold text-inkDark flex items-center justify-between">
-          <span>Enter 4-Character Paramedic Pass Code:</span>
-          <span class="text-[11px] font-normal text-mutedSlate">Check paramedic transfer tablet</span>
-        </label>
+        <div class="flex items-baseline justify-between gap-2 flex-wrap">
+          <label for="arrival-token-input" class="text-xs font-bold text-inkDark">
+            Paramedic Pass Code (4-Char)
+          </label>
+          <span class="text-[11px] font-medium text-mutedSlate">From paramedic tablet</span>
+        </div>
 
         <div class="flex items-center gap-2">
           <input
             id="arrival-token-input"
             type="text"
             maxlength="4"
-            placeholder="e.g. 8K4M"
+            placeholder="----"
             oninput="this.value = this.value.toUpperCase();"
             onkeydown="if(event.key==='Enter') verifyAdmissionCode();"
-            class="uppercase font-mono text-center text-lg font-black tracking-widest w-32 h-11 rounded-xl border border-softBorder bg-white focus:border-clinicalTeal focus:ring-2 focus:ring-clinicalTeal/20 outline-none text-inkDark placeholder:text-mutedSlate/40"
+            class="uppercase font-mono text-center text-lg font-black tracking-widest w-32 h-11 rounded-xl border border-softBorder bg-white focus:border-clinicalTeal focus:ring-2 focus:ring-clinicalTeal/20 outline-none text-inkDark placeholder:text-mutedSlate/35 placeholder:font-semibold"
             aria-label="4-character Transfer Pass Code"
             autofocus
           />
@@ -5101,6 +5180,10 @@ function updateArrivalIntakeUI() {
 
 function triggerAmbulanceArrival(isSelf = true) {
   if (transferPayload.ambulanceArrived) return;
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
   transferPayload.ambulanceArrived = true;
   transferPayload.arrivedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
 
@@ -5135,6 +5218,10 @@ function triggerAmbulanceArrival(isSelf = true) {
 }
 
 function applyIncomingAmbulanceArrived(data) {
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
   transferPayload.ambulanceArrived = true;
   transferPayload.arrivedAt = (data && data.arrivedAt) ? data.arrivedAt : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
   if (data && data.transferPayload) {
@@ -5196,32 +5283,71 @@ function verifyAdmissionCode() {
   admitPatientDirectToBay(true);
 }
 
+function markChecklistPreparedOnAdmission() {
+  const rows = document.querySelectorAll('#chklist .chk-row');
+  rows.forEach(row => {
+    row.querySelector('.chk-circle')?.classList.add('done');
+    row.querySelector('.chk-text')?.classList.add('done');
+  });
+  const chkBtn = document.getElementById('btn-confirm-checklist');
+  if (chkBtn) chkBtn.className = 'btn-clinical mt-4 !h-11 text-xs font-bold !bg-emerald-700 !border-emerald-700';
+  const chkBtnTxt = document.getElementById('btn-confirm-checklist-txt');
+  if (chkBtnTxt) chkBtnTxt.textContent = 'Bay 05 Prepared & Handover Verified';
+}
+
 function admitPatientDirectToBay(isSelf = true) {
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
+  transferPayload.ambulanceArrived = true;
   transferPayload.isAdmitted = true;
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' IST';
   transferPayload.admittedAt = timeStr;
 
+  if (liveRoute && liveRoute.length > 0) {
+    const dest = liveRoute[liveRoute.length - 1];
+    currentAmbuPos = dest;
+    currentAmbuIdx = liveRoute.length - 1;
+    if (ambuMkr) ambuMkr.setLatLng(dest);
+  }
+
+  const meta = getHospitalMeta(transferPayload.hospital);
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl) {
+    etaEl.textContent = `${meta.shortName} · Direct Admission Complete (Bay 05)`;
+  }
+  const etaPill = document.getElementById('eta-pill');
+  if (etaPill) {
+    etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold';
+  }
+
+  markChecklistPreparedOnAdmission();
   playLockChime();
   updateArrivalIntakeUI();
   updateHandshakeUI();
   updateClinicChecklistSync();
 
   const b05 = document.getElementById('bed05');
-  const b05Label = document.getElementById('b05-label');
-  const b05Sub = document.getElementById('b05-sub');
   if (b05) {
-    b05.className = 'bed-tile bt-res col-span-2 bg-emerald-700 border-emerald-600 text-white';
+    b05.className = 'bed-tile bt-res col-span-2 !bg-emerald-700 !border-emerald-600 text-white';
+    b05.innerHTML = `
+      <span id="b05-tag" class="text-[11px] font-bold text-white/85 uppercase tracking-wider mb-0.5">Bay 05</span>
+      <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Bay 05 · Patient Admitted</span>
+      <span id="b05-sub" class="text-[11px] text-white/90 font-medium mt-0.5">Direct Handoff (${timeStr})</span>`;
     b05.classList.add('bed-light-up');
     setTimeout(() => b05.classList.remove('bed-light-up'), 1500);
   }
-  if (b05Label) b05Label.textContent = 'Bay 05 · Patient Admitted';
-  if (b05Sub) b05Sub.textContent = `Direct Handoff (${timeStr})`;
+  const b05LblEl = document.getElementById('b05-label');
+  if (b05LblEl) b05LblEl.textContent = 'Bay 05 · Patient Admitted';
+  const b05SubEl = document.getElementById('b05-sub');
+  if (b05SubEl) b05SubEl.textContent = `Direct Handoff (${timeStr})`;
 
   const wardBadge = document.getElementById('ward-capacity-badge');
   if (wardBadge) {
     wardBadge.textContent = '8/8 Occupied · Bay 05 Active';
-    wardBadge.className = 'clinical-badge badge-green text-[10px] font-semibold';
+    wardBadge.className = 'clinical-badge badge-green text-[11px] font-semibold';
   }
 
   showToast('Patient Admitted to Bay 05. Direct-to-bay bedside handoff complete.', 'sage');
@@ -5237,12 +5363,27 @@ function admitPatientDirectToBay(isSelf = true) {
 }
 
 function applyIncomingPatientAdmitted(data) {
+  if (smoothAnimFrameId) {
+    cancelAnimationFrame(smoothAnimFrameId);
+    smoothAnimFrameId = null;
+  }
   if (data && data.transferPayload) {
     transferPayload = { ...transferPayload, ...data.transferPayload };
   } else {
     transferPayload.isAdmitted = true;
+    transferPayload.ambulanceArrived = true;
     if (data && data.admittedAt) transferPayload.admittedAt = data.admittedAt;
   }
+  const meta = getHospitalMeta(transferPayload.hospital);
+  const etaEl = document.getElementById('eta-txt');
+  if (etaEl) {
+    etaEl.textContent = `${meta.shortName} · Direct Admission Complete (Bay 05)`;
+  }
+  const etaPill = document.getElementById('eta-pill');
+  if (etaPill) {
+    etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold';
+  }
+  markChecklistPreparedOnAdmission();
   updateArrivalIntakeUI();
   updateHandshakeUI();
   updateClinicChecklistSync();
@@ -5255,11 +5396,14 @@ function updateHandshakeUI() {
   const navPing = document.getElementById('icu-handshake-nav-ping');
   const navDot = document.getElementById('icu-handshake-nav-dot');
   const b05 = document.getElementById('bed05');
-  const b05Label = document.getElementById('b05-label');
-  const b05Sub = document.getElementById('b05-sub');
   const stageBadgeTxt = document.getElementById('icu-stage-badge-txt');
   const stageBadge = document.getElementById('icu-stage-badge');
   const abdmStatusText = document.getElementById('abdm-status-text');
+  const attendingTag = document.getElementById('icu-attending-tag');
+  const telemetryStandby = document.getElementById('icu-telemetry-standby');
+  const telemetryActive = document.getElementById('icu-telemetry-active');
+  const reassignDesc = document.getElementById('reassign-desc-txt');
+  const reassignWrap = document.getElementById('reassign-btn-wrap');
   const handoffTitlePrefix = document.getElementById('handoff-title-prefix');
   const handoffSubtext = document.getElementById('handoff-status-subtext');
   const handoffBadge = document.getElementById('handoff-protocol-badge');
@@ -5268,32 +5412,61 @@ function updateHandshakeUI() {
   const btnDispatchMax = document.getElementById('btn-dispatch-max');
   const btnDispatchMaxTxt = document.getElementById('btn-dispatch-max-txt');
 
+  // Toggle Standby vs Active Telemetry Strip inside Unified ICU Header
+  const isStandby = handshakeState === 'IDLE' && !transferPayload.dispatched;
+  if (telemetryStandby && telemetryActive) {
+    if (isStandby) {
+      telemetryStandby.classList.remove('hidden');
+      telemetryActive.classList.add('hidden');
+    } else {
+      telemetryStandby.classList.add('hidden');
+      telemetryActive.classList.remove('hidden');
+    }
+  }
+
+  // Toggle Attending Tag in Unified ICU Header
+  if (attendingTag) {
+    if (handshakeState === 'LOCKED' && !overrideActive) {
+      attendingTag.classList.remove('hidden');
+      attendingTag.classList.add('inline-flex');
+    } else {
+      attendingTag.classList.add('hidden');
+      attendingTag.classList.remove('inline-flex');
+    }
+  }
+
+  const threatTitle = transferPayload.threatLevel === 2
+    ? 'Code Amber Patient'
+    : transferPayload.threatLevel === 3
+    ? 'Code Yellow Patient'
+    : 'Code Red Patient';
+
   if (handshakeState === 'PENDING_ACK') {
-    // Show alert on ICU console
+    // Show actionable decision alert on ICU console
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-300 bg-amber-50/60';
+      alertCard.className = 'mb-5 rounded-2xl p-5 border border-amber-300 bg-amber-50/60';
     }
     if (navPing) navPing.classList.remove('hidden');
     if (navDot) navDot.classList.remove('hidden');
 
     const alertTitle = document.getElementById('icu-banner-title');
-    if (alertTitle) alertTitle.innerHTML = 'Inbound Transfer: DL-108 &middot; Code Red Patient';
+    if (alertTitle) alertTitle.innerHTML = `Inbound Transfer: DL-108 &middot; ${threatTitle}`;
     const alertSub = document.getElementById('icu-banner-subtext');
     if (alertSub) alertSub.innerHTML = `Live telemetry active. Intensivist action required. If diverted or unconfirmed within <span class="font-mono font-bold text-statRed" id="handshake-sec-text">${handshakeRemainingSec}s</span>, auto-cascades to ${escapeHtml(transferPayload.standbyHospital || 'Saroj Hospital')}.`;
     const badge = document.getElementById('icu-banner-status-badge');
     if (badge) {
       badge.textContent = 'ICU Handshake Pending';
-      badge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast';
+      badge.className = 'clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider blink-fast';
     }
 
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
-          <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
-          <div class="flex items-baseline gap-0.5">
-            <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">${handshakeRemainingSec}</span>
+        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[94px] h-11">
+          <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider leading-none">Cascade in</span>
+          <div class="flex items-baseline gap-0.5 mt-0.5">
+            <span id="handshake-countdown-num" class="font-mono text-xl font-black text-urgentAmber leading-none">${handshakeRemainingSec}</span>
             <span class="text-[11px] font-bold text-mutedSlate">s</span>
           </div>
         </div>
@@ -5309,17 +5482,23 @@ function updateHandshakeUI() {
 
     if (b05) {
       b05.className = 'bed-tile bt-pending col-span-2';
+      b05.innerHTML = `
+        <span id="b05-tag" class="text-[11px] font-bold text-amber-800 uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span id="b05-label" class="text-xs font-bold text-amber-950 tracking-tight">Awaiting Confirmation</span>
+        <span id="b05-sub" class="text-[11px] text-amber-900 font-medium mt-0.5">Intensivist ACK Required (${handshakeRemainingSec}s)</span>`;
     }
-    if (b05Label) b05Label.textContent = 'Awaiting Confirmation';
-    if (b05Sub) b05Sub.textContent = `Intensivist ACK Required (${handshakeRemainingSec}s)`;
+    const b05LblP = document.getElementById('b05-label');
+    if (b05LblP) b05LblP.textContent = 'Awaiting Confirmation';
+    const b05SubP = document.getElementById('b05-sub');
+    if (b05SubP) b05SubP.textContent = `Intensivist ACK Required (${handshakeRemainingSec}s)`;
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = `Pending ACK (${handshakeRemainingSec}s)`;
-    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-semibold flex items-center gap-1.5 blink-fast';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-[11px] font-semibold flex items-center gap-1.5 blink-fast';
 
     const capPending = document.getElementById('ward-capacity-badge');
     if (capPending) {
       capPending.textContent = '7/8 Occupied · 1 Pending ACK';
-      capPending.className = 'clinical-badge badge-amber text-[10px] font-semibold';
+      capPending.className = 'clinical-badge badge-amber text-[11px] font-semibold';
     }
 
     if (abdmStatusText) abdmStatusText.textContent = `Bed Request: Awaiting ACK (${handshakeRemainingSec}s)`;
@@ -5328,7 +5507,7 @@ function updateHandshakeUI() {
     if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
     if (handoffBadge) {
       handoffBadge.textContent = 'Awaiting Confirmation';
-      handoffBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider blink-fast';
+      handoffBadge.className = 'clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider blink-fast';
     }
     if (handoffSubtext) {
       handoffSubtext.innerHTML = `Intensivist review active at ${escapeHtml(transferPayload.hospital)} (<span class="font-bold text-statRed font-mono" id="handoff-sec-countdown">${handshakeRemainingSec}s</span> remaining) · Standby ready at ${escapeHtml(transferPayload.standbyHospital || 'Saroj')}`;
@@ -5338,10 +5517,10 @@ function updateHandshakeUI() {
     }
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = `Awaiting ${escapeHtml(transferPayload.hospital)} ACK (${handshakeRemainingSec}s)...`;
   } else if (handshakeState === 'LOCKED') {
-    // Bed accepted & locked
+    // Decision completed: hide redundant secondary banner so unified command header + intake card lead cleanly
     if (alertCard) {
-      alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-emerald-200 bg-emerald-50/70';
+      alertCard.classList.add('hidden');
+      alertCard.className = 'hidden mb-5 rounded-2xl p-5 border border-emerald-200 bg-emerald-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -5353,7 +5532,7 @@ function updateHandshakeUI() {
     const badge = document.getElementById('icu-banner-status-badge');
     if (badge) {
       badge.textContent = 'Bay 05 Assigned & Locked';
-      badge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+      badge.className = 'clinical-badge badge-green text-[11px] font-bold uppercase tracking-wider';
     }
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
@@ -5368,31 +5547,27 @@ function updateHandshakeUI() {
     }
 
     if (b05) {
+      let lbl = 'Assigned · Team Priming';
+      let sub = 'Ambulance DL-108 · Bed Confirmed';
       if (transferPayload.isAdmitted) {
-        b05.className = 'bed-tile bt-res col-span-2 bg-emerald-700 border-emerald-600 text-white';
+        b05.className = 'bed-tile bt-res col-span-2 !bg-emerald-700 !border-emerald-600 text-white';
+        lbl = 'Bay 05 · Patient Admitted';
+        sub = `Direct Handoff (${transferPayload.admittedAt || 'Active'})`;
       } else if (transferPayload.ambulanceArrived) {
-        b05.className = 'bed-tile bt-res col-span-2 !bg-emerald-600 !border-emerald-500 text-white ring-2 ring-emerald-400';
+        b05.className = 'bed-tile bt-res col-span-2 !bg-emerald-600 !border-emerald-500 text-white';
+        lbl = 'Ambulance at Dock · Intake Ready';
+        sub = 'Unit DL-108 · Awaiting Pass Code Handoff';
       } else {
         b05.className = 'bed-tile bt-res col-span-2';
       }
-    }
-    if (b05Label) {
-      if (transferPayload.isAdmitted) {
-        b05Label.textContent = 'Bay 05 · Patient Admitted';
-      } else if (transferPayload.ambulanceArrived) {
-        b05Label.textContent = 'Ambulance at Dock · Intake Ready';
-      } else {
-        b05Label.textContent = 'Assigned · Team Priming';
-      }
-    }
-    if (b05Sub) {
-      if (transferPayload.isAdmitted) {
-        b05Sub.textContent = `Direct Handoff (${transferPayload.admittedAt || 'Active'})`;
-      } else if (transferPayload.ambulanceArrived) {
-        b05Sub.textContent = 'Unit DL-108 · Awaiting Pass Code Handoff';
-      } else {
-        b05Sub.textContent = 'Ambulance DL-108 · Bed Confirmed';
-      }
+      b05.innerHTML = `
+        <span id="b05-tag" class="text-[11px] font-bold text-white/85 uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span id="b05-label" class="text-xs font-bold text-white tracking-tight">${lbl}</span>
+        <span id="b05-sub" class="text-[11px] text-white/90 font-medium mt-0.5">${sub}</span>`;
+      const b05LblL = document.getElementById('b05-label');
+      if (b05LblL) b05LblL.textContent = lbl;
+      const b05SubL = document.getElementById('b05-sub');
+      if (b05SubL) b05SubL.textContent = sub;
     }
 
     if (stageBadgeTxt) {
@@ -5406,18 +5581,18 @@ function updateHandshakeUI() {
     }
     if (stageBadge) {
       if (transferPayload.isAdmitted) {
-        stageBadge.className = 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5';
+        stageBadge.className = 'clinical-badge badge-green text-[11px] font-bold flex items-center gap-1.5';
       } else if (transferPayload.ambulanceArrived) {
-        stageBadge.className = 'clinical-badge badge-green text-xs font-bold flex items-center gap-1.5 blink-fast';
+        stageBadge.className = 'clinical-badge badge-green text-[11px] font-bold flex items-center gap-1.5 blink-fast';
       } else {
-        stageBadge.className = 'clinical-badge badge-blue text-xs font-medium flex items-center gap-1.5';
+        stageBadge.className = 'clinical-badge badge-blue text-[11px] font-semibold flex items-center gap-1.5';
       }
     }
 
     const capLocked = document.getElementById('ward-capacity-badge');
     if (capLocked) {
       capLocked.textContent = transferPayload.isAdmitted ? '8/8 Occupied · Bay 05 Active' : '7/8 Occupied · 1 Staged';
-      capLocked.className = transferPayload.isAdmitted ? 'clinical-badge badge-green text-[10px] font-semibold' : 'clinical-badge badge-blue text-[10px] font-semibold';
+      capLocked.className = transferPayload.isAdmitted ? 'clinical-badge badge-green text-[11px] font-semibold' : 'clinical-badge badge-blue text-[11px] font-semibold';
     }
 
     if (abdmStatusText) abdmStatusText.textContent = transferPayload.isAdmitted ? 'Bed Admitted & Active' : 'Bed Assigned & Confirmed';
@@ -5429,10 +5604,10 @@ function updateHandshakeUI() {
     if (handoffBadge) {
       if (transferPayload.isAdmitted) {
         handoffBadge.textContent = 'Direct-to-Bay Admission Verified';
-        handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+        handoffBadge.className = 'clinical-badge badge-green text-[11px] font-bold uppercase tracking-wider';
       } else {
         handoffBadge.textContent = 'ICU Bay 05 Assigned · Telemetry Active';
-        handoffBadge.className = 'clinical-badge badge-green text-[10px] font-bold uppercase tracking-wider';
+        handoffBadge.className = 'clinical-badge badge-green text-[11px] font-bold uppercase tracking-wider';
       }
     }
     if (handoffSubtext) {
@@ -5452,7 +5627,7 @@ function updateHandshakeUI() {
     // Cascaded to Standby Hospital
     if (alertCard) {
       alertCard.classList.remove('hidden');
-      alertCard.className = 'mb-6 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
+      alertCard.className = 'mb-5 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -5464,7 +5639,7 @@ function updateHandshakeUI() {
     const badge = document.getElementById('icu-banner-status-badge');
     if (badge) {
       badge.textContent = `Diverted & Cascaded: ${transferPayload.refusalReasonCode || 'Diverted'}`;
-      badge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+      badge.className = 'clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider';
     }
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
@@ -5495,19 +5670,19 @@ function updateHandshakeUI() {
         bayDesc = 'LOX Manifold Pressure Interlock · Bed Offline';
       }
       b05.innerHTML = `
-        <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span class="text-[11px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
         <span class="text-xs font-bold text-statRed tracking-tight">${bayLabel}</span>
-        <span class="text-[10px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
+        <span class="text-[11px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
     }
 
     const capDeclined = document.getElementById('ward-capacity-badge');
     if (capDeclined) {
       capDeclined.textContent = '8/8 Occupied / Diverted';
-      capDeclined.className = 'clinical-badge badge-red text-[10px] font-semibold';
+      capDeclined.className = 'clinical-badge badge-red text-[11px] font-semibold';
     }
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = `Cascaded to ${escapeHtml(transferPayload.hospital)}`;
-    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-xs font-medium flex items-center gap-1.5';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-amber text-[11px] font-semibold flex items-center gap-1.5';
 
     if (abdmStatusText) abdmStatusText.textContent = `Cascade Dispatched to ${escapeHtml(transferPayload.hospital)}`;
 
@@ -5515,7 +5690,7 @@ function updateHandshakeUI() {
     if (handoffHospName) handoffHospName.textContent = transferPayload.hospital;
     if (handoffBadge) {
       handoffBadge.textContent = 'Auto-Cascade Triggered';
-      handoffBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+      handoffBadge.className = 'clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider';
     }
     if (handoffSubtext) {
       const reasonMsg = transferPayload.refusalReasonCode || '90s Confirmation Timeout';
@@ -5528,7 +5703,7 @@ function updateHandshakeUI() {
   } else if (handshakeState === 'IDLE') {
     if (alertCard) {
       alertCard.classList.add('hidden');
-      alertCard.className = 'hidden mb-6 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
+      alertCard.className = 'hidden mb-5 rounded-2xl p-5 border border-amber-200 bg-amber-50/70';
     }
     if (navPing) navPing.classList.add('hidden');
     if (navDot) navDot.classList.add('hidden');
@@ -5536,10 +5711,10 @@ function updateHandshakeUI() {
     const actionsWrap = document.getElementById('icu-banner-actions');
     if (actionsWrap) {
       actionsWrap.innerHTML = `
-        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[90px] h-11">
-          <span class="text-[9px] font-bold text-mutedSlate uppercase tracking-wider">Cascade in</span>
-          <div class="flex items-baseline gap-0.5">
-            <span id="handshake-countdown-num" class="font-mono text-2xl font-black text-urgentAmber leading-none">90</span>
+        <div class="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-amber-200 min-w-[94px] h-11">
+          <span class="text-[11px] font-bold text-mutedSlate uppercase tracking-wider leading-none">Cascade in</span>
+          <div class="flex items-baseline gap-0.5 mt-0.5">
+            <span id="handshake-countdown-num" class="font-mono text-xl font-black text-urgentAmber leading-none">90</span>
             <span class="text-[11px] font-bold text-mutedSlate">s</span>
           </div>
         </div>
@@ -5554,34 +5729,76 @@ function updateHandshakeUI() {
     }
 
     if (b05) {
-      b05.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
+      b05.className = 'bed-tile bt-avail col-span-2 border border-dashed border-clinicalTeal/50';
+      b05.innerHTML = `
+        <span id="b05-tag" class="text-[11px] font-bold text-clinicalTeal uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span id="b05-label" class="text-xs font-bold text-inkDark tracking-tight">Available · Ready to Stage</span>
+        <span id="b05-sub" class="text-[11px] text-mutedSlate font-medium mt-0.5">Awaiting Transfer Request</span>`;
     }
-    if (b05Label) b05Label.textContent = 'Available · Ready to Stage';
-    if (b05Sub) b05Sub.textContent = 'Awaiting Transfer Request';
+    const b05LblI = document.getElementById('b05-label');
+    if (b05LblI) b05LblI.textContent = 'Available · Ready to Stage';
+    const b05SubI = document.getElementById('b05-sub');
+    if (b05SubI) b05SubI.textContent = 'Awaiting Transfer Request';
 
     const capIdle = document.getElementById('ward-capacity-badge');
     if (capIdle) {
       capIdle.textContent = '7/8 Occupied · 1 Open Bed (Bay 05)';
-      capIdle.className = 'clinical-badge badge-blue text-[10px] font-semibold';
+      capIdle.className = 'clinical-badge badge-blue text-[11px] font-semibold';
     }
 
     if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Standby';
-    if (stageBadge) stageBadge.className = 'clinical-badge badge-neutral text-xs font-medium flex items-center gap-1.5';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-neutral text-[11px] font-semibold flex items-center gap-1.5';
 
     if (abdmStatusText) abdmStatusText.textContent = 'ICU Network: Ready (Awaiting Dispatch)';
 
     if (handoffTitlePrefix) handoffTitlePrefix.textContent = 'Awaiting Bed Lock';
     if (handoffBadge) {
       handoffBadge.textContent = 'Referral Standby';
-      handoffBadge.className = 'clinical-badge badge-neutral text-[10px] font-bold uppercase tracking-wider';
+      handoffBadge.className = 'clinical-badge badge-neutral text-[11px] font-bold uppercase tracking-wider';
     }
     if (btnDispatchMaxTxt) btnDispatchMaxTxt.textContent = 'Transmit Telemetry & Dispatch';
+  }
+
+  // Context-Aware Walk-in Emergency Override Footer on Map Card
+  if (!overrideActive && reassignDesc && reassignWrap) {
+    if (handshakeState === 'IDLE' || !transferPayload.dispatched) {
+      reassignDesc.textContent = 'Bay 05 open on standby. Emergency walk-in override activates during active inbound transfer.';
+      reassignWrap.classList.add('hidden');
+    } else if (transferPayload.isAdmitted) {
+      reassignDesc.textContent = 'Direct-to-bay admission complete. Patient receiving active critical care in Bay 05.';
+      reassignWrap.classList.add('hidden');
+    } else if (transferPayload.ambulanceArrived) {
+      reassignDesc.textContent = 'Ambulance DL-108 docked at Bay 05 entrance. Enter paramedic pass code to complete bedside handoff.';
+      reassignWrap.classList.add('hidden');
+    } else {
+      reassignDesc.textContent = 'Stage Bay 05 for incoming transfer, or override if emergency walk-in arrives.';
+      reassignWrap.classList.remove('hidden');
+    }
+  }
+
+  // Mute secondary hospital dispatch buttons when a transfer request is already active
+  const hospDir = document.getElementById('hospital-directory-wrapper');
+  if (hospDir) {
+    const isDispatchedActive = transferPayload.dispatched && handshakeState !== 'IDLE';
+    hospDir.querySelectorAll('button[onclick^="doReserve"], button[onclick^="openFamilyOverrideModal"]').forEach(btn => {
+      if (btn.id === 'btn-dispatch-max' && (transferPayload.hospital || '').includes('Max')) {
+        btn.classList.remove('opacity-50');
+      } else if (isDispatchedActive) {
+        btn.classList.add('opacity-50');
+      } else {
+        btn.classList.remove('opacity-50');
+      }
+    });
   }
 
   const bannerSub = document.getElementById('banner-sub');
   if (bannerSub && !overrideActive) {
     if (handshakeState === 'LOCKED') {
-      const subStatus = transferPayload.isAdmitted ? 'Bay 05 Admitted · Direct Care' : 'ICU Bay 05 Assigned · Telemetry Active';
+      const subStatus = transferPayload.isAdmitted
+        ? 'Bay 05 Admitted · Direct Care'
+        : transferPayload.ambulanceArrived
+        ? 'Ambulance at Dock · Bay 05 Intake Ready'
+        : 'ICU Bay 05 Assigned · Telemetry Active';
       bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— ${subStatus}</span>`;
     } else if (handshakeState === 'PENDING_ACK') {
       bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— Bed Request Transmitted · Telemetry Active</span>`;
@@ -5606,23 +5823,23 @@ function updateHandshakeUI() {
     if (handshakeState === 'LOCKED') {
       if (transferPayload.isAdmitted) {
         inboundTag.textContent = `Patient Admitted · Bay 05 Active · ${getHospitalMeta(transferPayload.hospital).shortName}`;
-        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+        inboundTag.className = 'clinical-badge badge-green text-[11px] font-bold tracking-wide uppercase';
       } else if (transferPayload.ambulanceArrived) {
         inboundTag.textContent = `Arrived at Hospital Dock · Ambulance DL-108 · Intake Ready`;
-        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase blink-fast';
+        inboundTag.className = 'clinical-badge badge-green text-[11px] font-bold tracking-wide uppercase blink-fast';
       } else {
         inboundTag.textContent = `Inbound Transfer · Ambulance DL-108 · En Route to ${getHospitalMeta(transferPayload.hospital).shortName}`;
-        inboundTag.className = 'clinical-badge badge-green text-[10px] font-bold tracking-wide uppercase';
+        inboundTag.className = 'clinical-badge badge-green text-[11px] font-bold tracking-wide uppercase';
       }
     } else if (handshakeState === 'PENDING_ACK') {
       inboundTag.textContent = `Inbound Request · DL-108 Primed at Clinic · Awaiting ACK`;
-      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+      inboundTag.className = 'clinical-badge badge-amber text-[11px] font-bold tracking-wide uppercase';
     } else if (handshakeState === 'DECLINED') {
       inboundTag.textContent = `Auto-Cascade Dispatched · ${escapeHtml(transferPayload.hospital)} Primary`;
-      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+      inboundTag.className = 'clinical-badge badge-amber text-[11px] font-bold tracking-wide uppercase';
     } else {
       inboundTag.textContent = 'ICU Standby · Bed 05 Open';
-      inboundTag.className = 'clinical-badge badge-neutral text-[10px] font-bold tracking-wide uppercase';
+      inboundTag.className = 'clinical-badge badge-neutral text-[11px] font-bold tracking-wide uppercase';
     }
   }
 }
@@ -5774,15 +5991,15 @@ function triggerCascade(code, description, isSelf = true) {
       bayDesc = 'LOX Manifold Pressure Interlock · Bed Offline';
     }
     b.innerHTML = `
-      <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
-      <span class="text-xs font-bold text-statRed tracking-tight">${bayLabel}</span>
-      <span class="text-[10px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
+      <span id="b05-tag" class="text-[11px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+      <span id="b05-label" class="text-xs font-bold text-statRed tracking-tight">${bayLabel}</span>
+      <span id="b05-sub" class="text-[11px] text-statRed/80 font-medium mt-0.5">${bayDesc}</span>`;
   }
 
   const cap = document.getElementById('ward-capacity-badge');
   if (cap) {
     cap.textContent = '8/8 Occupied / Diverted';
-    cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
+    cap.className = 'clinical-badge badge-red text-[11px] font-semibold';
   }
 
   // Update UI Elements in View 2
@@ -5793,7 +6010,7 @@ function triggerCascade(code, description, isSelf = true) {
   const inboundTag = document.getElementById('inbound-tag');
   if (inboundTag) {
     inboundTag.textContent = `Auto-Cascade Dispatched · ${escapeHtml(cascadeHosp)} Primary`;
-    inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+    inboundTag.className = 'clinical-badge badge-amber text-[11px] font-bold tracking-wide uppercase';
   }
 
   // Update markers and route to cascade destination without clinician re-typing
@@ -5910,18 +6127,14 @@ function toggleEq(el) {
 // ─────── 9. In-Transit Support Toggle ───────
 function toggleTransit(el) {
   const dot = el.querySelector('.tt-dot');
-  const isActive = dot && dot.classList.contains('active');
+  const isActive = el.classList.contains('sel') || (dot && dot.classList.contains('active'));
 
   if (isActive) {
-    if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive';
-    el.classList.add('opacity-60');
-    el.classList.remove('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
-    el.classList.add('border-softBorder', 'bg-white');
+    el.classList.remove('sel');
+    if (dot) dot.className = 'tt-dot hidden inactive';
   } else {
-    if (dot) dot.className = 'tt-dot w-2 h-2 rounded-full bg-clinicalTeal shrink-0 active';
-    el.classList.remove('opacity-60');
-    el.classList.remove('border-softBorder', 'bg-white');
-    el.classList.add('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
+    el.classList.add('sel');
+    if (dot) dot.className = 'tt-dot hidden active';
   }
   updateICUChecklist();
   updateClinicChecklistSync();
@@ -6041,6 +6254,10 @@ function updateICUChecklist() {
     </div>
   `).join('');
 
+  if (transferPayload.isAdmitted) {
+    markChecklistPreparedOnAdmission();
+  }
+
   updateClinicChecklistSync();
 }
 
@@ -6073,13 +6290,18 @@ function updateClinicChecklistSync() {
   const readinessPill = document.getElementById('handoff-readiness-pill');
   const banner = document.getElementById('handoff-banner');
   const iconWrap = document.getElementById('handoff-status-icon-wrap');
+  const isHidden = !transferPayload.dispatched || handshakeState === 'IDLE';
+  if (banner) {
+    if (isHidden) banner.classList.add('hidden');
+    else banner.classList.remove('hidden');
+  }
   if (!readinessPill) return;
 
   if (transferPayload.isAdmitted) {
-    readinessPill.className = 'clinical-badge badge-green text-[10px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
+    readinessPill.className = 'clinical-badge badge-green text-[11px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
     readinessPill.textContent = 'Bay 05 Direct Handoff Complete · Bedside Active';
     if (banner) {
-      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border border-emerald-400 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50';
+      banner.className = `${isHidden ? 'hidden ' : ''}mb-6 rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 transition-all duration-300 border border-emerald-300 bg-emerald-50/70`;
     }
     if (iconWrap) {
       iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0';
@@ -6094,7 +6316,7 @@ function updateClinicChecklistSync() {
   const rows = document.querySelectorAll('#chklist .chk-row');
   const total = rows.length;
   if (total === 0) {
-    readinessPill.className = 'clinical-badge badge-neutral text-[10px] font-semibold';
+    readinessPill.className = 'clinical-badge badge-neutral text-[11px] font-semibold';
     readinessPill.textContent = 'Receiving Team Standby';
     return;
   }
@@ -6102,11 +6324,11 @@ function updateClinicChecklistSync() {
   const doneCount = doneRows.length;
 
   if (doneCount === total) {
-    readinessPill.className = 'clinical-badge badge-green text-[10px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
+    readinessPill.className = 'clinical-badge badge-green text-[11px] font-bold border border-emerald-400 bg-emerald-100 text-emerald-800';
     readinessPill.textContent = 'Bay 05 100% Primed · Trauma Team Standing By at Door';
 
     if (banner) {
-      banner.className = 'mb-7 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300 border border-emerald-400 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50';
+      banner.className = `${isHidden ? 'hidden ' : ''}mb-6 rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 transition-all duration-300 border border-emerald-300 bg-emerald-50/70`;
     }
     if (iconWrap) {
       iconWrap.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-700 flex items-center justify-center shrink-0';
@@ -6134,11 +6356,11 @@ function updateClinicChecklistSync() {
     const uniquePrimed = [...new Set(primedNames)].slice(0, 3);
     const detailSuffix = uniquePrimed.length > 0 ? ` (${uniquePrimed.join(', ')})` : '';
 
-    readinessPill.className = 'clinical-badge badge-amber text-[10px] font-bold';
+    readinessPill.className = 'clinical-badge badge-amber text-[11px] font-bold';
     readinessPill.textContent = `Receiving Team Readiness: ${doneCount}/${total} Primed${detailSuffix}`;
 
     if (banner && !banner.classList.contains('border-amber-300')) {
-      banner.className = 'mb-7 liquid-glass rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300';
+      banner.className = `${isHidden ? 'hidden ' : ''}mb-6 glass-panel rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border border-softBorder transition-all duration-300`;
     }
     if (iconWrap && !iconWrap.classList.contains('text-urgentAmber')) {
       iconWrap.className = 'w-10 h-10 rounded-xl bg-clinicalTealBg border border-clinicalTealBorder flex items-center justify-center text-clinicalTeal shrink-0';
@@ -7084,15 +7306,19 @@ function startSmoothAmbulance() {
     return;
   }
 
-  // If already arrived, remain docked at destination
-  if (transferPayload.ambulanceArrived) {
+  // If already arrived or admitted, remain docked at destination
+  if (transferPayload.ambulanceArrived || transferPayload.isAdmitted) {
     const dest = liveRoute[liveRoute.length - 1];
     currentAmbuPos = dest;
     currentAmbuIdx = liveRoute.length - 1;
     if (ambuMkr) ambuMkr.setLatLng(dest);
     const meta = getHospitalMeta(transferPayload.hospital);
     const etaEl = document.getElementById('eta-txt');
-    if (etaEl) etaEl.textContent = `${meta.shortName} Arrival · Bay 05 Dock Reached`;
+    if (etaEl) {
+      etaEl.textContent = transferPayload.isAdmitted
+        ? `${meta.shortName} · Direct Admission Complete (Bay 05)`
+        : `${meta.shortName} Arrival · Bay 05 Dock Reached`;
+    }
     const etaPill = document.getElementById('eta-pill');
     if (etaPill) {
       etaPill.className = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold';
@@ -7111,6 +7337,20 @@ function startSmoothAmbulance() {
   const meta = getHospitalMeta(transferPayload.hospital);
 
   function step(timestamp) {
+    if (transferPayload.ambulanceArrived || transferPayload.isAdmitted) {
+      if (smoothAnimFrameId) {
+        cancelAnimationFrame(smoothAnimFrameId);
+        smoothAnimFrameId = null;
+      }
+      if (liveRoute && liveRoute.length > 0) {
+        const dest = liveRoute[liveRoute.length - 1];
+        currentAmbuPos = dest;
+        currentAmbuIdx = liveRoute.length - 1;
+        if (ambuMkr) ambuMkr.setLatLng(dest);
+      }
+      return;
+    }
+
     const isAcceptedStep = handshakeState === 'LOCKED';
     const isDeclinedStep = handshakeState === 'DECLINED';
     const isFamilyOverrideStep = !!transferPayload.familyOverride;
@@ -7281,6 +7521,10 @@ function applyOverrideUI(active) {
   const bannerSub = document.getElementById('banner-sub');
   const b = document.getElementById('bed05');
   const cap = document.getElementById('ward-capacity-badge');
+  const stageBadge = document.getElementById('icu-stage-badge');
+  const stageBadgeTxt = document.getElementById('icu-stage-badge-txt');
+  const alertCard = document.getElementById('handshake-alert-card');
+  const attendingTag = document.getElementById('icu-attending-tag');
   const reassignDesc = document.getElementById('reassign-desc-txt');
   const reassignWrap = document.getElementById('reassign-btn-wrap');
 
@@ -7289,30 +7533,38 @@ function applyOverrideUI(active) {
   const primaryMeta = getHospitalMeta(transferPayload.hospital);
 
   if (active) {
+    if (alertCard) alertCard.classList.add('hidden');
+    if (attendingTag) {
+      attendingTag.classList.add('hidden');
+      attendingTag.classList.remove('inline-flex');
+    }
     if (inboundTag) {
       inboundTag.textContent = 'Ambulance DL-108 Rerouted — Walk-in Emergency at Hospital';
-      inboundTag.className = 'clinical-badge badge-amber text-[10px] font-bold tracking-wide uppercase';
+      inboundTag.className = 'clinical-badge badge-amber text-[11px] font-bold tracking-wide uppercase';
     }
     if (bannerSub) {
       bannerSub.innerHTML = `${escapeHtml(overrideMeta.shortName)} <span class="font-normal text-sm text-mutedSlate">— Receiving DL-108 (+3 min delay)</span>`;
     }
+    if (stageBadgeTxt) stageBadgeTxt.textContent = 'Bay 05 Reassigned (Walk-In)';
+    if (stageBadge) stageBadge.className = 'clinical-badge badge-red text-[11px] font-semibold flex items-center gap-1.5';
     if (b) {
       b.className = 'bed-tile bt-walk col-span-2';
       b.innerHTML = `
-        <span class="text-[9px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
+        <span class="text-[11px] font-bold text-statRed uppercase tracking-wider mb-0.5">Bay 05</span>
         <span class="text-xs font-bold text-statRed tracking-tight">WALK-IN EMERGENCY</span>
-        <span class="text-[10px] text-statRed/80 font-medium mt-0.5">Cardiac Arrest at Entrance · CPR Active</span>`;
+        <span class="text-[11px] text-statRed/80 font-medium mt-0.5">Cardiac Arrest at Entrance · CPR Active</span>`;
     }
     if (cap) {
       cap.textContent = '8/8 Occupied · Full Capacity';
-      cap.className = 'clinical-badge badge-red text-[10px] font-semibold';
+      cap.className = 'clinical-badge badge-red text-[11px] font-semibold';
     }
     if (reassignDesc) {
       reassignDesc.textContent = `Ambulance DL-108 diverted to ${overrideMeta.shortName}. Click to restore original transit.`;
     }
     if (reassignWrap) {
+      reassignWrap.classList.remove('hidden');
       reassignWrap.innerHTML = `
-        <button type="button" class="btn-clinical-secondary !w-auto !h-11 !px-5 whitespace-nowrap shrink-0 !text-clinicalTeal !border-clinicalTeal hover:!bg-clinicalTeal/10" onclick="resetOverride()">
+        <button type="button" class="btn-clinical-secondary !w-auto !h-10 !px-4 text-xs font-bold whitespace-nowrap shrink-0 !text-clinicalTeal !border-clinicalTeal hover:!bg-clinicalTeal/10" onclick="resetOverride()">
           <span class="mr-1.5 font-bold text-base leading-none">↺</span>
           <span>Restore Transfer to ${escapeHtml(primaryMeta.shortName)}</span>
         </button>`;
@@ -7344,46 +7596,10 @@ function applyOverrideUI(active) {
       if (eta) eta.textContent = `Rerouted → ${overrideMeta.shortName} · +3 min ETA`;
     }
   } else {
-    // Restore
-    if (inboundTag) {
-      inboundTag.textContent = 'Inbound Transfer · Ambulance DL-108 · Code Red';
-      inboundTag.className = 'clinical-badge badge-red text-[10px] font-bold tracking-wide uppercase';
-    }
-    if (bannerSub) {
-      const subStatus = handshakeState === 'LOCKED' ? 'ICU Bay 05 Assigned · Telemetry Active' : 'Bed Request Transmitted · Telemetry Active';
-      bannerSub.innerHTML = `${escapeHtml(transferPayload.hospital)} <span class="font-normal text-sm text-mutedSlate">— ${subStatus}</span>`;
-    }
-    if (b) {
-      if (handshakeState === 'LOCKED') {
-        b.className = 'bed-tile bt-res col-span-2';
-        b.innerHTML = `
-          <span class="text-[9px] font-bold text-white/70 uppercase tracking-wider mb-0.5">Bay 05</span>
-          <span id="b05-label" class="text-xs font-bold text-white tracking-tight">Assigned · Team Priming</span>
-          <span id="b05-sub" class="text-[10px] text-white/80 font-medium mt-0.5">Ambulance DL-108 · Bed Confirmed</span>`;
-      } else if (handshakeState === 'PENDING_ACK') {
-        b.className = 'bed-tile bt-pending col-span-2';
-        b.innerHTML = `
-          <span class="text-[9px] font-bold text-amber-900 uppercase tracking-wider mb-0.5">Bay 05</span>
-          <span id="b05-label" class="text-xs font-bold text-amber-900 tracking-tight">Awaiting Confirmation</span>
-          <span id="b05-sub" class="text-[10px] text-amber-800 font-medium mt-0.5">Intensivist ACK Required (${handshakeRemainingSec}s)</span>`;
-      } else {
-        b.className = 'bed-tile bt-avail col-span-2 border-2 border-dashed border-clinicalTeal/40';
-        b.innerHTML = `
-          <span class="text-[9px] font-bold text-clinicalTeal uppercase tracking-wider mb-0.5">Bay 05 · Bed Open</span>
-          <span id="b05-label" class="text-xs font-bold text-inkDark tracking-tight">Available · Ready to Stage</span>
-          <span id="b05-sub" class="text-[10px] text-mutedSlate font-medium mt-0.5">Awaiting Transfer Request</span>`;
-      }
-    }
-    if (cap) {
-      cap.textContent = handshakeState === 'IDLE' ? '7/8 Occupied · 1 Open Bed (Bay 05)' : '7/8 Occupied · 1 Staged';
-      cap.className = 'clinical-badge badge-blue text-[10px] font-semibold';
-    }
-    if (reassignDesc) {
-      reassignDesc.textContent = 'Stage Bay 05 for ambulance transit, or divert incoming transfer if emergency walks into ED.';
-    }
+    // Restore default Reassign Button markup & delegate state labels to updateHandshakeUI()
     if (reassignWrap) {
       reassignWrap.innerHTML = `
-        <button type="button" class="btn-clinical-destructive !w-auto !h-11 !px-5 whitespace-nowrap shrink-0" onclick="openOverrideModal()">
+        <button type="button" class="btn-clinical-destructive !w-auto !h-10 !px-4 text-xs font-bold whitespace-nowrap shrink-0" onclick="openOverrideModal()">
           <svg class="w-4 h-4 text-statRed shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
@@ -7391,8 +7607,9 @@ function applyOverrideUI(active) {
         </button>`;
     }
     if (divertBar) divertBar.classList.remove('show');
+    updateHandshakeUI();
 
-    if (mapReady) {
+    if (mapReady && handshakeState !== 'IDLE') {
       const primMarker = getMarkerForHospital(transferPayload.hospital);
       if (primMarker) {
         primMarker.setIcon(getDestinationPin());
@@ -7553,33 +7770,29 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
   } else {
-    // Fresh Step 1: Ensure NO acuity cards or equipment chips are pre-selected
-    transferPayload.threatLevel = null;
+    // Fresh Step 1: Default to Code Red (matching default critical shock vitals) & clean unselected equipment chips
+    transferPayload.threatLevel = 1;
     [1, 2, 3].forEach(i => {
       const el = document.getElementById('tl' + i);
       if (el) {
         const baseClass = ['tc-red', 'tc-amber', 'tc-yellow'][i - 1];
-        el.className = `threat-card ${baseClass}`;
+        el.className = `threat-card ${baseClass} ${i === 1 ? 'sel' : ''}`;
       }
     });
 
     document.querySelectorAll('.equip-chip').forEach(chip => {
       chip.classList.remove('sel');
-    });
-
-    document.querySelectorAll('#life-support-grid .tt-dot').forEach(dot => {
-      dot.className = 'tt-dot w-2 h-2 rounded-full bg-slate-300 shrink-0 inactive';
-      const row = dot.closest('div[onclick]');
-      if (row) {
-        row.classList.add('opacity-60', 'border-softBorder', 'bg-white');
-        row.classList.remove('border-clinicalTeal/70', 'bg-clinicalTeal/[0.04]');
-      }
+      const dot = chip.querySelector('.tt-dot');
+      if (dot) dot.className = 'tt-dot hidden inactive';
     });
   }
 
   updateVitalsDisplay(false);
   updateHospitalEquipmentDisplays(getSelectedEquipments());
   updateICUChecklist();
+  if (transferPayload.isAdmitted) {
+    markChecklistPreparedOnAdmission();
+  }
   updateHandshakeUI();
   updateClinicChecklistSync();
   updateStep1StickySummary();
@@ -7603,7 +7816,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const hBadge = document.getElementById('handoff-protocol-badge');
     if (hBadge) {
       hBadge.textContent = 'Family Override (Form 13-B)';
-      hBadge.className = 'clinical-badge badge-amber text-[10px] font-bold uppercase tracking-wider';
+      hBadge.className = 'clinical-badge badge-amber text-[11px] font-bold uppercase tracking-wider';
     }
     const hSub = document.getElementById('handoff-status-subtext');
     if (hSub) {
@@ -7675,10 +7888,18 @@ window.addEventListener('DOMContentLoaded', () => {
             routeLine.setLatLngs(liveRoute);
             routeLine.setStyle({ color: '#0C6277', opacity: 0.85, dashArray: '8 6', className: 'clinical-route-line' });
           }
-          startSmoothAmbulance();
           const meta = getHospitalMeta(transferPayload.hospital);
           const eta = document.getElementById('eta-txt');
-          if (eta) eta.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
+          if (transferPayload.isAdmitted) {
+            if (ambuMkr && liveRoute.length > 0) ambuMkr.setLatLng(liveRoute[liveRoute.length - 1]);
+            if (eta) eta.textContent = `${meta.shortName} · Direct Admission Complete (Bay 05)`;
+          } else if (transferPayload.ambulanceArrived) {
+            if (ambuMkr && liveRoute.length > 0) ambuMkr.setLatLng(liveRoute[liveRoute.length - 1]);
+            if (eta) eta.textContent = `${meta.shortName} Arrival · Bay 05 Dock Reached`;
+          } else {
+            startSmoothAmbulance();
+            if (eta) eta.textContent = `En Route to ${meta.shortName} · ${meta.baseMin} min ETA`;
+          }
         } else {
           const destMarker = getMarkerForHospital(transferPayload.hospital);
           if (destMarker) {
